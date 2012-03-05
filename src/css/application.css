@@ -1,0 +1,74 @@
+/* 
+    Document   : application
+    Created on : 5 mars 2012, 15:09:03
+    Author     : mika
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+root
+{ 
+    display: block;
+}
+
+.page
+{
+    
+}
+
+header
+{
+    
+}
+
+footer
+{
+    
+}
+
+.player_section
+{
+    
+}
+
+.player
+{
+    
+}
+
+.player_options
+{
+    
+}
+
+.instruments
+{
+    
+}
+
+.tab_svg
+{
+    
+}
+
+.progress_bar
+{
+    
+}
+
+/* GENERAL */
+
+.float-left
+{
+    float: left;
+}
+
+.float-right
+{
+    float: right;
+}
+
+.clear
+{
+    clear: both;
+}
