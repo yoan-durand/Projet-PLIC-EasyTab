@@ -43,10 +43,11 @@ p
 
 .page
 {
-    width: 900px;
-    height: 1080px;
-    margin-left: auto;
-    margin-right: auto;
+    width: 100%;
+    background-image: url(plasma.png);
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    background-origin: content-box;
 }
 
 .float-left
