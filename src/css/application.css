@@ -11,6 +11,14 @@ root
     display: block;
 }
 
+@font-face 
+{
+    font-family: 'bebas';
+    src: url('font/BEBAS___.TTF');
+    font-weight: lighter;
+    font-style: normal;
+}
+
 body
 {
     background-image: url("../image/bgwe.jpg");
@@ -61,6 +69,7 @@ footer
     margin-left: 10px;
     margin-right: 10px;
     margin-top: 7px;
+    cursor: pointer;
 }
 
 .player_options
@@ -96,6 +105,48 @@ footer
     margin-top: 70px;
 }
 
+.onglets_pic
+{
+    margin-left: 3px;
+    width: 102px;
+    height: 30px;
+    background-image: url(../image/boutondark.png);
+    cursor: pointer;
+}
+
+.onglets_pic_selected
+{
+    margin-left: 3px;
+    width: 102px;
+    height: 30px;
+    background-image: url(../image/bouton_white_underline.png);
+    cursor: pointer;
+}
+
+.onglets_text
+{
+    position: relative;
+    height: auto;
+    width: auto;
+    font-family: bebas;
+    text-align: center;
+    color: orange;
+    top: 5px;
+    font-size: 0.9em;
+}
+
+.onglets_text_selected
+{
+    position: relative;
+    height: auto;
+    width: auto;
+    font-family: bebas;
+    text-align: center;
+    color: black;
+    top: 5px;
+    font-size: 0.9em;
+}
+
 .tab_svg
 {
     height: 400px;
@@ -109,6 +160,11 @@ footer
 .progress_bar table
 {
     margin-top: 10px;
+}
+
+.progress_bar tr:first-child img
+{
+    cursor: pointer;
 }
 
 /* GENERAL */
