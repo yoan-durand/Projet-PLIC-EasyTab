@@ -6,7 +6,43 @@
         Purpose of the stylesheet follows.
 */
 
-root { 
-    display: block;
+/*
+    declaration nouvelle police
+*/
+
+@font-face 
+    {
+        font-family: 'GoodDogRegular';
+        src: url('font/GoodDog-webfont.eot');
+        src: url('font/GoodDog-webfont.eot?#iefix') format('embedded-opentype'),
+            url('font/GoodDog-webfont.woff') format('woff'),
+            url('font/GoodDog-webfont.ttf') format('truetype'),
+            url('font/GoodDog-webfont.svg#GoodDogRegular') format('svg');
+        font-weight: 300;
+        font-style: normal;
+    }
+img
+{
+    margin-left: 120px;
+}
+h1
+{
+    color: crimson;
+    text-align: center;
+    font-family: 'GoodDogRegular';   
+}
+
+p
+{
+font-family: 'GoodDogRegular';
+font-size:larger;
+text-align: center;
+}
+
+section
+{
+    position: absolute;
+    left: auto;
+    right: auto;
 }
 
