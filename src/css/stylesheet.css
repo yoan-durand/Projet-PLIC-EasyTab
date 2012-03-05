@@ -11,20 +11,22 @@
 */
 
 @font-face 
-    {
-        font-family: 'GoodDogRegular';
-        src: url('font/GoodDog-webfont.eot');
-        src: url('font/GoodDog-webfont.eot?#iefix') format('embedded-opentype'),
-            url('font/GoodDog-webfont.woff') format('woff'),
-            url('font/GoodDog-webfont.ttf') format('truetype'),
-            url('font/GoodDog-webfont.svg#GoodDogRegular') format('svg');
-        font-weight: 300;
-        font-style: normal;
-    }
+{
+    font-family: 'GoodDogRegular';
+    src: url('font/GoodDog-webfont.eot');
+    src: url('font/GoodDog-webfont.eot?#iefix') format('embedded-opentype'),
+        url('font/GoodDog-webfont.woff') format('woff'),
+        url('font/GoodDog-webfont.ttf') format('truetype'),
+        url('font/GoodDog-webfont.svg#GoodDogRegular') format('svg');
+    font-weight: 300;
+    font-style: normal;
+}
+    
 img
 {
     margin-left: 120px;
 }
+
 h1
 {
     color: crimson;
@@ -34,15 +36,35 @@ h1
 
 p
 {
-font-family: 'GoodDogRegular';
-font-size:larger;
-text-align: center;
+    font-family: 'GoodDogRegular';
+    font-size:larger;
+    text-align: center;
 }
 
-section
+.page
 {
-    position: absolute;
-    left: auto;
-    right: auto;
+    width: 900px;
+    height: 1080px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
+.float-left
+{
+    float: left;
+}
+
+.float-right
+{
+    float: right;
+}
+
+.clear
+{
+    clear: both;
+}
+
+.tab
+{
+    margin: 0px;
+}
