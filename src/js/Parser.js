@@ -28,7 +28,27 @@ function getXMLHttpRequest()
     return xhr;
 }
 
-function get_header (xmlDoc)
+function parse_instruments (xmlDoc)
+{
+    var tab_instrument = new Array ();
+    var nodes_partlist = xmlDoc.getElementsByTagName ("part-list");
+    var nodes_score_part = nodes_partlist[0].getElementsByTagName ("score-part");
+
+    for (var i = 0; i < nodes_score_part.length; i++)
+    {
+        var nodes_part_name = nodes_score_part[i].getElementsByTagName ("part-name");
+        tab_instrument[i] = nodes_part_name[0].childNodes[0].nodeValue;
+    }
+
+    return tab_instrument
+}
+function parse_measure (xmlDoc)
+{
+    var nodes_measure = xmlDoc.getElementsByTagName ("measure");
+    return nodes_measure.length;
+}
+
+function parse_header (xmlDoc)
 {
     var tab_assoc = new Object();
 
@@ -58,16 +78,48 @@ function load_xml (path)
     xhr.open ("GET", path, false);
     xhr.send ();
     xmlDoc= xhr.responseXML;
-    /*var node_title = xmlDoc.getElementsByTagName ("work");
-    var node_test = node_title[0].getElementsByTagName ("work-title");
-    alert (node_test[0].childNodes[0].nodeValue);*/
+
 
     return xmlDoc;
 }
 
-window.onload = function()
+$(document).ready (function()
 {
-   var xmlDoc = load_xml ("../Demo.xml");
-   var header = get_header (xmlDoc);
-   alert (header["check"]);
-};
+   var xmlDoc = load_xml ("../demo.xml");
+   var header = parse_header (xmlDoc);
+   var instrument_list = parse_instruments (xmlDoc);
+   var nbr_mesure = parse_measure (xmlDoc);
+   display_parsing_header (header);
+   display_parsing_measures (nbr_mesure, instrument_list.length);
+   display_parsing_instruments (instrument_list);
+});
+
+function display_parsing_header (header)
+{
+    if (header["title"])
+    {
+        document.getElementById('title').innerHTML =  "Titre :  " + header["title"];
+    }
+    if (header["artist"])
+    {
+        document.getElementById('artist').innerHTML =  "Artiste :  " + header["artist"];
+    }
+    if (header["composer"])
+    {
+        document.getElementById('composer').innerHTML = "Compositeur : " + header["composer"];
+    }
+}
+
+function display_parsing_measures (nbr_mesure, nbr_instruments)
+{
+    var real_nbr_mesure = nbr_mesure / nbr_instruments;
+    document.getElementById('nbr_mesures').innerHTML = "Nombre mesure : " + real_nbr_mesure;
+}
+
+function display_parsing_instruments (instrument_list)
+{
+    for (var i = 0; i < instrument_list.length; ++i)
+    {
+        $("section").append("<div>Instrument : " + (i +1) + " " + instrument_list[i] + "</div>");
+    }
+}

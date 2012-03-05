@@ -1,18 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/css" href="premier-exemple.css" charset="utf-8"?>
 
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 20010904//EN" "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
 
-<svg width="900" height="400" xml:lang="fr"
-xmlns="http://www.w3.org/2000/svg"
-xmlns:xlink="http://www.w3.org/1999/xlink">
+<svg width="900" height="400" xml:lang="fr" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
     
     <defs>
         //move the cursor
-        <animate id="move_curs1" xlink:href="#curseur" attributeName="x" attributeType="XML" to="780" begin="play.click" dur="10s" />
-        <animate id="move_curs2" xlink:href="#curseur1" attributeName="x" attributeType="XML" to="780" begin="move_curs1.end" dur="10s"  />
-        <animate id="move_curs3" xlink:href="#curseur2" attributeName="x" attributeType="XML" to="780" begin="move_curs2.end" dur="10s" />
+        <animate id="move_curs1" xlink:href="#curseur" attributeName="x" attributeType="XML" to="880" begin="play.click" dur="10s" />
+        <animate id="move_curs2" xlink:href="#curseur1" attributeName="x" attributeType="XML" to="880" begin="move_curs1.end" dur="10s"  />
+        <animate id="move_curs3" xlink:href="#curseur2" attributeName="x" attributeType="XML" to="880" begin="move_curs2.end" dur="10s" />
         //movement to the selected measure
-        <animate xlink:href="#curseur" attributeName="x" attributeType="XML" from="20" to="20" begin="area1.click" dur="1s" fill="freeze" />
+        <animate xlink:href="#curseur" attributeName="x" attributeType="XML" from="60" to="60" begin="area1.click" dur="1s" fill="freeze" />
         <animate xlink:href="#curseur" attributeName="x" attributeType="XML" from="210" to="210" begin="area2.click" dur="1s" fill="freeze" />
         <animate xlink:href="#curseur" attributeName="x" attributeType="XML" from="400" to="400" begin="area3.click" dur="1s" fill="freeze"/>
         <animate xlink:href="#curseur" attributeName="x" attributeType="XML" from="590" to="590" begin="area4.click" dur="1s" fill="freeze"/>
@@ -21,105 +20,120 @@ xmlns:xlink="http://www.w3.org/1999/xlink">
     //Border of the application
     <rect id="border" x="0" y="0" width="900" height="400" style="fill:white; stroke:black;"/>
     //area to move the curseur
-    <rect id="area1" x="20" y="30" width="190" height="50" style="fill:white;stroke:black"/>
-    <rect id="area2" x="210" y="30" width="190" height="50" style="fill:white;stroke:black;"/>
-    <rect id="area3" x="400" y="30" width="190" height="50" style="fill:white;stroke:black"/>
-    <rect id="area4" x="590" y="30" width="190" height="50" style="fill:white; stroke:black"/>
+    <rect id="area1" x="60" y="30" width="205" height="50" style="fill:white; stroke:black"/>
+    <rect id="area2" x="265" y="30" width="205" height="50" style="fill:white; stroke:black;"/>
+    <rect id="area3" x="470" y="30" width="205" height="50" style="fill:white; stroke:black"/>
+    <rect id="area4" x="675" y="30" width="205" height="50" style="fill:white; stroke:black"/>
     
-    <rect id="area1-2" x="20" y="110" width="190" height="50" style="fill:white;stroke:black"/>
-    <rect id="area2-2" x="210" y="110" width="190" height="50" style="fill:white;stroke:black;"/>
-    <rect id="area3-3" x="400" y="110" width="190" height="50" style="fill:white;stroke:black"/>
-    <rect id="area4-4" x="590" y="110" width="190" height="50" style="fill:white; stroke:black"/>
+    <rect id="area1-2" x="60" y="110" width="205" height="50" style="fill:white; stroke:black"/>
+    <rect id="area2-2" x="265" y="110" width="205" height="50" style="fill:white; stroke:black;"/>
+    <rect id="area3-3" x="470" y="110" width="205" height="50" style="fill:white; stroke:black"/>
+    <rect id="area4-4" x="675" y="110" width="205" height="50" style="fill:white; stroke:black"/>
     
-    <rect id="area1-3" x="20" y="190" width="190" height="50" style="fill:white;stroke:black"/>
-    <rect id="area2-3" x="210" y="190" width="190" height="50" style="fill:white;stroke:black;"/>
-    <rect id="area3-3" x="400" y="190" width="190" height="50" style="fill:white;stroke:black"/>
-    <rect id="area4-3" x="590" y="190" width="190" height="50" style="fill:white; stroke:black"/>
+    <rect id="area1-3" x="60" y="190" width="205" height="50" style="fill:white; stroke:black"/>
+    <rect id="area2-3" x="265" y="190" width="205" height="50" style="fill:white; stroke:black;"/>
+    <rect id="area3-3" x="470" y="190" width="205" height="50" style="fill:white; stroke:black"/>
+    <rect id="area4-3" x="675" y="190" width="205" height="50" style="fill:white; stroke:black"/>
     
+    <rect id="area1-4" x="60" y="270" width="205" height="50" style="fill:white; stroke:black"/>
+    <rect id="area2-4" x="265" y="270" width="205" height="50" style="fill:white; stroke:black;"/>
+    <rect id="area3-4" x="470" y="270" width="205" height="50" style="fill:white; stroke:black"/>
+    <rect id="area4-4" x="675" y="270" width="205" height="50" style="fill:white; stroke:black"/>
+    
+    //  Ligne de partition 
+    <line id="1" x1="60" y1="30" x2="880" y2="30" style="stroke:black;"/>
+    <line id="2" x1="60" y1="40" x2="880" y2="40" style="stroke:black;"/>
+    <line id="3" x1="60" y1="50" x2="880" y2="50" style="stroke:black;"/>
+    <line id="4" x1="60" y1="60" x2="880" y2="60" style="stroke:black;"/>
+    <line id="5" x1="60" y1="70" x2="880" y2="70" style="stroke:black;"/>
+    <line id="6" x1="60" y1="80" x2="880" y2="80" style="stroke:black;"/>
+    
+    
+    <line id="1" x1="60" y1="110" x2="880" y2="110" style="stroke:black;"/>
+    <line id="2" x1="60" y1="120" x2="880" y2="120" style="stroke:black;"/>
+    <line id="3" x1="60" y1="130" x2="880" y2="130" style="stroke:black;"/>
+    <line id="4" x1="60" y1="140" x2="880" y2="140" style="stroke:black;"/>
+    <line id="5" x1="60" y1="150" x2="880" y2="150" style="stroke:black;"/>
+    <line id="6" x1="60" y1="160" x2="880" y2="160" style="stroke:black;"/>
+    
+    <line id="1" x1="60" y1="190" x2="880" y2="190" style="stroke:black;"/>
+    <line id="2" x1="60" y1="200" x2="880" y2="200" style="stroke:black;"/>
+    <line id="3" x1="60" y1="210" x2="880" y2="210" style="stroke:black;"/>
+    <line id="4" x1="60" y1="220" x2="880" y2="220" style="stroke:black;"/>
+    <line id="5" x1="60" y1="230" x2="880" y2="230" style="stroke:black;"/>
+    <line id="6" x1="60" y1="240" x2="880" y2="240" style="stroke:black;"/>
+    
+    <line id="1" x1="60" y1="270" x2="880" y2="270" style="stroke:black;"/>
+    <line id="2" x1="60" y1="280" x2="880" y2="280" style="stroke:black;"/>
+    <line id="3" x1="60" y1="290" x2="880" y2="290" style="stroke:black;"/>
+    <line id="4" x1="60" y1="300" x2="880" y2="300" style="stroke:black;"/>
+    <line id="5" x1="60" y1="310" x2="880" y2="310" style="stroke:black;"/>
+    <line id="6" x1="60" y1="320" x2="880" y2="320" style="stroke:black;"/>
+
     //Curseur de depacement
-    <rect id="curseur" x="20" y="20" width="2" height="70" style="fill:red;">
+    <rect id="curseur" x="60" y="20" width="2" height="70" style="fill:red;">
         <set attributeName="visibility" attributeType="CSS" to="hidden" begin="move_curs1.end" />
         <set attributeName="visibility" attributeType="CSS" to="visible" begin="move_curs3.end" />
         
     </rect>
-    <rect id="curseur1" x="20" y="100" width="2" height="70" style="fill:red;" >
+    <rect id="curseur1" x="60" y="100" width="2" height="70" style="fill:red;" >
         <set attributeName="visibility" attributeType="CSS" to="hidden" begin="0s"/>
         <set attributeName="visibility" attributeType="CSS" to="visible" begin="move_curs1.end"/>
         <set attributeName="visibility" attributeType="CSS" to="hidden" begin="move_curs2.end" />
         
     </rect>
-    <rect id="curseur2" x="20" y="180" width="2" height="70" style="fill:red;">
+    <rect id="curseur2" x="60" y="180" width="2" height="70" style="fill:red;">
         <set attributeName="visibility" attributeType="CSS" to="hidden" begin="0s"/>
         <set attributeName="visibility" attributeType="CSS" to="visible" begin="move_curs2.end"/>
         <set attributeName="visibility" attributeType="CSS" to="hidden" begin="move_curs3.end" />
     </rect>
     
     //Bouton play
-    <rect id="play" x="30" y="300" width="70" height="50" style="stroke:green"/>
+    <rect id="play" x="30" y="380" width="20" height="20" style="stroke:green"/>
 
     //texte
-    <text x="5" y="45">T</text>
-    <text x="5" y="60">A</text>
-    <text x="5" y="75">B</text>
+    <text x="20" y="45">T</text>
+    <text x="20" y="60">A</text>
+    <text x="20" y="75">B</text>
    
-    <text x="5" y="125">T</text>
-    <text x="5" y="140">A</text>
-    <text x="5" y="155">B</text>
+    <text x="20" y="125">T</text>
+    <text x="20" y="140">A</text>
+    <text x="20" y="155">B</text>
     
-    <text x="5" y="205">T</text>
-    <text x="5" y="220">A</text>
-    <text x="5" y="235">B</text>
+    <text x="20" y="205">T</text>
+    <text x="20" y="220">A</text>
+    <text x="20" y="235">B</text>
     
+    <text x="20" y="285">T</text>
+    <text x="20" y="300">A</text>
+    <text x="20" y="315">B</text>
+
+
     //numero ligne
-  
-   
-  
-  
-    <text x="30" y="35" style="fill:blue; font-size:12px; font-style:bold;" >1</text>
-    <text x="30" y="45" style="fill:blue; font-size:12px; font-style:bold;" >2</text>
-    <text x="30" y="55" style="fill:blue; font-size:12px; font-style:bold;" >3</text>
-    <text x="30" y="65" style="fill:blue; font-size:12px; font-style:bold;" >4</text>
-    <text x="30" y="75" style="fill:blue; font-size:12px; font-style:bold;" >5</text>
-    <text x="30" y="85" style="fill:blue; font-size:12px; font-style:bold;" >6</text>
+    <text x="135" y="35" style="fill:black; font-size:15px; font-style:bold;" >1</text>
+    <text x="145" y="45" style="fill:black; font-size:15px; font-style:bold;" >2</text>
+    <text x="140" y="55" style="fill:black; font-size:15px; font-style:bold;" >3</text>
+    <text x="160" y="65" style="fill:black; font-size:15px; font-style:bold;" >4</text>
+    <text x="150" y="75" style="fill:black; font-size:15px; font-style:bold;" >5</text>
+    <text x="180" y="85" style="fill:black; font-size:15px; font-style:bold;" >6</text>
     
-    <text x="30" y="115" style="font-size:15px;" >1</text>
-    <text x="30" y="125" style="font-size:15px;" >2</text>
-    <text x="30" y="135" style="font-size:15px;" >3</text>
-    <text x="30" y="145" style="font-size:15px;" >4</text>
-    <text x="30" y="155" style="font-size:15px;" >5</text>
-    <text x="30" y="165" style="font-size:15px;" >6</text>
+    <text x="75" y="35" style="font-size:15px; font-style:bold;" >1</text>
+    <text x="95" y="45" style="font-size:15px; font-style:bold;" >2</text>
+    <text x="75" y="55" style="font-size:15px; font-style:bold;" >3</text>
+    <text x="130" y="65" style="font-size:15px; font-style:bold;" >4</text>
+    <text x="100" y="75" style="font-size:15px; font-style:bold;" >5</text>
+    <text x="100" y="85" style="font-size:15px; font-style:bold;" >6</text>
     
-    <text x="30" y="195" style="font-size:12px;" >1</text>
-    <text x="30" y="205" style="font-size:12px;" >2</text>
-    <text x="30" y="215" style="font-size:12px;" >3</text>
-    <text x="30" y="225" style="font-size:12px;" >4</text>
-    <text x="30" y="235" style="font-size:12px;" >5</text>
-    <text x="30" y="245" style="font-size:12px;" >6</text>
+    <text x="195" y="35" style="font-size:15px;font-style:bold;" >1</text>
+    <text x="190" y="45" style="font-size:15px;font-style:bold;" >2</text>
+    <text x="205" y="55" style="font-size:15px;font-style:bold;" >3</text>
+    <text x="220" y="65" style="font-size:15px;font-style:bold;" >4</text>
+    <text x="240" y="75" style="font-size:15px;font-style:bold;" >5</text>
+    <text x="250" y="85" style="font-size:15px;font-style:bold;" >6</text>
     
     //mesure
    
-  //  Ligne de partition 
-    <line id="1" x1="20" y1="30" x2="780" y2="30" style="stroke:black;"/>
-    <line id="2" x1="20" y1="40" x2="780" y2="40" style="stroke:black;"/>
-    <line id="3" x1="20" y1="50" x2="780" y2="50" style="stroke:black;"/>
-    <line id="4" x1="20" y1="60" x2="780" y2="60" style="stroke:black;"/>
-    <line id="5" x1="20" y1="70" x2="780" y2="70" style="stroke:black;"/>
-    <line id="6" x1="20" y1="80" x2="780" y2="80" style="stroke:black;"/>
+  
     
-    
-    <line id="1" x1="20" y1="110" x2="780" y2="110" style="stroke:black;"/>
-    <line id="2" x1="20" y1="120" x2="780" y2="120" style="stroke:black;"/>
-    <line id="3" x1="20" y1="130" x2="780" y2="130" style="stroke:black;"/>
-    <line id="4" x1="20" y1="140" x2="780" y2="140" style="stroke:black;"/>
-    <line id="5" x1="20" y1="150" x2="780" y2="150" style="stroke:black;"/>
-    <line id="6" x1="20" y1="160" x2="780" y2="160" style="stroke:black;"/>
-    
-    <line id="1" x1="20" y1="190" x2="780" y2="190" style="stroke:black;"/>
-    <line id="2" x1="20" y1="200" x2="780" y2="200" style="stroke:black;"/>
-    <line id="3" x1="20" y1="210" x2="780" y2="210" style="stroke:black;"/>
-    <line id="4" x1="20" y1="220" x2="780" y2="220" style="stroke:black;"/>
-    <line id="5" x1="20" y1="230" x2="780" y2="230" style="stroke:black;"/>
-    <line id="6" x1="20" y1="240" x2="780" y2="240" style="stroke:black;"/>
-
 
 </svg>
