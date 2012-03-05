@@ -7,7 +7,7 @@ and open the template in the editor.
     <head>
         <title>EasyTab</title>
         <meta  charset="UTF-8">
-        <link rel="stylesheet" href="css/stylesheet.css" />
+        <link rel="stylesheet" href="css/application.css" />
     </head>
     <body>
         <section class="page">
@@ -15,17 +15,24 @@ and open the template in the editor.
                 <h1>EasyTab</h1>
             </header>
             <section class="header">
-                <section class="player_section">
+                <section class="player_section float-left">
                     <section class="player">
-                        Player de tablature
+                        <table>
+                            <tr>
+                                <td id="back"></td>
+                                <td id="play"></td>
+                                <td id="pause"></td>
+                                <td id="stop"></td>
+                            </tr>
+                        </table>
                     </section>
                     <section class="player_options">
-                        Options
                     </section>
                 </section>
-                <section class="intruments">
+                <section class="instruments float-right">
                     Liste des instruments
                 </section>
+                <section class="clear"></section>
             </section>
             <section class="tab_svg">
                     SVG
