@@ -41,16 +41,14 @@ footer
 .header
 {
     height: 100px;
-    border: 1px solid black;
 }
 
 .player_section
 {
     width: 250px;
-    margin-top: 15px;
+    margin-top: 30px;
     height: 70px;
     margin-left: 5px;
-    border: 1px solid black;
 }
 
 .player
@@ -58,50 +56,11 @@ footer
     height: 50%;
 }
 
-.player table
+#play,#stop,#back,#pause
 {
-    width: 80%;
-    height: 100%;
-    margin-left: auto;
-    margin-right: auto;
-    border-spacing: 0px;
-}
-
-.player table td
-{
-    margin-top: 0px;
-}
-
-#back
-{
-    background-image: url("../image/playerback.png");
-    background-repeat: no-repeat;
-    background-origin: border-box;
-    background-position: 50% 50%;
-}
-
-#play
-{
-    background-image: url("../image/playerplay.png");
-    background-repeat: no-repeat;
-    background-origin: border-box;
-    background-position: 50% 50%;
-}
-
-#pause
-{
-    background-image: url("../image/playerpause.png");
-    background-repeat: no-repeat;
-    background-origin: border-box;
-    background-position: 50% 50%;
-}
-
-#stop
-{
-    background-image: url("../image/playerstop.png");
-    background-repeat: no-repeat;
-    background-origin: border-box;
-    background-position: 50% 50%;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-top: 7px;
 }
 
 .player_options
@@ -109,24 +68,47 @@ footer
     height: 50%;
 }
 
+.player_options section:first-child
+{
+    margin-left: 15px;
+    width: 120px;
+}
+
+#speed, #tempo
+{
+    margin-top: 7px;
+}
+
+.text
+{
+    background-color: #595959;
+    margin-top: 7px;
+    height: 15px;
+    width: 50px;
+    margin-left: 15px;
+    color: white;
+}
+
 .instruments
 {
     width: 600px;
     height: 30px;
     margin-top: 70px;
-    border: 1px solid black;
 }
 
 .tab_svg
 {
     height: 400px;
-    border: 1px solid black;
 }
 
 .progress_bar
 {
     height: 100px;
-    border: 1px solid black;
+}
+
+.progress_bar table
+{
+    margin-top: 10px;
 }
 
 /* GENERAL */

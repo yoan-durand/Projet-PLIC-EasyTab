@@ -19,7 +19,7 @@ xmlns:xlink="http://www.w3.org/1999/xlink">
     </defs>
     
     //Border of the application
-    <rect id="border" x="0" y="0" width="800" height="580" style="fill:white; stroke:black;"/>
+    <rect id="border" x="0" y="0" width="900" height="400" style="fill:white; stroke:black;"/>
     //area to move the curseur
     <rect id="area1" x="20" y="30" width="190" height="50" style="fill:white;stroke:black"/>
     <rect id="area2" x="210" y="30" width="190" height="50" style="fill:white;stroke:black;"/>

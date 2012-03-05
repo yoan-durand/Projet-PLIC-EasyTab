@@ -12,33 +12,54 @@ and open the template in the editor.
     <body>
         <section class="page">
             <header>
-                <h1>EasyTab</h1>
             </header>
             <section class="header">
                 <section class="player_section float-left">
                     <section class="player">
-                        <table>
-                            <tr>
-                                <td id="back"></td>
-                                <td id="play"></td>
-                                <td id="pause"></td>
-                                <td id="stop"></td>
-                            </tr>
-                        </table>
+                        <img id="back" src="image/playerback.png" />
+                        <img id="play" src="image/playerplay.png" />
+                        <img id="pause" src="image/playerpause.png" />
+                        <img id="stop" src="image/playerstop.png" />
                     </section>
                     <section class="player_options">
+                        <section class="float-left">
+                            <img id="tempo" class="float-left" src="image/tempo.png" />
+                            <section class="text float-left">120</section>
+                            <section class="clear"></section>
+                        </section>
+                        <section class="float-left">
+                            <img id="speed" class="float-left" src="image/vitesse.png" />
+                            <section class="text float-left">x 1.00</section>
+                            <section class="clear"></section>
+                        </section>
+                        <section class="clear"></section>
                     </section>
                 </section>
                 <section class="instruments float-right">
-                    Liste des instruments
+                    <img class="float-right" src="image/bouton4.png" />
+                    <img class="float-right" src="image/bouton3.png" />
+                    <img class="float-right" src="image/bouton2.png" />
+                    <img class="float-right" src="image/bouton1.png" />
+                    <section class="clear"></section>
                 </section>
                 <section class="clear"></section>
             </section>
             <section class="tab_svg">
-                    SVG
+                <embed src="SVG/partition.svg" width="900" height="400" type="image/svg+xml" />
             </section>
             <section class="progress_bar">
-                Barre de progression
+                <table>
+                    <tr>
+                        <td><img src="image/casebleue.png" /></td>
+                        <td><img src="image/casegrise.png" /></td>
+                        <td><img src="image/casegrise.png" /></td>
+                    </tr>
+                    <tr>
+                        <td>1</td>
+                        <td>2</td>
+                        <td>3</td>
+                    </tr>
+                </table>
             </section>
             <footer>
             </footer>
