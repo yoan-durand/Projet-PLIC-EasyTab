@@ -7,7 +7,7 @@
         <animate xlink:href="#curseur" attributeName="x" attributeType="XML" from="20" to="20" begin="area1.click" dur="1s" fill="freeze" />
         <animate xlink:href="#curseur" attributeName="x" attributeType="XML" from="210" to="210" begin="area2.click" dur="1s" fill="freeze" />
         <animate xlink:href="#curseur" attributeName="x" attributeType="XML" from="400" to="400" begin="area3.click" dur="1s" fill="freeze"/>
-        <animate xlink:href="#curseur" attributeName="x" attributeType="XML" from="590" to="590" begin="area4.click" dur="1s" fille="freeze"/>
+        <animate xlink:href="#curseur" attributeName="x" attributeType="XML" from="590" to="590" begin="area4.click" dur="1s" fill="freeze"/>
     </defs>
     
     //Border of the application
