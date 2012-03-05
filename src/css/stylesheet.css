@@ -44,7 +44,8 @@ p
 .page
 {
     width: 100%;
-    background-image: url(plasma.png);
+    margin-left: auto;
+    margin-right: auto;
     background-repeat: no-repeat;
     background-size: 100% 100%;
     background-origin: content-box;
@@ -67,5 +68,6 @@ p
 
 .tab
 {
-    margin: 0px;
+    margin-left: auto;
+    margin-right: auto;
 }

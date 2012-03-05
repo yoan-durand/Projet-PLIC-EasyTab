@@ -57,7 +57,19 @@ xmlns:xlink="http://www.w3.org/1999/xlink">
     //Bouton play
     <rect id="play" x="30" y="300" width="70" height="50" style="stroke:green"/>
 
+    //texte
     
+    <text x="30" y="45">T</text>
+    <text x="30" y="60">A</text>
+    <text x="30" y="75">B</text>
+   
+    <text x="30" y="125">T</text>
+    <text x="30" y="140">A</text>
+    <text x="30" y="155">B</text>
+    
+    <text x="30" y="205">T</text>
+    <text x="30" y="220">A</text>
+    <text x="30" y="235">B</text>
     
     //mesure
    
