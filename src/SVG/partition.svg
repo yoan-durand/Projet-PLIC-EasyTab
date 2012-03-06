@@ -3,18 +3,35 @@
 
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 20010904//EN" "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
 
-<svg width="900" height="400" xml:lang="fr" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlin" onload="OnLoadEvent">
+<svg width="900" height="400" xml:lang="fr" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
   
     <defs>
         //move the cursor
-        <animate id="move_curs1" xlink:href="#curseur" attributeName="x" attributeType="XML" to="880" begin="onmousedown($('#play').click())" dur="10s" />
+        <animate id="move_curs1" xlink:href="#curseur" attributeName="x" attributeType="XML" to="880" begin="play.click" dur="10s" />
         <animate id="move_curs2" xlink:href="#curseur1" attributeName="x" attributeType="XML" to="880" begin="move_curs1.end" dur="10s"  />
         <animate id="move_curs3" xlink:href="#curseur2" attributeName="x" attributeType="XML" to="880" begin="move_curs2.end" dur="10s" />
+        <animate id="move_curs4" xlink:href="#curseur3" attributeName="x" attributeType="XML" to="880" begin="move_curs3.end" dur="10s" />
         //movement to the selected measure
         <animate xlink:href="#curseur" attributeName="x" attributeType="XML" from="60" to="60" begin="area1.click" dur="1s" fill="freeze" />
-        <animate xlink:href="#curseur" attributeName="x" attributeType="XML" from="210" to="210" begin="area2.click" dur="1s" fill="freeze" />
-        <animate xlink:href="#curseur" attributeName="x" attributeType="XML" from="400" to="400" begin="area3.click" dur="1s" fill="freeze"/>
-        <animate xlink:href="#curseur" attributeName="x" attributeType="XML" from="590" to="590" begin="area4.click" dur="1s" fill="freeze"/>
+        <animate xlink:href="#curseur" attributeName="x" attributeType="XML" from="265" to="265" begin="area2.click" dur="1s" fill="freeze" />
+        <animate xlink:href="#curseur" attributeName="x" attributeType="XML" from="470" to="470" begin="area3.click" dur="1s" fill="freeze"/>
+        <animate xlink:href="#curseur" attributeName="x" attributeType="XML" from="675" to="675" begin="area4.click" dur="1s" fill="freeze"/>
+        
+        <animate xlink:href="#curseur1" attributeName="x" attributeType="XML" from="60" to="60" begin="area1-2.click" dur="1s" fill="freeze" />
+        <animate xlink:href="#curseur1" attributeName="x" attributeType="XML" from="265" to="265" begin="area2-2.click" dur="1s" fill="freeze" />
+        <animate xlink:href="#curseur1" attributeName="x" attributeType="XML" from="470" to="470" begin="area3-2.click" dur="1s" fill="freeze"/>
+        <animate xlink:href="#curseur1" attributeName="x" attributeType="XML" from="675" to="675" begin="area4-2.click" dur="1s" fill="freeze"/>
+        
+        <animate xlink:href="#curseur2" attributeName="x" attributeType="XML" from="60" to="60" begin="area1-3.click" dur="1s" fill="freeze" />
+        <animate xlink:href="#curseur2" attributeName="x" attributeType="XML" from="265" to="265" begin="area2-3.click" dur="1s" fill="freeze" />
+        <animate xlink:href="#curseur2" attributeName="x" attributeType="XML" from="470" to="470" begin="area3-3.click" dur="1s" fill="freeze"/>
+        <animate xlink:href="#curseur2" attributeName="x" attributeType="XML" from="675" to="675" begin="area4-3.click" dur="1s" fill="freeze"/>
+        
+        <animate xlink:href="#curseur3" attributeName="x" attributeType="XML" from="60" to="60" begin="area1-4.click" dur="1s" fill="freeze" />
+        <animate xlink:href="#curseur3" attributeName="x" attributeType="XML" from="265" to="265" begin="area2-4.click" dur="1s" fill="freeze" />
+        <animate xlink:href="#curseur3" attributeName="x" attributeType="XML" from="470" to="470" begin="area3-4.click" dur="1s" fill="freeze"/>
+        <animate xlink:href="#curseur3" attributeName="x" attributeType="XML" from="675" to="675" begin="area4-4.click" dur="1s" fill="freeze"/>
+        
     </defs>
     
     //Border of the application
@@ -27,15 +44,15 @@
     
     <rect id="area1-2" x="60" y="110" width="205" height="50" style="fill:white; stroke:black"/>
     <rect id="area2-2" x="265" y="110" width="205" height="50" style="fill:white; stroke:black;"/>
-    <rect id="area3-3" x="470" y="110" width="205" height="50" style="fill:white; stroke:black"/>
-    <rect id="area4-4" x="675" y="110" width="205" height="50" style="fill:white; stroke:black"/>
+    <rect id="area3-2" x="470" y="110" width="205" height="50" style="fill:white; stroke:black"/>
+    <rect id="area4-2" x="675" y="110" width="205" height="50" style="fill:white; stroke:black"/>
     
     <rect id="area1-3" x="60" y="190" width="205" height="50" style="fill:white; stroke:black"/>
     <rect id="area2-3" x="265" y="190" width="205" height="50" style="fill:white; stroke:black;"/>
     <rect id="area3-3" x="470" y="190" width="205" height="50" style="fill:white; stroke:black"/>
     <rect id="area4-3" x="675" y="190" width="205" height="50" style="fill:white; stroke:black"/>
     
-    <rect id="area1-4" x="60" y="270" width="205" height="50" style="fill:white; stroke:black"/>
+    <rect id="area1-4" x="60" y="270" width="205" height="50" style="fill:white; stroke:blue"/>
     <rect id="area2-4" x="265" y="270" width="205" height="50" style="fill:white; stroke:black;"/>
     <rect id="area3-4" x="470" y="270" width="205" height="50" style="fill:white; stroke:black"/>
     <rect id="area4-4" x="675" y="270" width="205" height="50" style="fill:white; stroke:black"/>
@@ -73,7 +90,25 @@
     //Curseur de depacement
     <rect id="curseur" x="60" y="20" width="2" height="70" style="fill:red;">
         <set attributeName="visibility" attributeType="CSS" to="hidden" begin="move_curs1.end" />
-        <set attributeName="visibility" attributeType="CSS" to="visible" begin="move_curs3.end" />
+        
+        
+        <set attributeName="visibility" attributeType="CSS" to="hidden" begin="area1-2.click" />
+        <set attributeName="visibility" attributeType="CSS" to="hidden" begin="area2-2.click" />
+        <set attributeName="visibility" attributeType="CSS" to="hidden" begin="area3-2.click" />
+        <set attributeName="visibility" attributeType="CSS" to="hidden" begin="area4-2.click" />
+        
+        <set attributeName="visibility" attributeType="CSS" to="hidden" begin="area1-3.click" />
+        <set attributeName="visibility" attributeType="CSS" to="hidden" begin="area2-3.click" />
+        <set attributeName="visibility" attributeType="CSS" to="hidden" begin="area3-3.click" />
+        <set attributeName="visibility" attributeType="CSS" to="hidden" begin="area4-3.click" />
+        
+        <set attributeName="visibility" attributeType="CSS" to="hidden" begin="area1-4.click" />
+        <set attributeName="visibility" attributeType="CSS" to="hidden" begin="area2-4.click" />
+        <set attributeName="visibility" attributeType="CSS" to="hidden" begin="area3-4.click" />
+        <set attributeName="visibility" attributeType="CSS" to="hidden" begin="area4-4.click" />
+        
+        <set attributeName="visibility" attributeType="CSS" to="hidden" begin="move_curs1.end" />
+        <set attributeName="visibility" attributeType="CSS" to="visible" begin="move_curs4.end" />
         
     </rect>
     <rect id="curseur1" x="60" y="100" width="2" height="70" style="fill:red;" >
@@ -81,11 +116,80 @@
         <set attributeName="visibility" attributeType="CSS" to="visible" begin="move_curs1.end"/>
         <set attributeName="visibility" attributeType="CSS" to="hidden" begin="move_curs2.end" />
         
+        <set attributeName="visibility" attributeType="CSS" to="hidden" begin="area1.click" />
+        <set attributeName="visibility" attributeType="CSS" to="hidden" begin="area2.click" />
+        <set attributeName="visibility" attributeType="CSS" to="hidden" begin="area3.click" />
+        <set attributeName="visibility" attributeType="CSS" to="hidden" begin="area4.click" />
+              
+          <set attributeName="visibility" attributeType="CSS" to="visible" begin="area1-2.click" />
+        <set attributeName="visibility" attributeType="CSS" to="visible" begin="area2-2.click" />
+        <set attributeName="visibility" attributeType="CSS" to="visible" begin="area3-2.click" />
+        <set attributeName="visibility" attributeType="CSS" to="visible" begin="area4-2.click" />
+        
+          <set attributeName="visibility" attributeType="CSS" to="hidden" begin="area1-3.click" />
+        <set attributeName="visibility" attributeType="CSS" to="hidden" begin="area2-3.click" />
+        <set attributeName="visibility" attributeType="CSS" to="hidden" begin="area3-3.click" />
+        <set attributeName="visibility" attributeType="CSS" to="hidden" begin="area4-3.click" />
+        
+        <set attributeName="visibility" attributeType="CSS" to="hidden" begin="area1-1.click" />
+        <set attributeName="visibility" attributeType="CSS" to="hidden" begin="area2-1.click" />
+        <set attributeName="visibility" attributeType="CSS" to="hidden" begin="area3-1.click" />
+        <set attributeName="visibility" attributeType="CSS" to="hidden" begin="area4-1.click" />
+        
+         
+        
     </rect>
     <rect id="curseur2" x="60" y="180" width="2" height="70" style="fill:red;">
         <set attributeName="visibility" attributeType="CSS" to="hidden" begin="0s"/>
         <set attributeName="visibility" attributeType="CSS" to="visible" begin="move_curs2.end"/>
         <set attributeName="visibility" attributeType="CSS" to="hidden" begin="move_curs3.end" />
+        
+        <set attributeName="visibility" attributeType="CSS" to="hidden" begin="area1.click" />
+        <set attributeName="visibility" attributeType="CSS" to="hidden" begin="area2.click" />
+        <set attributeName="visibility" attributeType="CSS" to="hidden" begin="area3.click" />
+        <set attributeName="visibility" attributeType="CSS" to="hidden" begin="area4.click" />
+        
+        <set attributeName="visibility" attributeType="CSS" to="visible" begin="area1-3.click" />
+        <set attributeName="visibility" attributeType="CSS" to="visible" begin="area2-3.click" />
+        <set attributeName="visibility" attributeType="CSS" to="visible" begin="area3-3.click" />
+        <set attributeName="visibility" attributeType="CSS" to="visible" begin="area4-3.click" />
+        
+        <set attributeName="visibility" attributeType="CSS" to="hidden" begin="area1-2.click" />
+        <set attributeName="visibility" attributeType="CSS" to="hidden" begin="area2-2.click" />
+        <set attributeName="visibility" attributeType="CSS" to="hidden" begin="area3-2.click" />
+        <set attributeName="visibility" attributeType="CSS" to="hidden" begin="area4-2.click" />
+        
+          <set attributeName="visibility" attributeType="CSS" to="hidden" begin="area1-4.click" />
+        <set attributeName="visibility" attributeType="CSS" to="hidden" begin="area2-4.click" />
+        <set attributeName="visibility" attributeType="CSS" to="hidden" begin="area3-4.click" />
+        <set attributeName="visibility" attributeType="CSS" to="hidden" begin="area4-4.click" />
+    </rect>
+    
+    <rect id="curseur3" x="60" y="260" width="2" height="70" style="fill:red;">
+        <set attributeName="visibility" attributeType="CSS" to="hidden" begin="0s"/>
+        <set attributeName="visibility" attributeType="CSS" to="visible" begin="move_curs3.end"/>
+        <set attributeName="visibility" attributeType="CSS" to="hidden" begin="move_curs4.end" />
+        
+        <set attributeName="visibility" attributeType="CSS" to="hidden" begin="area1.click" />
+        <set attributeName="visibility" attributeType="CSS" to="hidden" begin="area2.click" />
+        <set attributeName="visibility" attributeType="CSS" to="hidden" begin="area3.click" />
+        <set attributeName="visibility" attributeType="CSS" to="hidden" begin="area4.click" />
+        
+        <set attributeName="visibility" attributeType="CSS" to="hidden" begin="area1-2.click" />
+        <set attributeName="visibility" attributeType="CSS" to="hidden" begin="area2-2.click" />
+        <set attributeName="visibility" attributeType="CSS" to="hidden" begin="area3-2.click" />
+        <set attributeName="visibility" attributeType="CSS" to="hidden" begin="area4-2.click" />
+        
+        <set attributeName="visibility" attributeType="CSS" to="hidden" begin="area1-3.click" />
+        <set attributeName="visibility" attributeType="CSS" to="hidden" begin="area2-3.click" />
+        <set attributeName="visibility" attributeType="CSS" to="hidden" begin="area3-3.click" />
+        <set attributeName="visibility" attributeType="CSS" to="hidden" begin="area4-3.click" />
+        
+        <set attributeName="visibility" attributeType="CSS" to="visible" begin="area1-4.click" />
+        <set attributeName="visibility" attributeType="CSS" to="visible" begin="area2-4.click" />
+        <set attributeName="visibility" attributeType="CSS" to="visible" begin="area3-4.click" />
+        <set attributeName="visibility" attributeType="CSS" to="visible" begin="area4-4.click" />
+        
     </rect>
     
     //Bouton play
@@ -130,10 +234,4 @@
     <text x="220" y="65" style="font-size:15px;font-style:bold;" >4</text>
     <text x="240" y="75" style="font-size:15px;font-style:bold;" >5</text>
     <text x="250" y="85" style="font-size:15px;font-style:bold;" >6</text>
-    
-    //mesure
-   
-  
-    
-
 </svg>

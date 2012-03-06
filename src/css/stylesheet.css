@@ -34,6 +34,12 @@ h1
     font-family: 'GoodDogRegular';   
 }
 
+h4
+{
+    text-align: center;
+    font-family: 'GoodDogRegular';
+}
+
 p
 {
     font-family: 'GoodDogRegular';
