@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+    <head>
+         <style type="text/css">@import "JQueryj-PLUGIN/jquery.svg.css";</style> 
+        <script type="text/javascript" src="JQuery-PLUGIN/jquery.svg.js"></script>
+        <title>Test JQuery SVG</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+    <body>
+        <div class="testsvg">
+            $('#testsvg').svg({loadURL: 'SVG/partition.svg'}); 
+           
+    $('#animBetween').text( 
+        'between ' + values[opt][0] + ' and ' + values[opt][1]); 
+    current[opt] = 1 - (current[opt] || 0); 
+    var parts = opt.split(':'); 
+    var params = {}; 
+    params['svg' + parts[1]] = values[opt][current[opt]]; 
+    $(shapes[parts[0]]).animate(params, 2000); 
+}); 
+            
+        </div>
+    </body>
+</html>
