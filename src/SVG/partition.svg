@@ -3,11 +3,11 @@
 
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 20010904//EN" "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
 
-<svg width="900" height="400" xml:lang="fr" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    
+<svg width="900" height="400" xml:lang="fr" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlin" onload="OnLoadEvent">
+  
     <defs>
         //move the cursor
-        <animate id="move_curs1" xlink:href="#curseur" attributeName="x" attributeType="XML" to="880" begin="play.click" dur="10s" />
+        <animate id="move_curs1" xlink:href="#curseur" attributeName="x" attributeType="XML" to="880" begin="onmousedown($('#play').click())" dur="10s" />
         <animate id="move_curs2" xlink:href="#curseur1" attributeName="x" attributeType="XML" to="880" begin="move_curs1.end" dur="10s"  />
         <animate id="move_curs3" xlink:href="#curseur2" attributeName="x" attributeType="XML" to="880" begin="move_curs2.end" dur="10s" />
         //movement to the selected measure
