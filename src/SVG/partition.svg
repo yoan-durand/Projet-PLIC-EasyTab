@@ -52,7 +52,7 @@
     <rect id="area3-3" x="470" y="190" width="205" height="50" style="fill:white; stroke:black"/>
     <rect id="area4-3" x="675" y="190" width="205" height="50" style="fill:white; stroke:black"/>
     
-    <rect id="area1-4" x="60" y="270" width="205" height="50" style="fill:white; stroke:blue"/>
+    <rect id="area1-4" x="60" y="270" width="205" height="50" style="fill:white; stroke:black"/>
     <rect id="area2-4" x="265" y="270" width="205" height="50" style="fill:white; stroke:black;"/>
     <rect id="area3-4" x="470" y="270" width="205" height="50" style="fill:white; stroke:black"/>
     <rect id="area4-4" x="675" y="270" width="205" height="50" style="fill:white; stroke:black"/>
