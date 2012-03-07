@@ -143,20 +143,35 @@ $(document).ready(function(){
                 var step = ((100 / (nb_measure - 31)) | 0);
                 var current_step = ui.value;
                 var advance = ((current_step / step) | 0);
+                if (advance > (nb_measure - 31))
+                        advance = nb_measure - 31;
+                
                 if (advance > current_advance) /// On se déplace vers la droite
                 {
-                    $(".progress_bar tr:first-child td:nth-child(" + (current_advance + 1) + ")").css("display", "none");
-                    $(".progress_bar tr:nth-child(2) td:nth-child(" + (current_advance + 1) + ")").css("display", "none");
-                    $(".progress_bar tr:first-child td:nth-child(" + (advance + 31) + ")").css("display", "table-cell");
-                    $(".progress_bar tr:nth-child(2) td:nth-child(" + (advance + 31) + ")").css("display", "table-cell");
+                    for (var i = current_advance + 1; i <= advance; i++)
+                    {
+                        $(".progress_bar tr:first-child td:nth-child(" + i + ")").css("display", "none");
+                        $(".progress_bar tr:nth-child(2) td:nth-child(" + i + ")").css("display", "none");
+                    }
+                    for (var j = advance + 1; j <= advance + 31; j++)
+                    {
+                        $(".progress_bar tr:first-child td:nth-child(" + j + ")").css("display", "table-cell");
+                        $(".progress_bar tr:nth-child(2) td:nth-child(" + j + ")").css("display", "table-cell");
+                    }
                     current_advance = advance;
                 }
                 else /// On se déplace vers la gauche
                 {
-                    $(".progress_bar tr:first-child td:nth-child(" + (advance + 1) + ")").css("display", "table-cell");
-                    $(".progress_bar tr:nth-child(2) td:nth-child(" + (advance + 1) + ")").css("display", "table-cell");
-                    $(".progress_bar tr:first-child td:nth-child(" + (current_advance + 31) + ")").css("display", "none");
-                    $(".progress_bar tr:nth-child(2) td:nth-child(" + (current_advance + 31) + ")").css("display", "none");
+                    for (var i2 = advance + 31; i2 <= current_advance + 31; i2++)
+                    {
+                        $(".progress_bar tr:first-child td:nth-child(" + i2 + ")").css("display", "none");
+                        $(".progress_bar tr:nth-child(2) td:nth-child(" + i2 + ")").css("display", "none");
+                    }
+                    for (var j2 = advance + 1; j2 <= advance + 31; j2++)
+                    {
+                        $(".progress_bar tr:first-child td:nth-child(" + j2 + ")").css("display", "table-cell");
+                        $(".progress_bar tr:nth-child(2) td:nth-child(" + j2 + ")").css("display", "table-cell");
+                    }
                     current_advance = advance;
                 }
             }
