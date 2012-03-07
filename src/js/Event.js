@@ -131,7 +131,7 @@ $(document).ready(function(){
     });
     
     /// SECTION SCROLLBARS
-    
+    /*
     var current_advance = 0;
     
     if (nb_measure > 31)
@@ -176,5 +176,5 @@ $(document).ready(function(){
                 }
             }
         });
-    }
+    }*/
 });
