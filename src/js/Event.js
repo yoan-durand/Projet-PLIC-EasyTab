@@ -1,8 +1,9 @@
 var selected = 1;
+var nb_measure = 62;
 
 $(document).ready(function(){
     
-    measure(32);
+    measure(nb_measure);
     tracks(new Array("Lead","Rythm","Bass","Drum"));
     
     /// SECTION EVENT PLAYER
@@ -69,17 +70,26 @@ $(document).ready(function(){
     
     function measure(i)
     {
-        for (var j = 1; j < i; j++)
+        for (var j = 1; j <= i; j++)
         {
             if (j == 1)
             {
                 $(".progress_bar tr:first-child").append("<td><img id='m_" + j + "' src='image/casebleue.png' /></td>");
+                $(".progress_bar tr:nth-child(2)").append("<td>" + j + "</td>");
             }
             else
             {
-                $(".progress_bar tr:first-child").append("<td><img id='m_" + j + "' src='image/casegrise.png' /></td>");
+                if (j < 32)
+                {
+                    $(".progress_bar tr:first-child").append("<td><img id='m_" + j + "' src='image/casegrise.png' /></td>");
+                    $(".progress_bar tr:nth-child(2)").append("<td>" + j + "</td>");
+                }
+                else
+                {
+                    $(".progress_bar tr:first-child").append("<td style='display:none'><img id='m_" + j + "' src='image/casegrise.png' /></td>");
+                    $(".progress_bar tr:nth-child(2)").append("<td style='display:none'>" + j + "</td>");
+                }
             }
-            $(".progress_bar tr:nth-child(2)").append("<td>" + j + "</td>");
         }
     }
     
@@ -119,4 +129,37 @@ $(document).ready(function(){
         $(this).children().attr("class", "onglets_text_selected");
         $(this).attr("class", "onglets_pic_selected float-right");
     });
+    
+    /// SECTION SCROLLBARS
+    
+    var current_advance = 0;
+    
+    if (nb_measure > 31)
+    {
+        $("#scroll_measure").slider({
+            animate: "slow",
+            step: ((100 / (nb_measure - 31)) | 0),
+            slide: function (event, ui){
+                var step = ((100 / (nb_measure - 31)) | 0);
+                var current_step = ui.value;
+                var advance = ((current_step / step) | 0);
+                if (advance > current_advance) /// On se déplace vers la droite
+                {
+                    $(".progress_bar tr:first-child td:nth-child(" + (current_advance + 1) + ")").css("display", "none");
+                    $(".progress_bar tr:nth-child(2) td:nth-child(" + (current_advance + 1) + ")").css("display", "none");
+                    $(".progress_bar tr:first-child td:nth-child(" + (advance + 31) + ")").css("display", "table-cell");
+                    $(".progress_bar tr:nth-child(2) td:nth-child(" + (advance + 31) + ")").css("display", "table-cell");
+                    current_advance = advance;
+                }
+                else /// On se déplace vers la gauche
+                {
+                    $(".progress_bar tr:first-child td:nth-child(" + (advance + 1) + ")").css("display", "table-cell");
+                    $(".progress_bar tr:nth-child(2) td:nth-child(" + (advance + 1) + ")").css("display", "table-cell");
+                    $(".progress_bar tr:first-child td:nth-child(" + (current_advance + 31) + ")").css("display", "none");
+                    $(".progress_bar tr:nth-child(2) td:nth-child(" + (current_advance + 31) + ")").css("display", "none");
+                    current_advance = advance;
+                }
+            }
+        });
+    }
 });
