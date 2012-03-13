@@ -1,5 +1,8 @@
 var selected = 1;
 var nb_measure = 62;
+var line = 0;
+var elapsed_time = 0;
+var time_func;
 
 $(document).ready(function(){
     
@@ -24,18 +27,44 @@ $(document).ready(function(){
             setTimeout(function (){
                 $("#back").attr("src", "image/playerback.png");
             }, 500);
+            clearInterval(time_func);
+            $($("rect[id='cursor']"), svg_inst.root()).stop();
+            elapsed_time = 0;
+            line = 0;
+            $($("rect[id='cursor']"), svg_inst.root()).attr({"y": (20 + (80 * line))});
+            $($("rect[id='cursor']"), svg_inst.root()).animate({svgTransform: 'translate(0 0)'}, 0, 'linear');
+            $($("rect[id='cursor']"), svg_inst.root()).animate({svgTransform: 'translate(820 0)'}, 10000 - elapsed_time, 'linear', keep_playing);
+            time_func = setInterval(chronotime, 100);
         }
     });
 
     $("#play").click(function (){
         if ($(this).attr("src") == "image/playerplay.png")
         {
+            time_func = setInterval(chronotime, 100);
             $("#back").attr("src", "image/playerback.png");
             $(this).attr("src", "image/playerplay2.png");
             $("#pause").attr("src", "image/playerpause.png");
             $("#stop").attr("src", "image/playerstop.png");
+            $($("rect[id='cursor']"), svg_inst.root()).animate({svgTransform: 'translate(820 0)'}, 10000 - elapsed_time, 'linear', keep_playing);
         }
     });
+    
+    function keep_playing(){
+        line++;
+        elapsed_time = 0;
+        if (line < 5)
+        {
+            $($("rect[id='cursor']"), svg_inst.root()).attr({"y": (20 + (80 * line))});
+            $($("rect[id='cursor']"), svg_inst.root()).animate({svgTransform: 'translate(0 0)'}, 0, 'linear');
+            $($("rect[id='cursor']"), svg_inst.root()).animate({svgTransform: 'translate(820 0)'}, 10000 - elapsed_time, 'linear', keep_playing);
+        }
+    };
+    
+    function chronotime()
+    {
+        elapsed_time += 100;
+    }
 
     $("#pause").click(function (){
         if ($(this).attr("src") == "image/playerpause.png")
@@ -44,6 +73,8 @@ $(document).ready(function(){
             $("#play").attr("src", "image/playerplay.png");
             $(this).attr("src", "image/playerpause2.png");
             $("#stop").attr("src", "image/playerstop.png");
+            clearInterval(time_func);
+            $($("rect[id='cursor']"), svg_inst.root()).stop();
         }
     });
 
@@ -63,6 +94,12 @@ $(document).ready(function(){
             setTimeout(function (){
                 $("#stop").attr("src", "image/playerstop.png");
             }, 500);
+            clearInterval(time_func);
+            $($("rect[id='cursor']"), svg_inst.root()).stop();
+            elapsed_time = 0;
+            line = 0;
+            $($("rect[id='cursor']"), svg_inst.root()).attr({"y": (20 + (80 * line))});
+            $($("rect[id='cursor']"), svg_inst.root()).animate({svgTransform: 'translate(0 0)'}, 0, 'linear');
         }
     });
     
@@ -115,11 +152,12 @@ $(document).ready(function(){
         if ($(this).attr("src") != "image/casebleue.png")
         {
             $(this).attr("src", "image/casebleue.png");
-            $("#m_" + selected).attr("src", "image/casegrise.png");
+            $("img[id='m_" + selected+ "']").attr("src", "image/casegrise.png");
             var id = $(this).attr("id");
             var array = id.split('_');
-            var new_selected = array[1];
-            selected = new_selected;
+            selected = array[1];
+            line = (selected % 4 == 0) ? (((selected / 4) | 0) - 1) : ((selected / 4) | 0);
+            $($("rect[id='cursor']"), svg_inst.root()).attr({"y": (20 + (80 * line)), transform:"translate("+ ($($("rect[id='m_"+selected+"']"), svg_inst.root()).attr("x") - 60) +" 0)"});
         }
     });
     
@@ -131,7 +169,7 @@ $(document).ready(function(){
     });
     
     /// SECTION SCROLLBARS
-    /*
+    
     var current_advance = 0;
     
     if (nb_measure > 31)
@@ -176,5 +214,5 @@ $(document).ready(function(){
                 }
             }
         });
-    }*/
+    }
 });

@@ -1,17 +1,16 @@
-<!--
-To change this template, choose Tools | Templates
-and open the template in the editor.
--->
 <!DOCTYPE html>
 <html>
     <head>
-       
         <title>EasyTab</title>
-        <meta  charset="UTF-8">
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" href="css/application.css" />
         <link rel="stylesheet" href="css/jquery-ui-1.8.18.custom.css" />
+        <link rel="stylesheet" href="JQuery-PLUGIN/jquery.svg.css" />
         <script src="js/jquery-1.7.1.js"></script>
         <script src="js/jquery-ui-1.8.18.custom.min.js"></script>
+        <script src="JQuery-PLUGIN/jquery.svg.min.js"></script>
+        <script src="JQuery-PLUGIN/jquery.svganim.min.js"></script>
+        <script src="JQuery-PLUGIN/jquery.svgdom.min.js"></script>
         <script src="js/Event.js"></script>
     </head>
     <body>
@@ -44,9 +43,9 @@ and open the template in the editor.
                 </section>
                 <section class="clear"></section>
             </section>
-            <section class="tab_svg">
-                <embed src="SVG/partition.svg" width="900" height="400" type="image/svg+xml" />
-            </section>
+            <div class="tab_svg">
+                <!--<embed src="SVG/partition.svg" width="900" height="400" type="image/svg+xml" />-->
+            </div>
             <section class="progress_bar">
                 <table>
                     <tr>
@@ -61,3 +60,50 @@ and open the template in the editor.
         </section>
     </body>
 </html>
+
+<script type="text/javascript">
+    
+    var svg_inst;
+    
+    $('.tab_svg').svg({onLoad: function(svg) {
+        svg_inst = svg;
+        svg.rect(0, 0, 900, 400, { fill: "white", stroke:"black"});
+        drawLines(svg);
+        }, settings : {"width":"900px", "height":"400px"}
+    });
+
+    function drawLines(svg){
+        for (var i = 0; i < nb_measure / 4; i++)
+        {
+            svg.text(20, 45 + (i * 80), "T");
+            svg.text(20, 60 + (i * 80), "A");
+            svg.text(20, 75 + (i * 80), "B");
+            svg.rect(60, 30 + (i * 80), 205, 50, {id: "m_"+ (1 + (4 * i)),fill:"white", stroke:"black"});
+            svg.rect(265, 30 + (i * 80), 205, 50, {id: "m_"+ (2 + (4 * i)),fill:"white", stroke:"black"});
+            svg.rect(470, 30 + (i * 80), 205, 50, {id: "m_"+ (3 + (4 * i)),fill:"white", stroke:"black"});
+            svg.rect(675, 30 + (i * 80), 205, 50, {id: "m_"+ (4 + (4 * i)),fill:"white", stroke:"black"});
+            svg.line(60, 30 + (i * 80), 880, 30 + (i * 80), {stroke:"black"});
+            svg.line(60, 40 + (i * 80), 880, 40 + (i * 80), {stroke:"black"});
+            svg.line(60, 50 + (i * 80), 880, 50 + (i * 80), {stroke:"black"});
+            svg.line(60, 60 + (i * 80), 880, 60 + (i * 80), {stroke:"black"});
+            svg.line(60, 70 + (i * 80), 880, 70 + (i * 80), {stroke:"black"});
+            svg.line(60, 80 + (i * 80), 880, 80 + (i * 80), {stroke:"black"});
+        }
+        svg.rect(60, 20, 2, 70, {id: "cursor", fill:"red"});
+    };
+    
+    $($("rect[id^='m_']"), svg_inst.root()).click(function (){
+        var id = $(this).attr("id");
+        if ($("img[id='"+id+"']").attr("src") == "image/casegrise.png")
+        {
+            $("img[id='m_"+selected+"']").attr("src", "image/casegrise.png");
+            $("img[id="+id+"]").attr("src", "image/casebleue.png");
+            var array = id.split('_');
+            selected = array[1];
+            line = (selected % 4 == 0) ? (((selected / 4) | 0) - 1) : ((selected / 4) | 0);
+            $($("rect[id='cursor']"), svg_inst.root()).attr({"y": (20 + (80 * line)), transform:"translate("+ ($($("rect[id='m_"+selected+"']"), svg_inst.root()).attr("x") - 60) +" 0)"});
+        }
+    });
+
+    
+</script>
