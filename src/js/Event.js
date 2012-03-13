@@ -20,8 +20,8 @@ $(document).ready(function(){
             $("#stop").attr("src", "image/playerstop.png");
             if (selected != 1)
             {
-                $("#m_" + selected).attr("src", "image/casegrise.png");
-                $("#m_1").attr("src", "image/casebleue.png");
+                $("img[id='m_" + selected+ "']").attr("src", "image/casegrise.png");
+                $("img[id='m_1']").attr("src", "image/casebleue.png");
                 selected = 1;
             }
             setTimeout(function (){
@@ -87,8 +87,8 @@ $(document).ready(function(){
             $(this).attr("src", "image/playerstop2.png");
             if (selected != 1)
             {
-                $("#m_" + selected).attr("src", "image/casegrise.png");
-                $("#m_1").attr("src", "image/casebleue.png");
+                $("img[id='m_" + selected+ "']").attr("src", "image/casegrise.png");
+                $("img[id='m_1']").attr("src", "image/casebleue.png");
                 selected = 1;
             }
             setTimeout(function (){
