@@ -31,7 +31,7 @@ body
 
 .page
 {
-    width: 900px;
+    width: 950px;
     margin-left: auto;
     margin-right: auto;
 }
@@ -150,6 +150,7 @@ footer
 .tab_svg
 {
     height: 400px;
+    width: 901px;
 }
 
 .progress_bar
@@ -165,6 +166,13 @@ footer
 .progress_bar tr:first-child img
 {
     cursor: pointer;
+}
+
+#scroll_svg
+{
+    left: 15px;
+    top: 100px;
+    height: 400px;
 }
 
 /* GENERAL */

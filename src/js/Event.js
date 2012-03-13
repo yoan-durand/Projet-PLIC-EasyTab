@@ -173,6 +173,20 @@ $(document).ready(function(){
     
     var current_advance = 0;
     
+    if (nb_measure > 20)
+    {
+        $("#scroll_svg").slider({
+            animate: "slow",
+            value: 100,
+            orientation: "vertical",
+            step: ((100 / (nb_measure / 4)) | 0),
+            slide: function (event, ui){
+
+            }
+        });
+    }
+    
+    
     if (nb_measure > 31)
     {
         $("#scroll_measure").slider({

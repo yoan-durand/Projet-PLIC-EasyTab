@@ -15,48 +15,52 @@
     </head>
     <body>
         <section class="page">
-            <header>
-            </header>
-            <section class="header">
-                <section class="player_section float-left">
-                    <section class="player">
-                        <img id="back" src="image/playerback.png" />
-                        <img id="play" src="image/playerplay.png" />
-                        <img id="pause" src="image/playerpause.png" />
-                        <img id="stop" src="image/playerstop.png" />
-                    </section>
-                    <section class="player_options">
-                        <section class="float-left">
-                            <img id="tempo" class="float-left" src="image/tempo.png" />
-                            <section class="text float-left">120</section>
+            <section class="float-left">
+                <header>
+                </header>
+                <section class="header">
+                    <section class="player_section float-left">
+                        <section class="player">
+                            <img id="back" src="image/playerback.png" />
+                            <img id="play" src="image/playerplay.png" />
+                            <img id="pause" src="image/playerpause.png" />
+                            <img id="stop" src="image/playerstop.png" />
+                        </section>
+                        <section class="player_options">
+                            <section class="float-left">
+                                <img id="tempo" class="float-left" src="image/tempo.png" />
+                                <section class="text float-left">120</section>
+                                <section class="clear"></section>
+                            </section>
+                            <section class="float-left">
+                                <img id="speed" class="float-left" src="image/vitesse.png" />
+                                <section class="text float-left">x 1.00</section>
+                                <section class="clear"></section>
+                            </section>
                             <section class="clear"></section>
                         </section>
-                        <section class="float-left">
-                            <img id="speed" class="float-left" src="image/vitesse.png" />
-                            <section class="text float-left">x 1.00</section>
-                            <section class="clear"></section>
-                        </section>
-                        <section class="clear"></section>
                     </section>
+                    <section class="instruments float-right">
+                    </section>
+                    <section class="clear"></section>
                 </section>
-                <section class="instruments float-right">
+                <section class="tab_svg">
+                    <!--<embed src="SVG/partition.svg" width="900" height="400" type="image/svg+xml" />-->
                 </section>
-                <section class="clear"></section>
+                <section class="progress_bar">
+                    <table>
+                        <tr>
+                        </tr>
+                        <tr>
+                        </tr>
+                    </table>
+                </section>
+                <section id="scroll_measure"></section>
+                <footer>
+                </footer>
             </section>
-            <div class="tab_svg">
-                <!--<embed src="SVG/partition.svg" width="900" height="400" type="image/svg+xml" />-->
-            </div>
-            <section class="progress_bar">
-                <table>
-                    <tr>
-                    </tr>
-                    <tr>
-                    </tr>
-                </table>
-            </section>
-            <section id="scroll_measure"></section>
-            <footer>
-            </footer>
+            <section  id="scroll_svg" class="float-left"></section>
+            <section class="clear"></section>
         </section>
     </body>
 </html>
@@ -69,7 +73,7 @@
         svg_inst = svg;
         svg.rect(0, 0, 900, 400, { fill: "white", stroke:"black"});
         drawLines(svg);
-        }, settings : {"width":"900px", "height":"400px"}
+        }, settings : {"viewBox": "0 0 900 400"}
     });
 
     function drawLines(svg){
