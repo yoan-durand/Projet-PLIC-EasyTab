@@ -156,6 +156,7 @@ $(document).ready(function(){
             var id = $(this).attr("id");
             var array = id.split('_');
             selected = array[1];
+            elapsed_time = (selected % 4) == 0 ? 7500 : (2500 * ((selected % 4) - 1));
             line = (selected % 4 == 0) ? (((selected / 4) | 0) - 1) : ((selected / 4) | 0);
             $($("rect[id='cursor']"), svg_inst.root()).attr({"y": (20 + (80 * line)), transform:"translate("+ ($($("rect[id='m_"+selected+"']"), svg_inst.root()).attr("x") - 60) +" 0)"});
         }
