@@ -1,5 +1,5 @@
 var selected = 1;
-var nb_measure = 62;
+var nb_measure = 120;
 var line = 0;
 var elapsed_time = 0;
 var time_func;
@@ -171,7 +171,7 @@ $(document).ready(function(){
     
     /// SECTION SCROLLBARS
     
-    var current_advance = 0;
+    var current_svg_advance = 100;
     
     if (nb_measure > 20)
     {
@@ -179,13 +179,29 @@ $(document).ready(function(){
             animate: "slow",
             value: 100,
             orientation: "vertical",
-            step: ((100 / (nb_measure / 4)) | 0),
+            step: ((100 / ((nb_measure / 4) - 5)) | 0),
             slide: function (event, ui){
-
+                var step = ((100 / ((nb_measure / 4) - 5)) | 0);
+                var current_step = ui.value;
+                var advance = ((current_step / step) | 0);
+                
+                if (advance < current_svg_advance) // On va vers le bas
+                {
+                    svg_inst.root().currentTranslate.y -= 80;
+                }
+                else // on va vers le haut
+                {
+                    if (svg_inst.root().currentTranslate.y + 80 <= 0)
+                    {
+                        svg_inst.root().currentTranslate.y += 80;
+                    }
+                }
+                current_svg_advance = advance;
             }
         });
     }
     
+    var current_advance = 0;
     
     if (nb_measure > 31)
     {
@@ -211,7 +227,6 @@ $(document).ready(function(){
                         $(".progress_bar tr:first-child td:nth-child(" + j + ")").css("display", "table-cell");
                         $(".progress_bar tr:nth-child(2) td:nth-child(" + j + ")").css("display", "table-cell");
                     }
-                    current_advance = advance;
                 }
                 else /// On se déplace vers la gauche
                 {
@@ -225,8 +240,8 @@ $(document).ready(function(){
                         $(".progress_bar tr:first-child td:nth-child(" + j2 + ")").css("display", "table-cell");
                         $(".progress_bar tr:nth-child(2) td:nth-child(" + j2 + ")").css("display", "table-cell");
                     }
-                    current_advance = advance;
                 }
+                current_advance = advance;
             }
         });
     }

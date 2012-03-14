@@ -71,9 +71,10 @@
     
     $('.tab_svg').svg({onLoad: function(svg) {
         svg_inst = svg;
-        svg.rect(0, 0, 900, 400, { fill: "white", stroke:"black"});
+        var height = 60 + Math.ceil((80 * (nb_measure / 4))) < 400 ? 400 : 60 + Math.ceil((80 * (nb_measure / 4)));
+        svg.rect(0, 0, 900, height, { fill: "white", stroke:"black"});
         drawLines(svg);
-        }, settings : {"viewBox": "0 0 900 400"}
+        }
     });
 
     function drawLines(svg){
@@ -82,9 +83,13 @@
             svg.text(20, 45 + (i * 80), "T");
             svg.text(20, 60 + (i * 80), "A");
             svg.text(20, 75 + (i * 80), "B");
+            svg.text(60, 25 + (i * 80), ""+(1 + (4 * i))+"", {stroke: "red"});
             svg.rect(60, 30 + (i * 80), 205, 50, {id: "m_"+ (1 + (4 * i)),fill:"white", stroke:"black"});
+            svg.text(265, 25 + (i * 80), ""+(2 + (4 * i))+"", {stroke: "red"});
             svg.rect(265, 30 + (i * 80), 205, 50, {id: "m_"+ (2 + (4 * i)),fill:"white", stroke:"black"});
+            svg.text(470, 25 + (i * 80), ""+(3 + (4 * i))+"", {stroke: "red"});
             svg.rect(470, 30 + (i * 80), 205, 50, {id: "m_"+ (3 + (4 * i)),fill:"white", stroke:"black"});
+            svg.text(675, 25 + (i * 80), ""+(4 + (4 * i))+"", {stroke: "red"});
             svg.rect(675, 30 + (i * 80), 205, 50, {id: "m_"+ (4 + (4 * i)),fill:"white", stroke:"black"});
             svg.line(60, 30 + (i * 80), 880, 30 + (i * 80), {stroke:"black"});
             svg.line(60, 40 + (i * 80), 880, 40 + (i * 80), {stroke:"black"});
