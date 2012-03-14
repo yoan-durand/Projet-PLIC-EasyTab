@@ -172,7 +172,7 @@ $(document).ready(function(){
     /// SECTION SCROLLBARS
     
     var current_advance = 0;
-    
+    var mapApp;
     if (nb_measure > 20)
     {
         $("#scroll_svg").slider({
@@ -180,8 +180,9 @@ $(document).ready(function(){
             value: 100,
             orientation: "vertical",
             step: ((100 / (nb_measure / 4)) | 0),
-            slide: function (event, ui){
-
+            slide: function (event, ui)
+            {
+             
             }
         });
     }
