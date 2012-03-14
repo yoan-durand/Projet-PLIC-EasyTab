@@ -163,24 +163,24 @@ function parse_list_measure (node_part)
 
 function parse_attributes (node_measure)
 {
-    attribute_obj = new Attribute ();
-    node_attributes = node_measure.getElementsByTagName("attributes");
+    var attribute_obj = new Attribute ();
+    var node_attributes = node_measure.getElementsByTagName("attributes");
     
     if (node_attributes.length != 0)
     {
-        node_division = node_attributes[0].getElementsByTagName ("divisions");
+        var node_division = node_attributes[0].getElementsByTagName ("divisions");
         attribute_obj._division = node_division[0].childNodes[0].nodeValue;
 
-        node_fifths_key = node_attributes[0].getElementsByTagName ("fifths");
+        var node_fifths_key = node_attributes[0].getElementsByTagName ("fifths");
         attribute_obj._fifths_key = get_nodeValue (node_fifths_key);  
 
-        node_mode = node_attributes[0].getElementsByTagName ("mode");
+        var node_mode = node_attributes[0].getElementsByTagName ("mode");
         attribute_obj._mode_key = get_nodeValue (node_mode);
 
-        node_beats = node_attributes[0].getElementsByTagName ("beats");
+        var node_beats = node_attributes[0].getElementsByTagName ("beats");
         attribute_obj._time_beat = get_nodeValue (node_beats);
 
-        node_beat_type = node_attributes[0].getElementsByTagName ("beat-type");
+        var node_beat_type = node_attributes[0].getElementsByTagName ("beat-type");
         attribute_obj._type_beat = get_nodeValue (node_beat_type);
     }
 
@@ -189,9 +189,9 @@ function parse_attributes (node_measure)
 
 function parse_sound_param (node_measure)
 {
-    sound_param_obj = new SoundParam ();
+    var sound_param_obj = new SoundParam ();
     
-    node_sound = node_measure.getElementsByTagName("sound");
+    var node_sound = node_measure.getElementsByTagName("sound");
     if (node_sound.length != 0)
     {
        
@@ -217,27 +217,27 @@ function parse_note_list (node_measure)
     
     for (var i = 0; i < node_notes.length; ++i)
     {
-        note_obj = new Note ();
+        var note_obj = new Note ();
         
-        node_pitch_step = node_notes[i].getElementsByTagName("step");
+        var node_pitch_step = node_notes[i].getElementsByTagName("step");
         note_obj._step_pitch = get_nodeValue (node_pitch_step);
         
-        node_pitch_octave = node_notes[i].getElementsByTagName("octave");
+        var node_pitch_octave = node_notes[i].getElementsByTagName("octave");
         note_obj._octave_pitch = get_nodeValue (node_pitch_octave);
         
-        node_pitch_duration = node_notes[i].getElementsByTagName("duration");
+        var node_pitch_duration = node_notes[i].getElementsByTagName("duration");
         note_obj._duration = get_nodeValue (node_pitch_duration);
         
-        node_string_technical= node_notes[i].getElementsByTagName("string");
+        var node_string_technical= node_notes[i].getElementsByTagName("string");
         note_obj._string_technical = get_nodeValue (node_string_technical);
         
-        node_fret_technical= node_notes[i].getElementsByTagName("fret");
+        var node_fret_technical= node_notes[i].getElementsByTagName("fret");
         note_obj._fret_technical = get_nodeValue (node_fret_technical);
  
-        node_dynamic = node_notes[i].getElementsByTagName("dynamic"); //TODO : Convertir la dynamic (<ff></ff>)
+        var node_dynamic = node_notes[i].getElementsByTagName("dynamic"); //TODO : Convertir la dynamic (<ff></ff>)
         note_obj._dynamic = get_nodeValue (node_dynamic);
         
-        node_other_technical = node_notes[i].getElementsByTagName("other-technical");
+        var node_other_technical = node_notes[i].getElementsByTagName("other-technical");
         note_obj._other_technical = get_nodeValue (node_other_technical);       
         
         list_note_obj.push (note_obj);
@@ -260,9 +260,9 @@ function load_xml (path)
 
 //Fonction a appeler depuis l'exterieur, permet de récupérer un objet Partition
 //ATTENTION : SCRIPT DES CLASSES A APPELER DANS LE HTML. (ex : DemoParser.html)
-function parse ()
+function parse (path)
 {
-   var xmlDoc = load_xml ("../normal.xml");
+   var xmlDoc = load_xml (path);
    var partition_obj = parse_partition (xmlDoc); //Return Partition 
    return partition_obj;
 }
@@ -278,7 +278,7 @@ $(document).ready (function()
    display_parsing_measures (nbr_mesure, instrument_list.length);
    display_parsing_instruments (instrument_list);
    display_parsing_notes (nbr_notes);*/
-    parse ();
+    parse ("../normal.xml");
    
 });
 
