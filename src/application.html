@@ -12,6 +12,7 @@
         <script src="JQuery-PLUGIN/jquery.svganim.min.js"></script>
         <script src="JQuery-PLUGIN/jquery.svgdom.min.js"></script>
         <script src="js/Event.js"></script>
+        
     </head>
     <body>
         <section class="page">
@@ -68,8 +69,10 @@
 <script type="text/javascript">
     
     var svg_inst;
-    
-    $('.tab_svg').svg({onLoad: function(svg) {
+    var mapApp;
+    $('.tab_svg').svg({onLoad: function(svg) 
+    {
+        
         svg_inst = svg;
         var height = 60 + Math.ceil((80 * (nb_measure / 4))) < 400 ? 400 : 60 + Math.ceil((80 * (nb_measure / 4)));
         svg.rect(0, 0, 900, height, { fill: "white", stroke:"black"});
@@ -114,6 +117,4 @@
             $($("rect[id='cursor']"), svg_inst.root()).attr({"y": (20 + (80 * line)), transform:"translate("+ ($($("rect[id='m_"+selected+"']"), svg_inst.root()).attr("x") - 60) +" 0)"});
         }
     });
-
-    
 </script>

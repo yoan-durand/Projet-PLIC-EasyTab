@@ -172,7 +172,6 @@ $(document).ready(function(){
     /// SECTION SCROLLBARS
     
     var current_svg_advance = 100;
-    
     if (nb_measure > 20)
     {
         $("#scroll_svg").slider({
