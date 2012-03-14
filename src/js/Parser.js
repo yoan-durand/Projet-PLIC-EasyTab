@@ -1,3 +1,5 @@
+var partition;
+
 function getXMLHttpRequest()
 {
     var xhr = null;
@@ -278,7 +280,7 @@ $(document).ready (function()
    display_parsing_measures (nbr_mesure, instrument_list.length);
    display_parsing_instruments (instrument_list);
    display_parsing_notes (nbr_notes);*/
-    parse ("../normal.xml");
+   partition = parse ("../demo.xml");
    
 });
 

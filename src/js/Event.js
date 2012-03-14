@@ -1,13 +1,18 @@
 var selected = 1;
-var nb_measure = 120;
+var nb_measure;
 var line = 0;
 var elapsed_time = 0;
 var time_func;
+var speed;
 
 $(document).ready(function(){
     
+    nb_measure = partition._instruments_list[0]._track_part._measure_list.length;
+    var tempo = partition._instruments_list[0]._track_part._measure_list[0]._sound_params._tempo;
+    var beat = partition._instruments_list[0]._track_part._measure_list[0]._attributes._time_beat;
+    speed = (((beat * 4) * 60) / tempo) * 1000;
     measure(nb_measure);
-    tracks(new Array("Lead","Rythm","Bass","Drum"));
+    tracks(partition._instruments_list);
     
     /// SECTION EVENT PLAYER
     
@@ -28,12 +33,15 @@ $(document).ready(function(){
                 $("#back").attr("src", "image/playerback.png");
             }, 500);
             clearInterval(time_func);
-            $($("rect[id='cursor']"), svg_inst.root()).stop();
             elapsed_time = 0;
             line = 0;
-            $($("rect[id='cursor']"), svg_inst.root()).attr({"y": (20 + (80 * line))});
-            $($("rect[id='cursor']"), svg_inst.root()).animate({svgTransform: 'translate(0 0)'}, 0, 'linear');
-            $($("rect[id='cursor']"), svg_inst.root()).animate({svgTransform: 'translate(820 0)'}, 10000 - elapsed_time, 'linear', keep_playing);
+            for (var i = 0; i < svg_inst.length; i++)
+            {
+                $($("rect[id='cursor']"), svg_inst[i].root()).stop();
+                $($("rect[id='cursor']"), svg_inst[i].root()).attr({"y": (20 + (80 * line))});
+                $($("rect[id='cursor']"), svg_inst[i].root()).animate({svgTransform: 'translate(0 0)'}, 0, 'linear');
+                $($("rect[id='cursor']"), svg_inst[i].root()).animate({svgTransform: 'translate(820 0)'}, speed - elapsed_time, 'linear', keep_playing);
+            }
             time_func = setInterval(chronotime, 100);
         }
     });
@@ -46,18 +54,24 @@ $(document).ready(function(){
             $(this).attr("src", "image/playerplay2.png");
             $("#pause").attr("src", "image/playerpause.png");
             $("#stop").attr("src", "image/playerstop.png");
-            $($("rect[id='cursor']"), svg_inst.root()).animate({svgTransform: 'translate(820 0)'}, 10000 - elapsed_time, 'linear', keep_playing);
+            for (var i = 0; i < svg_inst.length; i++)
+            {
+                $($("rect[id='cursor']"), svg_inst[i].root()).animate({svgTransform: 'translate(820 0)'}, speed - elapsed_time, 'linear', keep_playing);
+            }
         }
     });
     
     function keep_playing(){
         line++;
         elapsed_time = 0;
-        if (line < 5)
+        if (line < (nb_measure / 4))
         {
-            $($("rect[id='cursor']"), svg_inst.root()).attr({"y": (20 + (80 * line))});
-            $($("rect[id='cursor']"), svg_inst.root()).animate({svgTransform: 'translate(0 0)'}, 0, 'linear');
-            $($("rect[id='cursor']"), svg_inst.root()).animate({svgTransform: 'translate(820 0)'}, 10000 - elapsed_time, 'linear', keep_playing);
+            for (var i = 0; i < svg_inst.length; i++)
+            {
+                $($("rect[id='cursor']"), svg_inst[i].root()).attr({"y": (20 + (80 * line))});
+                $($("rect[id='cursor']"), svg_inst[i].root()).animate({svgTransform: 'translate(0 0)'}, 0, 'linear');
+                $($("rect[id='cursor']"), svg_inst[i].root()).animate({svgTransform: 'translate(820 0)'}, speed - elapsed_time, 'linear', keep_playing);
+            }
         }
     };
     
@@ -74,7 +88,10 @@ $(document).ready(function(){
             $(this).attr("src", "image/playerpause2.png");
             $("#stop").attr("src", "image/playerstop.png");
             clearInterval(time_func);
-            $($("rect[id='cursor']"), svg_inst.root()).stop();
+            for (var i = 0; i < svg_inst.length; i++)
+            {
+                $($("rect[id='cursor']"), svg_inst[i].root()).stop();
+            }
         }
     });
 
@@ -95,11 +112,14 @@ $(document).ready(function(){
                 $("#stop").attr("src", "image/playerstop.png");
             }, 500);
             clearInterval(time_func);
-            $($("rect[id='cursor']"), svg_inst.root()).stop();
             elapsed_time = 0;
             line = 0;
-            $($("rect[id='cursor']"), svg_inst.root()).attr({"y": (20 + (80 * line))});
-            $($("rect[id='cursor']"), svg_inst.root()).animate({svgTransform: 'translate(0 0)'}, 0, 'linear');
+            for (var i = 0; i < svg_inst.length; i++)
+            {
+                $($("rect[id='cursor']"), svg_inst[i].root()).stop();
+                $($("rect[id='cursor']"), svg_inst[i].root()).attr({"y": (20 + (80 * line))});
+                $($("rect[id='cursor']"), svg_inst[i].root()).animate({svgTransform: 'translate(0 0)'}, 0, 'linear');
+            }
         }
     });
     
@@ -136,11 +156,11 @@ $(document).ready(function(){
         {
             if (i == 0)
             {
-                $(".instruments").prepend("<div class='onglets_pic_selected float-right'><div class='onglets_text_selected'>" + instruments[i] + "</div></div>");
+                $(".instruments").prepend("<div id='t_"+i+"' class='onglets_pic_selected float-right'><div class='onglets_text_selected'>" + instruments[i]._name_instrument + "</div></div>");
             }
             else
             {
-                $(".instruments").prepend("<div class='onglets_pic float-right'><div class='onglets_text'>" + instruments[i] + "</div></div>");
+                $(".instruments").prepend("<div id='t_"+i+"' class='onglets_pic float-right'><div class='onglets_text'>" + instruments[i]._name_instrument + "</div></div>");
             }
         }
         $(".instruments").append("<section class='clear'></section>");
@@ -156,9 +176,12 @@ $(document).ready(function(){
             var id = $(this).attr("id");
             var array = id.split('_');
             selected = array[1];
-            elapsed_time = (selected % 4) == 0 ? 7500 : (2500 * ((selected % 4) - 1));
+            elapsed_time = (selected % 4) == 0 ? (speed * 0.75) : ((speed / 4) * ((selected % 4) - 1));
             line = (selected % 4 == 0) ? (((selected / 4) | 0) - 1) : ((selected / 4) | 0);
-            $($("rect[id='cursor']"), svg_inst.root()).attr({"y": (20 + (80 * line)), transform:"translate("+ ($($("rect[id='m_"+selected+"']"), svg_inst.root()).attr("x") - 60) +" 0)"});
+            for (var i = 0; i < svg_inst.length; i++)
+            {
+                $($("rect[id='cursor']"), svg_inst[i].root()).attr({"y": (20 + (80 * line)), transform:"translate("+ ($($("rect[id='m_"+selected+"']"), svg_inst[i].root()).attr("x") - 60) +" 0)"});
+            }
         }
     });
     
@@ -167,6 +190,12 @@ $(document).ready(function(){
         $(".onglets_pic_selected").attr("class", "onglets_pic float-right");
         $(this).children().attr("class", "onglets_text_selected");
         $(this).attr("class", "onglets_pic_selected float-right");
+        
+        var id = $(this).attr("id");
+        var array = id.split('_');
+        $(".tab_svg #"+current_svg).css("display", "none");
+        current_svg = array[1];
+        $(".tab_svg #"+current_svg).css("display", "block");
     });
     
     /// SECTION SCROLLBARS
@@ -186,13 +215,19 @@ $(document).ready(function(){
                 
                 if (advance < current_svg_advance) // On va vers le bas
                 {
-                    svg_inst.root().currentTranslate.y -= 80;
+                    for (var i = 0; i < svg_inst.length; i++)
+                    {
+                        svg_inst[i].root().currentTranslate.y -= 80;
+                    }
                 }
                 else // on va vers le haut
                 {
-                    if (svg_inst.root().currentTranslate.y + 80 <= 0)
+                    for (var i = 0; i < svg_inst.length; i++)
                     {
-                        svg_inst.root().currentTranslate.y += 80;
+                        if (svg_inst[i].root().currentTranslate.y + 80 <= 0)
+                        {
+                            svg_inst[i].root().currentTranslate.y += 80;
+                        }
                     }
                 }
                 current_svg_advance = advance;
