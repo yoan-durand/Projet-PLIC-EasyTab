@@ -28,49 +28,225 @@ function getXMLHttpRequest()
     return xhr;
 }
 
-function parse_instruments (xmlDoc)
+function get_nodeValue (node)
 {
-    var tab_instrument = new Array ();
-    var nodes_partlist = xmlDoc.getElementsByTagName ("part-list");
-    var nodes_score_part = nodes_partlist[0].getElementsByTagName ("score-part");
-
-    for (var i = 0; i < nodes_score_part.length; i++)
+    if (node.length != 0)
     {
-        var nodes_part_name = nodes_score_part[i].getElementsByTagName ("part-name");
-        tab_instrument[i] = nodes_part_name[0].childNodes[0].nodeValue;
+        return (node[0].childNodes[0].nodeValue);
     }
-
-    return tab_instrument
-}
-function parse_measure (xmlDoc)
-{
-    var nodes_measure = xmlDoc.getElementsByTagName ("measure");
-    return nodes_measure.length;
+    return null;
 }
 
-function parse_header (xmlDoc)
+function parse_partition (xmlDoc)
 {
-    var tab_assoc = new Object();
+    var partition_obj = new Partition ();
 
     var node_title = xmlDoc.getElementsByTagName ("work-title");
     if (node_title.length != 0)
     {
-        tab_assoc["title"] = node_title[0].childNodes[0].nodeValue;
+        partition_obj._title = node_title[0].childNodes[0].nodeValue;
     }
+    var nodes_miscellaneous = xmlDoc.getElementsByTagName ("miscellaneous-field");
+    for (var i = 0; i < nodes_miscellaneous.length; i++)
+    {
+        if (nodes_miscellaneous[i].getAttribute("name") == "album")
+        {
+            partition_obj._album = nodes_miscellaneous[i].childNodes[0].nodeValue;
+        }
+    } 
     var nodes_creators = xmlDoc.getElementsByTagName ("creator");
     for (var i = 0; i < nodes_creators.length; i++)
     {
         if (nodes_creators[i].getAttribute("type") == "artist")
         {
-            tab_assoc["artist"]  = nodes_creators[i].childNodes[0].nodeValue;
+            partition_obj._artist = nodes_creators[i].childNodes[0].nodeValue;
         }
         if (nodes_creators[i].getAttribute("type") == "composer")
         {
-            tab_assoc["composer"]  = nodes_creators[i].childNodes[0].nodeValue;
+          partition_obj._composer = nodes_creators[i].childNodes[0].nodeValue;
         }
     }
-    return tab_assoc;
+    partition_obj._instruments_list = parse_instruments(xmlDoc);
+    return partition_obj;
 }
+
+function parse_instruments (xmlDoc)
+{
+    var list_instruments_obj = new Array ();
+    
+    var nodes_partlist = xmlDoc.getElementsByTagName ("part-list");
+    var nodes_score_part = nodes_partlist[0].getElementsByTagName ("score-part");
+    
+    for (var i = 0; i < nodes_score_part.length; i++)
+    {
+        var instrument_obj = new Instrument ();
+        //Part-name
+        var nodes_part_name = nodes_score_part[i].getElementsByTagName ("part-name");
+        instrument_obj._name_instrument= nodes_part_name[0].childNodes[0].nodeValue;
+        
+        instrument_obj._id_instrument = nodes_score_part[i].getAttribute("id");
+        
+        //midi-instruments
+        var nodes_midi_instrument = nodes_score_part[i].getElementsByTagName ("midi-instrument");
+        instrument_obj._id_midi = nodes_midi_instrument[0].getAttribute("id");
+        
+        var nodes_midi_channel = nodes_midi_instrument[0].getElementsByTagName ("midi-channel");
+        instrument_obj._midi_channel = nodes_midi_channel[0].childNodes[0].nodeValue;
+        
+        var nodes_midi_program = nodes_midi_instrument[0].getElementsByTagName ("midi-program");
+        instrument_obj._gm_instrument = nodes_midi_program[0].childNodes[0].nodeValue;
+        
+
+        list_instruments_obj.push(instrument_obj);
+    }
+    
+          
+    var nodes_part = xmlDoc.getElementsByTagName ("part");  
+    for (var i = 0; i < nodes_part.length; i++)  
+    {
+       list_instruments_obj[i]._track_part = parse_track (nodes_part[i]);
+    }
+    
+
+    return list_instruments_obj;
+}
+
+function parse_track (node_part)
+{
+   var track_part_obj = new TrackPart ();
+   
+   track_part_obj._tuning = parse_tuning (node_part); //tuning = list<Lines>
+   track_part_obj._measure_list = parse_list_measure (node_part);
+   
+   return track_part_obj;
+}
+
+function parse_tuning (node_part)
+{
+    var list_lines_obj = new Array (); // tuning
+    var nodes_staff_tuning = node_part.getElementsByTagName ("staff-tuning");
+    for (var i = 0; i < nodes_staff_tuning.length; ++i)
+    {
+        var lines_obj = new Lines ();
+        lines_obj._line = nodes_staff_tuning[i].getAttribute("line");
+        
+        var nodes_tuning_step = nodes_staff_tuning[i].getElementsByTagName ("tuning-step");
+        lines_obj._tuning_step = nodes_tuning_step[0].childNodes[0].nodeValue;  
+        
+        var nodes_tuning_octave = nodes_staff_tuning[i].getElementsByTagName ("tuning-octave");
+        lines_obj._octave = nodes_tuning_octave[0].childNodes[0].nodeValue;
+
+        list_lines_obj.push(lines_obj);
+    }
+    return (list_lines_obj);
+}
+
+function parse_list_measure (node_part)
+{
+    var list_measure_obj = new Array ();
+    var nodes_measure= node_part.getElementsByTagName ("measure");
+    for (var i = 0; i < nodes_measure.length; ++i)
+    {
+        var measure_obj = new Measure ();
+        
+         measure_obj._attributes = parse_attributes (nodes_measure[i]);
+         measure_obj._sound_params = parse_sound_param (nodes_measure[i]);
+         measure_obj._chord_list = parse_chord_list (nodes_measure[i]);
+         
+         
+        // measure_obj._direction_barline   //TODO barline
+         //measure_obj._time_barline
+         list_measure_obj.push (measure_obj);
+    }
+    return list_measure_obj;
+}
+
+function parse_attributes (node_measure)
+{
+    attribute_obj = new Attribute ();
+    node_attributes = node_measure.getElementsByTagName("attributes");
+    
+    if (node_attributes.length != 0)
+    {
+        node_division = node_attributes[0].getElementsByTagName ("divisions");
+        attribute_obj._division = node_division[0].childNodes[0].nodeValue;
+
+        node_fifths_key = node_attributes[0].getElementsByTagName ("fifths");
+        attribute_obj._fifths_key = get_nodeValue (node_fifths_key);  
+
+        node_mode = node_attributes[0].getElementsByTagName ("mode");
+        attribute_obj._mode_key = get_nodeValue (node_mode);
+
+        node_beats = node_attributes[0].getElementsByTagName ("beats");
+        attribute_obj._time_beat = get_nodeValue (node_beats);
+
+        node_beat_type = node_attributes[0].getElementsByTagName ("beat-type");
+        attribute_obj._type_beat = get_nodeValue (node_beat_type);
+    }
+
+    return attribute_obj;
+}
+
+function parse_sound_param (node_measure)
+{
+    sound_param_obj = new SoundParam ();
+    
+    node_sound = node_measure.getElementsByTagName("sound");
+    if (node_sound.length != 0)
+    {
+       
+       sound_param_obj._tempo = node_sound[0].getAttribute("tempo");
+       sound_param_obj._pan = node_sound[0].getAttribute("pan");
+    }
+    return sound_param_obj;
+}
+
+function parse_chord_list (node_measure)
+{
+    var chord_obj = new Chord ();
+    //TODO : Gérer la balise <Chord>
+    chord_obj._note_list = parse_note_list (node_measure); 
+    //chord_obj._strumming =  //TODO strumming
+    return chord_obj;
+}
+
+function parse_note_list (node_measure)
+{
+    var list_note_obj = new Array ();
+    var node_notes = node_measure.getElementsByTagName ("note");
+    
+    for (var i = 0; i < node_notes.length; ++i)
+    {
+        note_obj = new Note ();
+        
+        node_pitch_step = node_notes[i].getElementsByTagName("step");
+        note_obj._step_pitch = get_nodeValue (node_pitch_step);
+        
+        node_pitch_octave = node_notes[i].getElementsByTagName("octave");
+        note_obj._octave_pitch = get_nodeValue (node_pitch_octave);
+        
+        node_pitch_duration = node_notes[i].getElementsByTagName("duration");
+        note_obj._duration = get_nodeValue (node_pitch_duration);
+        
+        node_string_technical= node_notes[i].getElementsByTagName("string");
+        note_obj._string_technical = get_nodeValue (node_string_technical);
+        
+        node_fret_technical= node_notes[i].getElementsByTagName("fret");
+        note_obj._fret_technical = get_nodeValue (node_fret_technical);
+ 
+        node_dynamic = node_notes[i].getElementsByTagName("dynamic"); //TODO : Convertir la dynamic (<ff></ff>)
+        note_obj._dynamic = get_nodeValue (node_dynamic);
+        
+        node_other_technical = node_notes[i].getElementsByTagName("other-technical");
+        note_obj._other_technical = get_nodeValue (node_other_technical);       
+        
+        list_note_obj.push (note_obj);
+    }
+    
+    return list_note_obj;
+}
+
+
 
 function load_xml (path)
 {
@@ -79,19 +255,31 @@ function load_xml (path)
     xhr.send ();
     xmlDoc= xhr.responseXML;
 
-
     return xmlDoc;
+}
+
+//Fonction a appeler depuis l'exterieur, permet de récupérer un objet Partition
+//ATTENTION : SCRIPT DES CLASSES A APPELER DANS LE HTML. (ex : DemoParser.html)
+function parse ()
+{
+   var xmlDoc = load_xml ("../normal.xml");
+   var partition_obj = parse_partition (xmlDoc); //Return Partition 
+   return partition_obj;
 }
 
 $(document).ready (function()
 {
-   var xmlDoc = load_xml ("../demo.xml");
+  /* var xmlDoc = load_xml ("../normal.xml");
    var header = parse_header (xmlDoc);
    var instrument_list = parse_instruments (xmlDoc);
    var nbr_mesure = parse_measure (xmlDoc);
+   var nbr_notes = parse_notes (xmlDoc);
    display_parsing_header (header);
    display_parsing_measures (nbr_mesure, instrument_list.length);
    display_parsing_instruments (instrument_list);
+   display_parsing_notes (nbr_notes);*/
+    parse ();
+   
 });
 
 function display_parsing_header (header)
@@ -115,7 +303,10 @@ function display_parsing_measures (nbr_mesure, nbr_instruments)
     var real_nbr_mesure = nbr_mesure / nbr_instruments;
     document.getElementById('nbr_mesures').innerHTML = "Nombre mesure : " + real_nbr_mesure;
 }
-
+function display_parsing_notes(nbr_notes)
+{
+    document.getElementById('nbr_notes').innerHTML = "Nombre de notes : " + nbr_notes;
+}
 function display_parsing_instruments (instrument_list)
 {
     for (var i = 0; i < instrument_list.length; ++i)
