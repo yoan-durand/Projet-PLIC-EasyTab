@@ -54,10 +54,10 @@
                     </section>
                     <section class="clear"></section>
                 </section>
-                <section class="tab_svg">
+                <section class="tab_svg overflow_svg">
                     <!--<embed src="SVG/partition.svg" width="900" height="400" type="image/svg+xml" />-->
                 </section>
-                <section class="progress_bar">
+                <section class="progress_bar overflow_measure">
                     <table>
                         <tr>
                         </tr>
@@ -65,11 +65,9 @@
                         </tr>
                     </table>
                 </section>
-                <section id="scroll_measure"></section>
                 <footer>
                 </footer>
             </section>
-            <section  id="scroll_svg" class="float-left"></section>
             <section class="clear"></section>
         </section>
     </body>
@@ -82,6 +80,7 @@
     
     $(document).ready (function()
     {
+        $(".tab_svg").css("height", 60 + Math.ceil((80 * (nb_measure / 4))));
         $(".tempo").text(partition._instruments_list[0]._track_part._measure_list[0]._sound_params._tempo);
         
         for (var i = 0; i < partition._instruments_list.length; i++)
@@ -135,7 +134,7 @@
                 svg.line(60, 80 + (i * 80), 880, 80 + (i * 80), {stroke:"black"});
                 drawNotes(svg, i, svg_index);
             }
-            svg.rect(60, 20, 2, 70, {id: "cursor", fill:"red"});
+            svg.rect(60, 20, 2, 70, {id: "cursor_"+svg_index, fill:"red"});
         };
         
         function drawNotes(svg, i, svg_index){
@@ -166,8 +165,13 @@
                             {
                                 svg.rect((current_mesure * 205) + 60 + interval, (30 + (string - 1) * 10) + (i * 80) - 5, 12, 14, {fill:"white"});
                             }
+                            svg.text((current_mesure * 205) + 60 + interval, (35 + (string - 1) * 10) + (i * 80), ""+ fret +"", {stroke: "blue", "font-size": "12px"});
                         }
-                        svg.text((current_mesure * 205) + 60 + interval, (35 + (string - 1) * 10) + (i * 80), ""+ fret +"", {stroke: "blue", "font-size": "12px"});
+                        else
+                        {
+                            svg.rect((current_mesure * 205) + 60 + interval, (30 + (string - 1) * 10) + (i * 80) - 5, 6, 14, {fill:"white"});
+                            svg.text((current_mesure * 205) + 60 + interval, (35 + (string - 1) * 10) + (i * 80), "X", {stroke: "blue", "font-size": "12px"});
+                        }
                         interval += parseInt(duration) + 15;
                     }
                     //interval = duration;
@@ -186,7 +190,7 @@
                 selected = array[1];
                 elapsed_time = (selected % 4) == 0 ? (speed * 0.75) : ((speed / 4) * ((selected % 4) - 1));
                 line = (selected % 4 == 0) ? (((selected / 4) | 0) - 1) : ((selected / 4) | 0);
-                $($("rect[id='cursor']"), svg_inst[current_svg].root()).attr({"y": (20 + (80 * line)), transform:"translate("+ ($($("rect[id='m_"+selected+"']"), svg_inst[current_svg].root()).attr("x") - 60) +" 0)"});
+                $($("rect[id^='cursor']"), svg_inst[current_svg].root()).attr({"y": (20 + (80 * line)), transform:"translate("+ ($($("rect[id='m_"+selected+"']"), svg_inst[current_svg].root()).attr("x") - 60) +" 0)"});
             }
         });
     });

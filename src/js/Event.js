@@ -35,13 +35,10 @@ $(document).ready(function(){
             clearInterval(time_func);
             elapsed_time = 0;
             line = 0;
-            for (var i = 0; i < svg_inst.length; i++)
-            {
-                $($("rect[id='cursor']"), svg_inst[i].root()).stop();
-                $($("rect[id='cursor']"), svg_inst[i].root()).attr({"y": (20 + (80 * line))});
-                $($("rect[id='cursor']"), svg_inst[i].root()).animate({svgTransform: 'translate(0 0)'}, 0, 'linear');
-                $($("rect[id='cursor']"), svg_inst[i].root()).animate({svgTransform: 'translate(820 0)'}, speed - elapsed_time, 'linear', keep_playing);
-            }
+            $($("rect[id='cursor_"+current_svg+"']"), svg_inst[current_svg].root()).stop();
+            $($("rect[id='cursor_"+current_svg+"']"), svg_inst[current_svg].root()).attr({"y": (20 + (80 * line))});
+            $($("rect[id='cursor_"+current_svg+"']"), svg_inst[current_svg].root()).animate({svgTransform: 'translate(0 0)'}, 0, 'linear');
+            $($("rect[id='cursor_"+current_svg+"']"), svg_inst[current_svg].root()).animate({svgTransform: 'translate(820 0)'}, speed - elapsed_time, 'linear', keep_playing);
             time_func = setInterval(chronotime, 100);
         }
     });
@@ -54,10 +51,7 @@ $(document).ready(function(){
             $(this).attr("src", "image/playerplay2.png");
             $("#pause").attr("src", "image/playerpause.png");
             $("#stop").attr("src", "image/playerstop.png");
-            for (var i = 0; i < svg_inst.length; i++)
-            {
-                $($("rect[id='cursor']"), svg_inst[i].root()).animate({svgTransform: 'translate(820 0)'}, speed - elapsed_time, 'linear', keep_playing);
-            }
+            $($("rect[id='cursor_"+current_svg+"']"), svg_inst[current_svg].root()).animate({svgTransform: 'translate(820 0)'}, speed - elapsed_time, 'linear', keep_playing);
         }
     });
     
@@ -66,12 +60,9 @@ $(document).ready(function(){
         elapsed_time = 0;
         if (line < (nb_measure / 4))
         {
-            for (var i = 0; i < svg_inst.length; i++)
-            {
-                $($("rect[id='cursor']"), svg_inst[i].root()).attr({"y": (20 + (80 * line))});
-                $($("rect[id='cursor']"), svg_inst[i].root()).animate({svgTransform: 'translate(0 0)'}, 0, 'linear');
-                $($("rect[id='cursor']"), svg_inst[i].root()).animate({svgTransform: 'translate(820 0)'}, speed - elapsed_time, 'linear', keep_playing);
-            }
+            $($("rect[id='cursor_"+current_svg+"']"), svg_inst[current_svg].root()).attr({"y": (20 + (80 * line))});
+            $($("rect[id='cursor_"+current_svg+"']"), svg_inst[current_svg].root()).animate({svgTransform: 'translate(0 0)'}, 0, 'linear');
+            $($("rect[id='cursor_"+current_svg+"']"), svg_inst[current_svg].root()).animate({svgTransform: 'translate(820 0)'}, speed - elapsed_time, 'linear', keep_playing);
         }
     };
     
@@ -88,10 +79,7 @@ $(document).ready(function(){
             $(this).attr("src", "image/playerpause2.png");
             $("#stop").attr("src", "image/playerstop.png");
             clearInterval(time_func);
-            for (var i = 0; i < svg_inst.length; i++)
-            {
-                $($("rect[id='cursor']"), svg_inst[i].root()).stop();
-            }
+            $($("rect[id='cursor_"+current_svg+"']"), svg_inst[current_svg].root()).stop();
         }
     });
 
@@ -114,12 +102,9 @@ $(document).ready(function(){
             clearInterval(time_func);
             elapsed_time = 0;
             line = 0;
-            for (var i = 0; i < svg_inst.length; i++)
-            {
-                $($("rect[id='cursor']"), svg_inst[i].root()).stop();
-                $($("rect[id='cursor']"), svg_inst[i].root()).attr({"y": (20 + (80 * line))});
-                $($("rect[id='cursor']"), svg_inst[i].root()).animate({svgTransform: 'translate(0 0)'}, 0, 'linear');
-            }
+            $($("rect[id='cursor_"+current_svg+"']"), svg_inst[current_svg].root()).stop();
+            $($("rect[id='cursor_"+current_svg+"']"), svg_inst[current_svg].root()).attr({"y": (20 + (80 * line))});
+            $($("rect[id='cursor_"+current_svg+"']"), svg_inst[current_svg].root()).animate({svgTransform: 'translate(0 0)'}, 0, 'linear');
         }
     });
     
@@ -136,16 +121,8 @@ $(document).ready(function(){
             }
             else
             {
-                if (j < 32)
-                {
-                    $(".progress_bar tr:first-child").append("<td><img id='m_" + j + "' src='image/casegrise.png' /></td>");
-                    $(".progress_bar tr:nth-child(2)").append("<td>" + j + "</td>");
-                }
-                else
-                {
-                    $(".progress_bar tr:first-child").append("<td style='display:none'><img id='m_" + j + "' src='image/casegrise.png' /></td>");
-                    $(".progress_bar tr:nth-child(2)").append("<td style='display:none'>" + j + "</td>");
-                }
+                $(".progress_bar tr:first-child").append("<td><img id='m_" + j + "' src='image/casegrise.png' /></td>");
+                $(".progress_bar tr:nth-child(2)").append("<td>" + j + "</td>");
             }
         }
     }
@@ -178,10 +155,7 @@ $(document).ready(function(){
             selected = array[1];
             elapsed_time = (selected % 4) == 0 ? (speed * 0.75) : ((speed / 4) * ((selected % 4) - 1));
             line = (selected % 4 == 0) ? (((selected / 4) | 0) - 1) : ((selected / 4) | 0);
-            for (var i = 0; i < svg_inst.length; i++)
-            {
-                $($("rect[id='cursor']"), svg_inst[i].root()).attr({"y": (20 + (80 * line)), transform:"translate("+ ($($("rect[id='m_"+selected+"']"), svg_inst[i].root()).attr("x") - 60) +" 0)"});
-            }
+            $($("rect[id^='cursor']"), svg_inst[current_svg].root()).attr({"y": (20 + (80 * line)), transform:"translate("+ ($($("rect[id='m_"+selected+"']"), svg_inst[current_svg].root()).attr("x") - 60) +" 0)"});
         }
     });
     
@@ -194,7 +168,11 @@ $(document).ready(function(){
         var id = $(this).attr("id");
         var array = id.split('_');
         $(".tab_svg #"+current_svg).css("display", "none");
+        var y = $($("rect[id='cursor_"+current_svg+"']"), svg_inst[current_svg].root()).attr("y");
+        var transform = $($("rect[id='cursor_"+current_svg+"']"), svg_inst[current_svg].root()).attr("transform");
         current_svg = array[1];
+        $($("rect[id='cursor_"+current_svg+"']"), svg_inst[current_svg].root()).attr("y", y);
+        $($("rect[id='cursor_"+current_svg+"']"), svg_inst[current_svg].root()).attr("transform", transform);
         $(".tab_svg #"+current_svg).css("display", "block");
     });
     

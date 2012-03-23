@@ -49,6 +49,7 @@ footer
 .header
 {
     height: 100px;
+    padding-right: 20px;
 }
 
 .player_section
@@ -149,7 +150,7 @@ footer
 
 .tab_svg
 {
-    height: 400px;
+    height:4000px;
     width: 901px;
 }
 
@@ -190,4 +191,20 @@ footer
 .clear
 {
     clear: both;
+}
+
+.overflow_measure
+{
+    max-width: 900px;
+    overflow-y: hidden;
+    overflow-x: auto;
+    padding-bottom: 20px;
+}
+
+.overflow_svg
+{
+    max-height: 415px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding-right: 20px;
 }
