@@ -205,47 +205,66 @@ function parse_sound_param (node_measure)
 
 function parse_chord_list (node_measure)
 {
-    var chord_obj = new Chord ();
-    //TODO : Gérer la balise <Chord>
-    chord_obj._note_list = parse_note_list (node_measure); 
-    //chord_obj._strumming =  //TODO strumming
-    return chord_obj;
-}
-
-function parse_note_list (node_measure)
-{
-    var list_note_obj = new Array ();
-    var node_notes = node_measure.getElementsByTagName ("note");
+    var chord_list_obj = new Array ();
     
+    var node_notes = node_measure.getElementsByTagName ("note");
+    var prec_chord = null;
     for (var i = 0; i < node_notes.length; ++i)
     {
+        var tmp_chord = node_notes[i].getElementsByTagName ("chord");
+        
+        if (tmp_chord.length != 0)
+        {
+            if (prec_chord != null)
+            {
+               prec_chord._note_list.push (parse_note (node_notes[i])); 
+            }
+        }
+        else
+        {
+            var chord_obj = new Chord ();
+            chord_obj._note_list = new Array ();
+            chord_obj._note_list.push (parse_note (node_notes[i]));
+            if (prec_chord != null)
+            {
+                chord_list_obj.push (prec_chord);
+            }
+            prec_chord = chord_obj;
+        }
+        
+    }
+  
+    
+    //chord_obj._strumming =  //TODO strumming
+    return chord_list_obj;
+}
+
+function parse_note (node_note)
+{
         var note_obj = new Note ();
         
-        var node_pitch_step = node_notes[i].getElementsByTagName("step");
+        var node_pitch_step = node_note.getElementsByTagName("step");
         note_obj._step_pitch = get_nodeValue (node_pitch_step);
         
-        var node_pitch_octave = node_notes[i].getElementsByTagName("octave");
+        var node_pitch_octave = node_note.getElementsByTagName("octave");
         note_obj._octave_pitch = get_nodeValue (node_pitch_octave);
         
-        var node_pitch_duration = node_notes[i].getElementsByTagName("duration");
+        var node_pitch_duration = node_note.getElementsByTagName("duration");
         note_obj._duration = get_nodeValue (node_pitch_duration);
         
-        var node_string_technical= node_notes[i].getElementsByTagName("string");
+        var node_string_technical= node_note.getElementsByTagName("string");
         note_obj._string_technical = get_nodeValue (node_string_technical);
         
-        var node_fret_technical= node_notes[i].getElementsByTagName("fret");
+        var node_fret_technical= node_note.getElementsByTagName("fret");
         note_obj._fret_technical = get_nodeValue (node_fret_technical);
  
-        var node_dynamic = node_notes[i].getElementsByTagName("dynamic"); //TODO : Convertir la dynamic (<ff></ff>)
+        var node_dynamic = node_note.getElementsByTagName("dynamic"); //TODO : Convertir la dynamic (<ff></ff>)
         note_obj._dynamic = get_nodeValue (node_dynamic);
         
-        var node_other_technical = node_notes[i].getElementsByTagName("other-technical");
+        var node_other_technical = node_note.getElementsByTagName("other-technical");
         note_obj._other_technical = get_nodeValue (node_other_technical);       
         
-        list_note_obj.push (note_obj);
-    }
-    
-    return list_note_obj;
+        return note_obj;
 }
 
 
