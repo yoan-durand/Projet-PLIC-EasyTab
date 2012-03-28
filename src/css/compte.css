@@ -1,0 +1,23 @@
+.center {
+    margin-left: auto;
+    margin-right: auto;
+}
+.left {
+    float: left;
+}
+.right {
+    margin-left: 200px;
+}
+
+#infos {
+    width: 400px;
+    padding: 50px;
+}
+
+.item {
+    padding: 10px;
+}
+.gros-bouton {
+    /*font-size: 1.2em;*/
+    padding: 7px 14px;
+}

@@ -1,78 +1,74 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>EasyTab</title>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <link rel="stylesheet" href="css/application.css" />
-        <link rel="stylesheet" href="css/jquery-ui-1.8.18.custom.css" />
-        <link rel="stylesheet" href="JQuery-PLUGIN/jquery.svg.css" />
-        <script src="js/jquery-1.7.1.js"></script>
-        <script src="js/jquery-ui-1.8.18.custom.min.js"></script>
-        <script src="js/jeditable.mini.js"></script>
-        <script src="JQuery-PLUGIN/jquery.svg.min.js"></script>
-        <script src="JQuery-PLUGIN/jquery.svganim.min.js"></script>
-        <script src="JQuery-PLUGIN/jquery.svgdom.min.js"></script>
-        <script src="js/Partition.js"></script>
-        <script src="js/Instrument.js"></script>
-        <script src="js/TrackPart.js"></script>
-        <script src="js/Lines.js"></script>
-        <script src="js/Measure.js"></script>
-        <script src="js/Attribute.js"></script>
-        <script src="js/Chord.js"></script>
-        <script src="js/SoundParam.js"></script>
-        <script src="js/Note.js"></script>       
-        <script src="js/Parser.js"></script>
-        <script src="js/Event.js"></script>
-    </head>
-    <body>
-        <section class="page">
-            <section class="float-left">
-                <header>
-                </header>
-                <section class="header">
-                    <section class="player_section float-left">
-                        <section class="player">
-                            <img id="back" src="image/playerback.png" />
-                            <img id="play" src="image/playerplay.png" />
-                            <img id="pause" src="image/playerpause.png" />
-                            <img id="stop" src="image/playerstop.png" />
-                        </section>
-                        <section class="player_options">
-                            <section class="float-left">
-                                <img id="tempo" class="float-left" src="image/tempo.png" />
-                                <section class="text float-left tempo"></section>
-                                <section class="clear"></section>
-                            </section>
-                            <section class="float-left">
-                                <img id="speed" class="float-left" src="image/vitesse.png" />
-                                <section class="text float-left">x 1.00</section>
-                                <section class="clear"></section>
-                            </section>
-                            <section class="clear"></section>
-                        </section>
+<?php
+require_once 'inc/init.php';
+
+
+include 'inc/head.php';
+?>
+<link rel="stylesheet" href="css/application.css" />
+<link rel="stylesheet" href="css/jquery-ui-1.8.18.custom.css" />
+<link rel="stylesheet" href="JQuery-PLUGIN/jquery.svg.css" />
+<script src="js/jquery-1.7.1.js"></script>
+<script src="js/jquery-ui-1.8.18.custom.min.js"></script>
+<script src="js/jeditable.mini.js"></script>
+<script src="JQuery-PLUGIN/jquery.svg.min.js"></script>
+<script src="JQuery-PLUGIN/jquery.svganim.min.js"></script>
+<script src="JQuery-PLUGIN/jquery.svgdom.min.js"></script>
+<script src="js/Partition.js"></script>
+<script src="js/Instrument.js"></script>
+<script src="js/TrackPart.js"></script>
+<script src="js/Lines.js"></script>
+<script src="js/Measure.js"></script>
+<script src="js/Attribute.js"></script>
+<script src="js/Chord.js"></script>
+<script src="js/SoundParam.js"></script>
+<script src="js/Note.js"></script>       
+<script src="js/Parser.js"></script>
+<script src="js/Event.js"></script>
+<?php
+include 'inc/header.php';
+?>
+<section class="page">
+    <section class="float-left">
+        <section class="header">
+            <section class="player_section float-left">
+                <section class="player">
+                    <img id="back" src="image/playerback.png" />
+                    <img id="play" src="image/playerplay.png" />
+                    <img id="pause" src="image/playerpause.png" />
+                    <img id="stop" src="image/playerstop.png" />
+                </section>
+                <section class="player_options">
+                    <section class="float-left">
+                        <img id="tempo" class="float-left" src="image/tempo.png" />
+                        <section class="text float-left tempo"></section>
+                        <section class="clear"></section>
                     </section>
-                    <section class="instruments float-right">
+                    <section class="float-left">
+                        <img id="speed" class="float-left" src="image/vitesse.png" />
+                        <section class="text float-left">x 1.00</section>
+                        <section class="clear"></section>
                     </section>
                     <section class="clear"></section>
                 </section>
-                <section class="tab_svg overflow_svg">
-                    <!--<embed src="SVG/partition.svg" width="900" height="400" type="image/svg+xml" />-->
-                </section>
-                <section class="progress_bar overflow_measure">
-                    <table>
-                        <tr>
-                        </tr>
-                        <tr>
-                        </tr>
-                    </table>
-                </section>
-                <footer>
-                </footer>
+            </section>
+            <section class="instruments float-right">
             </section>
             <section class="clear"></section>
         </section>
-    </body>
-</html>
+        <section class="tab_svg overflow_svg">
+            <!--<embed src="SVG/partition.svg" width="900" height="400" type="image/svg+xml" />-->
+        </section>
+        <section class="progress_bar overflow_measure">
+            <table>
+                <tr>
+                </tr>
+                <tr>
+                </tr>
+            </table>
+        </section>
+    </section>
+    <section class="clear"></section>
+</section>
 
 <script type="text/javascript">
     
@@ -210,3 +206,5 @@
         });
     });
 </script>
+<?php
+include 'inc/footer.php';
