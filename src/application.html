@@ -137,17 +137,19 @@
             svg.rect(60, 20, 2, 70, {id: "cursor_"+svg_index, fill:"red"});
         };
         
+        var division;
+        
         function drawNotes(svg, i, svg_index){
             var measures = partition._instruments_list[svg_index]._track_part._measure_list;
             
             for (var mes = (0 + i) * 4;  mes < measures.length && mes < (4 + (i * 4)); mes++)
             {
-                var division = measures[mes]._attributes._division;
+                division = measures[mes]._attributes._division == null ? division : measures[mes]._attributes._division;
                 var chords = measures[mes]._chord_list;
                 var interval = 0;
-                /*for (var chord = 0; chord < chords.size; chord++)
-                {*/
-                    var notes = chords._note_list;//chords[chord]._note_list;
+                for (var chord = 0; chord < chords.length; chord++)
+                {
+                    var notes = chords[chord]._note_list;//chords._note_list;
                     var duration;
                     for (var note = 0; note < notes.length; note++)
                     {
@@ -159,23 +161,23 @@
                         {
                             if (fret.length == 1)
                             {
-                                svg.rect((current_mesure * 205) + 60 + interval, (30 + (string - 1) * 10) + (i * 80) - 5, 6, 14, {fill:"white"});
+                                svg.rect((current_mesure * 205) + 60 + interval, (30 + (string - 1) * 10) + (i * 80) - 5, 5.5, 11, {fill:"white"});
                             }
                             else
                             {
-                                svg.rect((current_mesure * 205) + 60 + interval, (30 + (string - 1) * 10) + (i * 80) - 5, 12, 14, {fill:"white"});
+                                svg.rect((current_mesure * 205) + 60 + interval, (30 + (string - 1) * 10) + (i * 80) - 5, 11, 11, {fill:"white"});
                             }
-                            svg.text((current_mesure * 205) + 60 + interval, (35 + (string - 1) * 10) + (i * 80), ""+ fret +"", {stroke: "blue", "font-size": "12px"});
+                            svg.text((current_mesure * 205) + 60 + interval, (34 + (string - 1) * 10) + (i * 80), ""+ fret +"", {stroke: "blue", "font-size": "11px"});
                         }
                         else
                         {
-                            svg.rect((current_mesure * 205) + 60 + interval, (30 + (string - 1) * 10) + (i * 80) - 5, 6, 14, {fill:"white"});
-                            svg.text((current_mesure * 205) + 60 + interval, (35 + (string - 1) * 10) + (i * 80), "X", {stroke: "blue", "font-size": "12px"});
+                            svg.rect((current_mesure * 205) + 60 + interval, (30 + (string - 1) * 10) + (i * 80) - 5, 5.5, 11, {fill:"white"});
+                            svg.text((current_mesure * 205) + 60 + interval, (35 + (string - 1) * 10) + (i * 80), "X", {stroke: "blue", "font-size": "11px"});
                         }
-                        interval += parseInt(duration) + 15;
+                        //interval += parseInt(duration) + 15;
                     }
-                    //interval = duration;
-                //}
+                    interval += 50 * (parseInt(duration) / parseInt(division));//interval = duration;
+                }
                 
             }
         };
