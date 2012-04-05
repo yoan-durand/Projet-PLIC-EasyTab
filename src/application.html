@@ -9,6 +9,7 @@
         <script src="js/jquery-1.7.1.js"></script>
         <script src="js/jquery-ui-1.8.18.custom.min.js"></script>
         <script src="js/jeditable.mini.js"></script>
+        <script src="js/json2.js"></script>
         <script src="JQuery-PLUGIN/jquery.svg.min.js"></script>
         <script src="JQuery-PLUGIN/jquery.svganim.min.js"></script>
         <script src="JQuery-PLUGIN/jquery.svgdom.min.js"></script>
@@ -202,11 +203,25 @@
                 var tempo = value;
                 var beat = partition._instruments_list[0]._track_part._measure_list[0]._attributes._time_beat;
                 speed = (((beat * 4) * 60) / tempo) * 1000;
+                
                 return value;
             },
             {
                 event : "dblclick",
                 style : "inherit"
         });
+        
+        $.ajax({
+            type: "POST",
+            url: 'js/MIDI.php',
+            data: { 'encoded' : JSON.stringify({ encoded : partition }) },
+            dataType: "json",
+            success: function (data, textStatus, jqXHR) {
+            },
+            error: function (xhr, status, err) {
+                alert("fail");
+            }
+        });
+        
     });
 </script>

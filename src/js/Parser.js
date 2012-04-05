@@ -233,7 +233,10 @@ function parse_chord_list (node_measure)
         }
         
     }
-  
+    if (prec_chord != null)
+    {
+        chord_list_obj.push (prec_chord);
+    }
     
     //chord_obj._strumming =  //TODO strumming
     return chord_list_obj;
