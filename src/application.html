@@ -1,9 +1,3 @@
-<?php
-require_once 'inc/init.php';
-
-
-include 'inc/head.php';
-?>
 <!DOCTYPE html>
 <html>
     <head>
@@ -32,53 +26,54 @@ include 'inc/head.php';
         <script src="js/Event.js"></script>
     </head>
     <body>
-<?php
-include 'inc/header.php';
-?>
-<section class="page">
-    <section class="float-left">
-        <header>
-        </header>
-        <section class="header">
-            <section class="player_section float-left">
-                <section class="player">
-                    <img id="back" src="image/playerback.png" />
-                    <img id="play" src="image/playerplay.png" />
-                    <img id="pause" src="image/playerpause.png" />
-                    <img id="stop" src="image/playerstop.png" />
-                </section>
-                <section class="player_options">
-                    <section class="float-left">
-                        <img id="tempo" class="float-left" src="image/tempo.png" />
-                        <section class="text float-left tempo"></section>
-                        <section class="clear"></section>
+        <section class="page">
+            <section class="float-left">
+                <header>
+                </header>
+                <section class="header">
+                    <section class="player_section float-left">
+                        <section class="player">
+                            <img id="back" src="image/playerback.png" />
+                            <img id="play" src="image/playerplay.png" />
+                            <img id="pause" src="image/playerpause.png" />
+                            <img id="stop" src="image/playerstop.png" />
+                        </section>
+                        <section class="player_options">
+                            <section class="float-left">
+                                <img id="tempo" class="float-left" src="image/tempo.png" />
+                                <section class="text float-left tempo"></section>
+                                <section class="clear"></section>
+                            </section>
+                            <section class="float-left">
+                                <img id="speed" class="float-left" src="image/vitesse.png" />
+                                <section class="text float-left">x 1.00</section>
+                                <section class="clear"></section>
+                            </section>
+                            <section class="clear"></section>
+                        </section>
                     </section>
-                    <section class="float-left">
-                        <img id="speed" class="float-left" src="image/vitesse.png" />
-                        <section class="text float-left">x 1.00</section>
-                        <section class="clear"></section>
+                    <section class="instruments float-right">
                     </section>
                     <section class="clear"></section>
                 </section>
-            </section>
-            <section class="instruments float-right">
+                <section class="tab_svg overflow_svg">
+                    <!--<embed src="SVG/partition.svg" width="900" height="400" type="image/svg+xml" />-->
+                </section>
+                <section class="progress_bar overflow_measure">
+                    <table>
+                        <tr>
+                        </tr>
+                        <tr>
+                        </tr>
+                    </table>
+                </section>
+                <footer>
+                </footer>
             </section>
             <section class="clear"></section>
         </section>
-        <section class="tab_svg overflow_svg">
-            <!--<embed src="SVG/partition.svg" width="900" height="400" type="image/svg+xml" />-->
-        </section>
-        <section class="progress_bar overflow_measure">
-            <table>
-                <tr>
-                </tr>
-                <tr>
-                </tr>
-            </table>
-        </section>
-    </section>
-    <section class="clear"></section>
-</section>
+    </body>
+</html>
 
 <script type="text/javascript">
     
@@ -219,9 +214,19 @@ include 'inc/header.php';
         $.ajax({
             type: "POST",
             url: 'js/MIDI.php',
-            data: { 'encoded' : JSON.stringify({ encoded : partition }) },
-            dataType: "json",
+			data: { 'encoded' : JSON.stringify({ encoded : partition })},
+			dataType: "json",
             success: function (data, textStatus, jqXHR) {
+				$(".page").append(
+				"<object classid='clsid:02BF25D5-8C17-4B23-BC80-D3488ABDDC6B'"+
+				"codebase='http://www.apple.com/qtactivex/qtplugin.cab' width='180'"+
+				"height='160' id='demo'>"+
+				"<param name='src' value='js/demo.mid'>"+
+				"<param name='Autoplay' value='false'>"+
+				"<embed width='0' height='0' src='js/demo.mid' name='demo'"+
+				"enablejavascript='true' autostart='false'>"+
+				"</object>"
+				);
             },
             error: function (xhr, status, err) {
                 alert("fail");
@@ -230,5 +235,3 @@ include 'inc/header.php';
         
     });
 </script>
-<?php
-include 'inc/footer.php';

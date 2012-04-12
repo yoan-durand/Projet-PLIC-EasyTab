@@ -19,6 +19,9 @@ $(document).ready(function(){
     $("#back").click(function (){
         if ($(this).attr("src") == "image/playerback.png")
         {
+			javascript:document.demo.Stop();
+			javascript:document.demo.SetTime(0);
+			javascript:document.demo.Play();
             $(this).attr("src", "image/playerback2.png");
             $("#play").attr("src", "image/playerplay.png");
             $("#pause").attr("src", "image/playerpause.png");
@@ -46,6 +49,7 @@ $(document).ready(function(){
     $("#play").click(function (){
         if ($(this).attr("src") == "image/playerplay.png")
         {
+			javascript:document.demo.Play();
             time_func = setInterval(chronotime, 100);
             $("#back").attr("src", "image/playerback.png");
             $(this).attr("src", "image/playerplay2.png");
@@ -74,6 +78,7 @@ $(document).ready(function(){
     $("#pause").click(function (){
         if ($(this).attr("src") == "image/playerpause.png")
         {
+			javascript:document.demo.Stop();
             $("#back").attr("src", "image/playerback.png");
             $("#play").attr("src", "image/playerplay.png");
             $(this).attr("src", "image/playerpause2.png");
@@ -86,6 +91,8 @@ $(document).ready(function(){
     $("#stop").click(function (){
         if ($(this).attr("src") == "image/playerstop.png")
         {
+			javascript:document.demo.Stop();
+			javascript:document.demo.SetTime(0);
             $("#back").attr("src", "image/playerback.png");
             $("#play").attr("src", "image/playerplay.png");
             $("#pause").attr("src", "image/playerpause.png");
