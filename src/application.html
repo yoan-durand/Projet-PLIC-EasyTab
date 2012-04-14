@@ -87,6 +87,7 @@
         
         for (var i = 0; i < partition._instruments_list.length; i++)
         {
+            var nb_corde = partition._instruments_list[i]._track_part._tuning.length;
             if (i == 0)
             {
                 $(".tab_svg").append("<section id='"+i+"' style='display: block;'></section>");
@@ -100,7 +101,7 @@
                 svg_inst.push(svg);
                 var height = 60 + Math.ceil((80 * (nb_measure / 4))) < 400 ? 400 : 60 + Math.ceil((80 * (nb_measure / 4)));
                 svg.rect(0, 0, 900, height, { fill: "white", stroke:"black"});
-                drawLines(svg, i);
+                drawLines(svg, i, nb_corde);
             }
         });
         }
@@ -114,34 +115,36 @@
         }
         });*/
 
-        function drawLines(svg, svg_index){
+        function drawLines(svg, svg_index, nb_corde){
             for (var i = 0; i < nb_measure / 4; i++)
             {
-                svg.text(20, 45 + (i * 80), "T");
-                svg.text(20, 60 + (i * 80), "A");
-                svg.text(20, 75 + (i * 80), "B");
-                svg.text(60, 25 + (i * 80), ""+(1 + (4 * i))+"", {stroke: "red", "font-size": "10px"});
-                svg.rect(60, 30 + (i * 80), 205, 50, {id: "m_"+ (1 + (4 * i)),fill:"white", stroke:"black"});
-                svg.text(265, 25 + (i * 80), ""+(2 + (4 * i))+"", {stroke: "red", "font-size": "10px"});
-                svg.rect(265, 30 + (i * 80), 205, 50, {id: "m_"+ (2 + (4 * i)),fill:"white", stroke:"black"});
-                svg.text(470, 25 + (i * 80), ""+(3 + (4 * i))+"", {stroke: "red", "font-size": "10px"});
-                svg.rect(470, 30 + (i * 80), 205, 50, {id: "m_"+ (3 + (4 * i)),fill:"white", stroke:"black"});
-                svg.text(675, 25 + (i * 80), ""+(4 + (4 * i))+"", {stroke: "red", "font-size": "10px"});
-                svg.rect(675, 30 + (i * 80), 205, 50, {id: "m_"+ (4 + (4 * i)),fill:"white", stroke:"black"});
-                svg.line(60, 30 + (i * 80), 880, 30 + (i * 80), {stroke:"black"});
-                svg.line(60, 40 + (i * 80), 880, 40 + (i * 80), {stroke:"black"});
-                svg.line(60, 50 + (i * 80), 880, 50 + (i * 80), {stroke:"black"});
-                svg.line(60, 60 + (i * 80), 880, 60 + (i * 80), {stroke:"black"});
-                svg.line(60, 70 + (i * 80), 880, 70 + (i * 80), {stroke:"black"});
-                svg.line(60, 80 + (i * 80), 880, 80 + (i * 80), {stroke:"black"});
-                drawNotes(svg, i, svg_index);
+                svg.text(20, 45 + (i * ((nb_corde * 10) + 20)), "T");
+                svg.text(20, 60 + (i * ((nb_corde * 10) + 20)), "A");
+                svg.text(20, 75 + (i * ((nb_corde * 10) + 20)), "B");
+                svg.text(60, 25 + (i * ((nb_corde * 10) + 20)), ""+(1 + (4 * i))+"", {stroke: "red", "font-size": "10px"});
+                svg.rect(60, 30 + (i * ((nb_corde * 10) + 20)), 205, (nb_corde * 10 - 10), {id: "m_"+ (1 + (4 * i)),fill:"white", stroke:"black"});
+                svg.text(265, 25 + (i * ((nb_corde * 10) + 20)), ""+(2 + (4 * i))+"", {stroke: "red", "font-size": "10px"});
+                svg.rect(265, 30 + (i * ((nb_corde * 10) + 20)), 205, (nb_corde * 10 - 10), {id: "m_"+ (2 + (4 * i)),fill:"white", stroke:"black"});
+                svg.text(470, 25 + (i * ((nb_corde * 10) + 20)), ""+(3 + (4 * i))+"", {stroke: "red", "font-size": "10px"});
+                svg.rect(470, 30 + (i * ((nb_corde * 10) + 20)), 205, (nb_corde * 10 - 10), {id: "m_"+ (3 + (4 * i)),fill:"white", stroke:"black"});
+                svg.text(675, 25 + (i * ((nb_corde * 10) + 20)), ""+(4 + (4 * i))+"", {stroke: "red", "font-size": "10px"});
+                svg.rect(675, 30 + (i * ((nb_corde * 10) + 20)), 205, (nb_corde * 10 - 10), {id: "m_"+ (4 + (4 * i)),fill:"white", stroke:"black"});
+                
+                
+                for (var j = 0; j < nb_corde; j++)
+                    {
+                        svg.line(60, 30 + (j*10) + (i * ((nb_corde * 10) + 20)), 880, 30 + (j*10) + (i * ((nb_corde * 10) + 20)), {stroke:"black"});
+                    }
+                    
+                        
+                drawNotes(svg, i, svg_index, nb_corde);
             }
             svg.rect(60, 20, 2, 70, {id: "cursor_"+svg_index, fill:"red"});
         };
         
         var division;
         
-        function drawNotes(svg, i, svg_index){
+        function drawNotes(svg, i, svg_index, nb_corde){
             var measures = partition._instruments_list[svg_index]._track_part._measure_list;
             
             for (var mes = (0 + i) * 4;  mes < measures.length && mes < (4 + (i * 4)); mes++)
