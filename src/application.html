@@ -166,18 +166,18 @@
                         {
                             if (fret.length == 1)
                             {
-                                svg.rect((current_mesure * 205) + 60 + interval, (30 + (string - 1) * 10) + (i * 80) - 5, 5.5, 11, {fill:"white"});
+                                svg.rect((current_mesure * 205) + 60 + interval, (30 + (string - 1) * 10) + (i * ((nb_corde * 10)+20)) - 5, 5.5, 11, {fill:"white"});
                             }
                             else
                             {
-                                svg.rect((current_mesure * 205) + 60 + interval, (30 + (string - 1) * 10) + (i * 80) - 5, 11, 11, {fill:"white"});
+                                svg.rect((current_mesure * 205) + 60 + interval, (30 + (string - 1) * 10) + (i * ((nb_corde * 10)+20)) - 5, 11, 11, {fill:"white"});
                             }
-                            svg.text((current_mesure * 205) + 60 + interval, (34 + (string - 1) * 10) + (i * 80), ""+ fret +"", {stroke: "blue", "font-size": "11px"});
+                            svg.text((current_mesure * 205) + 60 + interval, (34 + (string - 1) * 10) + (i * ((nb_corde * 10)+20)), ""+ fret +"", {stroke: "blue", "font-size": "11px"});
                         }
                         else
                         {
-                            svg.rect((current_mesure * 205) + 60 + interval, (30 + (string - 1) * 10) + (i * 80) - 5, 5.5, 11, {fill:"white"});
-                            svg.text((current_mesure * 205) + 60 + interval, (35 + (string - 1) * 10) + (i * 80), "X", {stroke: "blue", "font-size": "11px"});
+                            svg.rect((current_mesure * 205) + 60 + interval, (30 + (string - 1) * 10) + (i * ((nb_corde * 10)+20)) - 5, 5.5, 11, {fill:"white"});
+                            svg.text((current_mesure * 205) + 60 + interval, (35 + (string - 1) * 10) + (i * ((nb_corde * 10)+20)), "X", {stroke: "blue", "font-size": "11px"});
                         }
                         //interval += parseInt(duration) + 15;
                     }
