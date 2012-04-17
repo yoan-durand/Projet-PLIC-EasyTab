@@ -1,0 +1,14 @@
+Le serveur
+	http://nodejs.org/
+
+Quelques base sur nodejs
+	http://www.nodebeginner.org
+
+Le moteur MVC
+	http://expressjs.com/
+
+Le moteur de templates
+	http://paularmstrong.github.com/swig/
+
+liaison mysql
+	https://github.com/felixge/node-mysql

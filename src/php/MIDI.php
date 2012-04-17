@@ -1,8 +1,8 @@
 <?php
-    
+
     ini_set('display_errors', 1);
     error_reporting(E_ALL);
-	
+
 	$note_ref = array (
 		"C0" => 0, "C#0" => 1, "D0" => 2, "D#0" => 3, "E0" => 4, "F0" => 5, "F#0" => 6, "G0" => 7, "G#0" => 8, "A0" => 9, "A#0" => 10, "B0" => 11,
 		"C1" => 12, "C#1" => 13, "D1" => 14, "D#1" => 15, "E1" => 16, "F1" => 17, "F#1" => 18, "G1" => 19, "G#1" => 20, "A1" => 21, "A#1" => 22, "B1" => 23,
@@ -15,21 +15,21 @@
 		"C8" => 96, "C#8" => 97, "D8" => 98, "D#8" => 99, "E8" => 100, "F8" => 101, "F#8" => 102, "G8" => 103, "G#8" => 104, "A8" => 105, "A#8" => 106, "B8" => 107,
 		"C9" => 108, "C#9" => 109, "D9" => 110, "D#9" => 111, "E9" => 112, "F9" => 113, "F#9" => 114, "G9" => 115, "G#9" => 116, "A9" => 117, "A#9" => 118, "B9" => 119
 	);
-	
+
     header("application/json; charset=utf-8");
-    
+
     $encoded = $_POST["encoded"];
-    
+
     $decoded = json_decode($encoded, true);
-    
+
     $partition = $decoded["encoded"];
-	
+
 	$nb_tracks = count($partition["_instruments_list"]);
 	$tempo = 1000000*(60 / $partition["_instruments_list"][0]["_track_part"]["_measure_list"][0]["_sound_params"]["_tempo"]);
 	$time_beat = $partition["_instruments_list"][0]["_track_part"]["_measure_list"][0]["_attributes"]["_time_beat"];
 	$type_beat = $partition["_instruments_list"][0]["_track_part"]["_measure_list"][0]["_attributes"]["_type_beat"];
 
-	
+
 	$txt = "MFile 1 ".(1+$nb_tracks)." 480
 			MTrk
 			0 Tempo ".$tempo."
@@ -15594,10 +15594,10 @@
 			276480 Meta TrkEnd
 			TrkEnd";
 
-	require('../classes/midi.class.php');
+	require('classes/midi.class.php');
 
 	$midi = new Midi();
-	$midi->importTxt($txt);		
-	$midi->saveMidFile("demo.mid", 0666);
+	$midi->importTxt($txt);
+	$midi->saveMidFile("../public/js/demo.mid", 0666);
 
 ?>

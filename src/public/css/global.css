@@ -1,5 +1,9 @@
 body {
     margin: 0;
+	background-color: #a7a79f;
+	background-image: url("../image/bgwe.jpg");
+	background-size: cover;
+
 }
 header {
     background-image: -webkit-linear-gradient( rgba(242, 242, 242, 0.9), rgba(222, 222, 222, 0.9));

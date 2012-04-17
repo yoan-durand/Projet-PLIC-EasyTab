@@ -1,1 +1,26 @@
 Git pour le PLIC
+
+Prérequis :
+* NodeJs
+* Mysql
+* php
+
+Installation :
+* importer le fichier easytab.sql dans une base mysql
+* installer le serveur : http://nodejs.org/
+* installer les plugins du serveur (dans une console)
+	* cd src
+	* npm install
+
+Lancement :
+* lancement du serveur node
+	* cd src
+	* node app.js
+	si supervisor installé (pour installer "npm install supervisor -g")
+	* supervisor app.js
+* lancement d'un serveur supportant php
+	* http://localhost/Projet-PLIC-EasyTab/src/php/MIDI.php doit être accessible
+* lancement d'un serveur MySQL
+
+Lancement de l'application :
+* http://localhost:8080
