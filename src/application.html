@@ -139,7 +139,7 @@
                         
                 drawNotes(svg, i, svg_index, nb_corde);
             }
-            svg.rect(60, 20, 2, 70, {id: "cursor_"+svg_index, fill:"red"});
+            svg.rect(60, 20, 2, (nb_corde * 10 + 10), {id: "cursor_"+svg_index, fill:"red"});
         };
         
         var division;
@@ -187,6 +187,57 @@
             }
         };
 
+        //test new maner of drawing the measures and note
+        
+        function draw_track (svg, svg_index, nb_corde)
+        {
+           var measure_list = partition._instruments_list[svg_index]._track_part._measure_list;
+            var end_rect = 0;
+            for (var mes = 0; mes< measure_list.length; mes++)
+            {
+                var m1 = new Array();
+                var m2 = new Array();
+                var nb_note = 0;
+                  for (var i = 0; i < measure_list[mes]._chord_list.lenght; i++)
+                      {
+                          nb_note += measure_list[mes]._chord_list[i]._note_list.length;
+                      }
+                 var chord = measure_list[mes]._chord_list;
+                fill_it(measure_list[mes], m1, nb_corde, end_rect);
+                end_rect = m1[m1.length - 1][0]["x"] + 5;
+                fill_it(measure_list[mes + 1], m2, nb_corde, end_rect);
+                
+                draw_it (m2, end_rect, mes, nb_corde);
+                
+                
+            }
+        }
+        
+        function fill_it (measure, array, nb_corde, end)
+        {
+            division = measures._attributes._division == null ? division : measures._attributes._division;
+            var chord_list = measure._chord_list;
+            var interval = 5;
+            for (var chord = 0; chord < chord_list.length; chord++)
+                {
+                    var note_list = chord_list[chord]._note_list;
+                    var duration;
+                    for (var note = 0; note < note_list.length; note++)
+                        {
+                            var couple = new Array ();
+                            var tab = new Array ();
+                            var fret = note_list[note]._fret_technical;
+                            var string = note_list[note]._string_technical;
+                            
+                            duration = note_list[note]._duration;
+                            couple.x = interval + end;
+                            couple.y = y = (35 + (string - 1) * 10) + (((nb_corde * 10)+20));
+                            tab[fret] = couple;
+                            array.push(tab);
+                        }
+                    interval += 50 * (parseInt(duration) / parseInt(division));
+                }
+        }
         $($("rect[id^='m_']"), svg_inst[current_svg].root()).click(function (){
             var id = $(this).attr("id");
             if ($("img[id='"+id+"']").attr("src") == "image/casegrise.png")
