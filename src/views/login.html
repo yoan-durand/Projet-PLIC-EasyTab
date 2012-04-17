@@ -1,0 +1,36 @@
+{% extends 'layout.html' %}
+
+{% block title %}Login Page{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="css/smoothness/jquery-ui-1.8.18.custom.css" />
+<link rel="stylesheet" href="css/login.css">
+
+<script src="js/jquery-1.7.1.js"></script>
+<script src="js/jquery-ui-1.8.18.custom.min.js"></script>
+{% endblock %}
+
+{% block content %}
+<section id="container" class="center">
+    <form method="post" action="login" id="form">
+		{% if error %}
+		<div class="ui-state-error ui-corner-all" style="padding: 0 .7em;">
+			<p>
+				<span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;"></span>
+				{{ error }}
+			</p>
+		</div>
+		{% endif %}
+		<div class="item">
+			<div class="left">Nom d'utilisateur : </div>
+			<div class="right"><input name="login" placeholder="pseudo"></div>
+		</div>
+		<div class="item">
+			<div class="left">Mot de passe : </div>
+			<div class="right"><input name="password" type="password" placeholder="password"></div>
+		</div>
+        <input type="submit" value="Se connecter">
+    </form>
+	{{test}}
+</section>
+{% endblock %}

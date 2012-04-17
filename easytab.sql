@@ -1,3 +1,7 @@
+drop database easytab;
+create database easytab;
+use easytab;
+
 -- phpMyAdmin SQL Dump
 -- version 3.4.10.1
 -- http://www.phpmyadmin.net
@@ -8,7 +12,6 @@
 -- Version de PHP: 5.3.9
 
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
-SET time_zone = "+00:00";
 
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -28,9 +31,9 @@ SET time_zone = "+00:00";
 
 CREATE TABLE IF NOT EXISTS `user` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `date inscription` int(11) NOT NULL,
+  `dateInscription` int(11) NOT NULL,
   `login` varchar(30) NOT NULL,
-  `password` text NOT NULL,
+  `password` varchar(40) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `login` (`login`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
@@ -39,8 +42,8 @@ CREATE TABLE IF NOT EXISTS `user` (
 -- Contenu de la table `user`
 --
 
-INSERT INTO `user` (`id`, `date inscription`, `login`, `password`) VALUES
-(1, 0, 'Admin', '3db8c7fbdc53871af279708cbf9e87dc');
+INSERT INTO `user` (`id`, `dateInscription`, `login`, `password`) VALUES
+(1, 0, 'Admin', '54b50d43dca142890e949d29d06793490fa12cee');
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

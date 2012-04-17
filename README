@@ -1,1 +1,18 @@
 Git pour le PLIC
+
+Prérequis :
+* NodeJs
+
+Installation :
+* installer le serveur : http://nodejs.org/
+* cd src
+* npm install
+
+Lancement du serveur :
+* cd src
+* node app.js
+si supervisor installé (pour installer "npm install supervisor -g")
+* supervisor app.js
+
+Lancement de l'application :
+* http://localhost:8080

@@ -1,8 +1,6 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>EasyTab</title>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+{% extends 'layout.html' %}
+
+{% block head %}
         <link rel="stylesheet" href="css/application.css" />
         <link rel="stylesheet" href="css/jquery-ui-1.8.18.custom.css" />
         <link rel="stylesheet" href="JQuery-PLUGIN/jquery.svg.css" />
@@ -24,12 +22,11 @@
         <script src="js/Note.js"></script>       
         <script src="js/Parser.js"></script>
         <script src="js/Event.js"></script>
-    </head>
-    <body>
+{% endblock %}
+
+{% block content %}
         <section class="page">
             <section class="float-left">
-                <header>
-                </header>
                 <section class="header">
                     <section class="player_section float-left">
                         <section class="player">
@@ -72,8 +69,6 @@
             </section>
             <section class="clear"></section>
         </section>
-    </body>
-</html>
 
 <script type="text/javascript">
     
@@ -216,7 +211,7 @@
         
         $.ajax({
             type: "POST",
-            url: 'js/MIDI.php',
+            url: 'midi',
 			data: { 'encoded' : JSON.stringify({ encoded : partition })},
 			dataType: "json",
             success: function (data, textStatus, jqXHR) {
@@ -238,3 +233,4 @@
         
     });
 </script>
+{% endblock %}

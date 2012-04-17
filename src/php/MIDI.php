@@ -15594,10 +15594,10 @@
 			276480 Meta TrkEnd
 			TrkEnd";
 
-	require('../classes/midi.class.php');
+	require('classes/midi.class.php');
 
 	$midi = new Midi();
 	$midi->importTxt($txt);		
-	$midi->saveMidFile("demo.mid", 0666);
+	$midi->saveMidFile("../public/js/demo.mid", 0666);
 
 ?>

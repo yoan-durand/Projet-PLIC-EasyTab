@@ -1,0 +1,20 @@
+#container {
+    width: 325px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-top: 100px;
+    padding-bottom: 100px;
+}
+
+.left {
+    float: left;
+}
+
+input[type=submit],
+.right {
+    margin-left: 167px;
+}
+
+.item {
+	margin-top: 5px;
+}
