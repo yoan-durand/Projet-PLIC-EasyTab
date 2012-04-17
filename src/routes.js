@@ -8,8 +8,8 @@ exports.index = function(req, res){
 };
 
 exports.application = function(req, res){
-	if (forceLogin(req, res))
-		return;
+	//if (forceLogin(req, res))
+	//	return;
 	res.render('application', {
 		connected:req.session.connected
 	});
