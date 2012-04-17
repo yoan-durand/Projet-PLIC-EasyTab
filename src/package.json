@@ -4,7 +4,7 @@
 	"private": true,
 	"dependencies": {
 		"express": "2.5.8",
-		"swig": "0.11.1",
+		"swig": "0.11.2",
 		"mysql": "0.9.5",
 		"request": "2.9.202"
 	}
