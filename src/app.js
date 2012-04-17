@@ -57,7 +57,6 @@ app.get('/login', routes.login);
 app.post('/login', routes.loginPost);
 app.get('/logout', routes.logout);
 app.post('/midi', routes.midi);
-app.post('/test', routes.testPost);
 
 app.listen(8080, function(){
 	console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);

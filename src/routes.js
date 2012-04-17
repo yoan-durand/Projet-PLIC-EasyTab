@@ -8,8 +8,8 @@ exports.index = function(req, res){
 };
 
 exports.application = function(req, res){
-	//if (forceLogin(req, res))
-	//	return;
+	if (forceLogin(req, res))
+		return;
 	res.render('application', {
 		connected:req.session.connected
 	});
@@ -109,36 +109,12 @@ function forceLogin(req, res) {
 }
 
 exports.midi = function(req, res) {
-	var http = require('http');
-	var data = '{"encoded":"'+req.body.encoded+'"}';
-	var options = {
-		host: 'localhost',
-		// port: 80,
-		// path: '/Projet-PLIC-EasyTab/src/php/MIDI.php',
-		port: 8080,
-		path: '/test',
-		method: 'POST',
-		headers: {
-			'Content-Length': Buffer.byteLength(data,'utf8')
+	var request = require('request');
+	request.post({
+		url: 'http://localhost/Projet-PLIC-EasyTab/src/php/MIDI.php',
+		form: {
+			encoded: req.body.encoded
 		}
-	};
-	console.log(options);
-	var request = http.request(options, function(result) {
-		console.log('STATUS: ' + result.statusCode);
-		// console.log('HEADERS: ' + JSON.stringify(result.headers));
-		result.setEncoding('utf8');
-		result.on('data', function (chunk) {
-			console.log('BODY: ' + chunk);
-		});
 	});
-	console.log('data: '+data);
-	request.write(data);
-	request.end();
-	// res.send('ok');
-	res.redirect('/test.html');
+	res.send('true');
 }
-
-exports.testPost = function(req, res){
-	res.write('test ok :'+JSON.stringify(req.body));
-}
-

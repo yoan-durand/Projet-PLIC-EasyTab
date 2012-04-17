@@ -19,7 +19,7 @@
         <script src="js/Attribute.js"></script>
         <script src="js/Chord.js"></script>
         <script src="js/SoundParam.js"></script>
-        <script src="js/Note.js"></script>       
+        <script src="js/Note.js"></script>
         <script src="js/Parser.js"></script>
         <script src="js/Event.js"></script>
 {% endblock %}
@@ -71,15 +71,15 @@
         </section>
 
 <script type="text/javascript">
-    
+
     var svg_inst = new Array();
     var current_svg = 0;
-    
+
     $(document).ready (function()
     {
         $(".tab_svg").css("height", 60 + Math.ceil((80 * (nb_measure / 4))));
         $(".tempo").text(partition._instruments_list[0]._track_part._measure_list[0]._sound_params._tempo);
-        
+
         for (var i = 0; i < partition._instruments_list.length; i++)
         {
             var nb_corde = partition._instruments_list[i]._track_part._tuning.length;
@@ -91,7 +91,7 @@
             {
                 $(".tab_svg").append("<section id='"+i+"' style='display: none;'></section>");
             }
-            $(".tab_svg #"+i).svg({onLoad: function(svg) 
+            $(".tab_svg #"+i).svg({onLoad: function(svg)
             {
                 svg_inst.push(svg);
                 var height = 60 + Math.ceil((80 * (nb_measure / 4))) < 400 ? 400 : 60 + Math.ceil((80 * (nb_measure / 4)));
@@ -101,7 +101,7 @@
         });
         }
         /*
-        $('.tab_svg').svg({onLoad: function(svg) 
+        $('.tab_svg').svg({onLoad: function(svg)
         {
             svg_inst = svg;
             var height = 60 + Math.ceil((80 * (nb_measure / 4))) < 400 ? 400 : 60 + Math.ceil((80 * (nb_measure / 4)));
@@ -124,24 +124,24 @@
                 svg.rect(470, 30 + (i * ((nb_corde * 10) + 20)), 205, (nb_corde * 10 - 10), {id: "m_"+ (3 + (4 * i)),fill:"white", stroke:"black"});
                 svg.text(675, 25 + (i * ((nb_corde * 10) + 20)), ""+(4 + (4 * i))+"", {stroke: "red", "font-size": "10px"});
                 svg.rect(675, 30 + (i * ((nb_corde * 10) + 20)), 205, (nb_corde * 10 - 10), {id: "m_"+ (4 + (4 * i)),fill:"white", stroke:"black"});
-                
-                
+
+
                 for (var j = 0; j < nb_corde; j++)
                     {
                         svg.line(60, 30 + (j*10) + (i * ((nb_corde * 10) + 20)), 880, 30 + (j*10) + (i * ((nb_corde * 10) + 20)), {stroke:"black"});
                     }
-                    
-                        
+
+
                 drawNotes(svg, i, svg_index, nb_corde);
             }
             svg.rect(60, 20, 2, 70, {id: "cursor_"+svg_index, fill:"red"});
         };
-        
+
         var division;
-        
+
         function drawNotes(svg, i, svg_index, nb_corde){
             var measures = partition._instruments_list[svg_index]._track_part._measure_list;
-            
+
             for (var mes = (0 + i) * 4;  mes < measures.length && mes < (4 + (i * 4)); mes++)
             {
                 division = measures[mes]._attributes._division == null ? division : measures[mes]._attributes._division;
@@ -178,7 +178,7 @@
                     }
                     interval += 50 * (parseInt(duration) / parseInt(division));//interval = duration;
                 }
-                
+
             }
         };
 
@@ -195,20 +195,20 @@
                 $($("rect[id^='cursor']"), svg_inst[current_svg].root()).attr({"y": (20 + (80 * line)), transform:"translate("+ ($($("rect[id='m_"+selected+"']"), svg_inst[current_svg].root()).attr("x") - 60) +" 0)"});
             }
         });
-        
+
         $(".tempo").editable(
             function(value, settings) {
                 var tempo = value;
                 var beat = partition._instruments_list[0]._track_part._measure_list[0]._attributes._time_beat;
                 speed = (((beat * 4) * 60) / tempo) * 1000;
-                
+
                 return value;
             },
             {
                 event : "dblclick",
                 style : "inherit"
         });
-        
+
         $.ajax({
             type: "POST",
             url: 'midi',
@@ -230,7 +230,7 @@
                 alert("fail");
             }
         });
-        
+
     });
 </script>
 {% endblock %}
