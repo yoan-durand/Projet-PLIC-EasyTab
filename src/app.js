@@ -58,6 +58,7 @@ app.configure('production', function(){
 app.get('/', routes.index);
 app.get('/application;?:tablature?', routes.application);
 app.get('/compte', routes.compte);
+app.post('/compte', routes.comptePost);
 app.get('/login', routes.login);
 app.post('/login', routes.loginPost);
 app.get('/logout', routes.logout);

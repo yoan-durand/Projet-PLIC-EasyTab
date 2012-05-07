@@ -26,31 +26,50 @@ exports.application = function(req, res){
 exports.compte = function(req, res){
 	if (forceLogin(req, res))
 		return;
-
-	var mysql = require('mysql');
-	var config = require('./config');
 	var params = {
-		connected:req.session.connected
-	};
-	var client = mysql.createClient({
-		user: config.bdd.user,
-		password: config.bdd.pass
-	});
-	client.useDatabase(config.bdd.name);
-	client.query(
-		'select * from user limit 1',
-		function(err, results, fields) {
-			if (err) {
-				throw err;
-			}
-			params.pseudo = results[0].login;
-			params.dateInscription = results[0].dateInscription;
-			client.end();
-			res.render('compte', params);
-		}
-		);
-
+		pseudo : req.session.user.login,
+		dateInscription : req.session.user.dateInscription
+	}
+	if (req.session.error) {
+		params.error = req.session.error;
+		delete req.session.error;
+	}
+	if (req.session.success) {
+		params.success = req.session.success;
+		delete req.session.success;
+	}
+	res.render('compte', params);
 };
+exports.comptePost = function(req, res){
+	if (forceLogin(req, res))
+		return;
+	if (!req.body.password || !req.body.confirmPassword) {
+		// cancel connection
+		res.send();
+		return;
+	}
+	var password = req.body.password;
+	if (req.body.confirmPassword !== password) {
+		req.session.error = "Les deux mots de passe doivent être identiques.";
+		res.redirect(req.url);
+	} else {
+		var config = require('./config');
+		var crypto = require('crypto');
+		var encryptedPassword = crypto.createHash('sha1').update(password+config.bdd.salt+req.session.user.login).digest('hex');
+		var client = mysql_connect();
+		client.query(
+			'UPDATE `user` SET `password` = ? WHERE `user`.`id` = ?',
+			[encryptedPassword, req.session.user.id],
+			function(err){
+				client.end();
+				if (err) {
+					throw err;
+				}
+				req.session.success = 'Le mot de passe a bien été modifié.';
+				res.redirect(req.url);
+			});
+	}
+}
 
 exports.login = function(req, res){
 	req.session.regenerate(function(e){
@@ -74,8 +93,9 @@ exports.loginPost = function(req, res){
 	});
 	client.useDatabase(config.bdd.name);
 	client.query(
-		'select id, password from user where login = "'+req.body.login+'" limit 1',
+		'select id, password, dateInscription from user where login = "'+req.body.login+'" limit 1',
 		function(err, results, fields) {
+			client.end(); // close sql connection
 			if (err) {
 				throw err;
 			}
@@ -84,13 +104,14 @@ exports.loginPost = function(req, res){
 			if (results.length == 1 && results[0].password == password) {
 				req.session.connected = true;
 				req.session.user = {
-					id: results[0].id
+					id: results[0].id,
+					login: req.body.login,
+					dateInscription: results[0].dateInscription
 				}
 				delete req.session.error;
 			} else {
 				req.session.error = "Nom d'utilisateur ou mot de passe incorrect.";
 			}
-			client.end(); // close sql connection
 			res.redirect(req.session.redirect);
 		}
 		);
@@ -111,7 +132,9 @@ function forceLogin(req, res) {
 	if (req.session.connected === undefined) {
 		req.session.connected = true;
 		req.session.user = {
-			id: 1
+			id: 1,
+			login: 'Admin',
+			dateInscription : '14 juillet 1789'
 		};
 		return false;
 	}
@@ -147,6 +170,8 @@ exports.upload = function(req, res) {
 	});
 }
 exports.uploadPost = function(req, res) {
+	if (forceLogin(req, res))
+		return;
 	if (req.files.tablature && req.files.tablature.type !== 'text/xml') {
 		res.send('Erreur : vous devez uploader un fichier XML');
 		return;
@@ -178,10 +203,10 @@ exports.tablatures = function(req, res) {
 		'select nom, chemin from tablature where userId = ?',
 		[req.session.user.id],
 		function(err, results, fields) {
+			client.end(); // close sql connection
 			if (err) {
 				throw err;
 			}
-			client.end(); // close sql connection
 			res.render('tablatures', {
 				pistes: results,
 				connected: req.session.connected
