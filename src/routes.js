@@ -80,7 +80,7 @@ exports.loginPost = function(req, res){
 				throw err;
 			}
 			var crypto = require('crypto');
-			var password = crypto.createHash('sha1').update(req.body.password+'3'+req.body.login).digest('hex');
+			var password = crypto.createHash('sha1').update(req.body.password+config.bdd.salt+req.body.login).digest('hex');
 			if (results.length == 1 && results[0].password == password) {
 				req.session.connected = true;
 				req.session.user = {
