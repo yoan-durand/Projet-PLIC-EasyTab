@@ -4,3 +4,6 @@ exports.bdd = {
 	pass : '',
 	name : 'easytab'
 };
+exports.upload = {
+	dir: 'upload/'
+};

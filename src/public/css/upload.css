@@ -1,0 +1,9 @@
+#container {
+    width: 400px;
+    padding: 50px;
+}
+
+.gros-bouton {
+    /*font-size: 1.2em;*/
+    padding: 7px 14px;
+}

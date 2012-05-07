@@ -1,0 +1,23 @@
+
+{% extends 'layout.html' %}
+
+{% block title %}Home Page{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="css/upload.css">
+{% endblock %}
+
+{% block content %}
+<section id="container" class="center">
+	<p>
+		<a href="upload"><button>+</button> Ajouter une tablature</a>
+	</p>
+    <ul>
+		{% for xml in pistes -%}
+		<li>
+			<a href="application;{{ xml.nom }}">{{ xml.nom }}</a>
+		</li>
+		{%- endfor %}
+	</ul>
+</section>
+{% endblock %}
