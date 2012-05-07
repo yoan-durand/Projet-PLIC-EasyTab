@@ -107,6 +107,15 @@ function forceLogin(req, res) {
 	if (req.session.connected === true) {
 		return false;
 	}
+	//( connexion automatique à la première visite (pour faciliter le dev)
+	if (req.session.connected === undefined) {
+		req.session.connected = true;
+		req.session.user = {
+			id: 1
+		};
+		return false;
+	}
+	//*/
 	var params = {
 		connected: req.session.connected
 	}
