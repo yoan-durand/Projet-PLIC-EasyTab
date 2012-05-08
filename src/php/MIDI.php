@@ -36,21 +36,21 @@
 			0 TimeSig "+$time_beat+"/"+$type_beat+" 9 39
 			0 Meta TrkEnd
 			TrkEnd";
-	for (var $i = 0; $i < count($partition["_instruments_list"]); $i++)
+	for ($i = 0; $i < count($partition["_instruments_list"]); $i++)
 	{
 		$txt += "MTrk
 				0 Meta TrkName '"+$partition["_instruments_list"][$i]["_name_instrument"]+"'";
 		$measures = $partition["_instruments_list"][$i]["_track_part"]["_measure_list"];
-		for (var $j = 0; $j < count($measures); $j++)
+		for ($j = 0; $j < count($measures); $j++)
 		{
 			$chords = $measures[$j]["_chord_list"];
-			for (var $k = 0; $k < count($chords); $k++)
+			for ($k = 0; $k < count($chords); $k++)
 			{
 				$notes = $chords[$k]["_note_list"];
-				for (var $h = 0; $h < count($notes); $h++)
+				for ($h = 0; $h < count($notes); $h++)
 				{
-					txt += $notes[$h]["_begin"]+" On ch="+$partition["_instruments_list"][$i]["_midi_channel"]+" n="+$note_ref[$notes[$h]["_step_pitch"]]+" v=95";
-					txt += ($notes[$h]["_begin"]+$notes[$h]["_duration"])+" Off ch="+$partition["_instruments_list"][$i]["_midi_channel"]+" n="+$note_ref[$notes[$h]["_step_pitch"]]+" v=80";
+					$txt += $notes[$h]["_begin"]+" On ch="+$partition["_instruments_list"][$i]["_midi_channel"]+" n="+$note_ref[$notes[$h]["_step_pitch"]$notes[$h]["_octave_pitch"]]+" v=95";
+					$txt += ($notes[$h]["_begin"]+$notes[$h]["_duration"])+" Off ch="+$partition["_instruments_list"][$i]["_midi_channel"]+" n="+$note_ref[$notes[$h]["_step_pitch"]$notes[$h]["_octave_pitch"]]+" v=80";
 				}
 			}
 			if ($j == count($measures) - 1)
