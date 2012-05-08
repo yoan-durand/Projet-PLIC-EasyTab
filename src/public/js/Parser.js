@@ -1,5 +1,5 @@
 var partition;
-
+var next_begin = 0;
 function getXMLHttpRequest()
 {
     var xhr = null;
@@ -145,20 +145,86 @@ function parse_tuning (node_part)
 
 function parse_list_measure (node_part)
 {
+    // Si c'est un farward on empile la mesure
+    //Si c'est un backward on dépile la mesure et on ajoute toutes les mesure entre le back et le forward
+    var pile_barline = new Array ();
     var list_measure_obj = new Array ();
     var nodes_measure= node_part.getElementsByTagName ("measure");
     for (var i = 0; i < nodes_measure.length; ++i)
     {
         var measure_obj = new Measure ();
+        measure_obj._attributes = parse_attributes (nodes_measure[i]);
+        if (measure_obj._attributes._division == null)
+        {
+           measure_obj._attributes._division = list_measure_obj[list_measure_obj.length - 1]._attributes._division;
+        }
+        measure_obj._sound_params = parse_sound_param (nodes_measure[i]);
+        measure_obj._chord_list = parse_chord_list (nodes_measure[i], measure_obj._attributes._division);
         
-         measure_obj._attributes = parse_attributes (nodes_measure[i]);
-         measure_obj._sound_params = parse_sound_param (nodes_measure[i]);
-         measure_obj._chord_list = parse_chord_list (nodes_measure[i]);
-         
-         
+        list_measure_obj.push (measure_obj);
+                         //Si la pile n'est pas vide, j'empile les mesures.
+                //Si il y a un noeud ending, je n'empile pas
+
+        var nodes_repeat = nodes_measure[i].getElementsByTagName("repeat");
+        if (nodes_repeat.length != 0)
+        {
+            for (var j = 0; j < nodes_repeat.length; ++j)
+            {
+                var direction = nodes_repeat[j].getAttribute("direction");
+                if (direction == "forward")
+                {
+                    var pile_measure = new Array ();
+                    pile_measure.push(measure_obj);
+                    pile_barline.push (pile_measure);
+                }
+                else if (direction == "backward")
+                {
+                    var node_ending = nodes_measure[i].getElementsByTagName("ending");
+                    if (node_ending.length != 0)
+                    {
+                        var pile_measures = pile_barline[pile_barline.length - 1];
+                        for (var h = 0; h < pile_measures.length; ++h)
+                        {
+                            list_measure_obj.push (pile_measures[h]);
+                        }
+                    }
+                    else
+                    {
+                        var pile_measures  = pile_barline.pop();
+                        if (pile_measures != undefined)
+                        {
+                            for (h = 0; h < pile_measures.length; ++h)
+                            {
+                                list_measure_obj.push (pile_measures[h]);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        else
+        {
+          if (pile_barline.length != 0)
+          {
+              node_ending = nodes_measure[i].getElementsByTagName("ending");
+              if (node_ending.length != 0)
+              {
+                 pile_measures  = pile_barline.pop()
+               /*  for (h = 0; h < pile_measures.length; ++h)
+                 {
+                    list_measure_obj.push (pile_measures[h]);
+                 }*/
+              }
+              else
+              {
+                 pile_barline[pile_barline.length - 1].push(measure_obj); //Attention si repetition inclus dans repetitions, le parent ne doit pas perdre les mesures flusher par la fils
+              }
+          }
+        }
+        
         // measure_obj._direction_barline   //TODO barline
          //measure_obj._time_barline
-         list_measure_obj.push (measure_obj);
+        
     }
     return list_measure_obj;
 }
@@ -185,7 +251,6 @@ function parse_attributes (node_measure)
         var node_beat_type = node_attributes[0].getElementsByTagName ("beat-type");
         attribute_obj._type_beat = get_nodeValue (node_beat_type);
     }
-
     return attribute_obj;
 }
 
@@ -196,14 +261,13 @@ function parse_sound_param (node_measure)
     var node_sound = node_measure.getElementsByTagName("sound");
     if (node_sound.length != 0)
     {
-       
        sound_param_obj._tempo = node_sound[0].getAttribute("tempo");
        sound_param_obj._pan = node_sound[0].getAttribute("pan");
     }
     return sound_param_obj;
 }
 
-function parse_chord_list (node_measure)
+function parse_chord_list (node_measure, division)
 {
     var chord_list_obj = new Array ();
     
@@ -212,37 +276,36 @@ function parse_chord_list (node_measure)
     for (var i = 0; i < node_notes.length; ++i)
     {
         var tmp_chord = node_notes[i].getElementsByTagName ("chord");
-        
         if (tmp_chord.length != 0)
         {
             if (prec_chord != null)
             {
-               prec_chord._note_list.push (parse_note (node_notes[i])); 
+               prec_chord._note_list.push (parse_note (node_notes[i], division));
             }
         }
         else
         {
             var chord_obj = new Chord ();
             chord_obj._note_list = new Array ();
-            chord_obj._note_list.push (parse_note (node_notes[i]));
+            chord_obj._note_list.push (parse_note (node_notes[i], division));
+            var previous_note = chord_obj._note_list[chord_obj._note_list.length - 1];
+            next_begin = previous_note._begin + previous_note._duration;
             if (prec_chord != null)
             {
                 chord_list_obj.push (prec_chord);
             }
             prec_chord = chord_obj;
         }
-        
     }
     if (prec_chord != null)
     {
         chord_list_obj.push (prec_chord);
     }
-    
     //chord_obj._strumming =  //TODO strumming
     return chord_list_obj;
 }
 
-function parse_note (node_note)
+function parse_note (node_note, division)
 {
         var note_obj = new Note ();
         
@@ -253,7 +316,9 @@ function parse_note (node_note)
         note_obj._octave_pitch = get_nodeValue (node_pitch_octave);
         
         var node_pitch_duration = node_note.getElementsByTagName("duration");
-        note_obj._duration = get_nodeValue (node_pitch_duration);
+        note_obj._duration = (get_nodeValue (node_pitch_duration) / division) * 480;
+
+        note_obj._begin = next_begin;
         
         var node_string_technical= node_note.getElementsByTagName("string");
         note_obj._string_technical = get_nodeValue (node_string_technical);

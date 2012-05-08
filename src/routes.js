@@ -105,7 +105,7 @@ function forceLogin(req, res) {
 	}
 	res.render('login', params);
 	req.session.redirect = req.url;
-	return true;
+	return (true);
 }
 
 exports.midi = function(req, res) {
