@@ -290,6 +290,12 @@
                 alert("fail");
             }
         });
+		
+		// A partir d'un temps MIDI, renvoi le temps correspondant en millisecondes
+		function MIDItoSecond(midi_time, tempo)
+		{
+			return midi_time * ((60/ tempo) * 1000) / 480 ;
+		}
 
     });
 </script>

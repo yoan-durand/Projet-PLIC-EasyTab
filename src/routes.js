@@ -154,7 +154,7 @@ function forceLogin(req, res) {
 exports.midi = function(req, res) {
 	var request = require('request');
 	request.post({
-		url: 'http://localhost/Projet-PLIC-EasyTab/src/php/MIDI.php',
+		url: 'http://localhost:81/Projet-PLIC-EasyTab/src/php/MIDI.php',
 		form: {
 			encoded: req.body.encoded
 		}
