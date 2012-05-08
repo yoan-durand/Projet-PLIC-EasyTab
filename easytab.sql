@@ -1,17 +1,14 @@
-drop database easytab;
-create database easytab;
-use easytab;
-
 -- phpMyAdmin SQL Dump
 -- version 3.4.10.1
 -- http://www.phpmyadmin.net
 --
 -- Client: localhost
--- Généré le : Mer 28 Mars 2012 à 17:41
+-- Généré le : Lun 07 Mai 2012 à 03:30
 -- Version du serveur: 5.5.20
 -- Version de PHP: 5.3.9
 
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
 
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -22,6 +19,30 @@ SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 --
 -- Base de données: `easytab`
 --
+CREATE DATABASE `easytab` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
+USE `easytab`;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `tablature`
+--
+
+CREATE TABLE IF NOT EXISTS `tablature` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `userId` int(11) NOT NULL,
+  `nom` text NOT NULL,
+  `chemin` text NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `userId` (`userId`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
+
+--
+-- Contenu de la table `tablature`
+--
+
+INSERT INTO `tablature` (`id`, `userId`, `nom`, `chemin`) VALUES
+(5, 1, 'demo.xml', 'upload/');
 
 -- --------------------------------------------------------
 
@@ -36,7 +57,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   `password` varchar(40) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `login` (`login`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
 
 --
 -- Contenu de la table `user`
@@ -44,6 +65,16 @@ CREATE TABLE IF NOT EXISTS `user` (
 
 INSERT INTO `user` (`id`, `dateInscription`, `login`, `password`) VALUES
 (1, 0, 'Admin', '3174685bb0ac5dfed704b7b41a5e44b713b759a1');
+
+--
+-- Contraintes pour les tables exportées
+--
+
+--
+-- Contraintes pour la table `tablature`
+--
+ALTER TABLE `tablature`
+  ADD CONSTRAINT `tablature_ibfk_2` FOREIGN KEY (`userId`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

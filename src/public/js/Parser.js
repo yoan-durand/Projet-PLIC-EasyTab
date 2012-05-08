@@ -55,7 +55,7 @@ function parse_partition (xmlDoc)
         {
             partition_obj._album = nodes_miscellaneous[i].childNodes[0].nodeValue;
         }
-    } 
+    }
     var nodes_creators = xmlDoc.getElementsByTagName ("creator");
     for (var i = 0; i < nodes_creators.length; i++)
     {
@@ -75,40 +75,40 @@ function parse_partition (xmlDoc)
 function parse_instruments (xmlDoc)
 {
     var list_instruments_obj = new Array ();
-    
+
     var nodes_partlist = xmlDoc.getElementsByTagName ("part-list");
     var nodes_score_part = nodes_partlist[0].getElementsByTagName ("score-part");
-    
+
     for (var i = 0; i < nodes_score_part.length; i++)
     {
         var instrument_obj = new Instrument ();
         //Part-name
         var nodes_part_name = nodes_score_part[i].getElementsByTagName ("part-name");
         instrument_obj._name_instrument= nodes_part_name[0].childNodes[0].nodeValue;
-        
+
         instrument_obj._id_instrument = nodes_score_part[i].getAttribute("id");
-        
+
         //midi-instruments
         var nodes_midi_instrument = nodes_score_part[i].getElementsByTagName ("midi-instrument");
         instrument_obj._id_midi = nodes_midi_instrument[0].getAttribute("id");
-        
+
         var nodes_midi_channel = nodes_midi_instrument[0].getElementsByTagName ("midi-channel");
         instrument_obj._midi_channel = nodes_midi_channel[0].childNodes[0].nodeValue;
-        
+
         var nodes_midi_program = nodes_midi_instrument[0].getElementsByTagName ("midi-program");
         instrument_obj._gm_instrument = nodes_midi_program[0].childNodes[0].nodeValue;
-        
+
 
         list_instruments_obj.push(instrument_obj);
     }
-    
-          
-    var nodes_part = xmlDoc.getElementsByTagName ("part");  
-    for (var i = 0; i < nodes_part.length; i++)  
+
+
+    var nodes_part = xmlDoc.getElementsByTagName ("part");
+    for (var i = 0; i < nodes_part.length; i++)
     {
        list_instruments_obj[i]._track_part = parse_track (nodes_part[i]);
     }
-    
+
 
     return list_instruments_obj;
 }
@@ -116,10 +116,10 @@ function parse_instruments (xmlDoc)
 function parse_track (node_part)
 {
    var track_part_obj = new TrackPart ();
-   
+
    track_part_obj._tuning = parse_tuning (node_part); //tuning = list<Lines>
    track_part_obj._measure_list = parse_list_measure (node_part);
-   
+
    return track_part_obj;
 }
 
@@ -131,10 +131,10 @@ function parse_tuning (node_part)
     {
         var lines_obj = new Lines ();
         lines_obj._line = nodes_staff_tuning[i].getAttribute("line");
-        
+
         var nodes_tuning_step = nodes_staff_tuning[i].getElementsByTagName ("tuning-step");
-        lines_obj._tuning_step = nodes_tuning_step[0].childNodes[0].nodeValue;  
-        
+        lines_obj._tuning_step = nodes_tuning_step[0].childNodes[0].nodeValue;
+
         var nodes_tuning_octave = nodes_staff_tuning[i].getElementsByTagName ("tuning-octave");
         lines_obj._octave = nodes_tuning_octave[0].childNodes[0].nodeValue;
 
@@ -233,14 +233,14 @@ function parse_attributes (node_measure)
 {
     var attribute_obj = new Attribute ();
     var node_attributes = node_measure.getElementsByTagName("attributes");
-    
+
     if (node_attributes.length != 0)
     {
         var node_division = node_attributes[0].getElementsByTagName ("divisions");
         attribute_obj._division = node_division[0].childNodes[0].nodeValue;
 
         var node_fifths_key = node_attributes[0].getElementsByTagName ("fifths");
-        attribute_obj._fifths_key = get_nodeValue (node_fifths_key);  
+        attribute_obj._fifths_key = get_nodeValue (node_fifths_key);
 
         var node_mode = node_attributes[0].getElementsByTagName ("mode");
         attribute_obj._mode_key = get_nodeValue (node_mode);
@@ -257,7 +257,7 @@ function parse_attributes (node_measure)
 function parse_sound_param (node_measure)
 {
     var sound_param_obj = new SoundParam ();
-    
+
     var node_sound = node_measure.getElementsByTagName("sound");
     if (node_sound.length != 0)
     {
@@ -270,7 +270,7 @@ function parse_sound_param (node_measure)
 function parse_chord_list (node_measure, division)
 {
     var chord_list_obj = new Array ();
-    
+
     var node_notes = node_measure.getElementsByTagName ("note");
     var prec_chord = null;
     for (var i = 0; i < node_notes.length; ++i)
@@ -308,13 +308,13 @@ function parse_chord_list (node_measure, division)
 function parse_note (node_note, division)
 {
         var note_obj = new Note ();
-        
+
         var node_pitch_step = node_note.getElementsByTagName("step");
         note_obj._step_pitch = get_nodeValue (node_pitch_step);
-        
+
         var node_pitch_octave = node_note.getElementsByTagName("octave");
         note_obj._octave_pitch = get_nodeValue (node_pitch_octave);
-        
+
         var node_pitch_duration = node_note.getElementsByTagName("duration");
         note_obj._duration = (get_nodeValue (node_pitch_duration) / division) * 480;
 
@@ -322,16 +322,16 @@ function parse_note (node_note, division)
         
         var node_string_technical= node_note.getElementsByTagName("string");
         note_obj._string_technical = get_nodeValue (node_string_technical);
-        
+
         var node_fret_technical= node_note.getElementsByTagName("fret");
         note_obj._fret_technical = get_nodeValue (node_fret_technical);
- 
+
         var node_dynamic = node_note.getElementsByTagName("dynamic"); //TODO : Convertir la dynamic (<ff></ff>)
         note_obj._dynamic = get_nodeValue (node_dynamic);
-        
+
         var node_other_technical = node_note.getElementsByTagName("other-technical");
-        note_obj._other_technical = get_nodeValue (node_other_technical);       
-        
+        note_obj._other_technical = get_nodeValue (node_other_technical);
+
         return note_obj;
 }
 
@@ -352,7 +352,7 @@ function load_xml (path)
 function parse (path)
 {
    var xmlDoc = load_xml (path);
-   var partition_obj = parse_partition (xmlDoc); //Return Partition 
+   var partition_obj = parse_partition (xmlDoc); //Return Partition
    return partition_obj;
 }
 
@@ -367,8 +367,8 @@ $(document).ready (function()
    display_parsing_measures (nbr_mesure, instrument_list.length);
    display_parsing_instruments (instrument_list);
    display_parsing_notes (nbr_notes);*/
-   partition = parse ("../demo.xml");
-   
+   partition = parse ("../"+config.tablature);
+
 });
 
 function display_parsing_header (header)
