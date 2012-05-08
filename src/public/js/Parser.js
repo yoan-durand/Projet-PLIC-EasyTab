@@ -237,7 +237,7 @@ function parse_attributes (node_measure)
     if (node_attributes.length != 0)
     {
         var node_division = node_attributes[0].getElementsByTagName ("divisions");
-        attribute_obj._division = node_division[0].childNodes[0].nodeValue;
+        attribute_obj._division = get_nodeValue(node_division);
 
         var node_fifths_key = node_attributes[0].getElementsByTagName ("fifths");
         attribute_obj._fifths_key = get_nodeValue (node_fifths_key);

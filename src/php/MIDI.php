@@ -49,8 +49,8 @@
 				$notes = $chords[$k]["_note_list"];
 				for ($h = 0; $h < count($notes); $h++)
 				{
-					$txt += $notes[$h]["_begin"]+" On ch="+$partition["_instruments_list"][$i]["_midi_channel"]+" n="+$note_ref[$notes[$h]["_step_pitch"]$notes[$h]["_octave_pitch"]]+" v=95";
-					$txt += ($notes[$h]["_begin"]+$notes[$h]["_duration"])+" Off ch="+$partition["_instruments_list"][$i]["_midi_channel"]+" n="+$note_ref[$notes[$h]["_step_pitch"]$notes[$h]["_octave_pitch"]]+" v=80";
+					$txt += $notes[$h]["_begin"]+" On ch="+$partition["_instruments_list"][$i]["_midi_channel"]+" n="+$note_ref[$notes[$h]["_step_pitch"]+$notes[$h]["_octave_pitch"]]+" v=95";
+					$txt += ($notes[$h]["_begin"]+$notes[$h]["_duration"])+" Off ch="+$partition["_instruments_list"][$i]["_midi_channel"]+" n="+$note_ref[$notes[$h]["_step_pitch"]+$notes[$h]["_octave_pitch"]]+" v=80";
 				}
 			}
 			if ($j == count($measures) - 1)
