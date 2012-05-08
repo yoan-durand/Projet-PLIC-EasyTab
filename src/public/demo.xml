@@ -94,13 +94,6 @@
 			</attributes>
 			<sound pan="8" tempo="128"></sound>
 			<barline location="left">
-				<repeat direction="forward"></repeat>
-				<repeat direction="backward" times="2"></repeat>
-				<bar-style>light-light</bar-style>
-			</barline>
-			<barline><bar-style>light-light</bar-style>
-			</barline>
-			<barline location="left">
 				<bar-style>heavy-light</bar-style>
 			</barline>
 			<note><pitch><step>B</step>
@@ -259,9 +252,6 @@
 			</note>
 		</measure>
 		<measure number="2">
-			<barline location="left">
-				<repeat direction="forward"></repeat>
-			</barline>
 			<note><pitch><step>B</step>
 					<octave>2</octave>
 				</pitch>
@@ -418,11 +408,6 @@
 			</note>
 		</measure>
 		<measure number="3">
-			<barline><repeat direction="backward" times="2"></repeat>
-				<bar-style>light-light</bar-style>
-			</barline>
-			<barline><bar-style>light-light</bar-style>
-			</barline>
 			<note><pitch><step>B</step>
 					<octave>2</octave>
 				</pitch>
@@ -23359,22 +23344,12 @@
 			</attributes>
 			<sound pan="8"></sound>
 			<barline location="left">
-				<repeat direction="forward"></repeat>
-				<repeat direction="backward" times="2"></repeat>
-				<bar-style>light-light</bar-style>
-			</barline>
-			<barline><bar-style>light-light</bar-style>
-			</barline>
-			<barline location="left">
 				<bar-style>heavy-light</bar-style>
 			</barline>
 		</measure>
 		<measure number="2">
 			<attributes><divisions>4</divisions>
 			</attributes>
-			<barline location="left">
-				<repeat direction="forward"></repeat>
-			</barline>
 			<note><pitch><step>B</step>
 					<octave>2</octave>
 				</pitch>
@@ -23531,11 +23506,6 @@
 			</note>
 		</measure>
 		<measure number="3">
-			<barline><repeat direction="backward" times="2"></repeat>
-				<bar-style>light-light</bar-style>
-			</barline>
-			<barline><bar-style>light-light</bar-style>
-			</barline>
 			<note><pitch><step>B</step>
 					<octave>2</octave>
 				</pitch>
@@ -42798,22 +42768,12 @@
 			</attributes>
 			<sound pan="8"></sound>
 			<barline location="left">
-				<repeat direction="forward"></repeat>
-				<repeat direction="backward" times="2"></repeat>
-				<bar-style>light-light</bar-style>
-			</barline>
-			<barline><bar-style>light-light</bar-style>
-			</barline>
-			<barline location="left">
 				<bar-style>heavy-light</bar-style>
 			</barline>
 		</measure>
 		<measure number="2">
 			<attributes><divisions>4</divisions>
 			</attributes>
-			<barline location="left">
-				<repeat direction="forward"></repeat>
-			</barline>
 			<note><pitch><step>B</step>
 					<octave>1</octave>
 				</pitch>
@@ -42959,11 +42919,6 @@
 			</note>
 		</measure>
 		<measure number="3">
-			<barline><repeat direction="backward" times="2"></repeat>
-				<bar-style>light-light</bar-style>
-			</barline>
-			<barline><bar-style>light-light</bar-style>
-			</barline>
 			<note><pitch><step>B</step>
 					<octave>1</octave>
 				</pitch>
@@ -59369,20 +59324,10 @@
 			</attributes>
 			<sound pan="8"></sound>
 			<barline location="left">
-				<repeat direction="forward"></repeat>
-				<repeat direction="backward" times="2"></repeat>
-				<bar-style>light-light</bar-style>
-			</barline>
-			<barline><bar-style>light-light</bar-style>
-			</barline>
-			<barline location="left">
 				<bar-style>heavy-light</bar-style>
 			</barline>
 		</measure>
 		<measure number="2">
-			<barline location="left">
-				<repeat direction="forward"></repeat>
-			</barline>
 			<note><unpitched><display-step>C</display-step>
 					<display-octave>3</display-octave>
 				</unpitched>
@@ -59507,11 +59452,6 @@
 			</note>
 		</measure>
 		<measure number="3">
-			<barline><repeat direction="backward" times="2"></repeat>
-				<bar-style>light-light</bar-style>
-			</barline>
-			<barline><bar-style>light-light</bar-style>
-			</barline>
 			<note><unpitched><display-step>C</display-step>
 					<display-octave>3</display-octave>
 				</unpitched>
