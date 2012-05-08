@@ -1,0 +1,18 @@
+
+{% extends 'layout.html' %}
+
+{% block title %}Home Page{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="css/site.css">
+{% endblock %}
+
+{% block content %}
+<section id="container" class="center">
+	<form method="post" action="upload" enctype="multipart/form-data" id="form">
+		<input type="file" name="tablature">
+		<br>
+		<input type="submit" value="Uploader">
+	</form>
+</section>
+{% endblock %}
