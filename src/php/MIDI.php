@@ -40,6 +40,52 @@
 	{
 		$txt += "MTrk
 				0 Meta TrkName '"+$partition["_instruments_list"][$i]["_name_instrument"]+"'";
+		$txt += "0 Par ch="+($partition["_instruments_list"][$i]["_midi_channel"]+1)+" c=100 v=0
+				0 Par ch="+($partition["_instruments_list"][$i]["_midi_channel"]+1)+" c=101 v=0
+				0 Par ch="+($partition["_instruments_list"][$i]["_midi_channel"]+1)+" c=6 v=12
+				0 Pb ch="+($partition["_instruments_list"][$i]["_midi_channel"]+1)+" v=8192
+				0 Par ch="+($partition["_instruments_list"][$i]["_midi_channel"]+1)+" c=101 v=0
+				0 Par ch="+($partition["_instruments_list"][$i]["_midi_channel"]+1)+" c=100 v=1
+				0 Par ch="+($partition["_instruments_list"][$i]["_midi_channel"]+1)+" c=6 v=64
+				0 Par ch="+($partition["_instruments_list"][$i]["_midi_channel"]+1)+" c=38 v=0
+				0 Par ch="+($partition["_instruments_list"][$i]["_midi_channel"]+1)+" c=101 v=127
+				0 Par ch="+($partition["_instruments_list"][$i]["_midi_channel"]+1)+" c=100 v=127
+				0 Par ch="+$partition["_instruments_list"][$i]["_midi_channel"]+" c=100 v=0
+				0 Par ch="+$partition["_instruments_list"][$i]["_midi_channel"]+" c=101 v=0
+				0 Par ch="+$partition["_instruments_list"][$i]["_midi_channel"]+" c=6 v=12
+				0 Pb ch="+$partition["_instruments_list"][$i]["_midi_channel"]+" v=8192
+				0 Par ch="+$partition["_instruments_list"][$i]["_midi_channel"]+" c=101 v=0
+				0 Par ch="+$partition["_instruments_list"][$i]["_midi_channel"]+" c=100 v=1
+				0 Par ch="+$partition["_instruments_list"][$i]["_midi_channel"]+" c=6 v=64
+				0 Par ch="+$partition["_instruments_list"][$i]["_midi_channel"]+" c=38 v=0
+				0 Par ch="+$partition["_instruments_list"][$i]["_midi_channel"]+" c=101 v=127
+				0 Par ch="+$partition["_instruments_list"][$i]["_midi_channel"]+" c=100 v=127
+				0 Par ch="+($partition["_instruments_list"][$i]["_midi_channel"]+1)+" c=101 v=0
+				0 Par ch="+($partition["_instruments_list"][$i]["_midi_channel"]+1)+" c=100 v=2
+				0 Par ch="+($partition["_instruments_list"][$i]["_midi_channel"]+1)+" c=6 v=64
+				0 Par ch="+($partition["_instruments_list"][$i]["_midi_channel"]+1)+" c=101 v=127
+				0 Par ch="+($partition["_instruments_list"][$i]["_midi_channel"]+1)+" c=100 v=127
+				0 Par ch="+$partition["_instruments_list"][$i]["_midi_channel"]+" c=101 v=0
+				0 Par ch="+$partition["_instruments_list"][$i]["_midi_channel"]+" c=100 v=2
+				0 Par ch="+$partition["_instruments_list"][$i]["_midi_channel"]+" c=6 v=64
+				0 Par ch="+$partition["_instruments_list"][$i]["_midi_channel"]+" c=101 v=127
+				0 Par ch="+$partition["_instruments_list"][$i]["_midi_channel"]+" c=100 v=127
+				0 PrCh ch="+($partition["_instruments_list"][$i]["_midi_channel"]+1)+" p=25
+				0 PrCh ch="+$partition["_instruments_list"][$i]["_midi_channel"]+" p=25
+				0 Par ch="+($partition["_instruments_list"][$i]["_midi_channel"]+1)+" c=0 v=0
+				0 Par ch="+$partition["_instruments_list"][$i]["_midi_channel"]+" c=0 v=0
+				0 Par ch="+($partition["_instruments_list"][$i]["_midi_channel"]+1)+" c=7 v=104
+				0 Par ch="+$partition["_instruments_list"][$i]["_midi_channel"]+" c=7 v=104
+				0 Par ch="+($partition["_instruments_list"][$i]["_midi_channel"]+1)+" c=10 v=64
+				0 Par ch="+$partition["_instruments_list"][$i]["_midi_channel"]+" c=10 v=64
+				0 Par ch="+($partition["_instruments_list"][$i]["_midi_channel"]+1)+" c=93 v=0
+				0 Par ch="+$partition["_instruments_list"][$i]["_midi_channel"]+" c=93 v=0
+				0 Par ch="+($partition["_instruments_list"][$i]["_midi_channel"]+1)+" c=91 v=0
+				0 Par ch="+$partition["_instruments_list"][$i]["_midi_channel"]+" c=91 v=0
+				0 Par ch="+($partition["_instruments_list"][$i]["_midi_channel"]+1)+" c=92 v=0
+				0 Par ch="+$partition["_instruments_list"][$i]["_midi_channel"]+" c=92 v=0
+				0 Par ch="+($partition["_instruments_list"][$i]["_midi_channel"]+1)+" c=95 v=0
+				0 Par ch="+$partition["_instruments_list"][$i]["_midi_channel"]+" c=95 v=0";
 		$measures = $partition["_instruments_list"][$i]["_track_part"]["_measure_list"];
 		for ($j = 0; $j < count($measures); $j++)
 		{
@@ -69,5 +115,5 @@
 	$midi = new Midi();
 	$midi->importTxt($txt);
 	$midi->saveMidFile("../public/js/demo.mid", 0666);
-
+	
 ?>
