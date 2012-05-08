@@ -22,6 +22,7 @@
         <script src="js/Note.js"></script>
         <script src="js/Parser.js"></script>
         <script src="js/Event.js"></script>
+        <script src="js/DrawNote.js"></script>
 {% endblock %}
 
 {% block content %}
@@ -96,7 +97,8 @@
                 svg_inst.push(svg);
                 var height = 60 + Math.ceil((80 * (nb_measure / 4))) < 400 ? 400 : 60 + Math.ceil((80 * (nb_measure / 4)));
                 svg.rect(0, 0, 900, height, { fill: "white", stroke:"black"});
-                drawLines(svg, i, nb_corde);
+                draw_track (svg, i, nb_corde)
+               
             }
         });
         }
@@ -110,31 +112,18 @@
         }
         });*/
 
-        function drawLines(svg, svg_index, nb_corde){
-            for (var i = 0; i < nb_measure / 4; i++)
-            {
-                svg.text(20, 45 + (i * ((nb_corde * 10) + 20)), "T");
-                svg.text(20, 60 + (i * ((nb_corde * 10) + 20)), "A");
-                svg.text(20, 75 + (i * ((nb_corde * 10) + 20)), "B");
-                svg.text(60, 25 + (i * ((nb_corde * 10) + 20)), ""+(1 + (4 * i))+"", {stroke: "red", "font-size": "10px"});
-                svg.rect(60, 30 + (i * ((nb_corde * 10) + 20)), 205, (nb_corde * 10 - 10), {id: "m_"+ (1 + (4 * i)),fill:"white", stroke:"black"});
-                svg.text(265, 25 + (i * ((nb_corde * 10) + 20)), ""+(2 + (4 * i))+"", {stroke: "red", "font-size": "10px"});
-                svg.rect(265, 30 + (i * ((nb_corde * 10) + 20)), 205, (nb_corde * 10 - 10), {id: "m_"+ (2 + (4 * i)),fill:"white", stroke:"black"});
-                svg.text(470, 25 + (i * ((nb_corde * 10) + 20)), ""+(3 + (4 * i))+"", {stroke: "red", "font-size": "10px"});
-                svg.rect(470, 30 + (i * ((nb_corde * 10) + 20)), 205, (nb_corde * 10 - 10), {id: "m_"+ (3 + (4 * i)),fill:"white", stroke:"black"});
-                svg.text(675, 25 + (i * ((nb_corde * 10) + 20)), ""+(4 + (4 * i))+"", {stroke: "red", "font-size": "10px"});
-                svg.rect(675, 30 + (i * ((nb_corde * 10) + 20)), 205, (nb_corde * 10 - 10), {id: "m_"+ (4 + (4 * i)),fill:"white", stroke:"black"});
-
+        function drawLines(svg, svg_index, nb_corde, width, x, y, h, mes)
+        {
+                svg.text(x, y, ""+mes+"", {stroke: "red", "font-size": "10px"});
+                svg.rect(x, y, width, h, {id: "m_"+ (1 + (4 * i)),fill:"white", stroke:"black"});
 
                 for (var j = 0; j < nb_corde; j++)
                     {
-                        svg.line(60, 30 + (j*10) + (i * ((nb_corde * 10) + 20)), 880, 30 + (j*10) + (i * ((nb_corde * 10) + 20)), {stroke:"black"});
+                        svg.line(x, y + (j*10) + (i * ((nb_corde * 10) + 20)), 820, y + (j*10) + (i * ((nb_corde * 10) + 20)), {stroke:"black"});
                     }
-
-
-                drawNotes(svg, i, svg_index, nb_corde);
-            }
-            svg.rect(60, 20, 2, (nb_corde * 10 + 10), {id: "cursor_"+svg_index, fill:"red"});
+                //drawNotes(svg, i, svg_index, nb_corde);
+            
+           
         };
 
         var division;
@@ -182,57 +171,98 @@
             }
         };
 
-        //test new maner of drawing the measures and note
+        /*test new maner of drawing the measures and note*/
         
         function draw_track (svg, svg_index, nb_corde)
         {
            var measure_list = partition._instruments_list[svg_index]._track_part._measure_list;
-            var end_rect = 0;
-            for (var mes = 0; mes< measure_list.length; mes++)
+            
+            var x = 0;
+            var y = 0;
+            var newline = false;
+            for (var mes = 0; mes < measure_list.length; mes++)
             {
                 var m1 = new Array();
                 var m2 = new Array();
                 var nb_note = 0;
+                var width = 0;
+                
+                
                   for (var i = 0; i < measure_list[mes]._chord_list.lenght; i++)
                       {
                           nb_note += measure_list[mes]._chord_list[i]._note_list.length;
                       }
-                 var chord = measure_list[mes]._chord_list;
-                fill_it(measure_list[mes], m1, nb_corde, end_rect);
-                end_rect = m1[m1.length - 1][0]["x"] + 5;
-                fill_it(measure_list[mes + 1], m2, nb_corde, end_rect);
                 
-                draw_it (m2, end_rect, mes, nb_corde);
+                fill_it(measure_list[mes], m1, nb_corde, width);
+                width = m1[m1.length - 1]._x + 5;
                 
                 
+                fill_it(measure_list[mes + 1], m2, nb_corde, width);
+                var w2 = m2[m2.length - 1]._x + 5;
+                if (mes == 0)
+                    {
+                        x = 60;
+                        y = 30;
+                    }
+                else
+                    {
+                        if (newline)
+                        {
+                             x = 60;
+                             width = m1[m1.length - 1]._x + 5;
+                             y += nb_corde * 10 + 20;
+                             newline = false;
+                        }
+                        else
+                            {
+                                 if ((x + width + w2) > 820)
+                                    {
+                                        x += width;
+                                        var tmp = 820 - x;
+                                        width =  tmp;
+                                        newline = true;
+                                    }
+                                 else
+                                    {
+                                        x += width;
+                                    }
+                             }    
+                    }
+                    
+                draw_it (m1, width, mes, nb_corde,x, y, svg, svg_index);
             }
+             svg.rect(60, 20, 2, (nb_corde * 10 + 10), {id: "cursor_"+svg_index, fill:"red"});
+        }
+        
+        function draw_it (array, width, mes, nb_corde, x, y, svg, svg_index)
+        {
+            var h = nb_corde * 10 - 10;
+                
+                svg.text(20, y + 15 + (i * ((nb_corde * 10) + 20)), "T");
+                svg.text(20, y+ 30 + (i * ((nb_corde * 10) + 20)), "A");
+                svg.text(20, y+ 45 + (i * ((nb_corde * 10) + 20)), "B");  
+                drawLines(svg, svg_index, nb_corde, width, x, y, h, mes);
         }
         
         function fill_it (measure, array, nb_corde, end)
         {
-            division = measures._attributes._division == null ? division : measures._attributes._division;
+            division = measure._attributes._division == null ? division : measure._attributes._division;
             var chord_list = measure._chord_list;
             var interval = 5;
             for (var chord = 0; chord < chord_list.length; chord++)
                 {
                     var note_list = chord_list[chord]._note_list;
-                    var duration;
+            
                     for (var note = 0; note < note_list.length; note++)
                         {
-                            var couple = new Array ();
-                            var tab = new Array ();
-                            var fret = note_list[note]._fret_technical;
-                            var string = note_list[note]._string_technical;
-                            
-                            duration = note_list[note]._duration;
-                            couple.x = interval + end;
-                            couple.y = y = (35 + (string - 1) * 10) + (((nb_corde * 10)+20));
-                            tab[fret] = couple;
-                            array.push(tab);
+                            draw = new DrawNote(interval + end + 60, (35 + (note_list[note]._string - 1) * 10) + (((nb_corde * 10)+20)), note_list[note]._fret_technical,
+                            note_list[note]._string_technical, note_list[note]._duration, measure);
+                            array.push(draw);
                         }
-                    interval += 50 * (parseInt(duration) / parseInt(division));
+                    interval += 50 * (parseInt(array[chord]._duration) / parseInt(division));
                 }
         }
+        
         $($("rect[id^='m_']"), svg_inst[current_svg].root()).click(function (){
             var id = $(this).attr("id");
             if ($("img[id='"+id+"']").attr("src") == "image/casegrise.png")
