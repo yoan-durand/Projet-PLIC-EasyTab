@@ -63,6 +63,7 @@ app.get('/login', routes.login);
 app.post('/login', routes.loginPost);
 app.get('/logout', routes.logout);
 app.post('/midi', routes.midi);
+app.get('/testP', routes.testP);
 app.get('/tablatures', routes.tablatures);
 app.get('/upload', routes.upload);
 app.post('/upload', routes.uploadPost);

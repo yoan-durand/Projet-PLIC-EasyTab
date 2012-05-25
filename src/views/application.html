@@ -268,14 +268,27 @@
                 event : "dblclick",
                 style : "inherit"
         });
-
+        
+        
         $.ajax({
+            type: "GET",
+            url: 'testP',
+            dataType: 'text',
+            success: function (data, textStatus, jqXHR) {
+                                alert (data);
+            },
+            error: function (xhr, status, err) {
+                alert("fail");
+            }
+        });
+		
+        
+         $.ajax({
             type: "POST",
             url: 'midi',
 			data: { 'encoded' : JSON.stringify({ encoded : partition })},
 			dataType: "json",
             success: function (data, textStatus, jqXHR) {
-                                alert (data);
 				$(".page").append(
 				"<object classid='clsid:02BF25D5-8C17-4B23-BC80-D3488ABDDC6B'"+
 				"codebase='http://www.apple.com/qtactivex/qtplugin.cab' width='180'"+
@@ -291,7 +304,8 @@
                 alert("fail");
             }
         });
-		
+
+
 		// A partir d'un temps MIDI, renvoi le temps correspondant en millisecondes
 		function MIDItoSecond(midi_time, tempo)
 		{

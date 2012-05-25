@@ -29,20 +29,21 @@
 	$time_beat = $partition["_instruments_list"][0]["_track_part"]["_measure_list"][0]["_attributes"]["_time_beat"];
 	$type_beat = $partition["_instruments_list"][0]["_track_part"]["_measure_list"][0]["_attributes"]["_type_beat"];
 
-	$txt = "MFile 1 "+($nb_tracks+1)+" 480";
-	$txt += "MTrk
-			0 Tempo "+$tempo+"
-			0 Meta TrkName '".$partition["_title"]+"'
-			0 TimeSig "+$time_beat+"/"+$type_beat+" 9 39
-			0 Meta TrkEnd
-			TrkEnd";
+
+	$txt = "MFile 1 ".($nb_tracks+1)." 480\n";
+	$txt .= "MTrk\n";
+	$txt .=	"0 Tempo ".$tempo."\n";
+        $txt .= "0 Meta TrkName '".$partition["_title"]."'\n";
+	$txt .= "0 TimeSig ".$time_beat."/".$type_beat." 9 39\n";
+	$txt .= "0 Meta TrkEnd\n";
+	$txt .=	"TrkEnd\n";
 	for ($i = 0; $i < count($partition["_instruments_list"]); $i++)
 	{
-                
-		$txt += "MTrk
-				0 Meta TrkName '".$partition["_instruments_list"][$i]["_name_instrument"]."'";
-                $txt += '0 PrCh ch='.$partition["_instruments_list"][$i]["_midi_channel"].' p='.$partition["_instruments_list"][$i]["_gm_instrument"];
-		$measures = $partition["_instruments_list"][$i]["_track_part"]["_measure_list"];
+		$txt .= "MTrk\n";
+		$txt .=	"0 Meta Text '".$partition["_instruments_list"][$i]["_name_instrument"]."'\n";
+                $txt .= '0 PrCh ch='.$partition["_instruments_list"][$i]["_midi_channel"].' p='.$partition["_instruments_list"][$i]["_gm_instrument"]."\n";
+						
+                $measures = $partition["_instruments_list"][$i]["_track_part"]["_measure_list"];
                 
 		for ($j = 0; $j < count($measures); $j++)
 		{
@@ -52,8 +53,8 @@
 				$notes = $chords[$k]["_note_list"];
 				for ($h = 0; $h < count($notes); $h++)
 				{
-					$txt += $notes[$h]["_begin"]+" On ch="+$partition["_instruments_list"][$i]["_midi_channel"]+" n="+$note_ref[$notes[$h]["_step_pitch"]+$notes[$h]["_octave_pitch"]]+" v=95";
-					$txt += ($notes[$h]["_begin"]+$notes[$h]["_duration"])+" Off ch="+$partition["_instruments_list"][$i]["_midi_channel"]+" n="+$note_ref[$notes[$h]["_step_pitch"]+$notes[$h]["_octave_pitch"]]+" v=80";
+					$txt .= $notes[$h]["_begin"]." On ch=".$partition["_instruments_list"][$i]["_midi_channel"]." n=".$note_ref[$notes[$h]["_step_pitch"].$notes[$h]["_octave_pitch"]]." v=95\n";
+					$txt .= ($notes[$h]["_begin"]+($notes[$h]["_duration"] * 0.75))." Off ch=".$partition["_instruments_list"][$i]["_midi_channel"]." n=".$note_ref[$notes[$h]["_step_pitch"].$notes[$h]["_octave_pitch"]]." v=80\n";
 				}
 			}
 			if ($j == count($measures) - 1)
@@ -61,16 +62,18 @@
 				$last_measure = $measures[$j];
 				$last_chord = $last_measure["_chord_list"][count($last_measure["_chord_list"])-1];
 				$last_note = $last_chord["_note_list"][count($last_chord["_note_list"])-1];
-				$txt += ($last_note["_begin"]+$last_note["_duration"])+" Meta TrkEnd
-						TrkEnd";
+				$txt .= ($last_note["_begin"]+($last_note["_duration"] * 0.75))." Meta TrkEnd\n";
+				$txt .=	"TrkEnd";
 			}
 		}
 	}
-        return $txt;
 	require('classes/midi.class.php');
+        $monfichier = fopen('../public/js/log.txt', 'w+');
+        fputs($monfichier, $txt);
+        fclose($monfichier);
         
 	$midi = new Midi();
 	$midi->importTxt($txt);
 	$midi->saveMidFile("../public/js/demo.mid", 0666);
-
+	
 ?>

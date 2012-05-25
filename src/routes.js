@@ -154,13 +154,29 @@ function forceLogin(req, res) {
 exports.midi = function(req, res) {
 	var request = require('request');
 	request.post({
-		url: 'http://localhost:81/Projet-PLIC-EasyTab/src/php/MIDI.php',
-		form: {
-			encoded: req.body.encoded
+		url: 'http://localhost:80/Projet-PLIC-EasyTab/src/php/MIDI.php',
+		form:
+                {
+                    encoded: req.body.encoded
 		}
-	});
+        });
 	res.send('true');
 }
+
+exports.testP = function(req, res) {
+	var request = require('request');
+	var myresult = request.get({
+		url: 'http://localhost:80/Projet-PLIC-EasyTab/src/php/testP.php',
+		form:
+                {
+			encoded: req.body.encoded
+		}}
+                , function (error, response, body)
+                {
+                    res.send(response);
+                });
+}
+
 
 exports.upload = function(req, res) {
 	if (forceLogin(req, res))
