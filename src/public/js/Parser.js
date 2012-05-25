@@ -320,7 +320,12 @@ function parse_note (node_note, division)
 
         var node_pitch_step = node_note.getElementsByTagName("step");
         note_obj._step_pitch = get_nodeValue (node_pitch_step);
-
+        
+        var node_alter = node_note.getElementsByTagName("alter");
+        if (node_alter.length != 0)
+        {
+           note_obj._step_pitch += '#';
+        }
         var node_pitch_octave = node_note.getElementsByTagName("octave");
         note_obj._octave_pitch = get_nodeValue (node_pitch_octave);
 
