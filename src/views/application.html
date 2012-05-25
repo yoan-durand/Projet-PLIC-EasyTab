@@ -23,6 +23,16 @@
         <script src="js/Parser.js"></script>
         <script src="js/Event.js"></script>
         <script src="js/DrawNote.js"></script>
+        <script type="text/javascript">
+                if (config) {
+                        alert('conflit entre 2 variables');
+                        debugger;
+                }
+                var config = {
+                        tablature: '{{tablature}}'
+                }
+        </script>
+
 {% endblock %}
 
 {% block content %}
@@ -167,9 +177,14 @@
 
             }
         };
+<<<<<<< HEAD
 */
         /*test new maner of drawing the measures and note*/
         
+
+
+        //test new maner of drawing the measures and note
+
         function draw_track (svg, svg_index, nb_corde)
         {
            var measure_list = partition._instruments_list[svg_index]._track_part._measure_list;
@@ -239,6 +254,7 @@
                     }
                     der = false;
                 }
+
             }
              svg.rect(60, 20, 2, (nb_corde * 10 + 10), {id: "cursor_"+svg_index, fill:"red"});
         }
@@ -327,6 +343,12 @@
                 alert("fail");
             }
         });
+		
+		// A partir d'un temps MIDI, renvoi le temps correspondant en millisecondes
+		function MIDItoSecond(midi_time, tempo)
+		{
+			return midi_time * ((60/ tempo) * 1000) / 480 ;
+		}
 
     });
 </script>
