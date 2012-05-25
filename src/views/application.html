@@ -117,10 +117,7 @@
                 svg.text(x, y, ""+mes+"", {stroke: "red", "font-size": "10px"});
                 svg.rect(x, y, width, h, {id: "m_"+ (1 + (4 * i)),fill:"white", stroke:"black"});
 
-                for (var j = 0; j < nb_corde; j++)
-                    {
-                        svg.line(x, y + (j*10) + (i * ((nb_corde * 10) + 20)), 820, y + (j*10) + (i * ((nb_corde * 10) + 20)), {stroke:"black"});
-                    }
+                
                 //drawNotes(svg, i, svg_index, nb_corde);
             
            
@@ -128,7 +125,7 @@
 
         var division;
 
-        function drawNotes(svg, i, svg_index, nb_corde){
+       /* functionPosNotes(svg, i, svg_index, nb_corde){
             var measures = partition._instruments_list[svg_index]._track_part._measure_list;
 
             for (var mes = (0 + i) * 4;  mes < measures.length && mes < (4 + (i * 4)); mes++)
@@ -170,7 +167,7 @@
 
             }
         };
-
+*/
         /*test new maner of drawing the measures and note*/
         
         function draw_track (svg, svg_index, nb_corde)
@@ -180,56 +177,68 @@
             var x = 0;
             var y = 0;
             var newline = false;
+            var der = false;
+            var ancient = 0;
             for (var mes = 0; mes < measure_list.length; mes++)
             {
+                ancient = width;
                 var m1 = new Array();
                 var m2 = new Array();
-                var nb_note = 0;
                 var width = 0;
+              
+                
+                fill_it(measure_list[mes], m1, nb_corde, width, y);
+                width = m1[m1.length - 1]._timenote._width+ 5;
                 
                 
-                  for (var i = 0; i < measure_list[mes]._chord_list.lenght; i++)
-                      {
-                          nb_note += measure_list[mes]._chord_list[i]._note_list.length;
-                      }
-                
-                fill_it(measure_list[mes], m1, nb_corde, width);
-                width = m1[m1.length - 1]._x + 5;
-                
-                
-                fill_it(measure_list[mes + 1], m2, nb_corde, width);
-                var w2 = m2[m2.length - 1]._x + 5;
+                fill_it(measure_list[mes + 1], m2, nb_corde, width,y);
+                var w2 = m2[m2.length - 1]._timenote._width+ 5;;
                 if (mes == 0)
                     {
                         x = 60;
                         y = 30;
+                        svg.text(20, y + 15 + (i * ((nb_corde * 10) + 20)), "T");
+                        svg.text(20, y+ 30 + (i * ((nb_corde * 10) + 20)), "A");
+                        svg.text(20, y+ 45 + (i * ((nb_corde * 10) + 20)), "B");
                     }
                 else
                     {
                         if (newline)
                         {
                              x = 60;
-                             width = m1[m1.length - 1]._x + 5;
-                             y += nb_corde * 10 + 20;
+                             width = m1[m1.length - 1]._timenote._width+ 5;
+                             y += nb_corde * 10 + 20;   
+                             svg.text(20, y + 15 + (i * ((nb_corde * 10) + 20)), "T");
+                             svg.text(20, y+ 30 + (i * ((nb_corde * 10) + 20)), "A");
+                             svg.text(20, y+ 45 + (i * ((nb_corde * 10) + 20)), "B"); 
                              newline = false;
                         }
                         else
                             {
                                  if ((x + width + w2) > 820)
                                     {
-                                        x += width;
+                                        x += ancient;
                                         var tmp = 820 - x;
                                         width =  tmp;
                                         newline = true;
+                                        der = true;
                                     }
                                  else
                                     {
-                                        x += width;
+                                        x += ancient;
                                     }
                              }    
                     }
                     
                 draw_it (m1, width, mes, nb_corde,x, y, svg, svg_index);
+                if (der)
+                {
+                    for (var j = 0; j < nb_corde; j++)
+                    {
+                        svg.line(60, y + (j*10) + (i * ((nb_corde * 10) + 20)), 820, y + (j*10) + (i * ((nb_corde * 10) + 20)), {stroke:"black"});
+                    }
+                    der = false;
+                }
             }
              svg.rect(60, 20, 2, (nb_corde * 10 + 10), {id: "cursor_"+svg_index, fill:"red"});
         }
@@ -238,15 +247,20 @@
         {
             var h = nb_corde * 10 - 10;
                 
-                svg.text(20, y + 15 + (i * ((nb_corde * 10) + 20)), "T");
-                svg.text(20, y+ 30 + (i * ((nb_corde * 10) + 20)), "A");
-                svg.text(20, y+ 45 + (i * ((nb_corde * 10) + 20)), "B");  
+                 
                 drawLines(svg, svg_index, nb_corde, width, x, y, h, mes);
         }
         
-        function fill_it (measure, array, nb_corde, end)
+        function fill_it (measure, array, nb_corde, end, y)
         {
-            division = measure._attributes._division == null ? division : measure._attributes._division;
+            /*if (measure._attributes != null)
+            {
+                if (measure._attributes._division != null)
+                {
+                    division = measure._attributes._division;
+                }
+            }*/
+           
             var chord_list = measure._chord_list;
             var interval = 5;
             for (var chord = 0; chord < chord_list.length; chord++)
@@ -255,11 +269,13 @@
             
                     for (var note = 0; note < note_list.length; note++)
                         {
-                            draw = new DrawNote(interval + end + 60, (35 + (note_list[note]._string - 1) * 10) + (((nb_corde * 10)+20)), note_list[note]._fret_technical,
+                            timnote = new TimeNote(interval + end + 60, y, note_list[note]._duration/480, nb_corde*10);
+                            pos = new PosNote( (timnote._width - timnote._posx) /2, (35 + (note_list[note]._string_technical - 1) * 10) + (((nb_corde * 10)+20)), note_list[note]._fret_technical,
                             note_list[note]._string_technical, note_list[note]._duration, measure);
+                            draw = new Draw (timnote, pos);
                             array.push(draw);
                         }
-                    interval += 50 * (parseInt(array[chord]._duration) / parseInt(division));
+                    interval += parseInt(array[chord]._duration/480);
                 }
         }
         
