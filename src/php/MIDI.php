@@ -1,4 +1,4 @@
-<?php
+    <?php
 
     ini_set('display_errors', 1);
     error_reporting(E_ALL);
@@ -32,15 +32,18 @@
 	$txt = "MFile 1 "+($nb_tracks+1)+" 480";
 	$txt += "MTrk
 			0 Tempo "+$tempo+"
-			0 Meta TrkName '"+$partition["_title"]+"'
+			0 Meta TrkName '".$partition["_title"]+"'
 			0 TimeSig "+$time_beat+"/"+$type_beat+" 9 39
 			0 Meta TrkEnd
 			TrkEnd";
 	for ($i = 0; $i < count($partition["_instruments_list"]); $i++)
 	{
+                
 		$txt += "MTrk
-				0 Meta TrkName '"+$partition["_instruments_list"][$i]["_name_instrument"]+"'";
+				0 Meta TrkName '".$partition["_instruments_list"][$i]["_name_instrument"]."'";
+                $txt += '0 PrCh ch='.$partition["_instruments_list"][$i]["_midi_channel"].' p='.$partition["_instruments_list"][$i]["_gm_instrument"];
 		$measures = $partition["_instruments_list"][$i]["_track_part"]["_measure_list"];
+                
 		for ($j = 0; $j < count($measures); $j++)
 		{
 			$chords = $measures[$j]["_chord_list"];
@@ -63,9 +66,9 @@
 			}
 		}
 	}
-
+        return $txt;
 	require('classes/midi.class.php');
-
+        
 	$midi = new Midi();
 	$midi->importTxt($txt);
 	$midi->saveMidFile("../public/js/demo.mid", 0666);

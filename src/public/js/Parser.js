@@ -107,9 +107,8 @@ function parse_instruments (xmlDoc)
     for (var i = 0; i < nodes_part.length; i++)
     {
        list_instruments_obj[i]._track_part = parse_track (nodes_part[i]);
+       next_begin = 0;
     }
-
-
     return list_instruments_obj;
 }
 
@@ -162,8 +161,8 @@ function parse_list_measure (node_part)
         measure_obj._chord_list = parse_chord_list (nodes_measure[i], measure_obj._attributes._division);
         
         list_measure_obj.push (measure_obj);
-                         //Si la pile n'est pas vide, j'empile les mesures.
-                //Si il y a un noeud ending, je n'empile pas
+         //Si la pile n'est pas vide, j'empile les mesures.
+         //Si il y a un noeud ending, je n'empile pas
 
         var nodes_repeat = nodes_measure[i].getElementsByTagName("repeat");
         if (nodes_repeat.length != 0)
@@ -183,20 +182,22 @@ function parse_list_measure (node_part)
                     if (node_ending.length != 0)
                     {
                         var pile_measures = pile_barline[pile_barline.length - 1];
-                        for (var h = 0; h < pile_measures.length; ++h)
+                        add_repeated_measures (list_measure_obj, pile_measures)
+                     /*   for (var h = 0; h < pile_measures.length; ++h)
                         {
                             list_measure_obj.push (pile_measures[h]);
-                        }
+                        }*/
                     }
                     else
                     {
-                        var pile_measures  = pile_barline.pop();
+                        var pile_measures = pile_barline.pop();
                         if (pile_measures != undefined)
                         {
-                            for (h = 0; h < pile_measures.length; ++h)
+                          /*  for (h = 0; h < pile_measures.length; ++h)
                             {
                                 list_measure_obj.push (pile_measures[h]);
-                            }
+                            }*/
+                            add_repeated_measures (list_measure_obj, pile_measures)
                         }
                     }
                 }
@@ -210,10 +211,6 @@ function parse_list_measure (node_part)
               if (node_ending.length != 0)
               {
                  pile_measures  = pile_barline.pop()
-               /*  for (h = 0; h < pile_measures.length; ++h)
-                 {
-                    list_measure_obj.push (pile_measures[h]);
-                 }*/
               }
               else
               {
@@ -221,14 +218,26 @@ function parse_list_measure (node_part)
               }
           }
         }
-        
-        // measure_obj._direction_barline   //TODO barline
-         //measure_obj._time_barline
-        
     }
     return list_measure_obj;
 }
 
+function add_repeated_measures(list_measure_obj, pile_measures)
+{
+   for (var h = 0; h < pile_measures.length; ++h)
+    {
+        for (var i = 0; i < pile_measures[h]._chord_list.length ; ++i)
+        {
+          var chord = pile_measures[h]._chord_list[i];
+           for (var j = 0; j < chord._note_list.length; j++)
+           {
+              chord._note_list[j]._begin = next_begin;
+           }
+           next_begin += chord._note_list[chord._note_list.length - 1]._duration;
+        }
+      list_measure_obj.push (pile_measures[h]);
+    }
+}
 function parse_attributes (node_measure)
 {
     var attribute_obj = new Attribute ();
