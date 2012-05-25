@@ -29,63 +29,17 @@
 	$time_beat = $partition["_instruments_list"][0]["_track_part"]["_measure_list"][0]["_attributes"]["_time_beat"];
 	$type_beat = $partition["_instruments_list"][0]["_track_part"]["_measure_list"][0]["_attributes"]["_type_beat"];
 
-	$txt = "MFile 1 "+($nb_tracks+1)+" 480";
-	$txt += "MTrk
-			0 Tempo "+$tempo+"
-			0 Meta TrkName '"+$partition["_title"]+"'
-			0 TimeSig "+$time_beat+"/"+$type_beat+" 9 39
+	$txt = "MFile 1 ".($nb_tracks+1)." 480";
+	$txt .= "MTrk
+			0 Tempo ".$tempo."
+			0 Meta TrkName '".$partition["_title"]."'
+			0 TimeSig ".$time_beat."/".$type_beat." 9 39
 			0 Meta TrkEnd
 			TrkEnd";
 	for ($i = 0; $i < count($partition["_instruments_list"]); $i++)
 	{
-		$txt += "MTrk
-				0 Meta TrkName '"+$partition["_instruments_list"][$i]["_name_instrument"]+"'";
-		$txt += "0 Par ch="+($partition["_instruments_list"][$i]["_midi_channel"]+1)+" c=100 v=0
-				0 Par ch="+($partition["_instruments_list"][$i]["_midi_channel"]+1)+" c=101 v=0
-				0 Par ch="+($partition["_instruments_list"][$i]["_midi_channel"]+1)+" c=6 v=12
-				0 Pb ch="+($partition["_instruments_list"][$i]["_midi_channel"]+1)+" v=8192
-				0 Par ch="+($partition["_instruments_list"][$i]["_midi_channel"]+1)+" c=101 v=0
-				0 Par ch="+($partition["_instruments_list"][$i]["_midi_channel"]+1)+" c=100 v=1
-				0 Par ch="+($partition["_instruments_list"][$i]["_midi_channel"]+1)+" c=6 v=64
-				0 Par ch="+($partition["_instruments_list"][$i]["_midi_channel"]+1)+" c=38 v=0
-				0 Par ch="+($partition["_instruments_list"][$i]["_midi_channel"]+1)+" c=101 v=127
-				0 Par ch="+($partition["_instruments_list"][$i]["_midi_channel"]+1)+" c=100 v=127
-				0 Par ch="+$partition["_instruments_list"][$i]["_midi_channel"]+" c=100 v=0
-				0 Par ch="+$partition["_instruments_list"][$i]["_midi_channel"]+" c=101 v=0
-				0 Par ch="+$partition["_instruments_list"][$i]["_midi_channel"]+" c=6 v=12
-				0 Pb ch="+$partition["_instruments_list"][$i]["_midi_channel"]+" v=8192
-				0 Par ch="+$partition["_instruments_list"][$i]["_midi_channel"]+" c=101 v=0
-				0 Par ch="+$partition["_instruments_list"][$i]["_midi_channel"]+" c=100 v=1
-				0 Par ch="+$partition["_instruments_list"][$i]["_midi_channel"]+" c=6 v=64
-				0 Par ch="+$partition["_instruments_list"][$i]["_midi_channel"]+" c=38 v=0
-				0 Par ch="+$partition["_instruments_list"][$i]["_midi_channel"]+" c=101 v=127
-				0 Par ch="+$partition["_instruments_list"][$i]["_midi_channel"]+" c=100 v=127
-				0 Par ch="+($partition["_instruments_list"][$i]["_midi_channel"]+1)+" c=101 v=0
-				0 Par ch="+($partition["_instruments_list"][$i]["_midi_channel"]+1)+" c=100 v=2
-				0 Par ch="+($partition["_instruments_list"][$i]["_midi_channel"]+1)+" c=6 v=64
-				0 Par ch="+($partition["_instruments_list"][$i]["_midi_channel"]+1)+" c=101 v=127
-				0 Par ch="+($partition["_instruments_list"][$i]["_midi_channel"]+1)+" c=100 v=127
-				0 Par ch="+$partition["_instruments_list"][$i]["_midi_channel"]+" c=101 v=0
-				0 Par ch="+$partition["_instruments_list"][$i]["_midi_channel"]+" c=100 v=2
-				0 Par ch="+$partition["_instruments_list"][$i]["_midi_channel"]+" c=6 v=64
-				0 Par ch="+$partition["_instruments_list"][$i]["_midi_channel"]+" c=101 v=127
-				0 Par ch="+$partition["_instruments_list"][$i]["_midi_channel"]+" c=100 v=127
-				0 PrCh ch="+($partition["_instruments_list"][$i]["_midi_channel"]+1)+" p=25
-				0 PrCh ch="+$partition["_instruments_list"][$i]["_midi_channel"]+" p=25
-				0 Par ch="+($partition["_instruments_list"][$i]["_midi_channel"]+1)+" c=0 v=0
-				0 Par ch="+$partition["_instruments_list"][$i]["_midi_channel"]+" c=0 v=0
-				0 Par ch="+($partition["_instruments_list"][$i]["_midi_channel"]+1)+" c=7 v=104
-				0 Par ch="+$partition["_instruments_list"][$i]["_midi_channel"]+" c=7 v=104
-				0 Par ch="+($partition["_instruments_list"][$i]["_midi_channel"]+1)+" c=10 v=64
-				0 Par ch="+$partition["_instruments_list"][$i]["_midi_channel"]+" c=10 v=64
-				0 Par ch="+($partition["_instruments_list"][$i]["_midi_channel"]+1)+" c=93 v=0
-				0 Par ch="+$partition["_instruments_list"][$i]["_midi_channel"]+" c=93 v=0
-				0 Par ch="+($partition["_instruments_list"][$i]["_midi_channel"]+1)+" c=91 v=0
-				0 Par ch="+$partition["_instruments_list"][$i]["_midi_channel"]+" c=91 v=0
-				0 Par ch="+($partition["_instruments_list"][$i]["_midi_channel"]+1)+" c=92 v=0
-				0 Par ch="+$partition["_instruments_list"][$i]["_midi_channel"]+" c=92 v=0
-				0 Par ch="+($partition["_instruments_list"][$i]["_midi_channel"]+1)+" c=95 v=0
-				0 Par ch="+$partition["_instruments_list"][$i]["_midi_channel"]+" c=95 v=0";
+		$txt .= "MTrk
+				0 Meta TrkName '".$partition["_instruments_list"][$i]["_name_instrument"]."'";
 		$measures = $partition["_instruments_list"][$i]["_track_part"]["_measure_list"];
 		for ($j = 0; $j < count($measures); $j++)
 		{
@@ -95,8 +49,8 @@
 				$notes = $chords[$k]["_note_list"];
 				for ($h = 0; $h < count($notes); $h++)
 				{
-					$txt += $notes[$h]["_begin"]+" On ch="+$partition["_instruments_list"][$i]["_midi_channel"]+" n="+$note_ref[$notes[$h]["_step_pitch"]+$notes[$h]["_octave_pitch"]]+" v=95";
-					$txt += ($notes[$h]["_begin"]+$notes[$h]["_duration"])+" Off ch="+$partition["_instruments_list"][$i]["_midi_channel"]+" n="+$note_ref[$notes[$h]["_step_pitch"]+$notes[$h]["_octave_pitch"]]+" v=80";
+					$txt .= $notes[$h]["_begin"]." On ch=".$partition["_instruments_list"][$i]["_midi_channel"]." n="+$note_ref[$notes[$h]["_step_pitch"].$notes[$h]["_octave_pitch"]]." v=95";
+					$txt .= ($notes[$h]["_begin"]+$notes[$h]["_duration"])." Off ch=".$partition["_instruments_list"][$i]["_midi_channel"]." n=".$note_ref[$notes[$h]["_step_pitch"].$notes[$h]["_octave_pitch"]]." v=80";
 				}
 			}
 			if ($j == count($measures) - 1)
@@ -104,7 +58,7 @@
 				$last_measure = $measures[$j];
 				$last_chord = $last_measure["_chord_list"][count($last_measure["_chord_list"])-1];
 				$last_note = $last_chord["_note_list"][count($last_chord["_note_list"])-1];
-				$txt += ($last_note["_begin"]+$last_note["_duration"])+" Meta TrkEnd
+				$txt .= ($last_note["_begin"]+$last_note["_duration"])." Meta TrkEnd
 						TrkEnd";
 			}
 		}
