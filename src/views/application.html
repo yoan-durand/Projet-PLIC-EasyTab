@@ -107,8 +107,7 @@
                 svg_inst.push(svg);
                 var height = 60 + Math.ceil((80 * (nb_measure / 4))) < 400 ? 400 : 60 + Math.ceil((80 * (nb_measure / 4)));
                 svg.rect(0, 0, 900, height, { fill: "white", stroke:"black"});
-                draw_track (svg, i, nb_corde)
-               
+                draw_track (svg, i, nb_corde);               
             }
         });
         }
@@ -125,7 +124,7 @@
         function drawLines(svg, svg_index, nb_corde, width, x, y, h, mes)
         {
                 svg.text(x, y, ""+mes+"", {stroke: "red", "font-size": "10px"});
-                svg.rect(x, y, width, h, {id: "m_"+ (1 + (4 * i)),fill:"white", stroke:"black"});
+                svg.rect(x, y, width, h, {id: "m_"+mes,fill:"white", stroke:"black"});
 
                 
                 //drawNotes(svg, i, svg_index, nb_corde);
@@ -207,6 +206,7 @@
                 var m1 = new Array();
                 var m2 = new Array();
                 var width = 0;
+                var w2 = 0;
               
                 
                 fill_it(measure_list[mes], m1, nb_corde, width, y, ancient);
@@ -215,7 +215,7 @@
                if (mes + 1 < measure_list.length)
                    {
                         fill_it(measure_list[mes + 1], m2, nb_corde, width,y,width);
-                         var w2 = m2[m2.length - 1]._posx+m2[m2.length - 1]._width+ 5;
+                       w2 = m2[m2.length - 1]._posx+m2[m2.length - 1]._width+ 5;
                    }
                
                 if (mes == 0)
@@ -240,7 +240,7 @@
                         }
                         else
                             {
-                                 if (( width + w2) > 820 && (mes < measure_list.length))
+                                 if (( width + w2) > 820 && (mes + 1 < measure_list.length))
                                     {
                                         x += ancient;
                                         var tmp = 820 - x;
