@@ -212,16 +212,19 @@
                 fill_it(measure_list[mes], m1, nb_corde, width, y, ancient);
                 width = m1[m1.length - 1]._posx+ m1[m1.length - 1]._width+ 5;
                 
-                
-                fill_it(measure_list[mes + 1], m2, nb_corde, width,y,width);
-                var w2 = m2[m2.length - 1]._posx+m2[m2.length - 1]._width+ 5;
+               if (mes + 1 < measure_list.length)
+                   {
+                        fill_it(measure_list[mes + 1], m2, nb_corde, width,y,width);
+                         var w2 = m2[m2.length - 1]._posx+m2[m2.length - 1]._width+ 5;
+                   }
+               
                 if (mes == 0)
                     {
                         x = 60;
                         y = 30;
-                        svg.text(20, y + 15 + (((nb_corde * 10) + 20)), "T");
-                        svg.text(20, y+ 30 + (((nb_corde * 10) + 20)), "A");
-                        svg.text(20, y+ 45 + (((nb_corde * 10) + 20)), "B");
+                        svg.text(20, y + 15 + (i*((nb_corde * 10) + 20)), "T");
+                        svg.text(20, y+ 30 + (i*((nb_corde * 10) + 20)), "A");
+                        svg.text(20, y+ 45 + (i*((nb_corde * 10) + 20)), "B");
                     }
                 else
                     {
@@ -230,14 +233,14 @@
                              x = 60;
                              width =  m1[m1.length - 1]._posx+ m1[m1.length - 1]._width+ 5;
                              y += nb_corde * 10 + 20;   
-                             svg.text(20, y + 15 + ( ((nb_corde * 10) + 20)), "T");
-                             svg.text(20, y+ 30 + ( ((nb_corde * 10) + 20)), "A");
-                             svg.text(20, y+ 45 + ( ((nb_corde * 10) + 20)), "B"); 
+                             svg.text(20, y + 15 + ( i* ((nb_corde * 10) + 20)), "T");
+                             svg.text(20, y+ 30 + ( i*  ((nb_corde * 10) + 20)), "A");
+                             svg.text(20, y+ 45 + ( i* ((nb_corde * 10) + 20)), "B"); 
                              newline = false;
                         }
                         else
                             {
-                                 if (( width + w2) > 820)
+                                 if (( width + w2) > 820 && (mes < measure_list.length))
                                     {
                                         x += ancient;
                                         var tmp = 820 - x;
@@ -268,20 +271,16 @@
         
         function draw_it (array, width, mes, nb_corde, x, y, svg, svg_index)
         {
-            var h = nb_corde * 10 - 10; 
+            var h = nb_corde * 10 -10; 
                 drawLines(svg, svg_index, nb_corde, width, x, y, h, mes);
         }
         
         function fill_it (measure, array, nb_corde, end, y, ancient)
-        {
-            /*if (measure._attributes != null)
-            {
-                if (measure._attributes._division != null)
-                {
-                    division = measure._attributes._division;
-                }
-            }*/
-           
+        {        
+           if (measure == null)
+               {
+                   return;
+               }
             var chord_list = measure._chord_list;
            
            if (ancient == null)
