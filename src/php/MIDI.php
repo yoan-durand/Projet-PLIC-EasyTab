@@ -53,16 +53,43 @@
 				$notes = $chords[$k]["_note_list"];
 				for ($h = 0; $h < count($notes); $h++)
 				{
-					$txt .= $notes[$h]["_begin"]." On ch=".$partition["_instruments_list"][$i]["_midi_channel"]." n=".$note_ref[$notes[$h]["_step_pitch"].$notes[$h]["_octave_pitch"]]." v=95\n";
-					$txt .= ($notes[$h]["_begin"]+($notes[$h]["_duration"] * 0.75))." Off ch=".$partition["_instruments_list"][$i]["_midi_channel"]." n=".$note_ref[$notes[$h]["_step_pitch"].$notes[$h]["_octave_pitch"]]." v=80\n";
-				}
+                                    if ($notes[$h]["_fret_technical"] != null)
+                                    {
+                                        if ($notes[$h]["_step_pitch"]!= null)
+                                        {
+                                            $n=$note_ref[$notes[$h]["_step_pitch"].$notes[$h]["_octave_pitch"]];
+                                        }
+                                        else
+                                        {
+                                            $n=$notes[$h]["_fret_technical"];
+                                        }
+                                        $txt .= $notes[$h]["_begin"]." On ch=".$partition["_instruments_list"][$i]["_midi_channel"]." n=".$n." v=95\n";
+                                    }
+                                    
+                                }
+				for ($h = 0; $h < count($notes); $h++)
+				{
+                                    if ($notes[$h]["_fret_technical"] != null)
+                                    {
+                                        if ($notes[$h]["_step_pitch"]!= null)
+                                        {
+                                            $n=$note_ref[$notes[$h]["_step_pitch"].$notes[$h]["_octave_pitch"]];
+                                        }
+                                        else
+                                        {
+                                            $n=$notes[$h]["_fret_technical"];
+                                        }
+                                        //$txt .= ($notes[$h]["_begin"]+($notes[$h]["_duration"] * 0.75))." Off ch=".$partition["_instruments_list"][$i]["_midi_channel"]." n=".$n." v=80\n";
+                                        $txt .= ($notes[$h]["_begin"]+($notes[$h]["_duration"]))." Off ch=".$partition["_instruments_list"][$i]["_midi_channel"]." n=".$n." v=80\n"; 
+                                    }
+                                }                                
 			}
 			if ($j == count($measures) - 1)
 			{
 				$last_measure = $measures[$j];
 				$last_chord = $last_measure["_chord_list"][count($last_measure["_chord_list"])-1];
 				$last_note = $last_chord["_note_list"][count($last_chord["_note_list"])-1];
-				$txt .= ($last_note["_begin"]+($last_note["_duration"] * 0.75))." Meta TrkEnd\n";
+				$txt .= ($last_note["_begin"]+($last_note["_duration"]))." Meta TrkEnd\n";
 				$txt .=	"TrkEnd";
 			}
 		}
