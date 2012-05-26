@@ -291,25 +291,33 @@
                 {
                     var x = ancient;
                 }
-   
-            for (var chord = 0; chord < chord_list.length; chord++)
-                {  
-                    var note_list = chord_list[chord]._note_list;
-                    var  timnote = new TimeNote(x, y, 0, nb_corde*10, new Array ());
-                    for (var note = 0; note < note_list.length; note++)
-                        {
-                            if (x >= 820)
-                                {
-                                    x = 60;
-                                }
-                            timnote._width = (note_list[note]._duration/480)*25;
-                           var  pos = new PosNote(((timnote._width + timnote._posx ) - timnote._posx) /2, (35 + (note_list[note]._string_technical - 1) * 10) + (((nb_corde * 10)+20)), note_list[note]._fret_technical,
-                            note_list[note]._string_technical, note_list[note]._duration, measure);
-                            timnote._listnote.push(pos);
-                            x += timnote._width;
+                
+            if (chord_list.length > 0)
+            {
+                for (var chord = 0; chord < chord_list.length; chord++)
+                    {  
+                        var note_list = chord_list[chord]._note_list;
+                        var  timnote = new TimeNote(x, y, 0, nb_corde*10 -10, new Array ());
+                        for (var note = 0; note < note_list.length; note++)
+                            {
+                                if (x >= 820)
+                                    {
+                                        x = 60;
+                                    }
+                                timnote._width = (note_list[note]._duration/480)*25;
+                            var  pos = new PosNote(((timnote._width + timnote._posx ) - timnote._posx) /2, (35 + (note_list[note]._string_technical - 1) * 10) + (((nb_corde * 10)+20)), note_list[note]._fret_technical,
+                                note_list[note]._string_technical, note_list[note]._duration, measure);
+                                timnote._listnote.push(pos);
+                                x += timnote._width;
+                            }
+                            array.push(timnote);          
                         }
-                        array.push(timnote);          
-                }
+            }
+            else
+            {
+                var timnote = new TimeNote (x,y, 80, nb_corde * 10 -10, new Array ());
+                array.push (timnote);
+            }
         }
         
         $($("rect[id^='m_']"), svg_inst[current_svg].root()).click(function (){
