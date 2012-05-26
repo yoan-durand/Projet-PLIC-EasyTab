@@ -8,17 +8,12 @@ function PosNote (x, y, fret, string, duration, measure)
     this._measure = measure;
 }
 
-function TimeNote (posx, posy, width, height)
+function TimeNote (posx, posy, width, height, listnote)
 {
 	this._posx = posx;
 	this._posy = posy;
                         this._width = width;
                         this._height = height;
-}
-
-function Draw (timenote, posnote)
-{
-     this._timenote = timenote;
-     this._posnote = posnote;
+                        this._listnote = listnote;
 }
 
