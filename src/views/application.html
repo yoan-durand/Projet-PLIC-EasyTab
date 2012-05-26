@@ -339,8 +339,22 @@
                 event : "dblclick",
                 style : "inherit"
         });
-
+        
+        
         $.ajax({
+            type: "GET",
+            url: 'testP',
+            dataType: 'text',
+            success: function (data, textStatus, jqXHR) {
+                                alert (data);
+            },
+            error: function (xhr, status, err) {
+                alert("fail");
+            }
+        });
+		
+        
+         $.ajax({
             type: "POST",
             url: 'midi',
 			data: { 'encoded' : JSON.stringify({ encoded : partition })},
@@ -361,7 +375,8 @@
                 alert("fail");
             }
         });
-		
+
+
 		// A partir d'un temps MIDI, renvoi le temps correspondant en millisecondes
 		function MIDItoSecond(midi_time, tempo)
 		{
