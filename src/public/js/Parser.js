@@ -311,6 +311,10 @@ function parse_chord_list (node_measure, division)
         chord_list_obj.push (prec_chord);
     }
     //chord_obj._strumming =  //TODO strumming
+    if (node_notes.length == 0)
+    {
+        next_begin += (4 * 480) //attention a la signature
+    }
     return chord_list_obj;
 }
 
