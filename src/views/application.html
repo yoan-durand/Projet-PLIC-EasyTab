@@ -123,6 +123,7 @@
 
         function drawLines(svg, svg_index, nb_corde, width, x, y, h, mes)
         {
+                mes++;
                 svg.text(x, y, ""+mes+"", {stroke: "red", "font-size": "10px"});
                 svg.rect(x, y, width, h, {id: "m_"+mes,fill:"white", stroke:"black"});
 
@@ -217,30 +218,44 @@
                         fill_it(measure_list[mes + 1], m2, nb_corde, width,y,width);
                        w2 = m2[m2.length - 1]._posx+m2[m2.length - 1]._width+ 5;
                    }
+                   
+               var all = width + w2; 
                
                 if (mes == 0)
                     {
                         x = 60;
                         y = 30;
-                        svg.text(20, y + 15 + (i*((nb_corde * 10) + 20)), "T");
-                        svg.text(20, y+ 30 + (i*((nb_corde * 10) + 20)), "A");
-                        svg.text(20, y+ 45 + (i*((nb_corde * 10) + 20)), "B");
+                        svg.text(20, y + 15 + (((nb_corde * 10) + 20)), "T");
+                        svg.text(20, y+ 30 + (((nb_corde * 10) + 20)), "A");
+                        svg.text(20, y+ 45 + (((nb_corde * 10) + 20)), "B");
                     }
                 else
                     {
                         if (newline)
                         {
                              x = 60;
-                             width =  m1[m1.length - 1]._posx+ m1[m1.length - 1]._width+ 5;
+                            
                              y += nb_corde * 10 + 20;   
-                             svg.text(20, y + 15 + ( i* ((nb_corde * 10) + 20)), "T");
-                             svg.text(20, y+ 30 + ( i*  ((nb_corde * 10) + 20)), "A");
-                             svg.text(20, y+ 45 + ( i* ((nb_corde * 10) + 20)), "B"); 
-                             newline = false;
+                             svg.text(20, y + 15 + (((nb_corde * 10) + 20)), "T");
+                             svg.text(20, y+ 30 + (((nb_corde * 10) + 20)), "A");
+                             svg.text(20, y+ 45 + (((nb_corde * 10) + 20)), "B"); 
+                              if (all > 820)
+                                 {
+                                      var tmp = 820 - x;
+                                      width =  tmp;
+                                      newline = true;
+                                      der = true;
+                                 }
+                                 else
+                                {
+                                    newline = false;
+                                }
                         }
                         else
+                        {
+                            if (mes + 1 < measure_list.length)
                             {
-                                 if (( width + w2) > 820 && (mes + 1 < measure_list.length))
+                                if (all > 820) 
                                     {
                                         x += ancient;
                                         var tmp = 820 - x;
@@ -248,11 +263,12 @@
                                         newline = true;
                                         der = true;
                                     }
-                                 else
+                                else
                                     {
                                         x += ancient;
                                     }
-                             }    
+                            }
+                            }    
                     }
                     
                 draw_it (m1, width, mes, nb_corde,x, y, svg, svg_index);
