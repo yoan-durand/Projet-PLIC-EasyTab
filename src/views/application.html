@@ -225,9 +225,9 @@
                     {
                         x = 60;
                         y = 30;
-                        svg.text(20, y + 15 + (((nb_corde * 10) + 20)), "T");
-                        svg.text(20, y+ 30 + (((nb_corde * 10) + 20)), "A");
-                        svg.text(20, y+ 45 + (((nb_corde * 10) + 20)), "B");
+                        svg.text(20, y + 15 , "T");
+                        svg.text(20, y+ 30 , "A");
+                        svg.text(20, y+ 45 , "B");
                     }
                 else
                     {
@@ -276,7 +276,7 @@
                 {
                     for (var j = 0; j < nb_corde; j++)
                     {
-                        svg.line(60, y + (j*10) + (i * ((nb_corde * 10) + 20)), 820, y + (j*10) + (i * ((nb_corde * 10) + 20)), {stroke:"black"});
+                        svg.line(60, y + (j*10), 820, y + (j*10), {stroke:"black"});
                     }
                     der = false;
                 }
