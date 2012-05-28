@@ -285,24 +285,31 @@ function parse_chord_list (node_measure, division)
     for (var i = 0; i < node_notes.length; ++i)
     {
         var tmp_chord = node_notes[i].getElementsByTagName ("chord");
-        if (tmp_chord.length != 0)
+        if (tmp_chord.length != 0) // Si la note  entre dans un accord existant
         {
-            if (prec_chord != null)
+            if (prec_chord != null) //Si la pile existe
             {
                prec_chord._note_list.push (parse_note (node_notes[i], division));
             }
         }
-        else
+        else  // La note n'entre pas dans un accord existant
         {
-            var chord_obj = new Chord ();
-            chord_obj._note_list = new Array ();
-            chord_obj._note_list.push (parse_note (node_notes[i], division));
-            var previous_note = chord_obj._note_list[chord_obj._note_list.length - 1];
-            next_begin = previous_note._begin + previous_note._duration;
             if (prec_chord != null)
             {
                 chord_list_obj.push (prec_chord);
             }
+            if (chord_list_obj.length != 0)
+            {
+                var last_chord = chord_list_obj[chord_list_obj.length-1];
+                var last_note = last_chord._note_list[last_chord._note_list.length-1];
+                next_begin += last_note._duration;
+            }
+            var chord_obj = new Chord ();
+            chord_obj._note_list = new Array ();
+            chord_obj._note_list.push (parse_note (node_notes[i], division));
+           /* var previous_note = chord_obj._note_list[chord_obj._note_list.length - 1];
+            next_begin = previous_note._begin + previous_note._duration;*/
+
             prec_chord = chord_obj;
         }
     }
@@ -315,6 +322,13 @@ function parse_chord_list (node_measure, division)
     {
         next_begin += (4 * 480) //attention a la signature
     }
+    else
+    {
+      var last_chord = chord_list_obj[chord_list_obj.length-1];
+        var last_note = last_chord._note_list[last_chord._note_list.length-1];
+        next_begin += last_note._duration;
+    }
+
     return chord_list_obj;
 }
 
