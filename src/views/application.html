@@ -88,7 +88,7 @@
 
     $(document).ready (function()
     {
-        $(".tab_svg").css("height", 60 + Math.ceil((80 * (nb_measure / 4))));
+        $(".tab_svg").css("height",6000);
         $(".tempo").text(partition._instruments_list[0]._track_part._measure_list[0]._sound_params._tempo);
 
         for (var i = 0; i < partition._instruments_list.length; i++)
@@ -105,8 +105,9 @@
             $(".tab_svg #"+i).svg({onLoad: function(svg)
             {
                 svg_inst.push(svg);
-                var height = 60 + Math.ceil((80 * (nb_measure / 4))) < 400 ? 400 : 60 + Math.ceil((80 * (nb_measure / 4)));
-                svg.rect(0, 0, 900, height, { fill: "white", stroke:"black"});
+                //var height = 60 + Math.ceil((80 * (nb_measure / 4))) < 400 ? 400 : 60 + Math.ceil((80 * (nb_measure / 4)));
+               var height = 6000;
+               svg.rect(0, 0, 900, height, { fill: "white", stroke:"black"});
                 draw_track (svg, i, nb_corde);               
             }
         });
@@ -121,7 +122,7 @@
         }
         });*/
 
-        function drawLines(svg, svg_index, nb_corde, width, x, y, h, mes)
+        function drawMeasures(svg, svg_index, nb_corde, width, x, y, h, mes)
         {
                 mes++;
                 svg.text(x, y, ""+mes+"", {stroke: "red", "font-size": "10px"});
@@ -185,6 +186,26 @@
 
         //test new maner of drawing the measures and note
 
+        function drawNotes (svg, svg_index,array, mesaure, mes)
+        {
+            for (var i = 0; i < array.length; i++)
+                {
+                    if (array[i]._listnote != null)
+                        {
+                            for (var j = 0; j < array[i]._listnote.length; j++)
+                                {
+                                    if (array[i]._listnote[j]._fret != null)
+                                        {
+                                            svg.text(array[i]._listnote[j]._x, array[i]._listnote[j]._y, ""+array[i]._listnote[j]._fret+"", {stroke: "blue", "font-size": "11px"});
+                                        }
+                                    else
+                                        {
+                                            svg.text(array[i]._listnote[j]._x, array[i]._listnote[j]._y, "X",{stroke: "blue", "font-size": "11px"});
+                                        }
+                                }
+                        }
+                }
+        }
         function draw_track (svg, svg_index, nb_corde)
         {
            var measure_list = partition._instruments_list[svg_index]._track_part._measure_list;
@@ -192,7 +213,6 @@
             var x = 0;
             var y = 0;
             var newline = false;
-            var der = false;
             var ancient = 0;
             for (var mes = 0; mes < measure_list.length; mes++)
             {
@@ -210,41 +230,35 @@
                 var w2 = 0;
               
                 
-                fill_it(measure_list[mes], m1, nb_corde, width, y, ancient);
-                width = m1[m1.length - 1]._posx+ m1[m1.length - 1]._width+ 5;
+                fill_it(measure_list[mes], m1, nb_corde, ancient, y );
+                width = m1[m1.length - 1]._posx+ m1[m1.length - 1]._width+ 5 - 60;
                 
                if (mes + 1 < measure_list.length)
                    {
                         fill_it(measure_list[mes + 1], m2, nb_corde, width,y,width);
-                       w2 = m2[m2.length - 1]._posx+m2[m2.length - 1]._width+ 5;
+                       w2 = m2[m2.length - 1]._posx+m2[m2.length - 1]._width+ 5 -60;
                    }
                    
-               var all = width + w2; 
+               var all = width + w2 + x; 
                
                 if (mes == 0)
                     {
                         x = 60;
+                        drawTAB(svg,y, nb_corde,mes);
                         y = 30;
-                        svg.text(20, y + 15 , "T");
-                        svg.text(20, y+ 30 , "A");
-                        svg.text(20, y+ 45 , "B");
                     }
                 else
                     {
                         if (newline)
                         {
-                             x = 60;
-                            
+                             x = 60;                           
                              y += nb_corde * 10 + 20;   
-                             svg.text(20, y + 15 + (((nb_corde * 10) + 20)), "T");
-                             svg.text(20, y+ 30 + (((nb_corde * 10) + 20)), "A");
-                             svg.text(20, y+ 45 + (((nb_corde * 10) + 20)), "B"); 
+                             drawTAB (svg,y, nb_corde,mes);
                               if (all > 820)
                                  {
                                       var tmp = 820 - x;
                                       width =  tmp;
-                                      newline = true;
-                                      der = true;
+                                      newline = true;                                  
                                  }
                                  else
                                 {
@@ -261,37 +275,59 @@
                                         var tmp = 820 - x;
                                         width =  tmp;
                                         newline = true;
-                                        der = true;
                                     }
                                 else
                                     {
                                         x += ancient;
                                     }
                             }
-                            }    
+                         }    
                     }
                     
-                draw_it (m1, width, mes, nb_corde,x, y, svg, svg_index);
-                if (der)
-                {
-                    for (var j = 0; j < nb_corde; j++)
-                    {
-                        svg.line(60, y + (j*10), 820, y + (j*10), {stroke:"black"});
-                    }
-                    der = false;
-                }
+                draw_it (m1, width, mes, nb_corde,x, y, svg, svg_index, measure_list[mes]);
+                
+               
 
             }
              svg.rect(60, 20, 2, (nb_corde * 10 + 10), {id: "cursor_"+svg_index, fill:"red"});
         }
         
-        function draw_it (array, width, mes, nb_corde, x, y, svg, svg_index)
+        function drawTAB (svg, y, nb_corde, indice_mesure)
         {
-            var h = nb_corde * 10 -10; 
-                drawLines(svg, svg_index, nb_corde, width, x, y, h, mes);
+            if (indice_mesure == 0)
+                {
+                    svg.text(20, 45, "T");
+                    svg.text(20, 60, "A");
+                    svg.text(20, 75, "B"); 
+                    
+                }
+            else
+                {
+                    svg.text(20, y + 15 , "T");
+                    svg.text(20, y+ 30 , "A");
+                    svg.text(20, y+ 45 , "B"); 
+                }
         }
         
-        function fill_it (measure, array, nb_corde, end, y, ancient)
+        function draw_it (array, width, mes, nb_corde, x, y, svg, svg_index, measure)
+        {
+            var h = nb_corde * 10 -10; 
+                drawMeasures(svg, svg_index, nb_corde, width, x, y, h, mes);
+                drawLines(svg, x,y,width, nb_corde);
+                drawNotes(svg, svg_index, array, measure , mes);
+              
+                
+        }
+        
+        function drawLines (svg, x, y, width, nb_corde)
+        {
+            for (var j = 0; j < nb_corde; j++)
+                    {
+                        svg.line(x, y + (j*10), x+width, y + (j*10), {stroke:"black"});
+                    }
+        }
+        
+        function fill_it (measure, array, nb_corde,  ancient, y)
         {        
            if (measure == null)
                {
@@ -320,8 +356,12 @@
                                     {
                                         x = 60;
                                     }
+                                    if (y == 0)
+                                        {
+                                            y = 30;
+                                        }
                                 timnote._width = (note_list[note]._duration/480)*25;
-                            var  pos = new PosNote(((timnote._width + timnote._posx ) - timnote._posx) /2, (35 + (note_list[note]._string_technical - 1) * 10) + (((nb_corde * 10)+20)), note_list[note]._fret_technical,
+                            var  pos = new PosNote(((timnote._width + timnote._posx ) - timnote._posx) /2 + timnote._posx, y + (note_list[note]._string_technical - 1) * 10  +5, note_list[note]._fret_technical,
                                 note_list[note]._string_technical, note_list[note]._duration, measure);
                                 timnote._listnote.push(pos);
                                 x += timnote._width;
