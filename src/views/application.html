@@ -108,7 +108,8 @@
                 //var height = 60 + Math.ceil((80 * (nb_measure / 4))) < 400 ? 400 : 60 + Math.ceil((80 * (nb_measure / 4)));
                var height = 6000;
                svg.rect(0, 0, 900, height, { fill: "white", stroke:"black"});
-                draw_track (svg, i, nb_corde);               
+               test (svg, i);
+               // draw_track (svg, i, nb_corde);               
             }
         });
         }
@@ -136,7 +137,77 @@
 
         var division;
 
-       /* functionPosNotes(svg, i, svg_index, nb_corde){
+       
+
+        function test (svg,svg_index)
+        {
+             var ConvertNote = {"4" :{"4":80}, "2":{"2":60}, "1":{"2":55, "1":45}, "0.5":{"2":55, "1": 40, "0.5":25}, "0.25":{"2": 50, "1":40, "0.5":30, "0.25":20 }, 
+            "0.0625":{"2":45, "1":40,"0.5":30,"0.25":20,"0.0625":10}, "0.03125":{"2":45, "1":30, "0.5":20, "0.25":15, "0.0625":10, "0.03125":5 } };
+            var measurelist = partition._instruments_list[svg_index]._track_part._measure_list;
+            var stack = new Array();
+           
+          
+           svg.text(ConvertNote["4"]["4"], 30, ""+4+"", {stroke: "blue", "font-size": "11px"});
+           svg.text(ConvertNote["4"]["4"]+ConvertNote["2"]["2"], 30, ""+2+"", {stroke: "blue", "font-size": "11px"});
+           svg.text(ConvertNote["4"]["4"]+ConvertNote["2"]["2"]+ConvertNote["1"]["2"], 30, ""+2+"", {stroke: "blue", "font-size": "11px"});
+           svg.text(ConvertNote["4"]["4"]+ConvertNote["2"]["2"]+ConvertNote["1"]["2"]+ConvertNote["1"]["1"], 30, ""+1+"", {stroke: "blue", "font-size": "11px"});
+           svg.text(ConvertNote["4"]["4"]+ConvertNote["2"]["2"]+ConvertNote["1"]["2"]+ConvertNote["1"]["1"]+ConvertNote["0.5"]["1"], 30, ""+1+"", {stroke: "blue", "font-size": "11px"});  
+           svg.text(ConvertNote["4"]["4"]+ConvertNote["2"]["2"]+ConvertNote["1"]["2"]+ConvertNote["1"]["1"]+ConvertNote["0.5"]["1"]+ConvertNote["0.5"]["0.5"], 30, ""+0.5+"", {stroke: "blue", "font-size": "11px"});
+           svg.text(ConvertNote["4"]["4"]+ConvertNote["2"]["2"]+ConvertNote["1"]["2"]+ConvertNote["1"]["1"]+ConvertNote["0.5"]["1"]+ConvertNote["0.5"]["0.5"]+ConvertNote["0.25"]["2"], 30, ""+2+"", {stroke: "blue", "font-size": "11px"});  
+            svg.text(ConvertNote["4"]["4"]+ConvertNote["2"]["2"]+ConvertNote["1"]["2"]+ConvertNote["1"]["1"]+ConvertNote["0.5"]["1"]+ConvertNote["0.5"]["0.5"]+ConvertNote["0.25"]["2"]+ConvertNote["0.25"]["1"], 30, ""+1+"", {stroke: "blue", "font-size": "11px"});  
+             svg.text(ConvertNote["4"]["4"]+ConvertNote["2"]["2"]+ConvertNote["1"]["2"]+ConvertNote["1"]["1"]+ConvertNote["0.5"]["1"]+ConvertNote["0.5"]["0.5"]+ConvertNote["0.25"]["2"]+ConvertNote["0.25"]["1"]+ConvertNote["0.25"]["0.5"], 30, ""+0.5+"", {stroke: "blue", "font-size": "11px"});  
+              svg.text(ConvertNote["4"]["4"]+ConvertNote["2"]["2"]+ConvertNote["1"]["2"]+ConvertNote["1"]["1"]+ConvertNote["0.5"]["1"]+ConvertNote["0.5"]["0.5"]+ConvertNote["0.25"]["2"]+ConvertNote["0.25"]["1"]+ConvertNote["0.25"]["0.5"]+ConvertNote["0.25"]["0.25"], 30, ""+0.25+"", {stroke: "blue", "font-size": "11px"});  
+               svg.text(ConvertNote["4"]["4"]+ConvertNote["2"]["2"]+ConvertNote["1"]["2"]+ConvertNote["1"]["1"]+ConvertNote["0.5"]["1"]+ConvertNote["0.5"]["0.5"]+ConvertNote["0.25"]["2"]+ConvertNote["0.25"]["1"]+ConvertNote["0.25"]["0.5"]+ConvertNote["0.25"]["0.25"]+ConvertNote["0.0625"]["2"],30, ""+2+"", {stroke: "blue", "font-size": "11px"});  
+                svg.text(ConvertNote["4"]["4"]+ConvertNote["2"]["2"]+ConvertNote["1"]["2"]+ConvertNote["1"]["1"]+ConvertNote["0.5"]["1"]+ConvertNote["0.5"]["0.5"]+ConvertNote["0.25"]["2"]+ConvertNote["0.25"]["1"]+ConvertNote["0.25"]["0.5"]+ConvertNote["0.25"]["0.25"]+ConvertNote["0.0625"]["2"]+ConvertNote["0.0625"]["0.25"], 30, ""+0.25+"", {stroke: "blue", "font-size": "11px"});  
+                  
+                  
+               
+                  
+                  
+        }
+           /* for (var mes = 0; mes< measurelist.length -1; mes++)
+                {
+                    if (measurelist[mes]._chord_list != null)
+                        {
+                         
+                                var chordlist = measurelist[mes]._chord_list;
+                                var min =  search_min_note (chordlist);
+                                var array = new Array ();
+                               var x = 10;
+
+                                        for (var i = 0; i < chordlist.length; i++)
+                                            {
+                                                        if (chordlist[i]._note_list != null)
+                                                            {
+                                                        var notelist = chordlist[i]._note_list;
+
+                                                        var timenote = new TimeNote (x, 30, 0, 70, new Array ());
+                                                        for (var j = 0; j < notelist.length; j++)
+                                                            {
+                                                                var note = new PosNote(x, (notelist[j]._string_technical - 1) * 10  +35,notelist[j]._fret_technical, notelist[j]._string_technical); 
+                                                                timenote._listnote.push(note);
+                                                                x += ConvertNote[min][notelist[j]._duration/480];
+                                                            }
+                                                        array.push (timenote);
+                                                    }
+
+                                            }
+                                            stack.push (array);
+                            }
+                     
+                }
+                
+                for (var moncul = 0 ; moncul < stack.length; moncul++)
+                    {
+                            drawMeasures(svg, svg_index, 6,205 , 60, 30,50, mes);
+                            drawLines(svg, 60,30,820, 6);
+                            drawNotes(svg, svg_index, stack[moncul], 25, mes); 
+                    }
+                
+        }*/
+        
+        
+/* functionPosNotes(svg, i, svg_index, nb_corde){
             var measures = partition._instruments_list[svg_index]._track_part._measure_list;
 
             for (var mes = (0 + i) * 4;  mes < measures.length && mes < (4 + (i * 4)); mes++)
@@ -186,6 +257,9 @@
 
         //test new maner of drawing the measures and note
 
+        
+
+
         function drawNotes (svg, svg_index,array, mesaure, mes)
         {
             for (var i = 0; i < array.length; i++)
@@ -206,6 +280,7 @@
                         }
                 }
         }
+        
         function draw_track (svg, svg_index, nb_corde)
         {
            var measure_list = partition._instruments_list[svg_index]._track_part._measure_list;
@@ -256,8 +331,6 @@
                              drawTAB (svg,y, nb_corde,mes);
                               if (all > 820)
                                  {
-                                      var tmp = 820 - x;
-                                      width =  tmp;
                                       newline = true;                                  
                                  }
                                  else
@@ -272,8 +345,6 @@
                                 if (all > 820) 
                                     {
                                         x += ancient;
-                                        var tmp = 820 - x;
-                                        width =  tmp;
                                         newline = true;
                                     }
                                 else
@@ -311,12 +382,10 @@
         
         function draw_it (array, width, mes, nb_corde, x, y, svg, svg_index, measure)
         {
-            var h = nb_corde * 10 -10; 
+                 var h = nb_corde * 10 -10; 
                 drawMeasures(svg, svg_index, nb_corde, width, x, y, h, mes);
                 drawLines(svg, x,y,width, nb_corde);
-                drawNotes(svg, svg_index, array, measure , mes);
-              
-                
+                drawNotes(svg, svg_index, array, measure , mes);        
         }
         
         function drawLines (svg, x, y, width, nb_corde)
@@ -324,6 +393,29 @@
             for (var j = 0; j < nb_corde; j++)
                     {
                         svg.line(x, y + (j*10), x+width, y + (j*10), {stroke:"black"});
+                    }
+        }
+        
+        function search_min_note (chord_list)
+        {
+            if(chord_list != null)
+                    {
+                         var min  = chord_list[0]._note_list[0]._duration/480;
+                    
+                        for (var i = 0; i < chord_list.length; i++)
+                        {
+                            if(chord_list[i]._note_list != null)
+                                {
+                                    for (var j = 0; j < chord_list[i]._note_list.length; j++)
+                                        {
+                                            if (min > chord_list[i]._note_list[j]._duration/480)
+                                                {
+                                                    min =  chord_list[i]._note_list[j]._duration/480;
+                                                }
+                                        }
+                                }
+                        }
+                        return min;
                     }
         }
         
@@ -349,7 +441,7 @@
                 for (var chord = 0; chord < chord_list.length; chord++)
                     {  
                         var note_list = chord_list[chord]._note_list;
-                        var  timnote = new TimeNote(x, y, 0, nb_corde*10 -10, new Array ());
+                        var  timnote = new TimeNote(x + 60, y, 0, nb_corde*10 -10, new Array ());
                         for (var note = 0; note < note_list.length; note++)
                             {
                                 if (x >= 820)
@@ -360,7 +452,7 @@
                                         {
                                             y = 30;
                                         }
-                                timnote._width = (note_list[note]._duration/480)*25;
+                                timnote._width = (note_list[note]._duration/480);
                             var  pos = new PosNote(((timnote._width + timnote._posx ) - timnote._posx) /2 + timnote._posx, y + (note_list[note]._string_technical - 1) * 10  +5, note_list[note]._fret_technical,
                                 note_list[note]._string_technical, note_list[note]._duration, measure);
                                 timnote._listnote.push(pos);
