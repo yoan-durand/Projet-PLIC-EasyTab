@@ -109,9 +109,17 @@
                 //var height = 60 + Math.ceil((80 * (nb_measure / 4))) < 400 ? 400 : 60 + Math.ceil((80 * (nb_measure / 4)));
                var height = 6000;
                svg.rect(0, 0, 900, height, { fill: "white", stroke:"black"});
-               test (svg, i);
                // draw_track (svg, i, nb_corde);
-               DrawPartition (partition._instruments_list[i]._track_part._measure_list, svg);
+               try
+               {
+
+                   DrawPartition (partition._instruments_list[i]._track_part._measure_list, svg); 
+               }
+               catch (err)
+               {
+                   writeInConsole (err.message + " line : " + err.stack);
+               }
+              
             }
         });
         }

@@ -12,29 +12,31 @@ function DrawPartition(mesures, svg)
     var x = left_marge; // Curseur pour la position en longueur sur la ligne;
     for (var j = 0; j < mesures.length; j++) // On itère sur les mesures
     {
-        if (j == 38)
+                if (j==58)
             {
-                writeInConsole ("here");   
+                writeInConsole (j); 
             }
-        writeInConsole (j);    
         x += marge_mesure; // Afin de placer la première note de la mesure
         x = SetX(mesures[j], x, 0, Yline); // ERRROR :  la valeur de x modifié dans la fonction n'est pas modifié ici...
         if (x <= MaxWidth) // Encore de la place pour une mesure
         {
             file_mesures.push(j); // On enfile l'indice de la mesure qui rentre encore sur la ligne
         }
+   
         else // La mesure ne rentre pas
         {
-
-            var end_note = mesures[j]._chord_list[0]._note_list[0];
-            var Xend = end_note._posX - marge_mesure; // Position de la fin de la derniere mesure qui rentre sur la ligne
-            var coef = (MaxWidth - Xend) / Xend; // Permet de décaler la position de toutes les notes afin d'occuper tout l'espace restant
-            Optimize(file_mesures, coef, mesures, left_marge, marge_mesure); // Permet de décaler toutes les positions en X des notes qui rentre sur une même ligne
-            DrawOneLine(svg,file_mesures, mesures, Yline); // On dessine la ligne entiere (rectangles de selection, lignes et mesures)
-            file_mesures = []; // On nettoie la File afin de pouvoir assigner de nouvelles mesures
-            j--; // Afin de repartir sur la mesure qui n'est pas traiter
-            x = left_marge; // On repart sur une nouvel ligne
-            Yline += 90;
+            if (mesures[j]._chord_list[0] != null) // A VERIFIER
+            {
+                var end_note = mesures[j]._chord_list[0]._note_list[0];
+                var Xend = end_note._posX - marge_mesure; // Position de la fin de la derniere mesure qui rentre sur la ligne
+                var coef = (MaxWidth - Xend) / Xend; // Permet de décaler la position de toutes les notes afin d'occuper tout l'espace restant
+                Optimize(file_mesures, coef, mesures, left_marge, marge_mesure); // Permet de décaler toutes les positions en X des notes qui rentre sur une même ligne
+                DrawOneLine(svg,file_mesures, mesures, Yline, marge_mesure); // On dessine la ligne entiere (rectangles de selection, lignes et mesures)
+                file_mesures = []; // On nettoie la File afin de pouvoir assigner de nouvelles mesures
+                j--; // Afin de repartir sur la mesure qui n'est pas traiter
+                x = left_marge; // On repart sur une nouvel ligne
+                Yline += 90;
+            }
         }
     }
     writeInConsole ("OUUUUUUUUUUUUUUUUUUUUUUUUUUUT");
@@ -56,13 +58,6 @@ function SetX(mesure, x, coef, posY)
         {
             if (chord._note_list != null)
             {
-                var note = chord._note_list[0];
-                var first_duration = get_first_duration (note._duration/480);
-                var first_distance = ConvertNote[deltaMin][first_duration];
-                
-                var second_duration = get_second_duration (note._duration/480, first_duration);
-                var second_distance = second_duration!=0? ConvertNote[deltaMin][second_duration]:0;
-                x += (first_distance + second_distance)*(coef + 1);
                 for (var j = 0; j < chord._note_list.length; j++)
                 {
                     var note = chord._note_list[j];
@@ -72,6 +67,14 @@ function SetX(mesure, x, coef, posY)
                         note._posY = posY;
                     }
                 }
+                var note = chord._note_list[0];
+                var first_duration = get_first_duration (note._duration/480);
+                var first_distance = ConvertNote[deltaMin][first_duration];
+                
+              //   writeInConsole (i);
+                var second_duration = get_second_duration (note._duration/480, first_duration);
+                var second_distance = second_duration!=0? ConvertNote[deltaMin][second_duration]:0;
+                x += (first_distance + second_distance)*(coef + 1);
             }
         }
     }
@@ -92,8 +95,8 @@ function Optimize(file_mesures, coef, mesures, left_marge, marge_mesure)
 function DrawOneLine (svg,file, mesures, Yline, marge_mesure)
 {
     //DrawSelectRect (file, mesure, Yline, marge_mesure); //Dessine les rectangles de selection
-    drawLines (svg, 60, Yline, 820, 6);
-    DrawNotes(svg, file, mesures, Yline, marge_mesure);
+    drawLines (svg, 60, Yline, 820 -60, 6);
+  DrawNotes(svg, file, mesures, Yline, marge_mesure);
 }
 
 //Place les rectangles de selections autour de chaque note
@@ -154,7 +157,7 @@ function DrawNotes(svg, file, measures, yLine,marge_mesure)
                     if (chord._note_list != null)
                     {
                         var note = chord._note_list[0];
-                        svg.line(note.X - marge_mesure, yLine, note.X - marge_mesure, yLine + 50);
+                        svg.line(note._posX - marge_mesure, yLine, note._posX - marge_mesure, yLine + 50,{stroke:"black"});
                     }
 		}
 		for (var j = 0; j < chords.length; j++)
@@ -175,7 +178,7 @@ function DrawNotes(svg, file, measures, yLine,marge_mesure)
                     }
 		}
 	}
-         svg.line(820, yLine, 820, yLine + 50);
+         svg.line(820, yLine, 820, yLine + 50, {stroke:"black"});
 }
 
 
@@ -218,7 +221,7 @@ function mytestduration ()
 }
 function get_first_duration (duration) //Retourne la durée sans la valeur pointé ex: 3 => 2
 {
-    var possibilities = [4, 2, 1, 0.5, 0.25, 0.125, 0625];
+    var possibilities = [4, 2, 1, 0.5, 0.25, 0.125, 0.0625];
     
     for (var i = 0; i < 7; i++)
     {
@@ -227,6 +230,7 @@ function get_first_duration (duration) //Retourne la durée sans la valeur point
               return possibilities[i];
         }
     }
+    alert ("wrong value");
     return null;
 }
 function get_second_duration (duration, first_duration) //Retourne la durée de la valeur pointé ex: 1.5 => 0.5
