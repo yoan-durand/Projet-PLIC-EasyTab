@@ -145,6 +145,7 @@ function drawLines (svg, x, y, width, nb_corde)
         svg.line(x, y + (j*10), x+width, y + (j*10), {stroke:"black"});
     }
 }
+
 function DrawNotes(svg, file, measures, yLine,marge_mesure)
 {
 	for (var i = 0; i < file.length; i++)
@@ -157,6 +158,9 @@ function DrawNotes(svg, file, measures, yLine,marge_mesure)
                                         if (chord._note_list != null)
                                         {
                                             var note = chord._note_list[0];
+                                            var mes = file[i];
+                                            mes++;
+                                            svg.text(note._posX - marge_mesure - 2, yLine - 5, ""+mes+"", {stroke: "red", "font-size": "10px"});
                                             svg.line(note._posX - marge_mesure, yLine, note._posX - marge_mesure, yLine + 50,{stroke:"black"});
                                         }
                                     }
