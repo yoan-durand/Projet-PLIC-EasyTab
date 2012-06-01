@@ -5,7 +5,7 @@ var elapsed_time = 0;
 var time_func;
 var speed;
 
-$(document).ready(function(){
+$(document).ready(setTimeout(function(){
     
     nb_measure = partition._instruments_list[0]._track_part._measure_list.length;
     var g_tempo = partition._instruments_list[0]._track_part._measure_list[0]._sound_params._tempo;
@@ -386,4 +386,4 @@ $(document).ready(function(){
             }
         });
     }
-});
+}, 1000));

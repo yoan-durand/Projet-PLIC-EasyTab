@@ -408,7 +408,7 @@ function writeInConsole (text) {
     }
 }
 
-$(document).ready (function()
+$(document).ready (setTimeout(function()
 {
   /* var xmlDoc = load_xml ("../normal.xml");
    var header = parse_header (xmlDoc);
@@ -421,7 +421,7 @@ $(document).ready (function()
    display_parsing_notes (nbr_notes);*/
    partition = parse ("../"+config.tablature);
 
-});
+}, 1000));
 
 function display_parsing_header (header)
 {

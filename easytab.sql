@@ -1,10 +1,10 @@
 -- phpMyAdmin SQL Dump
--- version 3.4.10.1
+-- version 3.5.1
 -- http://www.phpmyadmin.net
 --
 -- Client: localhost
--- Généré le : Lun 07 Mai 2012 à 03:30
--- Version du serveur: 5.5.20
+-- Généré le: Mer 30 Mai 2012 à 17:13
+-- Version du serveur: 5.5.20-log
 -- Version de PHP: 5.3.9
 
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
@@ -33,16 +33,18 @@ CREATE TABLE IF NOT EXISTS `tablature` (
   `userId` int(11) NOT NULL,
   `nom` text NOT NULL,
   `chemin` text NOT NULL,
+  `titre` text NOT NULL,
+  `artiste` text NOT NULL,
   PRIMARY KEY (`id`),
   KEY `userId` (`userId`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=11 ;
 
 --
 -- Contenu de la table `tablature`
 --
 
-INSERT INTO `tablature` (`id`, `userId`, `nom`, `chemin`) VALUES
-(5, 1, 'demo.xml', 'upload/');
+INSERT INTO `tablature` (`id`, `userId`, `nom`, `chemin`, `titre`, `artiste`) VALUES
+(5, 1, 'demo', 'upload/', 'démo', 'demoman'),
 
 -- --------------------------------------------------------
 

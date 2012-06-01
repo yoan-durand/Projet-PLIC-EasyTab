@@ -62,9 +62,11 @@ app.post('/compte', routes.comptePost);
 app.get('/login', routes.login);
 app.post('/login', routes.loginPost);
 app.get('/logout', routes.logout);
+app.get('/midi', routes.midi);
 app.post('/midi', routes.midi);
 app.get('/testP', routes.testP);
 app.get('/tablatures', routes.tablatures);
+app.post('/search/:search?', routes.search);
 app.get('/upload', routes.upload);
 app.post('/upload', routes.uploadPost);
 
