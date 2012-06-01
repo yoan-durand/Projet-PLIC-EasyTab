@@ -113,7 +113,7 @@
                {
 
                    DrawPartition (partition._instruments_list[i]._track_part._measure_list, svg);
-                    svg.rect(60, 20, 2, (nb_corde * 10 + 10), {id: "cursor_"+svg_index, fill:"red"});
+                    svg.rect(60, 20, 2, (nb_corde * 10 + 10), {id: "cursor_"+i, fill:"red"});
                }
                catch (err)
                {
@@ -134,25 +134,10 @@
         }
         });*/
 
-        function Drawrectangle (svg,X, Yline, width,height, num_id)
-        {
-            svg.rect(X, Yline, width, height, {id:"n_"+num_id, fill:"white", stroke:"white"})
-        }
+        
 
 
-        function drawMeasures(svg, svg_index, nb_corde, width, x, y, h, mes)
-        {
-                mes++;
-                svg.text(x, y, ""+mes+"", {stroke: "red", "font-size": "10px"});
-                svg.rect(x, y, width, h, {id: "m_"+mes,fill:"white", stroke:"black"});
-
-                
-                //drawNotes(svg, i, svg_index, nb_corde);
-            
-           
-        };
-
-        var division;
+      
 
        
 
@@ -202,38 +187,12 @@
 
             }
         };
-<<<<<<< HEAD
 */
-        /*test new maner of drawing the measures and note*/
-        
-
-
-        //test new maner of drawing the measures and note
 
         
 
 
-        function drawNotes (svg, svg_index,array, mesaure, mes)
-        {
-            for (var i = 0; i < array.length; i++)
-                {
-                    if (array[i]._listnote != null)
-                        {
-                            for (var j = 0; j < array[i]._listnote.length; j++)
-                                {
-                                    if (array[i]._listnote[j]._fret != null)
-                                        {
-                                            svg.text(array[i]._listnote[j]._x, array[i]._listnote[j]._y, ""+array[i]._listnote[j]._fret+"", {stroke: "blue", "font-size": "11px"});
-                                        }
-                                    else
-                                        {
-                                            svg.text(array[i]._listnote[j]._x, array[i]._listnote[j]._y, "X",{stroke: "blue", "font-size": "11px"});
-                                        }
-                                }
-                        }
-                }
-        }
-        
+      
             
         
         function drawTAB (svg, y, nb_corde, indice_mesure)
@@ -259,59 +218,6 @@
                 drawMeasures(svg, svg_index, nb_corde, width, x, y, h, mes);
                 drawLines(svg, x,y,width, nb_corde);
                // drawNotes(svg, svg_index, array, measure , mes);        
-        }
-        
-
-        
-
-        
-        function fill_it (measure, array, nb_corde,  ancient, y)
-        {        
-           if (measure == null)
-               {
-                   return;
-               }
-            var chord_list = measure._chord_list;
-           
-           if (ancient == null)
-               {
-                   var x = 60;
-               }
-            else
-                {
-                    var x = ancient;
-                }
-                
-            if (chord_list.length > 0)
-            {
-                for (var chord = 0; chord < chord_list.length; chord++)
-                    {  
-                        var note_list = chord_list[chord]._note_list;
-                        var  timnote = new TimeNote(x + 60, y, 0, nb_corde*10 -10, new Array ());
-                        for (var note = 0; note < note_list.length; note++)
-                            {
-                                if (x >= 820)
-                                    {
-                                        x = 60;
-                                    }
-                                    if (y == 0)
-                                        {
-                                            y = 30;
-                                        }
-                                timnote._width = (note_list[note]._duration/480)*25;
-                            var  pos = new PosNote(((timnote._width + timnote._posx ) - timnote._posx) /2 + timnote._posx, y + (note_list[note]._string_technical - 1) * 10  +5, note_list[note]._fret_technical,
-                                note_list[note]._string_technical, note_list[note]._duration, measure);
-                                timnote._listnote.push(pos);
-                                x += timnote._width;
-                            }
-                            array.push(timnote);          
-                        }
-            }
-            else
-            {
-                var timnote = new TimeNote (x,y, 80, nb_corde * 10 -10, new Array ());
-                array.push (timnote);
-            }
         }
         
         $($("rect[id^='m_']"), svg_inst[current_svg].root()).click(function (){

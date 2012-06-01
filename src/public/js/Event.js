@@ -19,9 +19,9 @@ $(document).ready(function(){
     $("#back").click(function (){
         if ($(this).attr("src") == "image/playerback.png")
         {
-			javascript:document.demo.Stop();
-			javascript:document.demo.SetTime(0);
-			javascript:document.demo.Play();
+            javascript:document.demo.Stop();
+            javascript:document.demo.SetTime(0);
+            javascript:document.demo.Play();
             $(this).attr("src", "image/playerback2.png");
             $("#play").attr("src", "image/playerplay.png");
             $("#pause").attr("src", "image/playerpause.png");
@@ -41,7 +41,7 @@ $(document).ready(function(){
             $($("rect[id='cursor_"+current_svg+"']"), svg_inst[current_svg].root()).stop();
             $($("rect[id='cursor_"+current_svg+"']"), svg_inst[current_svg].root()).attr({"y": (20 + (80 * line))});
             $($("rect[id='cursor_"+current_svg+"']"), svg_inst[current_svg].root()).animate({svgTransform: 'translate(0 0)'}, 0, 'linear');
-            $($("rect[id='cursor_"+current_svg+"']"), svg_inst[current_svg].root()).animate({svgTransform: 'translate(820 0)'}, speed - elapsed_time, 'linear', keep_playing);
+            $($("rect[id='cursor_"+current_svg+"']"), svg_inst[current_svg].root()).animate({svgTransform: 'translate(800 0)'}, speed - elapsed_time, 'linear', keep_playing);
             time_func = setInterval(chronotime, 100);
         }
     });
@@ -49,16 +49,16 @@ $(document).ready(function(){
     $("#play").click(function (){
         if ($(this).attr("src") == "image/playerplay.png")
         {
-			javascript:document.demo.Play();
+            javascript:document.demo.Play();
             time_func = setInterval(chronotime, 100);
             $("#back").attr("src", "image/playerback.png");
             $(this).attr("src", "image/playerplay2.png");
             $("#pause").attr("src", "image/playerpause.png");
             $("#stop").attr("src", "image/playerstop.png");
-			setTimeout(function () {
-				$($("rect[id='cursor_"+current_svg+"']"), svg_inst[current_svg].root()).animate({svgTransform: 'translate(820 0)'}, speed - elapsed_time, 'linear', keep_playing);
-			}, 500);
-		}
+            setTimeout(function () {
+                    $($("rect[id='cursor_"+current_svg+"']"), svg_inst[current_svg].root()).animate({svgTransform: 'translate(800 0)'}, speed - elapsed_time, 'linear', keep_playing);
+            }, 500);
+        }
     });
     
     function keep_playing(){
@@ -66,9 +66,9 @@ $(document).ready(function(){
         elapsed_time = 0;
         if (line < (nb_measure / 4))
         {
-            $($("rect[id='cursor_"+current_svg+"']"), svg_inst[current_svg].root()).attr({"y": (20 + (80 * line))});
+            $($("rect[id='cursor_"+current_svg+"']"), svg_inst[current_svg].root()).attr({"y": (30 + (80 * line))});
             $($("rect[id='cursor_"+current_svg+"']"), svg_inst[current_svg].root()).animate({svgTransform: 'translate(0 0)'}, 0, 'linear');
-            $($("rect[id='cursor_"+current_svg+"']"), svg_inst[current_svg].root()).animate({svgTransform: 'translate(820 0)'}, speed - elapsed_time, 'linear', keep_playing);
+            $($("rect[id='cursor_"+current_svg+"']"), svg_inst[current_svg].root()).animate({svgTransform: 'translate(800 0)'}, speed - elapsed_time, 'linear', keep_playing);
         }
     };
     
@@ -164,7 +164,7 @@ $(document).ready(function(){
             selected = array[1];
             elapsed_time = (selected % 4) == 0 ? (speed * 0.75) : ((speed / 4) * ((selected % 4) - 1));
             line = (selected % 4 == 0) ? (((selected / 4) | 0) - 1) : ((selected / 4) | 0);
-            $($("rect[id^='cursor']"), svg_inst[current_svg].root()).attr({"y": (20 + (80 * line)), transform:"translate("+ ($($("rect[id='m_"+selected+"']"), svg_inst[current_svg].root()).attr("x") - 60) +" 0)"});
+            $($("rect[id^='cursor']"), svg_inst[current_svg].root()).attr({"y": (30 + (80 * line)), transform:"translate("+ ($($("rect[id='m_"+selected+"']"), svg_inst[current_svg].root()).attr("x") - 60) +" 0)"});
         }
     });
     
