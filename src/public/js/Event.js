@@ -8,9 +8,9 @@ var speed;
 $(document).ready(function(){
     
     nb_measure = partition._instruments_list[0]._track_part._measure_list.length;
-    var tempo = partition._instruments_list[0]._track_part._measure_list[0]._sound_params._tempo;
+    var g_tempo = partition._instruments_list[0]._track_part._measure_list[0]._sound_params._tempo;
     var beat = partition._instruments_list[0]._track_part._measure_list[0]._attributes._time_beat;
-    speed = (((beat * 4) * 60) / tempo) * 1000;
+    speed = (((beat * 4) * 60) / g_tempo) * 1000;
     measure(nb_measure);
     tracks(partition._instruments_list);
     
@@ -46,20 +46,94 @@ $(document).ready(function(){
         }
     });
 
+	var current_index = 0;
+	
     $("#play").click(function (){
         if ($(this).attr("src") == "image/playerplay.png")
         {
 			javascript:document.demo.Play();
-            time_func = setInterval(chronotime, 100);
+            //time_func = setInterval(chronotime, 100);
             $("#back").attr("src", "image/playerback.png");
             $(this).attr("src", "image/playerplay2.png");
             $("#pause").attr("src", "image/playerpause.png");
             $("#stop").attr("src", "image/playerstop.png");
-			setTimeout(function () {
+			/*setTimeout(function () {
 				$($("rect[id='cursor_"+current_svg+"']"), svg_inst[current_svg].root()).animate({svgTransform: 'translate(820 0)'}, speed - elapsed_time, 'linear', keep_playing);
-			}, 500);
+			}, 500);*/
+			Animation_Play(current_index);
 		}
     });
+	
+	// A partir d'un temps MIDI, renvoi le temps correspondant en millisecondes
+	function MIDItoSecond(midi_time, tempo)
+	{
+		return midi_time * ((60/ tempo) * 1000) / 480 ;
+	}
+	
+	// A partir d'un temps en millisecondes, renvoi le temps MIDI correspondant
+	function SecondtoMIDI(ms, tempo)
+	{
+		return (ms * 480) / ((60 / tempo) * 1000);
+	}
+	
+	function Animation_Play(index_m)
+	{
+		var time_ms = document.demo.GetTime();
+		var time_midi = SecondtoMIDI(time_ms, g_tempo);
+		var cur_mesure = partition._instruments_list[current_svg]._track_part._measure_list[index_m];
+		for (var i = 0; i < cur_mesure._chord_list.length; i++)
+		{
+			var chord = cur_mesure._chord_list[i];
+			if (chord._note_list[0]._begin > time_midi) // MIDI EN RETARD SUR NOTE
+			{
+				var delta = chord._note_list[0]._begin - time_midi;
+				timeout = setTimeout(function(){
+						Animation_Play(index_m);
+					}, MIDItoSecond(delta, g_tempo));
+				writeInConsole("EN RETARD Time milliseconds : " + document.demo.GetTime());
+				return;
+			}
+			else
+			{
+				if (chord._note_list[0]._begin + chord._note_list[0]._duration >= time_midi) // MIDI SYNCHRO AVEC LA NOTE
+				{
+					MoveCursor(chord._note_list[0]._posX, chord._note_list[0]._posY);
+					var delta = chord._note_list[0]._begin - time_midi;
+					var midi_duration = chord._note_list[0]._duration + delta;
+					var ms_duration = MIDItoSecond(midi_duration, g_tempo);
+					if (i != cur_mesure._chord_list.length - 1) // On est pas sur la derniere note
+					{
+						timeout = setTimeout(function(){
+							Animation_Play(index_m);
+						}, ms_duration);
+						writeInConsole("SYNCHRO Time milliseconds : " + document.demo.GetTime());
+						return;
+					}
+					else // On est sur la derniere note de la mesure
+					{
+						if (index_m != partition._instruments_list[current_svg]._track_part._measure_list.length - 1) // Si on est pas sur la derniere mesure
+						{
+							timeout = setTimeout(function(){
+								Animation_Play(index_m + 1);
+							}, ms_duration);
+							writeInConsole("SYNCHRO LAST NOTE Time milliseconds : " + document.demo.GetTime());
+							return;
+						}
+					}
+				}
+				if (i == cur_mesure._chord_list.length - 1 && index_m != partition._instruments_list[current_svg]._track_part._measure_list.length - 1) // Si on est sur la derniere note mais pas la derniere mesure
+				{
+					Animation_Play(index_m + 1); // On avance à la mesure suivante
+				}
+			}
+		}
+	}
+	
+	function MoveCursor(x, y)
+	{
+		$($("rect[id='cursor_"+current_svg+"']"), svg_inst[current_svg].root()).attr({"y": y});
+		$($("rect[id='cursor_"+current_svg+"']"), svg_inst[current_svg].root()).animate({svgTransform: 'translate(' + x + ' 0)'}, 0, 'linear');
+	}
     
     function keep_playing(){
         line++;
