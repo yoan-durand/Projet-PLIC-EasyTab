@@ -109,17 +109,18 @@
                 //var height = 60 + Math.ceil((80 * (nb_measure / 4))) < 400 ? 400 : 60 + Math.ceil((80 * (nb_measure / 4)));
                var height = 6000;
                svg.rect(0, 0, 900, height, { fill: "white", stroke:"black"});
-               // draw_track (svg, i, nb_corde);
                try
                {
 
-                   DrawPartition (partition._instruments_list[i]._track_part._measure_list, svg); 
+                   DrawPartition (partition._instruments_list[i]._track_part._measure_list, svg);
+                    svg.rect(60, 20, 2, (nb_corde * 10 + 10), {id: "cursor_"+svg_index, fill:"red"});
                }
                catch (err)
                {
                    writeInConsole (err.message + " line : " + err.stack);
                }
               
+
             }
         });
         }
@@ -132,6 +133,12 @@
             drawLines(svg);
         }
         });*/
+
+        function Drawrectangle (svg,X, Yline, width,height, num_id)
+        {
+            svg.rect(X, Yline, width, height, {id:"n_"+num_id, fill:"white", stroke:"white"})
+        }
+
 
         function drawMeasures(svg, svg_index, nb_corde, width, x, y, h, mes)
         {
@@ -149,72 +156,8 @@
 
        
 
-        function test (svg,svg_index)
-        {
-             var ConvertNote = {"4" :{"4":80}, "2":{"2":60}, "1":{"2":55, "1":45}, "0.5":{"2":55, "1": 40, "0.5":25}, "0.25":{"2": 50, "1":40, "0.5":30, "0.25":20 }, 
-            "0.0625":{"2":45, "1":40,"0.5":30,"0.25":20,"0.0625":10}, "0.03125":{"2":45, "1":30, "0.5":20, "0.25":15, "0.0625":10, "0.03125":5 } };
-            var measurelist = partition._instruments_list[svg_index]._track_part._measure_list;
-            var stack = new Array();
+       
            
-          
-           svg.text(ConvertNote["4"]["4"], 30, ""+4+"", {stroke: "blue", "font-size": "11px"});
-           svg.text(ConvertNote["4"]["4"]+ConvertNote["2"]["2"], 30, ""+2+"", {stroke: "blue", "font-size": "11px"});
-           svg.text(ConvertNote["4"]["4"]+ConvertNote["2"]["2"]+ConvertNote["1"]["2"], 30, ""+2+"", {stroke: "blue", "font-size": "11px"});
-           svg.text(ConvertNote["4"]["4"]+ConvertNote["2"]["2"]+ConvertNote["1"]["2"]+ConvertNote["1"]["1"], 30, ""+1+"", {stroke: "blue", "font-size": "11px"});
-           svg.text(ConvertNote["4"]["4"]+ConvertNote["2"]["2"]+ConvertNote["1"]["2"]+ConvertNote["1"]["1"]+ConvertNote["0.5"]["1"], 30, ""+1+"", {stroke: "blue", "font-size": "11px"});  
-           svg.text(ConvertNote["4"]["4"]+ConvertNote["2"]["2"]+ConvertNote["1"]["2"]+ConvertNote["1"]["1"]+ConvertNote["0.5"]["1"]+ConvertNote["0.5"]["0.5"], 30, ""+0.5+"", {stroke: "blue", "font-size": "11px"});
-           svg.text(ConvertNote["4"]["4"]+ConvertNote["2"]["2"]+ConvertNote["1"]["2"]+ConvertNote["1"]["1"]+ConvertNote["0.5"]["1"]+ConvertNote["0.5"]["0.5"]+ConvertNote["0.25"]["2"], 30, ""+2+"", {stroke: "blue", "font-size": "11px"});  
-           svg.text(ConvertNote["4"]["4"]+ConvertNote["2"]["2"]+ConvertNote["1"]["2"]+ConvertNote["1"]["1"]+ConvertNote["0.5"]["1"]+ConvertNote["0.5"]["0.5"]+ConvertNote["0.25"]["2"]+ConvertNote["0.25"]["1"], 30, ""+1+"", {stroke: "blue", "font-size": "11px"});  
-           svg.text(ConvertNote["4"]["4"]+ConvertNote["2"]["2"]+ConvertNote["1"]["2"]+ConvertNote["1"]["1"]+ConvertNote["0.5"]["1"]+ConvertNote["0.5"]["0.5"]+ConvertNote["0.25"]["2"]+ConvertNote["0.25"]["1"]+ConvertNote["0.25"]["0.5"], 30, ""+0.5+"", {stroke: "blue", "font-size": "11px"});  
-           svg.text(ConvertNote["4"]["4"]+ConvertNote["2"]["2"]+ConvertNote["1"]["2"]+ConvertNote["1"]["1"]+ConvertNote["0.5"]["1"]+ConvertNote["0.5"]["0.5"]+ConvertNote["0.25"]["2"]+ConvertNote["0.25"]["1"]+ConvertNote["0.25"]["0.5"]+ConvertNote["0.25"]["0.25"], 30, ""+0.25+"", {stroke: "blue", "font-size": "11px"});  
-           svg.text(ConvertNote["4"]["4"]+ConvertNote["2"]["2"]+ConvertNote["1"]["2"]+ConvertNote["1"]["1"]+ConvertNote["0.5"]["1"]+ConvertNote["0.5"]["0.5"]+ConvertNote["0.25"]["2"]+ConvertNote["0.25"]["1"]+ConvertNote["0.25"]["0.5"]+ConvertNote["0.25"]["0.25"]+ConvertNote["0.0625"]["2"],30, ""+2+"", {stroke: "blue", "font-size": "11px"});  
-           svg.text(ConvertNote["4"]["4"]+ConvertNote["2"]["2"]+ConvertNote["1"]["2"]+ConvertNote["1"]["1"]+ConvertNote["0.5"]["1"]+ConvertNote["0.5"]["0.5"]+ConvertNote["0.25"]["2"]+ConvertNote["0.25"]["1"]+ConvertNote["0.25"]["0.5"]+ConvertNote["0.25"]["0.25"]+ConvertNote["0.0625"]["2"]+ConvertNote["0.0625"]["0.25"], 30, ""+0.25+"", {stroke: "blue", "font-size": "11px"});  
-                  
-                  
-               
-                  
-                  
-        }
-           /* for (var mes = 0; mes< measurelist.length -1; mes++)
-                {
-                    if (measurelist[mes]._chord_list != null)
-                        {
-                         
-                                var chordlist = measurelist[mes]._chord_list;
-                                var min =  search_min_note (chordlist);
-                                var array = new Array ();
-                               var x = 10;
-
-                                        for (var i = 0; i < chordlist.length; i++)
-                                            {
-                                                        if (chordlist[i]._note_list != null)
-                                                            {
-                                                        var notelist = chordlist[i]._note_list;
-
-                                                        var timenote = new TimeNote (x, 30, 0, 70, new Array ());
-                                                        for (var j = 0; j < notelist.length; j++)
-                                                            {
-                                                                var note = new PosNote(x, (notelist[j]._string_technical - 1) * 10  +35,notelist[j]._fret_technical, notelist[j]._string_technical); 
-                                                                timenote._listnote.push(note);
-                                                                x += ConvertNote[min][notelist[j]._duration/480];
-                                                            }
-                                                        array.push (timenote);
-                                                    }
-
-                                            }
-                                            stack.push (array);
-                            }
-                     
-                }
-                
-                for (var moncul = 0 ; moncul < stack.length; moncul++)
-                    {
-                            drawMeasures(svg, svg_index, 6,205 , 60, 30,50, mes);
-                            drawLines(svg, 60,30,820, 6);
-                            drawNotes(svg, svg_index, stack[moncul], 25, mes); 
-                    }
-                
-        }*/
         
         
 /* functionPosNotes(svg, i, svg_index, nb_corde){
@@ -291,87 +234,7 @@
                 }
         }
         
-        function draw_track (svg, svg_index, nb_corde)
-        {
-           var measure_list = partition._instruments_list[svg_index]._track_part._measure_list;
             
-            var x = 0;
-            var y = 0;
-            var newline = false;
-            var ancient = 0;
-            for (var mes = 0; mes < measure_list.length; mes++)
-            {
-                if (newline)
-                    {
-                        ancient = null;
-                    }
-                    else
-                        {
-                            ancient = width;
-                        }
-                var m1 = new Array();
-                var m2 = new Array();
-                var width = 0;
-                var w2 = 0;
-              
-                
-                fill_it(measure_list[mes], m1, nb_corde, ancient, y );
-                width = m1[m1.length - 1]._posx+ m1[m1.length - 1]._width+ 5 - 60;
-                
-               if (mes + 1 < measure_list.length)
-                   {
-                        fill_it(measure_list[mes + 1], m2, nb_corde, width,y,width);
-                       w2 = m2[m2.length - 1]._posx+m2[m2.length - 1]._width+ 5 -60;
-                   }
-                   
-               var all = width + w2 + x; 
-               
-                if (mes == 0)
-                    {
-                        x = 60;
-                        drawTAB(svg,y, nb_corde,mes);
-                        y = 30;
-                    }
-                else
-                    {
-                        if (newline)
-                        {
-                             x = 60;                           
-                             y += nb_corde * 10 + 20;   
-                             drawTAB (svg,y, nb_corde,mes);
-                              if (all > 820)
-                                 {
-                                      newline = true;                                  
-                                 }
-                                 else
-                                {
-                                    newline = false;
-                                }
-                        }
-                        else
-                        {
-                            if (mes + 1 < measure_list.length)
-                            {
-                                if (all > 820) 
-                                    {
-                                        x += ancient;
-                                        newline = true;
-                                    }
-                                else
-                                    {
-                                        x += ancient;
-                                    }
-                            }
-                         }    
-                    }
-                    
-                draw_it (m1, width, mes, nb_corde,x, y, svg, svg_index, measure_list[mes]);
-                
-               
-
-            }
-             svg.rect(60, 20, 2, (nb_corde * 10 + 10), {id: "cursor_"+svg_index, fill:"red"});
-        }
         
         function drawTAB (svg, y, nb_corde, indice_mesure)
         {
@@ -395,7 +258,7 @@
                  var h = nb_corde * 10 -10; 
                 drawMeasures(svg, svg_index, nb_corde, width, x, y, h, mes);
                 drawLines(svg, x,y,width, nb_corde);
-                drawNotes(svg, svg_index, array, measure , mes);        
+               // drawNotes(svg, svg_index, array, measure , mes);        
         }
         
 
@@ -435,7 +298,7 @@
                                         {
                                             y = 30;
                                         }
-                                timnote._width = (note_list[note]._duration/480);
+                                timnote._width = (note_list[note]._duration/480)*25;
                             var  pos = new PosNote(((timnote._width + timnote._posx ) - timnote._posx) /2 + timnote._posx, y + (note_list[note]._string_technical - 1) * 10  +5, note_list[note]._fret_technical,
                                 note_list[note]._string_technical, note_list[note]._duration, measure);
                                 timnote._listnote.push(pos);

@@ -10,8 +10,8 @@ function TimeNote (posx, posy, width, height, listnote)
 {
 	this._posx = posx;
 	this._posy = posy;
-                        this._width = width;
-                        this._height = height;
-                        this._listnote = listnote;
+    this._width = width;
+    this._height = height;
+    this._listnote = listnote;
 }
 

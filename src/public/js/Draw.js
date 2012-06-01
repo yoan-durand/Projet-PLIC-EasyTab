@@ -149,34 +149,52 @@ function DrawNotes(svg, file, measures, yLine,marge_mesure)
 {
 	for (var i = 0; i < file.length; i++)
 	{
-		var measure = measures[[file[i]]];
-		var chords = measure._chord_list;
-		if (chords != null && chords[0] != null)
-		{
-                    var chord = chords[0];
-                    if (chord._note_list != null)
-                    {
-                        var note = chord._note_list[0];
-                        svg.line(note._posX - marge_mesure, yLine, note._posX - marge_mesure, yLine + 50,{stroke:"black"});
-                    }
-		}
-		for (var j = 0; j < chords.length; j++)
-		{
-                    var notes = chords[j]._note_list;
-                    for (var k = 0; k < notes.length; k++)
-                    {
-                        var note2 = notes[k];
-                        if (note2._fret_technical != null)
-                        {
-                            svg.text(note2._posX, (note2._string_technical * 10) + yLine, ""+note2._fret_technical+"", {stroke: "blue", "font-size": "11px"});
-                        }
-                        else
-                        {
-                            svg.text(note2._posX, (note2._string_technical * 10) + yLine, "X", {stroke: "blue", "font-size": "11px"});
-                        }
-                       // SVGText(note.X, (note.string * 10) + yLine, note.fret);
-                    }
-		}
+                                var measure = measures[[file[i]]];
+                                var chords = measure._chord_list;
+                                if (chords != null && chords[0] != null)
+                                {
+                                        var chord = chords[0];
+                                        if (chord._note_list != null)
+                                        {
+                                            var note = chord._note_list[0];
+                                            svg.line(note._posX - marge_mesure, yLine, note._posX - marge_mesure, yLine + 50,{stroke:"black"});
+                                        }
+                                    }
+                                    for (var j = 0; j < chords.length; j++)
+                                    {
+                                             var notes = chords[j]._note_list;
+                                                        for (var k = 0; k < notes.length; k++)
+                                                        {
+                                                            var note2 = notes[k];
+
+                                                            if (note2._fret_technical != null)
+                                                            {
+                                                                if (note2._fret_technical.length == 1)
+                                                                {
+                                                                    svg.rect(note2._posX,(note2._string_technical - 1)*10+yLine  - 5, 5.5, 11, {fill:"white"});
+                                                                }
+                                                                else
+                                                                {
+                                                                     svg.rect(note2._posX,(note2._string_technical - 1)*10+yLine  - 5, 11, 11, {fill:"white"});
+                                                                }
+                                                                 svg.text(note2._posX, (note2._string_technical * 10) + yLine - 6, ""+note2._fret_technical+"", {stroke: "blue", "font-size": "11px"});
+                                                            }
+                                                            else
+                                                            {
+                                                                svg.rect(note2._posX ,(note2._string_technical - 1) *10 + yLine - 5, 5.5, 11, {fill:"white"});
+                                                                svg.text(note2._posX, (note2._string_technical * 10) + yLine - 6, "X", {stroke: "blue", "font-size": "11px"});
+                                                            }
+                                                          /*  if (note2._fret_technical != null)
+                                                            {
+                                                                svg.text(note2._posX, (note2._string_technical * 10) + yLine - 6, ""+note2._fret_technical+"", {stroke: "blue", "font-size": "11px"});
+                                                            }
+                                                            else
+                                                            {
+                                                                svg.text(note2._posX, (note2._string_technical * 10) + yLine - 7, "X", {stroke: "blue", "font-size": "11px"});
+                                                            }*/
+                                                        // SVGText(note.X, (note.string * 10) + yLine, note.fret);
+                                                        }
+                                        }
 	}
          svg.line(820, yLine, 820, yLine + 50, {stroke:"black"});
 }
