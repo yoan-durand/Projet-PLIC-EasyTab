@@ -90,7 +90,7 @@ $(document).ready(function(){
 				timeout = setTimeout(function(){
 						Animation_Play(index_m);
 					}, MIDItoSecond(delta, g_tempo));
-				writeInConsole("EN RETARD Time milliseconds : " + document.demo.GetTime());
+				//writeInConsole("EN RETARD Time milliseconds : " + document.demo.GetTime());
 				return;
 			}
 			else
@@ -106,7 +106,7 @@ $(document).ready(function(){
 						timeout = setTimeout(function(){
 							Animation_Play(index_m);
 						}, ms_duration);
-						writeInConsole("SYNCHRO Time milliseconds : " + document.demo.GetTime());
+						//writeInConsole("SYNCHRO Time milliseconds : " + document.demo.GetTime());
 						return;
 					}
 					else // On est sur la derniere note de la mesure
@@ -116,7 +116,7 @@ $(document).ready(function(){
 							timeout = setTimeout(function(){
 								Animation_Play(index_m + 1);
 							}, ms_duration);
-							writeInConsole("SYNCHRO LAST NOTE Time milliseconds : " + document.demo.GetTime());
+							//writeInConsole("SYNCHRO LAST NOTE Time milliseconds : " + document.demo.GetTime());
 							return;
 						}
 					}
@@ -131,8 +131,9 @@ $(document).ready(function(){
 	
 	function MoveCursor(x, y)
 	{
+		var xbis = x - 60;
 		$($("rect[id='cursor_"+current_svg+"']"), svg_inst[current_svg].root()).attr({"y": y});
-		$($("rect[id='cursor_"+current_svg+"']"), svg_inst[current_svg].root()).animate({svgTransform: 'translate(' + x + ' 0)'}, 0, 'linear');
+		$($("rect[id='cursor_"+current_svg+"']"), svg_inst[current_svg].root()).animate({svgTransform: 'translate(' + xbis + ' 0)'}, 0, 'linear');
 	}
     
     function keep_playing(){
