@@ -23,6 +23,7 @@
         <script src="js/Parser.js"></script>
         <script src="js/Event.js"></script>
         <script src="js/DrawNote.js"></script>
+        <script src="js/Draw.js"></script>
         <script type="text/javascript">
                 if (config) {
                         alert('conflit entre 2 variables');
@@ -108,8 +109,19 @@
                 //var height = 60 + Math.ceil((80 * (nb_measure / 4))) < 400 ? 400 : 60 + Math.ceil((80 * (nb_measure / 4)));
                var height = 6000;
                svg.rect(0, 0, 900, height, { fill: "white", stroke:"black"});
-              // test (svg, i);
-                draw_track (svg, i, nb_corde);               
+
+               // draw_track (svg, i, nb_corde);
+               try
+               {
+
+                   DrawPartition (partition._instruments_list[i]._track_part._measure_list, svg); 
+               }
+               catch (err)
+               {
+                   writeInConsole (err.message + " line : " + err.stack);
+               }
+              
+
             }
         });
         }
@@ -161,7 +173,11 @@
            svg.text(ConvertNote["4"]["4"]+ConvertNote["2"]["2"]+ConvertNote["1"]["2"]+ConvertNote["1"]["1"]+ConvertNote["0.5"]["1"]+ConvertNote["0.5"]["0.5"]+ConvertNote["0.25"]["2"]+ConvertNote["0.25"]["1"]+ConvertNote["0.25"]["0.5"], 30, ""+0.5+"", {stroke: "blue", "font-size": "11px"});  
            svg.text(ConvertNote["4"]["4"]+ConvertNote["2"]["2"]+ConvertNote["1"]["2"]+ConvertNote["1"]["1"]+ConvertNote["0.5"]["1"]+ConvertNote["0.5"]["0.5"]+ConvertNote["0.25"]["2"]+ConvertNote["0.25"]["1"]+ConvertNote["0.25"]["0.5"]+ConvertNote["0.25"]["0.25"], 30, ""+0.25+"", {stroke: "blue", "font-size": "11px"});  
            svg.text(ConvertNote["4"]["4"]+ConvertNote["2"]["2"]+ConvertNote["1"]["2"]+ConvertNote["1"]["1"]+ConvertNote["0.5"]["1"]+ConvertNote["0.5"]["0.5"]+ConvertNote["0.25"]["2"]+ConvertNote["0.25"]["1"]+ConvertNote["0.25"]["0.5"]+ConvertNote["0.25"]["0.25"]+ConvertNote["0.0625"]["2"],30, ""+2+"", {stroke: "blue", "font-size": "11px"});  
+
            svg.text(ConvertNote["4"]["4"]+ConvertNote["2"]["2"]+ConvertNote["1"]["2"]+ConvertNote["1"]["1"]+ConvertNote["0.5"]["1"]+ConvertNote["0.5"]["0.5"]+ConvertNote["0.25"]["2"]+ConvertNote["0.25"]["1"]+ConvertNote["0.25"]["0.5"]+ConvertNote["0.25"]["0.25"]+ConvertNote["0.0625"]["2"]+ConvertNote["0.0625"]["0.25"], 30, ""+0.25+"", {stroke: "blue", "font-size": "11px"});           
+
+           svg.text(ConvertNote["4"]["4"]+ConvertNote["2"]["2"]+ConvertNote["1"]["2"]+ConvertNote["1"]["1"]+ConvertNote["0.5"]["1"]+ConvertNote["0.5"]["0.5"]+ConvertNote["0.25"]["2"]+ConvertNote["0.25"]["1"]+ConvertNote["0.25"]["0.5"]+ConvertNote["0.25"]["0.25"]+ConvertNote["0.0625"]["2"]+ConvertNote["0.0625"]["0.25"], 30, ""+0.25+"", {stroke: "blue", "font-size": "11px"});  
+
         }
            
         
@@ -350,36 +366,9 @@
                // drawNotes(svg, svg_index, array, measure , mes);        
         }
         
-        function drawLines (svg, x, y, width, nb_corde)
-        {
-            for (var j = 0; j < nb_corde; j++)
-                    {
-                        svg.line(x, y + (j*10), x+width, y + (j*10), {stroke:"black"});
-                    }
-        }
+
         
-        function search_min_note (chord_list)
-        {
-            if(chord_list != null)
-                    {
-                         var min  = chord_list[0]._note_list[0]._duration/480;
-                    
-                        for (var i = 0; i < chord_list.length; i++)
-                        {
-                            if(chord_list[i]._note_list != null)
-                                {
-                                    for (var j = 0; j < chord_list[i]._note_list.length; j++)
-                                        {
-                                            if (min > chord_list[i]._note_list[j]._duration/480)
-                                                {
-                                                    min =  chord_list[i]._note_list[j]._duration/480;
-                                                }
-                                        }
-                                }
-                        }
-                        return min;
-                    }
-        }
+
         
         function fill_it (measure, array, nb_corde,  ancient, y)
         {        

@@ -12,4 +12,6 @@ function Note(step_pitch, octave_pitch, duration, string_technical, fret_technic
     this._dynamic = dynamic;                    // int ==> Volume de la note
     this._other_technical = other_technical;    // String ==> Autre technique ex: Palm Mute
     this._begin = 0;                                // int ==> temps midi de début de note
+    this._posX = 0;                             //Position de la note en X sur le svg
+    this._posY = 0;                             //POsition de la note en Y sur le svg
 }

@@ -385,7 +385,19 @@ function parse (path)
 {
    var xmlDoc = load_xml (path);
    var partition_obj = parse_partition (xmlDoc); //Return Partition
+   //DrawPartition (partition_obj, null);
    return partition_obj;
+   
+
+}
+
+function writeInConsole (text) {
+    if (typeof console !== 'undefined') {
+        console.log(text);    
+    }
+    else {
+        alert(text);    
+    }
 }
 
 $(document).ready (function()
