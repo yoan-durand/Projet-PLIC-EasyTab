@@ -29,9 +29,9 @@ function DrawPartition(mesures, svg)
             {
                 var end_note = mesures[j]._chord_list[0]._note_list[0];
                 var Xend = end_note._posX - marge_mesure; // Position de la fin de la derniere mesure qui rentre sur la ligne
-                var coef = (MaxWidth - Xend) / Xend; // Permet de décaler la position de toutes les notes afin d'occuper tout l'espace restant
+                var coef = (MaxWidth  - Xend) / (Xend - left_marge ); // Permet de décaler la position de toutes les notes afin d'occuper tout l'espace restant
                 Optimize(file_mesures, coef, mesures, left_marge, marge_mesure); // Permet de décaler toutes les positions en X des notes qui rentre sur une même ligne
-                DrawOneLine(svg,file_mesures, mesures, Yline, marge_mesure); // On dessine la ligne entiere (rectangles de selection, lignes et mesures)
+                DrawOneLine(svg,file_mesures, mesures, Yline, marge_mesure,MaxWidth,left_marge); // On dessine la ligne entiere (rectangles de selection, lignes et mesures)
                 file_mesures = []; // On nettoie la File afin de pouvoir assigner de nouvelles mesures
                 j--; // Afin de repartir sur la mesure qui n'est pas traiter
                 x = left_marge; // On repart sur une nouvel ligne
@@ -92,39 +92,39 @@ function Optimize(file_mesures, coef, mesures, left_marge, marge_mesure)
         x = SetX(mesures[file_mesures[i]], x, coef);
     }
 }
-function DrawOneLine (svg,file, mesures, Yline, marge_mesure)
+function DrawOneLine (svg,file, mesures, Yline, marge_mesure,MaxWidth,left_marge)
 {
-    //DrawSelectRect (file, mesure, Yline, marge_mesure); //Dessine les rectangles de selection
-    drawLines (svg, 60, Yline, 820 -60, 6);
+  DrawSelectRect (svg, file, mesures, Yline, marge_mesure, MaxWidth, left_marge); //Dessine les rectangles de selection
+  drawLines (svg, 60, Yline, MaxWidth -left_marge, 6);
   DrawNotes(svg, file, mesures, Yline, marge_mesure);
 }
 
 //Place les rectangles de selections autour de chaque note
-function DrawSelectRect (file, mesures, Yline, marge_mesure)
+function DrawSelectRect (svg, file, mesures, Yline, marge_mesure, MaxWidth, left_marge)
 {
-    var x = 0;
-    var height = 20;
+    var x = left_marge;
+    var height = 70;
     var lastnote = null; //Derniere note d'une mesure
     for (var i = 0; i < file.length; ++i)
     {
         var mesure = mesures[file[i]]; //On recupere la mesure situé a l'index File[i]
-        var chordlist = mesure._chordlist //La liste de chords dans l'objet list
+        var chordlist = mesure._chord_list //La liste de chords dans l'objet list
         for (var j=0; j < chordlist.length ; ++j)
         {
-                var cur_note = chordlist[j]._note_liste[0]; //Cette note represente l'ensemble de l'accord
+                var cur_note = chordlist[j]._note_list[0]; //Cette note represente l'ensemble de l'accord
                 if (lastnote != null) //On dessine la derniere note de la mesure precedente
                 {
                         var tmpX = cur_note._posX - marge_mesure; //15 represente la marge entre la premiere note d'une mesure et la barre de celle-ci
-                        Drawrectangle (X, Yline, tmpX - x,height, file[i-1]); //file[i-1] est le numero de la mesure qui servira pour l'id du noeud
+                        svg.rect(x,Yline - 10,tmpX - x,height, {id:file[i-1]+"_"+j, fill:"white", stroke:"white"});  //file[i-1] est le numero de la mesure qui servira pour l'id du noeud
                         lastnote = null;
                         x = tmpX;
                 }
                 if (chordlist[j+1] != null) //Si on est pas sur la derniere note
                 {
-                        var next_note = chordlist[j+1]._notelist[0]; //Cette note represente l'ensemble de l'accord
-                        var distance = next_note._posX - cur_note.posX;
-                        DrawRectangle (X,Yline, distance/2 + (cur_note.x - x), height, file[i]);
-                        x = cur_note.x + distance/2;
+                        var next_note = chordlist[j+1]._note_list[0]; //Cette note represente l'ensemble de l'accord
+                        var distance = next_note._posX - cur_note._posX;
+                        svg.rect(x,Yline - 10,distance/2 + (cur_note._posX - x),height, {id:file[i]+"_"+j, fill:"white", stroke:"white"});
+                        x = cur_note._posX + distance/2;
                 }
                 else
                 {
@@ -134,7 +134,7 @@ function DrawSelectRect (file, mesures, Yline, marge_mesure)
     }
     if (lastnote != null)
     {
-            Drawrectangle (x, Yline, lastnote.x - x + MaxWidth - lastnote.x, file[i-1]);
+            svg.rect(x,Yline - 10,lastnote._posX - x + MaxWidth - lastnote._posX,height, {id:file[file.length-1]+"_", fill:"white", stroke:"white"});
     }
 }
 
