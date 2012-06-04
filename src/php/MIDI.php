@@ -63,7 +63,12 @@
                                         {
                                             $n=$notes[$h]["_fret_technical"];
                                         }
-                                        $txt .= $notes[$h]["_begin"]." On ch=".$partition["_instruments_list"][$i]["_midi_channel"]." n=".$n." v=95\n";
+                                        $velocite = 95;
+                                        if ($notes[$h]["_other_technical"] == "palm mute")
+                                        {
+                                             $velocite = 70;
+                                        }
+                                        $txt .= $notes[$h]["_begin"]." On ch=".$partition["_instruments_list"][$i]["_midi_channel"]." n=".$n." v=".$velocite."\n";
                                     }
                                     
                                 }
@@ -79,8 +84,15 @@
                                         {
                                             $n=$notes[$h]["_fret_technical"];
                                         }
+                                        $miditime = ($notes[$h]["_begin"]+($notes[$h]["_duration"]));
+                                        $velocite = 80;
+                                        if ($notes[$h]["_other_technical"] == "palm mute")
+                                        {
+                                             $miditime = ($notes[$h]["_begin"]+($notes[$h]["_duration"] * 0.75));
+                                             $velocite = 30;
+                                        }
                                         //$txt .= ($notes[$h]["_begin"]+($notes[$h]["_duration"] * 0.75))." Off ch=".$partition["_instruments_list"][$i]["_midi_channel"]." n=".$n." v=80\n";
-                                        $txt .= ($notes[$h]["_begin"]+($notes[$h]["_duration"]))." Off ch=".$partition["_instruments_list"][$i]["_midi_channel"]." n=".$n." v=80\n"; 
+                                        $txt .= $miditime." Off ch=".$partition["_instruments_list"][$i]["_midi_channel"]." n=".$n." v=".$velocite."\n"; 
                                     }
                                 }                                
 			}

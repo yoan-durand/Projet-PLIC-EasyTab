@@ -320,13 +320,21 @@ function parse_chord_list (node_measure, division)
     //chord_obj._strumming =  //TODO strumming
     if (node_notes.length == 0)
     {
+        var note = new Note ();
+        note._empty = true;
+        note._begin = next_begin;
+        note._duration = (4 * 480);
+        var chord = new Chord ();
+        chord._note_list = new Array ();
+        chord._note_list.push (note);
+        chord_list_obj.push (chord);
         next_begin += (4 * 480) //attention a la signature
     }
     else
     {
       var last_chord = chord_list_obj[chord_list_obj.length-1];
-        var last_note = last_chord._note_list[last_chord._note_list.length-1];
-        next_begin += last_note._duration;
+      var last_note = last_chord._note_list[last_chord._note_list.length-1];
+      next_begin += last_note._duration;
     }
 
     return chord_list_obj;

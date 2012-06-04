@@ -22,6 +22,7 @@ $(document).ready(function(){
             javascript:document.demo.Stop();
             javascript:document.demo.SetTime(0);
             javascript:document.demo.Play();
+
             $(this).attr("src", "image/playerback2.png");
             $("#play").attr("src", "image/playerplay.png");
             $("#pause").attr("src", "image/playerpause.png");
@@ -52,7 +53,7 @@ $(document).ready(function(){
         if ($(this).attr("src") == "image/playerplay.png")
         {
 			javascript:document.demo.Play();
-            //time_func = setInterval(chronotime, 100);
+                       // fucking_test ();
             $("#back").attr("src", "image/playerback.png");
             $(this).attr("src", "image/playerplay2.png");
             $("#pause").attr("src", "image/playerpause.png");
@@ -60,9 +61,25 @@ $(document).ready(function(){
 			/*setTimeout(function () {
 				$($("rect[id='cursor_"+current_svg+"']"), svg_inst[current_svg].root()).animate({svgTransform: 'translate(820 0)'}, speed - elapsed_time, 'linear', keep_playing);
 			}, 500);*/
-			Animation_Play(current_index);
+                  /*      alert (MIDItoSecond(314880, g_tempo));
+            alert (document.demo.GetDuration() / document.demo.GetTimeScale() * 1000);*/
+		Animation_Play(current_index);
 		}
     });
+    
+    function getTime() {
+    return (document.demo.GetTime() / document.demo.GetTimeScale() * 1000);
+}
+
+    
+    function fucking_test ()
+    {
+            writeInConsole("START time out de  " + 2000 + " gettime: " +getTime());
+             timeout = setTimeout(function(){
+                         writeInConsole("END time out de  " + 2000 + " gettime: " +getTime());
+                         fucking_test();
+             }, 2000); 
+    }
 	
 	// A partir d'un temps MIDI, renvoi le temps correspondant en millisecondes
 	function MIDItoSecond(midi_time, tempo)
@@ -78,54 +95,58 @@ $(document).ready(function(){
 	
 	function Animation_Play(index_m)
 	{
-		var time_ms = document.demo.GetTime();
+            var delay_ms = 350;
+            var delay_midi = SecondtoMIDI(delay_ms,g_tempo);
+		var time_ms = getTime();
 		var time_midi = SecondtoMIDI(time_ms, g_tempo);
+                writeInConsole("GetTime MS recu: " + time_ms);
 		var cur_mesure = partition._instruments_list[current_svg]._track_part._measure_list[index_m];
 		for (var i = 0; i < cur_mesure._chord_list.length; i++)
 		{
-			var chord = cur_mesure._chord_list[i];
-			if (chord._note_list[0]._begin > time_midi) // MIDI EN RETARD SUR NOTE
-			{
-				var delta = chord._note_list[0]._begin - time_midi;
-				timeout = setTimeout(function(){
-						Animation_Play(index_m);
-					}, MIDItoSecond(delta, g_tempo));
-				//writeInConsole("EN RETARD Time milliseconds : " + document.demo.GetTime());
-				return;
-			}
-			else
-			{
-				if (chord._note_list[0]._begin + chord._note_list[0]._duration >= time_midi) // MIDI SYNCHRO AVEC LA NOTE
-				{
-					MoveCursor(chord._note_list[0]._posX, chord._note_list[0]._posY);
-					var delta = chord._note_list[0]._begin - time_midi;
-					var midi_duration = chord._note_list[0]._duration + delta;
-					var ms_duration = MIDItoSecond(midi_duration, g_tempo);
-					if (i != cur_mesure._chord_list.length - 1) // On est pas sur la derniere note
-					{
-						timeout = setTimeout(function(){
-							Animation_Play(index_m);
-						}, ms_duration);
-						//writeInConsole("SYNCHRO Time milliseconds : " + document.demo.GetTime());
-						return;
-					}
-					else // On est sur la derniere note de la mesure
-					{
-						if (index_m != partition._instruments_list[current_svg]._track_part._measure_list.length - 1) // Si on est pas sur la derniere mesure
-						{
-							timeout = setTimeout(function(){
-								Animation_Play(index_m + 1);
-							}, ms_duration);
-							//writeInConsole("SYNCHRO LAST NOTE Time milliseconds : " + document.demo.GetTime());
-							return;
-						}
-					}
-				}
-				if (i == cur_mesure._chord_list.length - 1 && index_m != partition._instruments_list[current_svg]._track_part._measure_list.length - 1) // Si on est sur la derniere note mais pas la derniere mesure
-				{
-					Animation_Play(index_m + 1); // On avance à la mesure suivante
-				}
-			}
+                    var chord = cur_mesure._chord_list[i];
+                    if (chord._note_list[0]._begin + delay_midi > time_midi) // MIDI EN RETARD SUR NOTE
+                    {
+                            var delta = chord._note_list[0]._begin + delay_midi - time_midi;
+                            timeout = setTimeout(function(){
+                                            Animation_Play(index_m);
+                                    }, MIDItoSecond(delta, g_tempo));
+                            writeInConsole("EN RETARD Time out relancé de delta : " + MIDItoSecond(delta, g_tempo));
+                            return;
+                    }
+                    else
+                    {
+                            if (delay_midi + chord._note_list[0]._begin + chord._note_list[0]._duration >= time_midi) // MIDI SYNCHRO AVEC LA NOTE
+                            {
+                                    MoveCursor(chord._note_list[0]._posX, chord._note_list[0]._posY);
+                                    var delta = chord._note_list[0]._begin + delay_midi - time_midi;
+                                    var midi_duration = chord._note_list[0]._duration + delta;
+                                    var ms_duration = MIDItoSecond(midi_duration, g_tempo);
+                                    writeInConsole (ms_duration);
+                                    if (i != cur_mesure._chord_list.length - 1) // On est pas sur la derniere note
+                                    {
+                                        writeInConsole("Timeout lancé  " + ms_duration + " gettime: " +getTime());
+                                            timeout = setTimeout(function(){
+                                                    Animation_Play(index_m);
+                                            }, ms_duration);
+                                            return;
+                                    }
+                                    else // On est sur la derniere note de la mesure
+                                    {
+                                            if (index_m != partition._instruments_list[current_svg]._track_part._measure_list.length - 1) // Si on est pas sur la derniere mesure
+                                            {
+                                                writeInConsole("Timeout lancé  " + ms_duration + " gettime: " +getTime());
+                                                    timeout = setTimeout(function(){
+                                                            Animation_Play(index_m + 1);
+                                                    }, ms_duration);
+                                                    return;
+                                            }
+                                    }
+                            }
+                            if (i == cur_mesure._chord_list.length - 1 && index_m != partition._instruments_list[current_svg]._track_part._measure_list.length - 1) // Si on est sur la derniere note mais pas la derniere mesure
+                            {
+                                    Animation_Play(index_m + 1); // On avance à la mesure suivante
+                            }
+                    }
 		}
 	}
 	
@@ -168,6 +189,7 @@ $(document).ready(function(){
     $("#stop").click(function (){
         if ($(this).attr("src") == "image/playerstop.png")
         {
+                        clearTimeout(timeout);
 			javascript:document.demo.Stop();
 			javascript:document.demo.SetTime(0);
             $("#back").attr("src", "image/playerback.png");
