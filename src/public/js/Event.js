@@ -84,15 +84,15 @@ $(document).ready(function(){
 	
 	function Animation_Play(index_m)
 	{
-            var delay_ms = 350;
-            var delay_midi = SecondtoMIDI(delay_ms,g_tempo);
-		var time_ms = getTime();
-		var time_midi = SecondtoMIDI(time_ms, g_tempo);
-                writeInConsole("GetTime MS recu: " + time_ms);
-		var cur_mesure = partition._instruments_list[current_svg]._track_part._measure_list[index_m];
-		for (var i = 0; i < cur_mesure._chord_list.length; i++)
-		{
-                    var chord = cur_mesure._chord_list[i];
+                    var delay_ms = 350;
+                    var delay_midi = SecondtoMIDI(delay_ms,g_tempo);
+                    var time_ms = getTime();
+                    var time_midi = SecondtoMIDI(time_ms, g_tempo);
+                        writeInConsole("GetTime MS recu: " + time_ms);
+                    var cur_mesure = partition._instruments_list[current_svg]._track_part._measure_list[index_m];
+                    for (var i = 0; i < cur_mesure._chord_list.length; i++)
+                    {
+                         var chord = cur_mesure._chord_list[i];
                     if (chord._note_list[0]._begin + delay_midi > time_midi) // MIDI EN RETARD SUR NOTE
                     {
                             var delta = chord._note_list[0]._begin + delay_midi - time_midi;
@@ -106,7 +106,7 @@ $(document).ready(function(){
                     {
                             if (delay_midi + chord._note_list[0]._begin + chord._note_list[0]._duration >= time_midi) // MIDI SYNCHRO AVEC LA NOTE
                             {
-                                    MoveCursor(chord._note_list[0]._posX, chord._note_list[0]._posY);
+                                    MoveCursor(chord._note_list[0]._posX, chord._note_list[0]._posY, chord._note_list[0]);
                                     var delta = chord._note_list[0]._begin + delay_midi - time_midi;
                                     var midi_duration = chord._note_list[0]._duration + delta;
                                     var ms_duration = MIDItoSecond(midi_duration, g_tempo);
@@ -139,16 +139,28 @@ $(document).ready(function(){
 		}
 	}
 	
-	function MoveCursor(x, y)
+	function MoveCursor(x, y, note)
 	{
 		var xbis = x - 60;
-		$($("rect[id='cursor_"+current_svg+"']"), svg_inst[current_svg].root()).attr({"y": y});
+                    if (note._fret_technical != null)
+                        {
+                                    if (note._fret_technical.length == 2)
+                                        {
+                                            xbis += 5;
+                                        }
+                                    else
+                                        {
+                                             xbis += 2;
+                                        }
+                        }
+                                   
+		$($("rect[id='cursor_"+current_svg+"']"), svg_inst[current_svg].root()).attr({"y": y - 10});
 		$($("rect[id='cursor_"+current_svg+"']"), svg_inst[current_svg].root()).animate({svgTransform: 'translate(' + xbis + ' 0)'}, 0, 'linear');
 	}
     
     function keep_playing(){
         line++;
-        elapsed_time = 0;
+        elapsed_time = 0; 
         if (line < (nb_measure / 4))
         {
             $($("rect[id='cursor_"+current_svg+"']"), svg_inst[current_svg].root()).attr({"y": (30 + (80 * line))});
