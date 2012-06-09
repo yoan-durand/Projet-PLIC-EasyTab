@@ -2,7 +2,7 @@
 //	Beware bitches, la marge est pas good. Cya fags ;). 
 */
 // Algo afin de dessiner la partition de façon lisible
-function DrawPartition(mesures, svg)
+function DrawPartition(mesures, svg, nb_cordes)
 {
     var MaxWidth = 820; // Taille en pixels d'une ligne de la partition
     var left_marge = 60;
@@ -16,6 +16,7 @@ function DrawPartition(mesures, svg)
     context["marge_mesure"] = 15;
     context["mesure_list"] = mesures;
     context["MaxWidth"] = 820;
+    context["nb_cordes"] = nb_cordes;
     
 
     for (var j = 0; j < mesures.length; j++) // On itère sur les mesures
@@ -100,7 +101,7 @@ function Optimize(context, file_mesures, coef)
 function DrawOneLine (context,file, Yline)
 {
   DrawSelectRect (context, file,Yline); //Dessine les rectangles de selection
-  drawLines (context, 60, Yline, context.MaxWidth - context.left_marge, 6);
+  drawLines (context, 60, Yline, context.MaxWidth - context.left_marge);
   DrawNotes(context, file , Yline);
 }
 
@@ -143,9 +144,9 @@ function DrawSelectRect (context, file, Yline)
     }
 }
 
-function drawLines (context, x, y, width, nb_corde)
+function drawLines (context, x, y, width)
 {
-    for (var j = 0; j < nb_corde; j++)
+    for (var j = 0; j < context.nb_cordes; j++)
     {
         context.svg.line(x, y + (j*10), x+width, y + (j*10), {stroke:"black"});
     }
@@ -166,7 +167,7 @@ function DrawNotes(context, file, yLine)
                             var mes = file[i];
                             mes++;
                             context.svg.text(note._posX - context.marge_mesure - 2, yLine - 5, ""+mes+"", {stroke: "red", "font-size": "10px"});
-                            context.svg.line(note._posX -context.marge_mesure, yLine, note._posX - context.marge_mesure, yLine + 50,{stroke:"black"});
+                            context.svg.line(note._posX -context.marge_mesure, yLine, note._posX - context.marge_mesure, yLine + (context.nb_cordes * 10) - 10,{stroke:"black"});
                         }
                     }
                     for (var j = 0; j < chords.length; j++)
@@ -205,7 +206,7 @@ function DrawNotes(context, file, yLine)
                                         }
                         }
 	}
-         context.svg.line(820, yLine, context.MaxWidth, yLine + 50, {stroke:"black"});
+         context.svg.line(820, yLine, context.MaxWidth, yLine +  (context.nb_cordes * 10) - 10, {stroke:"black"});
 }
 
 
