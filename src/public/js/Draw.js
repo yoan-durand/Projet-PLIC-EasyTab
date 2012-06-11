@@ -103,6 +103,7 @@ function DrawOneLine (context,file, Yline)
   DrawSelectRect (context, file,Yline); //Dessine les rectangles de selection
   drawLines (context, 60, Yline, context.MaxWidth - context.left_marge);
   DrawNotes(context, file , Yline);
+  drawTAB (context.svg, Yline);
 }
 
 //Place les rectangles de selections autour de chaque note
@@ -152,6 +153,15 @@ function drawLines (context, x, y, width)
     }
 }
 
+function drawTAB (svg, y)
+        {
+            
+                    svg.text(20, y + 15 , "T");
+                    svg.text(20, y+ 30 , "A");
+                    svg.text(20, y+ 45 , "B"); 
+                
+        }
+
 function DrawNotes(context, file, yLine)
 {
 	for (var i = 0; i < file.length; i++)
@@ -191,8 +201,16 @@ function DrawNotes(context, file, yLine)
                                             }
                                             else
                                             {
-                                                context.svg.rect(note2._posX ,(note2._string_technical - 1) *10 + yLine - 5, 5.5, 11, {fill:"white"});
-                                                context.svg.text(note2._posX, (note2._string_technical * 10) + yLine - 6, "X", {stroke: "blue", "font-size": "11px"});
+                                               
+                                                if (note2._string_technical != null)
+                                               {
+                                                    context.svg.rect(note2._posX ,(note2._string_technical - 1) *10 + yLine - 5, 5.5, 11, {fill:"white"});
+                                                    context.svg.text(note2._posX, (note2._string_technical * 10) + yLine - 6, "X", {stroke: "blue", "font-size": "11px"});
+                                               }
+                                               else
+                                              {
+                                                       context.svg.rect(note2._posX , 9 + yLine, 11, 5.5, {fill:"blue"});
+                                              }
                                             }
                                             /*  if (note2._fret_technical != null)
                                             {

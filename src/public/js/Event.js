@@ -202,8 +202,8 @@ $(document).ready(function(){
         if ($(this).attr("src") == "image/playerstop.png")
         {
                         clearTimeout(timeout);
-			javascript:document.demo.Stop();
-			javascript:document.demo.SetTime(0);
+                    javascript:document.demo.Stop();
+                    javascript:document.demo.SetTime(0);
             $("#back").attr("src", "image/playerback.png");
             $("#play").attr("src", "image/playerplay.png");
             $("#pause").attr("src", "image/playerpause.png");

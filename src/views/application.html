@@ -134,40 +134,7 @@
         }
         });*/
 
-        
-
-
-      
-
-       
-
-       
-           
-        
- 
-
-        
-
-
-      
-            
-        
-        function drawTAB (svg, y, nb_corde, indice_mesure)
-        {
-            if (indice_mesure == 0)
-                {
-                    svg.text(20, 45, "T");
-                    svg.text(20, 60, "A");
-                    svg.text(20, 75, "B"); 
-                    
-                }
-            else
-                {
-                    svg.text(20, y + 15 , "T");
-                    svg.text(20, y+ 30 , "A");
-                    svg.text(20, y+ 45 , "B"); 
-                }
-        }
+    
         
         function draw_it (array, width, mes, nb_corde, x, y, svg, svg_index, measure)
         {
@@ -184,10 +151,9 @@
                 $("img[id='m_"+selected+"']").attr("src", "image/casegrise.png");
                 $("img[id="+id+"]").attr("src", "image/casebleue.png");
                 var array = id.split('_');
-                selected = array[1];
-                elapsed_time = (selected % 4) == 0 ? (speed * 0.75) : ((speed / 4) * ((selected % 4) - 1));
-                line = (selected % 4 == 0) ? (((selected / 4) | 0) - 1) : ((selected / 4) | 0);
-                $($("rect[id^='cursor']"), svg_inst[current_svg].root()).attr({"y": (20 + (80 * line)), transform:"translate("+ ($($("rect[id='m_"+selected+"']"), svg_inst[current_svg].root()).attr("x") - 60) +" 0)"});
+                var index_mes = array[1];
+                var newpos = partition._instruments_list[0]._track_part._measure_list[index_mes]._chord_list[0]._note_list[0]._posX - 60;
+                $($("rect[id^='cursor']"), svg_inst[current_svg].root()).attr({SVGTransform:"translate(" + newpos +")"}, 0, 'linear' );
             }
         });
 
