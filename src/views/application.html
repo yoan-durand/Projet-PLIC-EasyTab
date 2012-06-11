@@ -124,33 +124,6 @@
             }
         });
         }
-        /*
-        $('.tab_svg').svg({onLoad: function(svg)
-        {
-            svg_inst = svg;
-            var height = 60 + Math.ceil((80 * (nb_measure / 4))) < 400 ? 400 : 60 + Math.ceil((80 * (nb_measure / 4)));
-            svg.rect(0, 0, 900, height, { fill: "white", stroke:"black"});
-            drawLines(svg);
-        }
-        });*/
-
-        
-
-
-      
-
-       
-
-       
-           
-        
- 
-
-        
-
-
-      
-            
         
         function drawTAB (svg, y, nb_corde, indice_mesure)
         {
@@ -190,6 +163,24 @@
                 $($("rect[id^='cursor']"), svg_inst[current_svg].root()).attr({"y": (20 + (80 * line)), transform:"translate("+ ($($("rect[id='m_"+selected+"']"), svg_inst[current_svg].root()).attr("x") - 60) +" 0)"});
             }
         });
+		
+		$($("rect[id^='n_']"), svg_inst[current_svg].root()).click(function (){
+            var id = $(this).attr("id");
+			var array = id.split('_');
+			var m = array[1]*1;
+			$("img[id='m_"+selected+"']").attr("src", "image/casegrise.png");
+			$("img[id='m_"+(m + 1)+"']").attr("src", "image/casebleue.png");
+			selected = m + 1;
+			var n = array[2];
+			var note = partition._instruments_list[current_svg]._track_part._measure_list[m]._chord_list[n]._note_list[0];
+			$($("rect[id^='cursor']"), svg_inst[current_svg].root()).attr({"y": (note._posY-10), transform:"translate("+(note._posX-60)+" 0)"});
+			document.demo.SetTime(MIDItoSecond(note._begin, $(".tempo").text()));
+        });
+		
+		function MIDItoSecond(midi_time, tempo)
+		{
+			return midi_time * ((60/ tempo) * 1000) / 480 ;
+		}
 
         $(".tempo").editable(
             function(value, settings) {
@@ -203,8 +194,6 @@
                 event : "dblclick",
                 style : "inherit"
         });
-        
-		
         
          $.ajax({
             type: "POST",
