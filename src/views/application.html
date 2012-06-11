@@ -146,36 +146,45 @@
                // drawNotes(svg, svg_index, array, measure , mes);        
         }
         
-        $($("rect[id^='m_']"), svg_inst[current_svg].root()).click(function (){
+    $(".progress_bar img").click(function (){
+        if ($(this).attr("src") != "image/casebleue.png")
+        {
+            $(this).attr("src", "image/casebleue.png");
+            $("img[id='m_" + selected+ "']").attr("src", "image/casegrise.png");
             var id = $(this).attr("id");
-            if ($("img[id='"+id+"']").attr("src") == "image/casegrise.png")
-            {
-                $("img[id='m_"+selected+"']").attr("src", "image/casegrise.png");
+            
+            var array = id.split('_');
+         
+             var index_mes = array[1] * 1;
+             $("img[id='m_"+selected+"']").attr("src", "image/casegrise.png");
                 $("img[id="+id+"]").attr("src", "image/casebleue.png");
-                var array = id.split('_');
-                var index_mes = array[1];
-                var newpos = partition._instruments_list[0]._track_part._measure_list[index_mes]._chord_list[0]._note_list[0]._posX - 60;
-                $($("rect[id^='cursor']"), svg_inst[current_svg].root()).attr({SVGTransform:"translate(" + newpos +")"}, 0, 'linear' );
-            }
-        });
-		
-		$($("rect[id^='n_']"), svg_inst[current_svg].root()).click(function (){
+                selected = index_mes; 
+               index_mes--;
+                var note = partition._instruments_list[current_svg]._track_part._measure_list[index_mes]._chord_list[0]._note_list[0];
+                
+                $($("rect[id^='cursor']"), svg_inst[current_svg].root()).attr({"y":(note._posY-10), transform:"translate (" + (note._posX-60 + 2) +" 0)"});
+                 document.demo.SetTime(MIDItoSecond(note._begin, $(".tempo").text()));
+        }
+    });    
+        
+    $($("rect[id^='n_']"), svg_inst[current_svg].root()).click(function ()
+    {
             var id = $(this).attr("id");
-			var array = id.split('_');
-			var m = array[1]*1;
-			$("img[id='m_"+selected+"']").attr("src", "image/casegrise.png");
-			$("img[id='m_"+(m + 1)+"']").attr("src", "image/casebleue.png");
-			selected = m + 1;
-			var n = array[2];
-			var note = partition._instruments_list[current_svg]._track_part._measure_list[m]._chord_list[n]._note_list[0];
-			$($("rect[id^='cursor']"), svg_inst[current_svg].root()).attr({"y": (note._posY-10), transform:"translate("+(note._posX-60)+" 0)"});
-			document.demo.SetTime(MIDItoSecond(note._begin, $(".tempo").text()));
+            var array = id.split('_');
+            var m = array[1]*1;
+            $("img[id='m_"+selected+"']").attr("src", "image/casegrise.png");
+            $("img[id='m_"+(m + 1)+"']").attr("src", "image/casebleue.png");
+            selected = m + 1;
+            var n = array[2];
+            var note = partition._instruments_list[current_svg]._track_part._measure_list[m]._chord_list[n]._note_list[0];
+            $($("rect[id^='cursor']"), svg_inst[current_svg].root()).attr({"y": (note._posY-10), transform:"translate("+(note._posX-60+2)+" 0)"});
+            document.demo.SetTime(MIDItoSecond(note._begin, $(".tempo").text()));
         });
 		
-		function MIDItoSecond(midi_time, tempo)
-		{
-			return midi_time * ((60/ tempo) * 1000) / 480 ;
-		}
+        function MIDItoSecond(midi_time, tempo)
+        {
+                return midi_time * ((60/ tempo) * 1000) / 480 ;
+        }
 
         $(".tempo").editable(
             function(value, settings) {

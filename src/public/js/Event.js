@@ -253,19 +253,8 @@ $(document).ready(function(){
     
     /// SECTION EVENT MESURES + TRACKS SELECTION
     
-    $(".progress_bar img").click(function (){
-        if ($(this).attr("src") != "image/casebleue.png")
-        {
-            $(this).attr("src", "image/casebleue.png");
-            $("img[id='m_" + selected+ "']").attr("src", "image/casegrise.png");
-            var id = $(this).attr("id");
-            var array = id.split('_');
-            selected = array[1];
-            elapsed_time = (selected % 4) == 0 ? (speed * 0.75) : ((speed / 4) * ((selected % 4) - 1));
-            line = (selected % 4 == 0) ? (((selected / 4) | 0) - 1) : ((selected / 4) | 0);
-            $($("rect[id^='cursor']"), svg_inst[current_svg].root()).attr({"y": (30 + (80 * line)), transform:"translate("+ ($($("rect[id='m_"+selected+"']"), svg_inst[current_svg].root()).attr("x") - 60) +" 0)"});
-        }
-    });
+    
+
     
     $(".onglets_pic, .onglets_pic_selected").click(function(){
         $(".onglets_pic_selected").children().attr("class", "onglets_text");
