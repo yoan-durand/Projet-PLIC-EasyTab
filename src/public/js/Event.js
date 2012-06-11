@@ -81,25 +81,37 @@ $(document).ready(function(){
 	{
 		return (ms * 480) / ((60 / tempo) * 1000);
 	}
+        
+        //variable pour le scroll
 	var ancient = 0;
-                 var line  = 0;   
+                 var sline  = 0;   
                  var scroll = 280;
+       //------------------------------------          
 	function Animation_Play(index_m)
 	{
                         if ($("rect[id^='cursor']").attr("y") != ancient)
                             {
                                 
                                 ancient = $("rect[id^='cursor']").attr("y");
-                                line++;
+                                sline++;
                                 
-                                if (line % 4 == 0)
+                                if (sline % 4 == 0)
                                     {
                                          $(".overflow_svg").scrollTo(  scroll, 1000, {axis:'y'});
-                                         line = 1;
+                                         sline = 1;
                                          scroll += 270;
                                      }
                             }
-                       
+                            var id = index_m + 1;
+                            selected = id;
+                            $(".progress_bar img[id='m_"+ id + "']").attr("src", "image/casebleue.png");
+                            id--;
+                             $(".progress_bar img[id='m_"+ id + "']").attr("src", "image/casegrise.png");
+                             id++;
+                             if ((id >= 30) && (id % 30 == 0))
+                                 {
+                                     $(".overflow_measure").scrollTo(800, 1000, {axis:'x'});
+                                 }
                     var delay_ms = 350;
                     var delay_midi = SecondtoMIDI(delay_ms,g_tempo);
                     var time_ms = getTime();
@@ -214,6 +226,8 @@ $(document).ready(function(){
             $("#pause").attr("src", "image/playerpause.png");
             $(this).attr("src", "image/playerstop2.png");
             $(".overflow_svg").scrollTo( 0, 1000, {axis:'y'});
+            scroll = 280;
+            sline = 0;
             if (selected != 1)
             {
                 $("img[id='m_" + selected+ "']").attr("src", "image/casegrise.png");

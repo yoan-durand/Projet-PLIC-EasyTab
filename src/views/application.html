@@ -178,6 +178,13 @@
             var n = array[2];
             var note = partition._instruments_list[current_svg]._track_part._measure_list[m]._chord_list[n]._note_list[0];
             $($("rect[id^='cursor']"), svg_inst[current_svg].root()).attr({"y": (note._posY-10), transform:"translate("+(note._posX-60+2)+" 0)"});
+            
+            if (note._posY >= 290)
+                {
+                    alert(note._posY);
+                    $(".overflow_svg").scrollTo(280, 1000, {axis:'y'});
+                    
+                }
             document.demo.SetTime(MIDItoSecond(note._begin, $(".tempo").text()));
         });
 		
