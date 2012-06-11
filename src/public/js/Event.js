@@ -22,7 +22,7 @@ $(document).ready(function(){
             javascript:document.demo.Stop();
             javascript:document.demo.SetTime(0);
             javascript:document.demo.Play();
-
+            $(".overflow_svg").scrollTo( 0, 1000, {axis:'y'});
             $(this).attr("src", "image/playerback2.png");
             $("#play").attr("src", "image/playerplay.png");
             $("#pause").attr("src", "image/playerpause.png");
@@ -81,10 +81,25 @@ $(document).ready(function(){
 	{
 		return (ms * 480) / ((60 / tempo) * 1000);
 	}
-	
+	var ancient = 0;
+                 var line  = 0;   
+                 var scroll = 280;
 	function Animation_Play(index_m)
 	{
-					//$(".overflow_svg").scrollTo(60, 1000, {axis:'y'});
+                        if ($("rect[id^='cursor']").attr("y") != ancient)
+                            {
+                                
+                                ancient = $("rect[id^='cursor']").attr("y");
+                                line++;
+                                
+                                if (line % 4 == 0)
+                                    {
+                                         $(".overflow_svg").scrollTo(  scroll, 1000, {axis:'y'});
+                                         line = 1;
+                                         scroll += 270;
+                                     }
+                            }
+                       
                     var delay_ms = 350;
                     var delay_midi = SecondtoMIDI(delay_ms,g_tempo);
                     var time_ms = getTime();
@@ -198,6 +213,7 @@ $(document).ready(function(){
             $("#play").attr("src", "image/playerplay.png");
             $("#pause").attr("src", "image/playerpause.png");
             $(this).attr("src", "image/playerstop2.png");
+            $(".overflow_svg").scrollTo( 0, 1000, {axis:'y'});
             if (selected != 1)
             {
                 $("img[id='m_" + selected+ "']").attr("src", "image/casegrise.png");
@@ -271,6 +287,8 @@ $(document).ready(function(){
         $($("rect[id='cursor_"+current_svg+"']"), svg_inst[current_svg].root()).attr("y", y);
         $($("rect[id='cursor_"+current_svg+"']"), svg_inst[current_svg].root()).attr("transform", transform);
         $(".tab_svg #"+current_svg).css("display", "block");
+        
+        
     });
     
     /// SECTION SCROLLBARS
