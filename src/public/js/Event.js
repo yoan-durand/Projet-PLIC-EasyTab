@@ -84,6 +84,7 @@ $(document).ready(function(){
 	
 	function Animation_Play(index_m)
 	{
+					//$(".overflow_svg").scrollTo(60, 1000, {axis:'y'});
                     var delay_ms = 350;
                     var delay_midi = SecondtoMIDI(delay_ms,g_tempo);
                     var time_ms = getTime();
