@@ -6,6 +6,7 @@
         <link rel="stylesheet" href="JQuery-PLUGIN/jquery.svg.css" />
         <script src="js/jquery-1.7.1.js"></script>
         <script src="js/jquery-ui-1.8.18.custom.min.js"></script>
+		<script src="js/ScrollTo.js"></script>
         <script src="js/jeditable.mini.js"></script>
         <script src="js/json2.js"></script>
         <script src="JQuery-PLUGIN/jquery.svg.min.js"></script>
@@ -135,6 +136,7 @@
         });*/
 
     
+
         
         function draw_it (array, width, mes, nb_corde, x, y, svg, svg_index, measure)
         {
@@ -156,6 +158,24 @@
                 $($("rect[id^='cursor']"), svg_inst[current_svg].root()).attr({SVGTransform:"translate(" + newpos +")"}, 0, 'linear' );
             }
         });
+		
+		$($("rect[id^='n_']"), svg_inst[current_svg].root()).click(function (){
+            var id = $(this).attr("id");
+			var array = id.split('_');
+			var m = array[1]*1;
+			$("img[id='m_"+selected+"']").attr("src", "image/casegrise.png");
+			$("img[id='m_"+(m + 1)+"']").attr("src", "image/casebleue.png");
+			selected = m + 1;
+			var n = array[2];
+			var note = partition._instruments_list[current_svg]._track_part._measure_list[m]._chord_list[n]._note_list[0];
+			$($("rect[id^='cursor']"), svg_inst[current_svg].root()).attr({"y": (note._posY-10), transform:"translate("+(note._posX-60)+" 0)"});
+			document.demo.SetTime(MIDItoSecond(note._begin, $(".tempo").text()));
+        });
+		
+		function MIDItoSecond(midi_time, tempo)
+		{
+			return midi_time * ((60/ tempo) * 1000) / 480 ;
+		}
 
         $(".tempo").editable(
             function(value, settings) {
@@ -169,8 +189,6 @@
                 event : "dblclick",
                 style : "inherit"
         });
-        
-		
         
          $.ajax({
             type: "POST",

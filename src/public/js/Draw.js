@@ -122,7 +122,7 @@ function DrawSelectRect (context, file, Yline)
                 if (lastnote != null) //On dessine la derniere note de la mesure precedente
                 {
                         var tmpX = cur_note._posX - context.marge_mesure; //15 represente la marge entre la premiere note d'une mesure et la barre de celle-ci
-                        context.svg.rect(x,Yline - 10,tmpX - x,height, {id:file[i-1]+"_"+j, fill:"white", stroke:"white"});  //file[i-1] est le numero de la mesure qui servira pour l'id du noeud
+                        context.svg.rect(x,Yline - 10,tmpX - x,height, {id:"n_"+file[i-1]+"_"+j, fill:"white", stroke:"white"});  //file[i-1] est le numero de la mesure qui servira pour l'id du noeud
                         lastnote = null;
                         x = tmpX;
                 }
@@ -130,7 +130,7 @@ function DrawSelectRect (context, file, Yline)
                 {
                         var next_note = chordlist[j+1]._note_list[0]; //Cette note represente l'ensemble de l'accord
                         var distance = next_note._posX - cur_note._posX;
-                        context.svg.rect(x,Yline - 10,distance/2 + (cur_note._posX - x),height, {id:file[i]+"_"+j, fill:"white", stroke:"white"});
+                        context.svg.rect(x,Yline - 10,distance/2 + (cur_note._posX - x),height, {id:"n_"+file[i]+"_"+j, fill:"white", stroke:"white"});
                         x = cur_note._posX + distance/2;
                 }
                 else

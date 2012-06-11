@@ -53,7 +53,6 @@ $(document).ready(function(){
         if ($(this).attr("src") == "image/playerplay.png")
         {
 			javascript:document.demo.Play();
-                       // fucking_test ();
             $("#back").attr("src", "image/playerback.png");
             $(this).attr("src", "image/playerplay2.png");
             $("#pause").attr("src", "image/playerpause.png");
@@ -68,18 +67,8 @@ $(document).ready(function(){
     });
     
     function getTime() {
-    return (document.demo.GetTime() / document.demo.GetTimeScale() * 1000);
-}
-
-    
-    function fucking_test ()
-    {
-            writeInConsole("START time out de  " + 2000 + " gettime: " +getTime());
-             timeout = setTimeout(function(){
-                         writeInConsole("END time out de  " + 2000 + " gettime: " +getTime());
-                         fucking_test();
-             }, 2000); 
-    }
+		return (document.demo.GetTime() / document.demo.GetTimeScale() * 1000);
+	}
 	
 	// A partir d'un temps MIDI, renvoi le temps correspondant en millisecondes
 	function MIDItoSecond(midi_time, tempo)
@@ -95,6 +84,7 @@ $(document).ready(function(){
 	
 	function Animation_Play(index_m)
 	{
+					//$(".overflow_svg").scrollTo(60, 1000, {axis:'y'});
                     var delay_ms = 350;
                     var delay_midi = SecondtoMIDI(delay_ms,g_tempo);
                     var time_ms = getTime();
