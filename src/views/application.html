@@ -1,9 +1,9 @@
 {% extends 'layout.html' %}
 
 {% block head %}
-        <link rel="stylesheet" href="css/application.css" />
-        <link rel="stylesheet" href="css/jquery-ui-1.8.18.custom.css" />
+		<link rel="stylesheet" href="css/smoothness/jquery-ui-1.8.18.custom.css" />
         <link rel="stylesheet" href="JQuery-PLUGIN/jquery.svg.css" />
+        <link rel="stylesheet" href="css/application.css" />
         <script src="js/jquery-1.7.1.js"></script>
         <script src="js/jquery-ui-1.8.18.custom.min.js"></script>
 		<script src="js/ScrollTo.js"></script>
@@ -83,9 +83,11 @@
             <section class="clear"></section>
         </section>
 		<section id="splashScreen">
-			<img src="image/piti-bonhomme.jpg" alt="splash screen"/>
-			<h1 id="splashScreen1">Chargement en cours ...</h1>
-			<h1 id="splashScreen2">Merci de patienter quelques instants.</h1>
+			<div id="splashbg" class="ui-widget-overlay"></div>
+			<div id="splashMessage">
+				<img src="image/ajax-loader.gif" alt="loading" style="width:32px; height:32px"><br>
+				<span>Chargement de l'application en cours...</span>
+			</div>
 		</section>
 <script type="text/javascript">
 
@@ -93,10 +95,7 @@
     var current_svg = 0;
 
     $(document).ready (function(){
-		$('#splashScreen1').fadeIn('slow', function(){
-			$('#splashScreen2').fadeIn('slow');
-		});
-	setTimeout(function(){
+		//$('#splashScreen').css('height', $('body').height()-25);
         $(".tab_svg").css("height",6000);
         $(".tempo").text(partition._instruments_list[0]._track_part._measure_list[0]._sound_params._tempo);
 
@@ -149,7 +148,7 @@
                 //drawNotes(svg, i, svg_index, nb_corde);
             
            
-        };
+//        };
 
         var division;
 
@@ -446,7 +445,6 @@
         });
 
 		$('#splashScreen').fadeOut('slow');
-    }, 1000);
     });
 </script>
 {% endblock %}

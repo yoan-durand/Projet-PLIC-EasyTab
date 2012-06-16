@@ -208,14 +208,23 @@ footer
     overflow-x: hidden;
     padding-right: 20px;
 }
-#splashScreen {
-	position: absolute;
-	top: 25px;
-	background: white;
-	width: 100%;
-	height: 100%;
+#splashbg {
+	opacity: 0.7;
 }
-#splashScreen1,
-#splashScreen2 {
-	display: none;
+#splashScreen {
+	height: 100%;
+	position: fixed;
+	width: 100%;
+	top: 0;
+	left: 0;
+}
+#splashMessage {
+	margin: 200px auto;
+	width: 300px;
+	position: relative;
+	z-index: 3;
+	padding: 20px;
+	background-image: -webkit-linear-gradient(rgba(242, 242, 242, 0.9), rgba(222, 222, 222, 0.9));
+	border: black 1px solid;
+	border-radius: 2px;
 }
