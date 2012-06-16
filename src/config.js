@@ -8,3 +8,13 @@ exports.bdd = {
 exports.upload = {
 	dir: 'upload/'
 };
+exports.PHP = {
+	port: 80
+}
+try {
+	var local = require('./localConfig');
+	for (var c in local) {
+		exports[c] = local[c];
+	}
+} catch(e){
+}
