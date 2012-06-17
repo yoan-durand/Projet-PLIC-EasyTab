@@ -33,6 +33,7 @@ exports.compte = function(req, res){
 	if (forceLogin(req, res))
 		return;
 	var params = {
+		connected: req.session.connected,
 		pseudo : req.session.user.login,
 		dateInscription : req.session.user.dateInscription
 	}
