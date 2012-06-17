@@ -421,6 +421,7 @@ $(document).ready (setTimeout(function()
    display_parsing_notes (nbr_notes);*/
    partition = parse ("../"+config.tablature);
 
+   console.log('parser');
 }, 1000));
 
 function display_parsing_header (header)

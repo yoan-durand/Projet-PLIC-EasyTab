@@ -386,4 +386,5 @@ $(document).ready(setTimeout(function(){
             }
         });
     }
+	console.log('event');
 }, 1000));
