@@ -160,20 +160,26 @@ function forceLogin(req, res) {
 
 exports.midi = function(req, res) {
 	var request = require('request');
-	var config = require('config');
+	var config = require('./config');
 	request.post({
 		url: 'http://localhost:'+config.PHP.port+'/Projet-PLIC-EasyTab/src/php/MIDI.php',
 		form: {
 			encoded: req.body.encoded
 		}
+	}, function(error, response, body) {
+		if (error) {
+			throw error;
+		}
+		//if (response.statusCode == 404) {}
+		res.send(response.body);
 	});
-	res.send('true');
 }
 
 exports.testP = function(req, res) {
 	var request = require('request');
-	var myresult = request.get({
-		url: 'http://localhost:80/Projet-PLIC-EasyTab/src/php/testP.php',
+	var config = require('./config');
+	request.get({
+		url: 'http://localhost:'+config.PHP.port+'/Projet-PLIC-EasyTab/src/php/testP.php',
 		form:
 		{
 			encoded: req.body.encoded
@@ -181,6 +187,9 @@ exports.testP = function(req, res) {
 	}
 	, function (error, response, body)
 	{
+		if (error) {
+			throw error;
+		}
 		res.send(response);
 	});
 }
