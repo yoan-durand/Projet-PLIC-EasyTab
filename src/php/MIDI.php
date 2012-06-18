@@ -1,7 +1,13 @@
     <?php
-
-    ini_set('display_errors', 1);
-    error_reporting(E_ALL);
+	define('DEBUG_61358', false);
+	if(DEBUG_61358) {
+		ini_set('display_errors', 1);
+		error_reporting(E_ALL);
+	} else {
+		ini_set('display_errors', 0);
+		error_reporting(0);
+		if (function_exists('xdebug_disable'))xdebug_disable();
+	}
 
 	$note_ref = array (
 		"C0" => 0, "C#0" => 1, "D0" => 2, "D#0" => 3, "E0" => 4, "F0" => 5, "F#0" => 6, "G0" => 7, "G#0" => 8, "A0" => 9, "A#0" => 10, "B0" => 11,
@@ -42,9 +48,9 @@
 		$txt .= "MTrk\n";
 		$txt .=	"0 Meta Text '".$partition["_instruments_list"][$i]["_name_instrument"]."'\n";
                 $txt .= '0 PrCh ch='.$partition["_instruments_list"][$i]["_midi_channel"].' p='.$partition["_instruments_list"][$i]["_gm_instrument"]."\n";
-						
+
                 $measures = $partition["_instruments_list"][$i]["_track_part"]["_measure_list"];
-                
+
 		for ($j = 0; $j < count($measures); $j++)
 		{
 			$chords = $measures[$j]["_chord_list"];
@@ -70,7 +76,7 @@
                                         }
                                         $txt .= $notes[$h]["_begin"]." On ch=".$partition["_instruments_list"][$i]["_midi_channel"]." n=".$n." v=".$velocite."\n";
                                     }
-                                    
+
                                 }
 				for ($h = 0; $h < count($notes); $h++)
 				{
@@ -92,9 +98,9 @@
                                              $velocite = 30;
                                         }
                                         //$txt .= ($notes[$h]["_begin"]+($notes[$h]["_duration"] * 0.75))." Off ch=".$partition["_instruments_list"][$i]["_midi_channel"]." n=".$n." v=80\n";
-                                        $txt .= $miditime." Off ch=".$partition["_instruments_list"][$i]["_midi_channel"]." n=".$n." v=".$velocite."\n"; 
+                                        $txt .= $miditime." Off ch=".$partition["_instruments_list"][$i]["_midi_channel"]." n=".$n." v=".$velocite."\n";
                                     }
-                                }                                
+                                }
 			}
 			if ($j == count($measures) - 1)
 			{
@@ -106,13 +112,15 @@
 			}
 		}
 	}
+	$jsonResult = array(
+		'filename' => 'js/demo.mid'
+	);
 	require('classes/midi.class.php');
-        $monfichier = fopen('../public/js/log.txt', 'w+');
-        fputs($monfichier, $txt);
-        fclose($monfichier);
-        
+	$monfichier = fopen('../public/js/log.txt', 'w+');
+	fputs($monfichier, $txt);
+	fclose($monfichier);
 	$midi = new Midi();
 	$midi->importTxt($txt);
-	$midi->saveMidFile("../public/js/demo.mid", 0666);
-	
+	$midi->saveMidFile('../public/'.$jsonResult['folder'].$jsonResult['filename'], 0666);
+	echo json_encode($jsonResult);
 ?>

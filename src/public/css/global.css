@@ -6,6 +6,8 @@ body {
 
 }
 header {
+	position: relative;
+	z-index: 3;
     background-image: -webkit-linear-gradient( rgba(242, 242, 242, 0.9), rgba(222, 222, 222, 0.9));
     height: 25px;
     padding-left: 50px;

@@ -2,12 +2,55 @@
 	background-color: rgba(0, 0, 0, 0.1);
 	border: solid 1px white;
 	border-top: none;
-	border-radius: 0 0 35px 35px;
+	/*border-radius: 0 0 35px 35px;*/
     width: 400px;
-    padding: 50px 50px;
+    padding: 50px 75px;
+	/*text-align: center;*/
 }
-
+/*#container > #trackListContainer {
+	display: inline-block;
+	text-align: left;
+}*/
 .gros-bouton {
     /*font-size: 1.2em;*/
     padding: 7px 14px;
+}
+a {
+	text-decoration: none;
+	color: #006;
+}
+a:hover,
+#trackList li:hover a {
+	color: brown;
+}
+.ui-state-hover, .ui-widget-content .ui-state-hover, .ui-widget-header .ui-state-hover, .ui-state-focus, .ui-widget-content .ui-state-focus, .ui-widget-header .ui-state-focus {
+	color: brown;
+}
+/* tablatures */
+#trackList {
+	list-style-type: none;
+	padding-left: 0;
+}
+#trackList > li:before {
+	content: "•";
+}
+#trackList li:hover {
+	background-color: rgba(255, 255, 255, 0.3);
+}
+#uploadLink > button {
+	color: darkgrey;
+	cursor: pointer;
+}
+#uploadLink:hover > button {
+	color: brown;
+}
+#searchBox,
+#trackInfos {
+	float: right;
+}
+#uploadLink > button.ui-button-text-only .ui-button-text {
+	padding: 0.2em 0.6em;
+}
+#uploadLink > button.ui-widget {
+	font-size: 0.8em;
 }

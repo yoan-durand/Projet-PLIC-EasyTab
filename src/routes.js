@@ -13,6 +13,12 @@ exports.application = function(req, res){
 	var config = require('./config');
 	var tablature = config.upload.dir;
 	if (req.params.tablature) {
+		var path = require('path');
+		if (!path.existsSync('./public/'+tablature+req.params.tablature)) {
+			// redirection si le fichier n'existe pas
+			res.redirect('/tablatures');
+			return;
+		}
 		tablature += req.params.tablature;
 	} else {
 		tablature += 'demo.xml'
@@ -27,6 +33,7 @@ exports.compte = function(req, res){
 	if (forceLogin(req, res))
 		return;
 	var params = {
+		connected: req.session.connected,
 		pseudo : req.session.user.login,
 		dateInscription : req.session.user.dateInscription
 	}
@@ -153,28 +160,38 @@ function forceLogin(req, res) {
 
 exports.midi = function(req, res) {
 	var request = require('request');
+	var config = require('./config');
 	request.post({
-		url: 'http://localhost:80/Projet-PLIC-EasyTab/src/php/MIDI.php',
-		form:
-                {
-                    encoded: req.body.encoded
+		url: 'http://localhost:'+config.PHP.port+'/Projet-PLIC-EasyTab/src/php/MIDI.php',
+		form: {
+			encoded: req.body.encoded
 		}
-        });
-	res.send('true');
+	}, function(error, response, body) {
+		if (error) {
+			throw error;
+		}
+		//if (response.statusCode == 404) {}
+		res.send(response.body);
+	});
 }
 
 exports.testP = function(req, res) {
 	var request = require('request');
-	var myresult = request.get({
-		url: 'http://localhost:80/Projet-PLIC-EasyTab/src/php/testP.php',
+	var config = require('./config');
+	request.get({
+		url: 'http://localhost:'+config.PHP.port+'/Projet-PLIC-EasyTab/src/php/testP.php',
 		form:
-                {
+		{
 			encoded: req.body.encoded
-		}}
-                , function (error, response, body)
-                {
-                    res.send(response);
-                });
+		}
+	}
+	, function (error, response, body)
+	{
+		if (error) {
+			throw error;
+		}
+		res.send(response);
+	});
 }
 
 
@@ -192,6 +209,8 @@ exports.uploadPost = function(req, res) {
 		res.send('Erreur : vous devez uploader un fichier XML');
 		return;
 	}
+	var titre = req.body.titre; //TODO escape?
+	var artiste = req.body.artiste; //TODO escape?
 	var fs = require('fs');
 	fs.rename(req.files.tablature.path, __dirname + '/public/upload/'+req.files.tablature.name, function(err) {
 		if(err) {
@@ -199,14 +218,14 @@ exports.uploadPost = function(req, res) {
 		}
 		var client = mysql_connect();
 		client.query(
-			'INSERT INTO `tablature` (`userId` ,`nom` ,`chemin`) values (?, ?, ?)',
-			[req.session.user.id, req.files.tablature.name, 'upload/'],
+			'INSERT INTO `tablature` (`userId` ,`nom` ,`chemin`, `titre`, `artiste`) values (?, ?, ?, ?, ?)',
+			[req.session.user.id, req.files.tablature.name, 'upload/', titre, artiste],
 			function(err, results, fields){
 				client.end();
 				if(err) {
 					throw err;
 				}
-				res.send('ok');
+				res.redirect('/tablatures');
 			});
 	});
 }
@@ -214,21 +233,14 @@ exports.uploadPost = function(req, res) {
 exports.tablatures = function(req, res) {
 	if (forceLogin(req, res))
 		return;
-	var client = mysql_connect();
-	client.query(
-		'select nom, chemin from tablature where userId = ?',
-		[req.session.user.id],
-		function(err, results, fields) {
-			client.end(); // close sql connection
-			if (err) {
-				throw err;
-			}
-			res.render('tablatures', {
-				pistes: results,
-				connected: req.session.connected
-			});
-		}
-		);
+	tablatureSearch(req, res, undefined, false);
+}
+
+exports.search = function(req, res) {
+	if (forceLogin(req, res))
+		return;
+	var recherche = req.params.search;
+	tablatureSearch(req, res, recherche, true);
 }
 
 function mysql_connect() {
@@ -240,4 +252,34 @@ function mysql_connect() {
 	});
 	client.useDatabase(config.bdd.name);
 	return client;
+}
+
+function tablatureSearch(req, res, recherche, json) {
+	var userId = req.session.user.id;
+	var sql = 'SELECT nom, titre, artiste FROM `tablature` WHERE `userid` = ?';
+	var match = [userId];
+	if (recherche !== undefined) {
+		sql += ' AND (`nom` LIKE ? OR `titre` LIKE ? OR `artiste` LIKE ?)';
+		recherche = '%'+recherche+'%';
+		match.push(recherche, recherche, recherche);
+	}
+	var client = mysql_connect();
+	var q = client.query(
+		sql,
+		match,
+		function(err, results, fields) {
+			client.end(); // close sql connection
+			if (err) {
+				throw err;
+			}
+			if (json) {
+				res.send(JSON.stringify(results));
+			} else {
+				res.render('tablatures', {
+					pistes: results,
+					connected: req.session.connected
+				});
+			}
+		}
+		);
 }
