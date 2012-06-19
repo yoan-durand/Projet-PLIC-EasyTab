@@ -336,7 +336,6 @@ function parse_chord_list (node_measure, division)
       var last_note = last_chord._note_list[last_chord._note_list.length-1];
       next_begin += last_note._duration;
     }
-
     return chord_list_obj;
 }
 
@@ -374,8 +373,6 @@ function parse_note (node_note, division)
 
         return note_obj;
 }
-
-
 
 function load_xml (path)
 {

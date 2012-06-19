@@ -27,7 +27,6 @@ function DrawPartition(mesures, svg, nb_cordes)
         {
             file_mesures.push(j); // On enfile l'indice de la mesure qui rentre encore sur la ligne
         }
-   
         else // La mesure ne rentre pas
         {
             if (mesures[j]._chord_list[0] != null) // A VERIFIER
@@ -44,6 +43,19 @@ function DrawPartition(mesures, svg, nb_cordes)
             }
         }
     }
+    if (mesures[mesures.length - 1]._chord_list[0] != null) // A VERIFIER
+    {
+        var end_note = mesures[mesures.length - 1]._chord_list[0]._note_list[0];
+        var Xend = end_note._posX - marge_mesure; // Position de la fin de la derniere mesure qui rentre sur la ligne
+        var coef = (MaxWidth  - Xend) / (Xend - left_marge ); // Permet de décaler la position de toutes les notes afin d'occuper tout l'espace restant
+        Optimize(context,file_mesures, coef); // Permet de décaler toutes les positions en X des notes qui rentre sur une même ligne
+        DrawOneLine(context,file_mesures, Yline); // On dessine la ligne entiere (rectangles de selection, lignes et mesures)
+        file_mesures = []; // On nettoie la File afin de pouvoir assigner de nouvelles mesures
+        j--; // Afin de repartir sur la mesure qui n'est pas traiter
+        x = left_marge; // On repart sur une nouvel ligne
+        Yline += 90;
+    }
+    
 }
 
 // Fonction qui permet de setter les X des différentes notes composant la mesure en appliquant un coef si nécessaire
@@ -141,7 +153,10 @@ function DrawSelectRect (context, file, Yline)
     }
     if (lastnote != null)
     {
-            context.svg.rect(x,Yline - 10,lastnote._posX - x + context.MaxWidth - lastnote._posX,height, {id:file[file.length-1]+"_", fill:"white", stroke:"white"});
+        var number_mesure = file[file.length-1];
+        var mesure = context.mesure_list[number_mesure]; //On recupere la mesure situé a l'index File[i]
+        var chordlist = mesure._chord_list //La liste de chords dans l'objet list
+        context.svg.rect(x,Yline - 10,lastnote._posX - x + context.MaxWidth - lastnote._posX,height, {id:number_mesure+"_"+chordlist.length-1, fill:"white", stroke:"white"});
     }
 }
 
@@ -277,7 +292,7 @@ function is_wrong_value (val)
             return null;
         }
     }
-    alert ("wrong value  :" + val*3);
+    alert ("wrong value  :" + val);
     return null;  
 }
 
