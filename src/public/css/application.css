@@ -104,49 +104,30 @@ footer
     width: 600px;
     height: 30px;
     margin-top: 70px;
+	overflow: auto;
 }
 
-.onglets_pic
-{
-    margin-left: 3px;
-    width: 102px;
-    height: 30px;
-    background-image: url(../image/boutondark.png);
+.onglets {
+	background-color: #575757;
+    min-width: 82px; /* 102px - 2*10px de padding */
+	height: 20px; /* 30px - 2*5px de padding */
+	margin-left: 3px;
+	border-radius: 5px 5px 0 0;
     cursor: pointer;
-}
 
-.onglets_pic_selected
-{
-    margin-left: 3px;
-    width: 102px;
-    height: 30px;
-    background-image: url(../image/bouton_white_underline.png);
-    cursor: pointer;
+	font-family: bebas;
+	text-align: center;
+	color: orange;
+	font-size: 0.9em;
+	padding: 5px 10px;
 }
-
-.onglets_text
+.onglets_selected
 {
-    position: relative;
-    height: auto;
-    width: auto;
-    font-family: bebas;
-    text-align: center;
-    color: orange;
-    top: 5px;
-    font-size: 0.9em;
-}
-
-.onglets_text_selected
-{
-    position: relative;
-    height: auto;
-    width: auto;
-    font-family: bebas;
-    text-align: center;
+	background: white url("../image/bouton_white_underline new.png") no-repeat center bottom;
+	
     color: black;
-    top: 5px;
-    font-size: 0.9em;
 }
+
 
 .tab_svg
 {
