@@ -164,9 +164,7 @@ exports.midi = function(req, res) {
 	var config = require('./config');
 	request.post({
 		url: 'http://localhost:'+config.PHP.port+'/Projet-PLIC-EasyTab/src/php/MIDI.php',
-		form: {
-			encoded: req.body.encoded
-		}
+		form: req.body
 	}, function(error, response, body) {
 		if (error) {
 			throw error;
