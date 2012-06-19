@@ -134,6 +134,10 @@ footer
     height:4000px;
     width: 901px;
 }
+.tab_svg_loading {
+	background-color: white;
+	border: 1px solid grey;
+}
 
 .progress_bar
 {

@@ -44,7 +44,7 @@ CREATE TABLE IF NOT EXISTS `tablature` (
 --
 
 INSERT INTO `tablature` (`id`, `userId`, `nom`, `chemin`, `titre`, `artiste`) VALUES
-(5, 1, 'demo', 'upload/', 'démo', 'demoman'),
+(5, 1, 'demo', 'upload/', 'démo', 'demoman');
 
 -- --------------------------------------------------------
 

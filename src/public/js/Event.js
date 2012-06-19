@@ -272,6 +272,7 @@ $(document).ready(setTimeout(function(){
 
     function tracks(instruments)
     {
+		$(".instruments").empty();
         for (var i = 0; i < instruments.length;i++)
         {
             if (i == 0)
