@@ -86,22 +86,25 @@ $(document).ready(setTimeout(function(){
 	var ancient = 0;
                  var sline  = 0;
                  var scroll = 280;
-       //------------------------------------
+                 var scroll2 = 820;
+       //------------------------------------          
+
 	function Animation_Play(index_m)
 	{
-                        if ($("rect[id^='cursor']").attr("y") != ancient)
+                        if ($("rect[id^='cursor_"+current_svg+"']").attr("y") != ancient)
                             {
-
-                                ancient = $("rect[id^='cursor']").attr("y");
+                                //alert (current_svg+" "+ scroll+ " " + sline)
+                                ancient = $("rect[id^='cursor_"+current_svg+"']").attr("y");
                                 sline++;
 
                                 if (sline % 4 == 0)
                                     {
-                                         $(".overflow_svg").scrollTo(  scroll, 1000, {axis:'y'});
+                                         $(".overflow_svg").scrollTo( scroll, 1000, {axis:'y'});
                                          sline = 1;
                                          scroll += 270;
                                      }
                             }
+                           
                             var id = index_m + 1;
                             selected = id;
                             $(".progress_bar img[id='m_"+ id + "']").attr("src", "image/casebleue.png");
@@ -110,7 +113,8 @@ $(document).ready(setTimeout(function(){
                              id++;
                              if ((id >= 30) && (id % 30 == 0))
                                  {
-                                     $(".overflow_measure").scrollTo(800, 1000, {axis:'x'});
+                                     $(".overflow_measure").scrollTo(scroll2, 1000, {axis:'x'});
+                                     scroll2 += 830;
                                  }
                     var delay_ms = 350;
                     var delay_midi = SecondtoMIDI(delay_ms,g_tempo);
@@ -226,6 +230,7 @@ $(document).ready(setTimeout(function(){
             $("#pause").attr("src", "image/playerpause.png");
             $(this).attr("src", "image/playerstop2.png");
             $(".overflow_svg").scrollTo( 0, 1000, {axis:'y'});
+            $(".overflow_measure").scrollTo( 0, 1000, {axis:'x'});
             scroll = 280;
             sline = 0;
             if (selected != 1)
@@ -304,8 +309,9 @@ $(document).ready(setTimeout(function(){
         $($("rect[id='cursor_"+current_svg+"']"), svg_inst[current_svg].root()).attr("y", y);
         $($("rect[id='cursor_"+current_svg+"']"), svg_inst[current_svg].root()).attr("transform", transform);
         $(".tab_svg #"+current_svg).css("display", "block");
-
-
+       /* sline = 1;
+        scroll = $($("rect[id='cursor_"+current_svg+"']"), svg_inst[current_svg].root()).attr("y");
+        $(".overflow_svg").scrollTo(scroll, 1000, {axis:"y"});*/
     });
 	var scrollTop = 0;
 	var lastScroll = 0;

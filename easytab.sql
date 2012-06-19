@@ -52,7 +52,8 @@ INSERT INTO `tablature` (`id`, `userId`, `nom`, `chemin`, `titre`, `artiste`) VA
 -- Structure de la table `user`
 --
 
-CREATE TABLE IF NOT EXISTS `user` (
+CREATE TABLE IF NOT EXISTS `user` 
+(
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `dateInscription` int(11) NOT NULL,
   `login` varchar(30) NOT NULL,
