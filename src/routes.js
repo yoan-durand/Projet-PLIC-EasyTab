@@ -25,7 +25,8 @@ exports.application = function(req, res){
 	}
 	res.render('application', {
 		connected: req.session.connected,
-		tablature: tablature
+		tablature: tablature,
+		userId: req.session.user.id
 	});
 };
 
@@ -163,9 +164,7 @@ exports.midi = function(req, res) {
 	var config = require('./config');
 	request.post({
 		url: 'http://localhost:'+config.PHP.port+'/Projet-PLIC-EasyTab/src/php/MIDI.php',
-		form: {
-			encoded: req.body.encoded
-		}
+		form: req.body
 	}, function(error, response, body) {
 		if (error) {
 			throw error;
@@ -209,17 +208,18 @@ exports.uploadPost = function(req, res) {
 		res.send('Erreur : vous devez uploader un fichier XML');
 		return;
 	}
+	var name = req.files.tablature.name.slice(0,-4);
 	var titre = req.body.titre; //TODO escape?
 	var artiste = req.body.artiste; //TODO escape?
 	var fs = require('fs');
-	fs.rename(req.files.tablature.path, __dirname + '/public/upload/'+req.files.tablature.name, function(err) {
+	fs.rename(req.files.tablature.path, __dirname + '/public/upload/'+name+'.xml', function(err) {
 		if(err) {
 			throw err;
 		}
 		var client = mysql_connect();
 		client.query(
 			'INSERT INTO `tablature` (`userId` ,`nom` ,`chemin`, `titre`, `artiste`) values (?, ?, ?, ?, ?)',
-			[req.session.user.id, req.files.tablature.name, 'upload/', titre, artiste],
+			[req.session.user.id, name, 'upload/', titre, artiste],
 			function(err, results, fields){
 				client.end();
 				if(err) {

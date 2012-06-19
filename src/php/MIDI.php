@@ -113,7 +113,8 @@
 		}
 	}
 	$jsonResult = array(
-		'filename' => 'js/demo.mid'
+		'filename' => 'midi/'.md5($_POST['name'].'||'.$_POST['userId']).'.mid',
+		'debug' => $_POST['name'].'||'.$_POST['userId']
 	);
 	require('classes/midi.class.php');
 	$monfichier = fopen('../public/js/log.txt', 'w+');
@@ -121,6 +122,6 @@
 	fclose($monfichier);
 	$midi = new Midi();
 	$midi->importTxt($txt);
-	$midi->saveMidFile('../public/'.$jsonResult['folder'].$jsonResult['filename'], 0666);
+	$midi->saveMidFile('../public/'.$jsonResult['filename'], 0666);
 	echo json_encode($jsonResult);
 ?>

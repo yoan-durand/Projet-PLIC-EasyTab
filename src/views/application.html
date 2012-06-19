@@ -31,7 +31,8 @@
                         debugger;
                 }
                 var config = {
-                        tablature: '{{tablature}}'
+                        tablature: '{{tablature}}',
+						userId: {{userId}}
                 }
         </script>
 
@@ -63,10 +64,12 @@
                         </section>
                     </section>
                     <section class="instruments float-right">
+						<div class="onglets float-right"></div>
+						<div class="onglets float-right"></div>
                     </section>
                     <section class="clear"></section>
                 </section>
-                <section class="tab_svg overflow_svg">
+                <section class="tab_svg overflow_svg tab_svg_loading">
                     <!--<embed src="SVG/partition.svg" width="900" height="400" type="image/svg+xml" />-->
                 </section>
                 <section class="progress_bar overflow_measure">
@@ -95,7 +98,6 @@
     var current_svg = 0;
 
     $(document).ready (setTimeout(function(){
-		//$('#splashScreen').css('height', $('body').height()-25);
         $(".tab_svg").css("height",6000);
         $(".tempo").text(partition._instruments_list[0]._track_part._measure_list[0]._sound_params._tempo);
 
@@ -129,6 +131,8 @@
             }
         });
         }
+		$(".tab_svg").removeClass('tab_svg_loading')
+
         /*
         $('.tab_svg').svg({onLoad: function(svg)
         {
@@ -423,7 +427,11 @@
          $.ajax({
             type: "POST",
             url: 'midi',
-			data: { 'encoded' : JSON.stringify({ encoded : partition })},
+			data: {
+				'name': config.tablature,
+				'userId': config.userId,
+				'encoded': JSON.stringify({ encoded : partition })
+			},
 			//dataType: "json",
             success: function (data, textStatus, jqXHR) {
 				try {
