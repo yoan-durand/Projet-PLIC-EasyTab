@@ -112,6 +112,7 @@
 			}
 		}
 	}
+	mkdir('../public/midi');
 	$jsonResult = array(
 		'filename' => 'midi/'.md5($_POST['name'].'||'.$_POST['userId']).'.mid',
 		'debug' => $_POST['name'].'||'.$_POST['userId']

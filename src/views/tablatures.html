@@ -27,6 +27,8 @@
 			if (e.which == 27) {
 				$(this).val('');
 				search('');
+			} else {
+				search($(this).val());
 			}
 		});
 		$('#searchForm').submit(function(e){
