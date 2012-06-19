@@ -4,15 +4,24 @@
 {% block title %}Home Page{% endblock %}
 
 {% block head %}
+<link rel="stylesheet" href="css/smoothness/jquery-ui-1.8.18.custom.css" />
 <link rel="stylesheet" href="css/site.css">
+<script src="js/jquery-1.7.1.js"></script>
+<script src="js/jquery-ui-1.8.18.custom.min.js"></script>
+<script type="text/javascript">
+	$(function(){
+		$('#upload').button();
+	});
+</script>
 {% endblock %}
 
 {% block content %}
 <section id="container" class="center">
 	<form method="post" action="upload" enctype="multipart/form-data" id="form">
-		<input type="file" name="tablature">
-		<br>
-		<input type="submit" value="Uploader">
+		<input id="uploadField" type="file" name="tablature"><br>
+		<label>Titre : <input name="titre" placeholder="entrez un titre"></label><br>
+		<label>Artiste : <input name="artiste" placeholder="entrez un l'artiste"></label><br>
+		<input id="upload" type="submit" value="Uploader">
 	</form>
 </section>
 {% endblock %}
