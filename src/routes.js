@@ -211,6 +211,7 @@ exports.uploadPost = function(req, res) {
 	var name = req.files.tablature.name.slice(0,-4);
 	var titre = req.body.titre; //TODO escape?
 	var artiste = req.body.artiste; //TODO escape?
+	var visibilitéPublique = req.body.visibilité == 'publique';
 	var fs = require('fs');
 	fs.rename(req.files.tablature.path, __dirname + '/public/upload/'+name+'.xml', function(err) {
 		if(err) {
@@ -218,8 +219,8 @@ exports.uploadPost = function(req, res) {
 		}
 		var client = mysql_connect();
 		client.query(
-			'INSERT INTO `tablature` (`userId` ,`nom` ,`chemin`, `titre`, `artiste`) values (?, ?, ?, ?, ?)',
-			[req.session.user.id, name, 'upload/', titre, artiste],
+			'INSERT INTO `tablature` (`userId` ,`nom` ,`chemin`, `titre`, `artiste`, `public`) values (?, ?, ?, ?, ?, ?)',
+			[req.session.user.id, name, 'upload/', titre, artiste, visibilitéPublique],
 			function(err, results, fields){
 				client.end();
 				if(err) {
