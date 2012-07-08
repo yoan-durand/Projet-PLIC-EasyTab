@@ -8,6 +8,7 @@
 <link rel="stylesheet" href="css/site.css">
 <script src="js/jquery-1.7.1.js"></script>
 <script src="js/jquery-ui-1.8.18.custom.min.js"></script>
+<script src="js/jquery.contextmenu.r2.packed.js"></script>
 <script type="text/javascript">
 	function search(recherche) {
 		$.post('/search/'+recherche, function(data, textStatus) {
@@ -19,10 +20,13 @@
 		}, 'json');
 	}
 	$(function(){
+		//styliser le bouton
 		$('#uploadLink > button').button();
+		// au double clic on ouvre la partition
 		$('#trackList > li').dblclick(function(e){
 			location.href = $('a', this).attr('href');
 		});
+		// recherche automatique d鳠qu'on lache une touche
 		$('#searchForm > input').keyup(function(e){
 			if (e.which == 27) {
 				$(this).val('');
@@ -31,6 +35,7 @@
 				search($(this).val());
 			}
 		});
+		// interception de l'appui sur la touche entrꥠpour rechercher sans changer de page
 		$('#searchForm').submit(function(e){
 			e.preventDefault();
 			var recherche = $('input', this).val();
@@ -46,6 +51,10 @@
 					var id = $(t).attr('id').slice(4);
 					var visibility = $(t).hasClass('private') ? '1' : '0';
 					location.href = '/tablatures/'+id+'/visibility/'+visibility;
+				},
+				'supprimer': function(t) {
+					var id = $(t).attr('id').slice(4);
+					location.href = '/tablatures/'+id+'/suppression';
 				}
 			}
 		};
@@ -68,7 +77,11 @@
 	<div>
 		<ul id="trackList">
 			{% for xml in pistes -%}
-			<li>
+			{% if xml.public %}
+			<li id="tab_{{xml.id}}"><span class="ui-icon ui-icon-unlocked"></span>
+				{% else %}
+			<li id="tab_{{xml.id}}" class="private"><span class="ui-icon ui-icon-locked"></span>
+				{% endif %}
 				<a href="application;{{ xml.nom }}.xml">{{ xml.nom }}</a> <span id="trackInfos">{{xml.titre}} - {{xml.artiste}}</span>
 			</li>
 			{%- endfor %}
@@ -85,6 +98,10 @@
 			<!--			<img src="disk.png" />-->
 			<span>Rendre publique</span>
 		</li>
+        <li id="supprimer">
+			<!--			<img src="cross.png" />-->
+			<span>Supprimer</span>
+		</li>
 	</ul>
 </div>
 <div class="contextMenu" id="menu2">
@@ -95,7 +112,14 @@
 		</li>
         <li id="visibility">
 			<!--			<img src="disk.png" />-->
-			<span>Rendre privée</span>
+			<span>Rendre privꥼ/span>
+<<<<<<< HEAD
+=======
+		</li>
+        <li id="supprimer">
+			<!--			<img src="cross.png" />-->
+			<span>Supprimer</span>
+>>>>>>> 35e9eb2... gestion de la suppression
 		</li>
 	</ul>
 </div>
