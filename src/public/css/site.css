@@ -3,7 +3,7 @@
 	border: solid 1px white;
 	border-top: none;
 	/*border-radius: 0 0 35px 35px;*/
-    width: 400px;
+    width: 600px;
     padding: 50px 75px;
 	/*text-align: center;*/
 }
@@ -31,9 +31,9 @@ a:hover,
 	list-style-type: none;
 	padding-left: 0;
 }
-#trackList > li:before {
+/*#trackList > li:before {
 	content: "•";
-}
+}*/
 #trackList li:hover {
 	background-color: rgba(255, 255, 255, 0.3);
 }
@@ -53,4 +53,7 @@ a:hover,
 }
 #uploadLink > button.ui-widget {
 	font-size: 0.8em;
+}
+.ui-icon {
+	display: inline-block;
 }

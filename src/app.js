@@ -66,6 +66,7 @@ app.get('/midi', routes.midi);
 app.post('/midi', routes.midi);
 app.get('/testP', routes.testP);
 app.get('/tablatures', routes.tablatures);
+app.get('/tablatures/:id/visibility/:visibility', routes.tablaturesVisibility);
 app.post('/search/:search?', routes.search);
 app.get('/upload', routes.upload);
 app.post('/upload', routes.uploadPost);

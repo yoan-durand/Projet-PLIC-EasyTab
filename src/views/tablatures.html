@@ -36,6 +36,21 @@
 			var recherche = $('input', this).val();
 			search(recherche);
 		});
+		// activer le menu contextuel
+		var options = {
+			bindings: {
+				'ouvrir': function(t) {
+					location.href = $('a', t).attr('href');
+				},
+				'visibility': function(t) {
+					var id = $(t).attr('id').slice(4);
+					var visibility = $(t).hasClass('private') ? '1' : '0';
+					location.href = '/tablatures/'+id+'/visibility/'+visibility;
+				}
+			}
+		};
+		$('#trackList > li.private').contextMenu('menu1', options);
+		$('#trackList > li:not(.private)').contextMenu('menu2', options);
 	});
 </script>
 {% endblock %}
@@ -60,4 +75,28 @@
 		</ul>
 	</div>
 </section>
+<div class="contextMenu" id="menu1">
+	<ul>
+        <li id="ouvrir">
+			<!--			<img src="folder.png" />-->
+			<span>Ouvrir</span>
+		</li>
+        <li id="visibility">
+			<!--			<img src="disk.png" />-->
+			<span>Rendre publique</span>
+		</li>
+	</ul>
+</div>
+<div class="contextMenu" id="menu2">
+	<ul>
+        <li id="ouvrir">
+			<!--			<img src="folder.png" />-->
+			<span>Ouvrir</span>
+		</li>
+        <li id="visibility">
+			<!--			<img src="disk.png" />-->
+			<span>Rendre privée</span>
+		</li>
+	</ul>
+</div>
 {% endblock %}

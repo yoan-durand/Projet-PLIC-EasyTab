@@ -237,6 +237,40 @@ exports.tablatures = function(req, res) {
 	tablatureSearch(req, res, undefined, false);
 }
 
+exports.tablaturesVisibility = function(req, res) {
+	if (forceLogin(req, res))
+		return;
+	var id = parseInt(req.params.id, 10);
+	var visibility = parseInt(req.params.visibility, 10);
+	if (!id) {
+		res.redirect('/tablatures');
+	}
+	var userId = req.session.user.id;
+	var bdd = mysql_connect();
+	bdd.query('SELECT count(*) FROM `tablature` where `id`=? and `userId`=?',
+		[id, userId],
+		function (err, results, fields){
+			if(err) {
+				bdd.end();
+				throw err;
+			}
+			if (results[0]['count(*)'] == 0) {
+				bdd.end();
+				res.redirect('/tablatures');
+			} else {
+				bdd.query('UPDATE `easytab`.`tablature` SET `public` = ? WHERE `tablature`.`id` =?;',
+					[visibility, id],
+					function (err, results, fields){
+						bdd.end();
+						if(err) {
+							throw err;
+						}
+						res.redirect('/tablatures');
+					});
+			}
+		});
+}
+
 exports.search = function(req, res) {
 	if (forceLogin(req, res))
 		return;
