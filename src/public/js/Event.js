@@ -23,6 +23,7 @@ $(document).ready(setTimeout(function(){
             javascript:document.demo.SetTime(0);
             //javascript:document.demo.Play();
             document.demo.SetRate($(".tempo").text()/cur_tempo);
+            $(".overflow_svg").css("overflow-y", "hidden");
             $(".overflow_svg").scrollTo( 0, 1000, {axis:'y'});
             $(this).attr("src", "image/playerback2.png");
             $("#play").attr("src", "image/playerplay.png");
@@ -55,6 +56,9 @@ $(document).ready(setTimeout(function(){
         if ($(this).attr("src") == "image/playerplay.png")
         {
 			//javascript:document.demo.Play();
+        	//bloquage du scroll utilisateur
+        	$(".overflow_svg").css("overflow-y", "hidden");
+        	//-------
             document.demo.SetRate($(".tempo").text()/cur_tempo);
 			$("#back").attr("src", "image/playerback.png");
             $(this).attr("src", "image/playerplay2.png");
@@ -91,6 +95,7 @@ $(document).ready(setTimeout(function(){
 			 var res = 0;
 			 var scroll = 280;
 			 var scroll2 = 820;
+			 var onglet = false;
        //------------------------------------          
 
 	   
@@ -103,6 +108,7 @@ $(document).ready(setTimeout(function(){
 				$("#play").attr("src", "image/playerplay.png");
 				$("#pause").attr("src", "image/playerpause2.png");
 				$("#stop").attr("src", "image/playerstop.png");
+				$(".overflow_svg").css("overflow-y", "auto");
 			}
 			else { // PLAY REQUEST
 				document.demo.SetRate($(".tempo").text()/cur_tempo);
@@ -110,6 +116,7 @@ $(document).ready(setTimeout(function(){
 				$("#play").attr("src", "image/playerplay2.png");
 				$("#pause").attr("src", "image/playerpause.png");
 				$("#stop").attr("src", "image/playerstop.png");
+				$(".overflow_svg").css("overflow-y", "hidden");
 				Animation_Play(selected);
 			}
 		}
@@ -117,13 +124,23 @@ $(document).ready(setTimeout(function(){
 	   
 	function Animation_Play(index_m)
 	{
-		console.log("position du curseur : " + $("rect[id='cursor_" + current_svg + "']").attr("y"));
-         var test = ($("rect[id='cursor_" + current_svg + "']").attr("y") - 20);              
-        /*
-         * c'est a yoan je l'enleverai plus tard.
-         console.log("valeur de test : " + test);
-         */
-         test = test/ 90;
+		
+		/*
+		 * 
+		 * code de scroll
+		 * 
+		 */	
+		
+		
+		
+		if (onglet == true)
+			{
+				scroll = ($("rect[id='cursor_" + current_svg + "']").attr("y"));7
+				scroll = parseInt(scroll)+ 265;
+				onglet = false;
+			}
+		 var test = ($("rect[id='cursor_" + current_svg + "']").attr("y") - 20);              
+         test = test / 90;
          /*
          console.log("valeur de test/90 : " + test);
          */
@@ -131,15 +148,17 @@ $(document).ready(setTimeout(function(){
 		 {
 			hasScrolled = true;
 			ancient = $("rect[id='cursor_" + current_svg + "']").attr("y");
+			console.log ("va a posiiton : " + scroll);
 			$(".overflow_svg").scrollTo (scroll, 1000, {axis:'y'});
-			scroll += 270;	
+			
+			scroll = scroll + 270;	
+			console.log ("prochaine posiiton : " + scroll);
 		 }
 	
 		if (ancient != ($("rect[id='cursor_" + current_svg + "']").attr("y")) && (hasScrolled == true))
 		{
 			hasScrolled = false;
 		}
-		
 		var id = index_m + 1;
 		selected = id;
 		$(".progress_bar img[id='m_"+ id + "']").attr("src", "image/casebleue.png");
@@ -151,6 +170,12 @@ $(document).ready(setTimeout(function(){
 				 $(".overflow_measure").scrollTo(scroll2, 1000, {axis:'x'});
 				 scroll2 += 830;
 			 }
+		 
+		 /*
+		  *
+		  * fin du code de scroll
+		  * 
+		  */
 		var delay_ms = 350;
 		var delay_midi = SecondtoMIDI(delay_ms,g_tempo);
 		var time_ms = getTime();
@@ -251,15 +276,17 @@ $(document).ready(setTimeout(function(){
             $("#stop").attr("src", "image/playerstop.png");
             clearInterval(time_func);
             $($("rect[id='cursor_"+current_svg+"']"), svg_inst[current_svg].root()).stop();
+            $(".overflow_svg").css("overflow-y", "auto");
         }
     });
 
     $("#stop").click(function (){
         if ($(this).attr("src") == "image/playerstop.png")
         {
-                        clearTimeout(timeout);
-                    javascript:document.demo.Stop();
-                    javascript:document.demo.SetTime(0);
+            clearTimeout(timeout);
+            javascript:document.demo.Stop();
+            javascript:document.demo.SetTime(0);
+            $(".overflow_svg").css("overflow-y", "auto");
             $("#back").attr("src", "image/playerback.png");
             $("#play").attr("src", "image/playerplay.png");
             $("#pause").attr("src", "image/playerpause.png");
@@ -344,12 +371,25 @@ $(document).ready(setTimeout(function(){
         $($("rect[id='cursor_"+current_svg+"']"), svg_inst[current_svg].root()).attr("y", y);
         $($("rect[id='cursor_"+current_svg+"']"), svg_inst[current_svg].root()).attr("transform", transform);
         $(".tab_svg #"+current_svg).css("display", "block");
-    
-        var goTo = $($("rect[id='cursor_"+current_svg+"']"), svg_inst[current_svg].root()).attr("y");
-        res = ((($($("rect[id='cursor_"+current_svg+"']"), svg_inst[current_svg].root()).attr("y") - 20) / 90) % 3);
-        console.log("nouveau res = "+ res);
-        console.log("scroll:" + scroll);
-        $(".overflow_svg").scrollTo(goTo, 1000, {axis:"y"});
+        
+        /*
+         * 
+         * morceau de code pour le scroll au changement d'onglet
+         * 
+         */
+       
+        var newscroll = $($("rect[id='cursor_"+current_svg+"']"), svg_inst[current_svg].root()).attr("y");
+        onglet = true;
+        res = (((newscroll - 20) / 90) % 3);
+        hasScrolled = true;
+        ancient = newscroll;
+        $(".overflow_svg").scrollTo(newscroll-15, 1000, {axis:"y"});
+        
+        /*
+         *
+         *Fin du code de scroll
+         *
+         **/
     });
 	var scrollTop = 0;
 	var lastScroll = 0;
