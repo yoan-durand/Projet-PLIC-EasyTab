@@ -220,12 +220,21 @@ footer
 	top: 60px;
 	left: 600px;
 }
-#speaker
+.speakon
 {
 	position: absolute;
 	top: 60px;
-	left: 580px;
+	left: 575px;
 	width:16px;
   	height:16px;
   	background:url("smoothness/images/ui-icons_454545_256x240.png") -144px -160px no-repeat;
+}
+.speakoff
+{
+	position: absolute;
+	top: 60px;
+	left: 575px;
+	width:16px;
+  	height:16px;
+  	background:url("smoothness/images/ui-icons_454545_256x240.png") -129px -160px no-repeat;
 }

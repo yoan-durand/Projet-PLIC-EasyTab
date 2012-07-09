@@ -365,7 +365,27 @@ $(document).ready(setTimeout(function(){
 		step: 1,
 		slide: function (event, ui){
 			document.demo.SetVolume(ui.value);
+			if (ui.value == 0){
+				$("#speaker").removeClass("speakon").addClass("speakoff");
+			}
+			else if (!$("#speaker").hasClass("speakon"))
+			{
+				$("#speaker").removeClass("speakoff").addClass("speakon");
+			}
 		}
 	});
+	
+	$("#speaker").click(function (){
+		var ismute = document.demo.GetMute();
+		document.demo.SetMute(!ismute);
+		if (ismute){
+			$("#speaker").removeClass("speakon").addClass("speakoff");
+		}
+		else
+		{
+			$("#speaker").removeClass("speakoff").addClass("speakon");
+		}
+	});
+	
 	console.log('event');
 }, 1000));
