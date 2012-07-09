@@ -37,14 +37,15 @@ $(document).ready(setTimeout(function(){
             setTimeout(function (){
                 $("#back").attr("src", "image/playerback.png");
             }, 500);
-            clearInterval(time_func);
+            /*clearInterval(time_func);
             elapsed_time = 0;
             line = 0;
             $($("rect[id='cursor_"+current_svg+"']"), svg_inst[current_svg].root()).stop();
             $($("rect[id='cursor_"+current_svg+"']"), svg_inst[current_svg].root()).attr({"y": (20 + (80 * line))});
             $($("rect[id='cursor_"+current_svg+"']"), svg_inst[current_svg].root()).animate({svgTransform: 'translate(0 0)'}, 0, 'linear');
             $($("rect[id='cursor_"+current_svg+"']"), svg_inst[current_svg].root()).animate({svgTransform: 'translate(800 0)'}, speed - elapsed_time, 'linear', keep_playing);
-            time_func = setInterval(chronotime, 100);
+            time_func = setInterval(chronotime, 100);*/
+			Animation_Play(current_index);
         }
     });
 
