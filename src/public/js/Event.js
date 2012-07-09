@@ -88,6 +88,7 @@ $(document).ready(setTimeout(function(){
         //variable pour le scroll
 			var ancient = 0;
 			 var hasScrolled  = false;
+			 var res = 0;
 			 var scroll = 280;
 			 var scroll2 = 820;
        //------------------------------------          
@@ -116,16 +117,25 @@ $(document).ready(setTimeout(function(){
 	   
 	function Animation_Play(index_m)
 	{
-         var test = (($("rect[id='cursor_" + current_svg + " ' ]") .attr("y")-20)/90);              
-        
-		 if (($("rect[id='cursor_"+current_svg+"']") .attr("y") > 20) && (test % 3 == 0) && (hasScrolled == false))
+		console.log("position du curseur : " + $("rect[id='cursor_" + current_svg + "']").attr("y"));
+         var test = ($("rect[id='cursor_" + current_svg + "']").attr("y") - 20);              
+        /*
+         * c'est a yoan je l'enleverai plus tard.
+         console.log("valeur de test : " + test);
+         
+         test = test/ 90;
+         
+         console.log("valeur de test/90 : " + test);
+         */
+		 if (($("rect[id='cursor_" + current_svg + "']").attr("y") > 20) && (test % 3 == res) && (hasScrolled == false))
 		 {
-			ancient = $("rect[id='cursor_"+current_svg+"']") .attr("y");
-			$("rect[id^='cursor_"+current_svg+"']") .attr("y").scrollTo (scroll, 1000, {axis:'y'});
+			hasScrolled = true;
+			ancient = $("rect[id='cursor_" + current_svg + "']").attr("y");
+			$(".overflow_svg").scrollTo (scroll, 1000, {axis:'y'});
 			scroll += 270;	
 		 }
 	
-		if (ancient != ($("rect[id^='cursor_"+current_svg+"']") .attr("y")) && (hasScrolled == true))
+		if (ancient != ($("rect[id='cursor_" + current_svg + "']").attr("y")) && (hasScrolled == true))
 		{
 			hasScrolled = false;
 		}
