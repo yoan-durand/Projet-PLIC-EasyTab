@@ -216,7 +216,7 @@ function DrawNotes(context, file, yLine)
                                     {
                                         context.svg.rect(note2._posX,(note2._string_technical - 1)*10+yLine  - 5, 12, 11, {fill:"white"});
                                     }
-                                    context.svg.text(note2._posX, (note2._string_technical * 10) + yLine - 6, ""+note2._fret_technical+"", {"font-weight":"bold", "font-size": "11px"});
+                                    context.svg.text(note2._posX, (note2._string_technical * 10) + yLine - 6, ""+note2._fret_technical+"", {id:"n_"+(mes-1)+"_"+j, "font-weight":"bold", "font-size": "11px"});
                                 }
                                 else
                                 {

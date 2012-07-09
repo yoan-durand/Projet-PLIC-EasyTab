@@ -37,14 +37,15 @@ $(document).ready(setTimeout(function(){
             setTimeout(function (){
                 $("#back").attr("src", "image/playerback.png");
             }, 500);
-            clearInterval(time_func);
+            /*clearInterval(time_func);
             elapsed_time = 0;
             line = 0;
             $($("rect[id='cursor_"+current_svg+"']"), svg_inst[current_svg].root()).stop();
             $($("rect[id='cursor_"+current_svg+"']"), svg_inst[current_svg].root()).attr({"y": (20 + (80 * line))});
             $($("rect[id='cursor_"+current_svg+"']"), svg_inst[current_svg].root()).animate({svgTransform: 'translate(0 0)'}, 0, 'linear');
             $($("rect[id='cursor_"+current_svg+"']"), svg_inst[current_svg].root()).animate({svgTransform: 'translate(800 0)'}, speed - elapsed_time, 'linear', keep_playing);
-            time_func = setInterval(chronotime, 100);
+            time_func = setInterval(chronotime, 100);*/
+			Animation_Play(current_index);
         }
     });
 
@@ -85,108 +86,140 @@ $(document).ready(setTimeout(function(){
 	}
 
         //variable pour le scroll
-	var ancient = 0;
-                 var sline  = 0;
-                 var scroll = 280;
-                 var scroll2 = 820;
+			var ancient = 0;
+			 var hasScrolled  = false;
+			 var res = 0;
+			 var scroll = 280;
+			 var scroll2 = 820;
        //------------------------------------          
 
+	   
+	// TOUCHE ENTER PRESS
+	$(document).keyup(function (e){
+		if (e.keyCode==13){
+			if (document.demo.GetRate() != 0){ // PAUSE REQUEST
+				document.demo.Stop();
+				$("#back").attr("src", "image/playerback.png");
+				$("#play").attr("src", "image/playerplay.png");
+				$("#pause").attr("src", "image/playerpause2.png");
+				$("#stop").attr("src", "image/playerstop.png");
+			}
+			else { // PLAY REQUEST
+				document.demo.SetRate($(".tempo").text()/cur_tempo);
+				$("#back").attr("src", "image/playerback.png");
+				$("#play").attr("src", "image/playerplay2.png");
+				$("#pause").attr("src", "image/playerpause.png");
+				$("#stop").attr("src", "image/playerstop.png");
+				Animation_Play(selected);
+			}
+		}
+	});
+	   
 	function Animation_Play(index_m)
 	{
-                        if ($("rect[id^='cursor_"+current_svg+"']").attr("y") != ancient)
-                            {
-                                //alert (current_svg+" "+ scroll+ " " + sline)
-                                ancient = $("rect[id^='cursor_"+current_svg+"']").attr("y");
-                                sline++;
-
-                                if (sline % 4 == 0)
-                                    {
-                                         $(".overflow_svg").scrollTo( scroll, 1000, {axis:'y'});
-                                         sline = 1;
-                                         scroll += 270;
-                                     }
-                            }
-                           
-                            var id = index_m + 1;
-                            selected = id;
-                            $(".progress_bar img[id='m_"+ id + "']").attr("src", "image/casebleue.png");
-                            id--;
-                             $(".progress_bar img[id='m_"+ id + "']").attr("src", "image/casegrise.png");
-                             id++;
-                             if ((id >= 30) && (id % 30 == 0))
-                                 {
-                                     $(".overflow_measure").scrollTo(scroll2, 1000, {axis:'x'});
-                                     scroll2 += 830;
-                                 }
-                    var delay_ms = 350;
-                    var delay_midi = SecondtoMIDI(delay_ms,g_tempo);
-                    var time_ms = getTime();
-                    var time_midi = SecondtoMIDI(time_ms, g_tempo);
-                        writeInConsole("GetTime MS recu: " + time_ms);
-                    var cur_mesure = partition._instruments_list[current_svg]._track_part._measure_list[index_m];
-                    for (var i = 0; i < cur_mesure._chord_list.length; i++)
-                    {
-                         var chord = cur_mesure._chord_list[i];
-                    if (chord._note_list[0]._begin + delay_midi > time_midi) // MIDI EN RETARD SUR NOTE
-                    {
-                            var delta = chord._note_list[0]._begin + delay_midi - time_midi;
-                            timeout = setTimeout(function(){
-                                            Animation_Play(index_m);
-                                    }, MIDItoSecond(delta, g_tempo));
-                            writeInConsole("EN RETARD Time out relancé de delta : " + MIDItoSecond(delta, g_tempo));
-                            return;
-                    }
-                    else
-                    {
-                            if (delay_midi + chord._note_list[0]._begin + chord._note_list[0]._duration >= time_midi) // MIDI SYNCHRO AVEC LA NOTE
-                            {
-                                    MoveCursor(chord._note_list[0]._posX, chord._note_list[0]._posY, chord._note_list[0]);
-                                    var delta = chord._note_list[0]._begin + delay_midi - time_midi;
-                                    var midi_duration = chord._note_list[0]._duration + delta;
-                                    var ms_duration = MIDItoSecond(midi_duration, g_tempo);
-                                    writeInConsole (ms_duration);
-                                    if (i != cur_mesure._chord_list.length - 1) // On est pas sur la derniere note
-                                    {
-                                        writeInConsole("Timeout lancé  " + ms_duration + " gettime: " +getTime());
-                                            timeout = setTimeout(function(){
-                                                    Animation_Play(index_m);
-                                            }, ms_duration);
-                                            return;
-                                    }
-                                    else // On est sur la derniere note de la mesure
-                                    {
-                                            if (index_m != partition._instruments_list[current_svg]._track_part._measure_list.length - 1) // Si on est pas sur la derniere mesure
-                                            {
-                                                writeInConsole("Timeout lancé  " + ms_duration + " gettime: " +getTime());
-                                                    timeout = setTimeout(function(){
-                                                            Animation_Play(index_m + 1);
-                                                    }, ms_duration);
-                                                    return;
-                                            }
-                                    }
-                            }
-                            if (i == cur_mesure._chord_list.length - 1 && index_m != partition._instruments_list[current_svg]._track_part._measure_list.length - 1) // Si on est sur la derniere note mais pas la derniere mesure
-                            {
-                                    Animation_Play(index_m + 1); // On avance à la mesure suivante
-                            }
-                    }
+		console.log("position du curseur : " + $("rect[id='cursor_" + current_svg + "']").attr("y"));
+         var test = ($("rect[id='cursor_" + current_svg + "']").attr("y") - 20);              
+        /*
+         * c'est a yoan je l'enleverai plus tard.
+         console.log("valeur de test : " + test);
+         */
+         test = test/ 90;
+         /*
+         console.log("valeur de test/90 : " + test);
+         */
+		 if (($("rect[id='cursor_" + current_svg + "']").attr("y") > 20) && (test % 3 == res) && (hasScrolled == false))
+		 {
+			hasScrolled = true;
+			ancient = $("rect[id='cursor_" + current_svg + "']").attr("y");
+			$(".overflow_svg").scrollTo (scroll, 1000, {axis:'y'});
+			scroll += 270;	
+		 }
+	
+		if (ancient != ($("rect[id='cursor_" + current_svg + "']").attr("y")) && (hasScrolled == true))
+		{
+			hasScrolled = false;
+		}
+		
+		var id = index_m + 1;
+		selected = id;
+		$(".progress_bar img[id='m_"+ id + "']").attr("src", "image/casebleue.png");
+		id--;
+		 $(".progress_bar img[id='m_"+ id + "']").attr("src", "image/casegrise.png");
+		 id++;
+		 if ((id >= 30) && (id % 30 == 0))
+			 {
+				 $(".overflow_measure").scrollTo(scroll2, 1000, {axis:'x'});
+				 scroll2 += 830;
+			 }
+		var delay_ms = 350;
+		var delay_midi = SecondtoMIDI(delay_ms,g_tempo);
+		var time_ms = getTime();
+		var time_midi = SecondtoMIDI(time_ms, g_tempo);
+		   
+		var cur_mesure = partition._instruments_list[current_svg]._track_part._measure_list[index_m];
+		for (var i = 0; i < cur_mesure._chord_list.length; i++)
+		{
+			 var chord = cur_mesure._chord_list[i];
+		if (chord._note_list[0]._begin + delay_midi > time_midi) // MIDI EN RETARD SUR NOTE
+		{
+				var delta = chord._note_list[0]._begin + delay_midi - time_midi;
+				timeout = setTimeout(function(){
+								Animation_Play(index_m);
+						}, MIDItoSecond(delta, g_tempo));
+			   
+				return;
+		}
+		else
+		{
+		if (delay_midi + chord._note_list[0]._begin + chord._note_list[0]._duration >= time_midi) // MIDI SYNCHRO AVEC LA NOTE
+		{
+				MoveCursor(chord._note_list[0]._posX, chord._note_list[0]._posY, chord._note_list[0]);
+				var delta = chord._note_list[0]._begin + delay_midi - time_midi;
+				var midi_duration = chord._note_list[0]._duration + delta;
+				var ms_duration = MIDItoSecond(midi_duration, g_tempo);
+			   
+				if (i != cur_mesure._chord_list.length - 1) // On est pas sur la derniere note
+				{
+				   
+						timeout = setTimeout(function(){
+								Animation_Play(index_m);
+						}, ms_duration);
+						return;
+				}
+				else // On est sur la derniere note de la mesure
+				{
+						if (index_m != partition._instruments_list[current_svg]._track_part._measure_list.length - 1) // Si on est pas sur la derniere mesure
+						{
+						   
+								timeout = setTimeout(function(){
+										Animation_Play(index_m + 1);
+								}, ms_duration);
+								return;
+						}
+				}
+		}
+		if (i == cur_mesure._chord_list.length - 1 && index_m != partition._instruments_list[current_svg]._track_part._measure_list.length - 1) // Si on est sur la derniere note mais pas la derniere mesure
+		{
+				Animation_Play(index_m + 1); // On avance à la mesure suivante
+		}
+}
 		}
 	}
 
 	function MoveCursor(x, y, note)
 	{
 		var xbis = x - 60;
-                    if (note._fret_technical != null)
-                        {
-                                    if (note._fret_technical.length == 2)
-                                        {
-                                            xbis += 5;
-                                        }
-                                    else
-                                        {
-                                             xbis += 2;
-                                        }
-                        }
+		if (note._fret_technical != null)
+			{
+				if (note._fret_technical.length == 2)
+					{
+						xbis += 5;
+					}
+				else
+					{
+						 xbis += 2;
+					}
+			}
 
 		$($("rect[id='cursor_"+current_svg+"']"), svg_inst[current_svg].root()).attr({"y": y - 10});
 		$($("rect[id='cursor_"+current_svg+"']"), svg_inst[current_svg].root()).animate({svgTransform: 'translate(' + xbis + ' 0)'}, 0, 'linear');
@@ -311,9 +344,12 @@ $(document).ready(setTimeout(function(){
         $($("rect[id='cursor_"+current_svg+"']"), svg_inst[current_svg].root()).attr("y", y);
         $($("rect[id='cursor_"+current_svg+"']"), svg_inst[current_svg].root()).attr("transform", transform);
         $(".tab_svg #"+current_svg).css("display", "block");
-       /* sline = 1;
-        scroll = $($("rect[id='cursor_"+current_svg+"']"), svg_inst[current_svg].root()).attr("y");
-        $(".overflow_svg").scrollTo(scroll, 1000, {axis:"y"});*/
+    
+        var goTo = $($("rect[id='cursor_"+current_svg+"']"), svg_inst[current_svg].root()).attr("y");
+        res = ((($($("rect[id='cursor_"+current_svg+"']"), svg_inst[current_svg].root()).attr("y") - 20) / 90) % 3);
+        console.log("nouveau res = "+ res);
+        console.log("scroll:" + scroll);
+        $(".overflow_svg").scrollTo(goTo, 1000, {axis:"y"});
     });
 	var scrollTop = 0;
 	var lastScroll = 0;
@@ -335,85 +371,36 @@ $(document).ready(setTimeout(function(){
 	});
 
     /// SECTION SCROLLBARS
-
-    var current_svg_advance = 100;
-    if (nb_measure > 20)
-    {
-        $("#scroll_svg").slider({
-            animate: "slow",
-            value: 100,
-            orientation: "vertical",
-            step: ((100 / ((nb_measure / 4) - 5)) | 0),
-            slide: function (event, ui){
-                var step = ((100 / ((nb_measure / 4) - 5)) | 0);
-                var current_step = ui.value;
-                var advance = ((current_step / step) | 0);
-
-                if (advance < current_svg_advance) // On va vers le bas
-                {
-                    for (var i = 0; i < svg_inst.length; i++)
-                    {
-                        svg_inst[i].root().currentTranslate.y -= 80;
-                    }
-                }
-                else // on va vers le haut
-                {
-                    for (var i = 0; i < svg_inst.length; i++)
-                    {
-                        if (svg_inst[i].root().currentTranslate.y + 80 <= 0)
-                        {
-                            svg_inst[i].root().currentTranslate.y += 80;
-                        }
-                    }
-                }
-                current_svg_advance = advance;
-            }
-        });
-    }
-
-    var current_advance = 0;
-
-    if (nb_measure > 31)
-    {
-        $("#scroll_measure").slider({
-            animate: "slow",
-            step: ((100 / (nb_measure - 31)) | 0),
-            slide: function (event, ui){
-                var step = ((100 / (nb_measure - 31)) | 0);
-                var current_step = ui.value;
-                var advance = ((current_step / step) | 0);
-                if (advance > (nb_measure - 31))
-                        advance = nb_measure - 31;
-
-                if (advance > current_advance) /// On se déplace vers la droite
-                {
-                    for (var i = current_advance + 1; i <= advance; i++)
-                    {
-                        $(".progress_bar tr:first-child td:nth-child(" + i + ")").css("display", "none");
-                        $(".progress_bar tr:nth-child(2) td:nth-child(" + i + ")").css("display", "none");
-                    }
-                    for (var j = advance + 1; j <= advance + 31; j++)
-                    {
-                        $(".progress_bar tr:first-child td:nth-child(" + j + ")").css("display", "table-cell");
-                        $(".progress_bar tr:nth-child(2) td:nth-child(" + j + ")").css("display", "table-cell");
-                    }
-                }
-                else /// On se déplace vers la gauche
-                {
-                    for (var i2 = advance + 31; i2 <= current_advance + 31; i2++)
-                    {
-                        $(".progress_bar tr:first-child td:nth-child(" + i2 + ")").css("display", "none");
-                        $(".progress_bar tr:nth-child(2) td:nth-child(" + i2 + ")").css("display", "none");
-                    }
-                    for (var j2 = advance + 1; j2 <= advance + 31; j2++)
-                    {
-                        $(".progress_bar tr:first-child td:nth-child(" + j2 + ")").css("display", "table-cell");
-                        $(".progress_bar tr:nth-child(2) td:nth-child(" + j2 + ")").css("display", "table-cell");
-                    }
-                }
-                current_advance = advance;
-            }
-        });
-    }
+	$("#volume").slider({
+		animate: "slow",
+		value: 100,
+		orientation: "horizontal",
+		step: 1,
+		slide: function (event, ui){
+			document.demo.SetVolume(ui.value);
+			if (ui.value == 0){
+				if (!$("#speaker").hasClass("speakoff")){
+					$("#speaker").removeClass("speakon").addClass("speakoff");
+				}
+			}
+			else if (!$("#speaker").hasClass("speakon"))
+			{
+				$("#speaker").removeClass("speakoff").addClass("speakon");
+			}
+		}
+	});
+	
+	$("#speaker").click(function (){
+		var ismute = document.demo.GetMute();
+		document.demo.SetMute(!ismute);
+		if (ismute){
+			$("#speaker").removeClass("speakon").addClass("speakoff");
+		}
+		else
+		{
+			$("#speaker").removeClass("speakoff").addClass("speakon");
+		}
+	});
+	
 	console.log('event');
 }, 1000));
