@@ -366,7 +366,9 @@ $(document).ready(setTimeout(function(){
 		slide: function (event, ui){
 			document.demo.SetVolume(ui.value);
 			if (ui.value == 0){
-				$("#speaker").removeClass("speakon").addClass("speakoff");
+				if (!$("#speaker").hasClass("speakoff")){
+					$("#speaker").removeClass("speakon").addClass("speakoff");
+				}
 			}
 			else if (!$("#speaker").hasClass("speakon"))
 			{
