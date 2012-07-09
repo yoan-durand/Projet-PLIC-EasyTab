@@ -177,7 +177,7 @@
         }
     });
 
-    $($("rect[id^='n_']"), svg_inst[current_svg].root()).click(function ()
+    $($("rect[id^='n_'], text[id^='n_']"), svg_inst[current_svg].root()).click(function ()
     {
             var id = $(this).attr("id");
             var array = id.split('_');
