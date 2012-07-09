@@ -1,2 +1,5 @@
 /nbproject/
 /src/node_modules
+/src/public
+/src/upload
+.project
