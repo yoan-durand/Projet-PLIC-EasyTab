@@ -97,6 +97,11 @@ function parse_instruments (xmlDoc)
 
         var nodes_midi_program = nodes_midi_instrument[0].getElementsByTagName ("midi-program");
         instrument_obj._gm_instrument = nodes_midi_program[0].childNodes[0].nodeValue;
+        if (instrument_obj._gm_instrument < 0)
+        {
+           instrument_obj._gm_instrument = 0;
+        }
+
 
 
         list_instruments_obj.push(instrument_obj);
