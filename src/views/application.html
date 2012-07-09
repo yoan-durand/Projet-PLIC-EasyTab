@@ -133,213 +133,9 @@
             }
         });
         }
-		$(".tab_svg").removeClass('tab_svg_loading')
-
-        /*
-        $('.tab_svg').svg({onLoad: function(svg)
-        {
-            svg_inst = svg;
-            var height = 60 + Math.ceil((80 * (nb_measure / 4))) < 400 ? 400 : 60 + Math.ceil((80 * (nb_measure / 4)));
-            svg.rect(0, 0, 900, height, { fill: "white", stroke:"black"});
-            drawLines(svg);
-        }
-        });*/
-
-
-
-
-
-                //drawNotes(svg, i, svg_index, nb_corde);
-
-
-//        };
+		$(".tab_svg").removeClass('tab_svg_loading');
 
         var division;
-
-
-
-        function test (svg,svg_index)
-        {
-             var ConvertNote = {"4" :{"4":80}, "2":{"2":60}, "1":{"2":55, "1":45}, "0.5":{"2":55, "1": 40, "0.5":25}, "0.25":{"2": 50, "1":40, "0.5":30, "0.25":20 },
-            "0.0625":{"2":45, "1":40,"0.5":30,"0.25":20,"0.0625":10}, "0.03125":{"2":45, "1":30, "0.5":20, "0.25":15, "0.0625":10, "0.03125":5 } };
-
-           svg.text(ConvertNote["4"]["4"], 30, ""+4+"", {stroke: "blue", "font-size": "11px"});
-           svg.text(ConvertNote["4"]["4"]+ConvertNote["2"]["2"], 30, ""+2+"", {stroke: "blue", "font-size": "11px"});
-           svg.text(ConvertNote["4"]["4"]+ConvertNote["2"]["2"]+ConvertNote["1"]["2"], 30, ""+2+"", {stroke: "blue", "font-size": "11px"});
-           svg.text(ConvertNote["4"]["4"]+ConvertNote["2"]["2"]+ConvertNote["1"]["2"]+ConvertNote["1"]["1"], 30, ""+1+"", {stroke: "blue", "font-size": "11px"});
-           svg.text(ConvertNote["4"]["4"]+ConvertNote["2"]["2"]+ConvertNote["1"]["2"]+ConvertNote["1"]["1"]+ConvertNote["0.5"]["1"], 30, ""+1+"", {stroke: "blue", "font-size": "11px"});
-           svg.text(ConvertNote["4"]["4"]+ConvertNote["2"]["2"]+ConvertNote["1"]["2"]+ConvertNote["1"]["1"]+ConvertNote["0.5"]["1"]+ConvertNote["0.5"]["0.5"], 30, ""+0.5+"", {stroke: "blue", "font-size": "11px"});
-           svg.text(ConvertNote["4"]["4"]+ConvertNote["2"]["2"]+ConvertNote["1"]["2"]+ConvertNote["1"]["1"]+ConvertNote["0.5"]["1"]+ConvertNote["0.5"]["0.5"]+ConvertNote["0.25"]["2"], 30, ""+2+"", {stroke: "blue", "font-size": "11px"});
-           svg.text(ConvertNote["4"]["4"]+ConvertNote["2"]["2"]+ConvertNote["1"]["2"]+ConvertNote["1"]["1"]+ConvertNote["0.5"]["1"]+ConvertNote["0.5"]["0.5"]+ConvertNote["0.25"]["2"]+ConvertNote["0.25"]["1"], 30, ""+1+"", {stroke: "blue", "font-size": "11px"});
-           svg.text(ConvertNote["4"]["4"]+ConvertNote["2"]["2"]+ConvertNote["1"]["2"]+ConvertNote["1"]["1"]+ConvertNote["0.5"]["1"]+ConvertNote["0.5"]["0.5"]+ConvertNote["0.25"]["2"]+ConvertNote["0.25"]["1"]+ConvertNote["0.25"]["0.5"], 30, ""+0.5+"", {stroke: "blue", "font-size": "11px"});
-           svg.text(ConvertNote["4"]["4"]+ConvertNote["2"]["2"]+ConvertNote["1"]["2"]+ConvertNote["1"]["1"]+ConvertNote["0.5"]["1"]+ConvertNote["0.5"]["0.5"]+ConvertNote["0.25"]["2"]+ConvertNote["0.25"]["1"]+ConvertNote["0.25"]["0.5"]+ConvertNote["0.25"]["0.25"], 30, ""+0.25+"", {stroke: "blue", "font-size": "11px"});
-           svg.text(ConvertNote["4"]["4"]+ConvertNote["2"]["2"]+ConvertNote["1"]["2"]+ConvertNote["1"]["1"]+ConvertNote["0.5"]["1"]+ConvertNote["0.5"]["0.5"]+ConvertNote["0.25"]["2"]+ConvertNote["0.25"]["1"]+ConvertNote["0.25"]["0.5"]+ConvertNote["0.25"]["0.25"]+ConvertNote["0.0625"]["2"],30, ""+2+"", {stroke: "blue", "font-size": "11px"});
-
-           svg.text(ConvertNote["4"]["4"]+ConvertNote["2"]["2"]+ConvertNote["1"]["2"]+ConvertNote["1"]["1"]+ConvertNote["0.5"]["1"]+ConvertNote["0.5"]["0.5"]+ConvertNote["0.25"]["2"]+ConvertNote["0.25"]["1"]+ConvertNote["0.25"]["0.5"]+ConvertNote["0.25"]["0.25"]+ConvertNote["0.0625"]["2"]+ConvertNote["0.0625"]["0.25"], 30, ""+0.25+"", {stroke: "blue", "font-size": "11px"});
-
-           svg.text(ConvertNote["4"]["4"]+ConvertNote["2"]["2"]+ConvertNote["1"]["2"]+ConvertNote["1"]["1"]+ConvertNote["0.5"]["1"]+ConvertNote["0.5"]["0.5"]+ConvertNote["0.25"]["2"]+ConvertNote["0.25"]["1"]+ConvertNote["0.25"]["0.5"]+ConvertNote["0.25"]["0.25"]+ConvertNote["0.0625"]["2"]+ConvertNote["0.0625"]["0.25"], 30, ""+0.25+"", {stroke: "blue", "font-size": "11px"});
-
-        }
-
-
-
-/* functionPosNotes(svg, i, svg_index, nb_corde){
-            var measures = partition._instruments_list[svg_index]._track_part._measure_list;
-
-            for (var mes = (0 + i) * 4;  mes < measures.length && mes < (4 + (i * 4)); mes++)
-            {
-                division = measures[mes]._attributes._division == null ? division : measures[mes]._attributes._division;
-                var chords = measures[mes]._chord_list;
-                var interval = 0;
-                for (var chord = 0; chord < chords.length; chord++)
-                {
-                    var notes = chords[chord]._note_list;//chords._note_list;
-                    var duration;
-                    for (var note = 0; note < notes.length; note++)
-                    {
-                        var current_mesure = (mes + 1) % 4 == 0 ? 3 : ((mes + 1) % 4) - 1;
-                        var fret = notes[note]._fret_technical;
-                        var string = notes[note]._string_technical;
-                        duration = notes[note]._duration;
-                        if (fret != null)
-                        {
-                            if (fret.length == 1)
-                            {
-                                svg.rect((current_mesure * 205) + 60 + interval, (30 + (string - 1) * 10) + (i * ((nb_corde * 10)+20)) - 5, 5.5, 11, {fill:"white"});
-                            }
-                            else
-                            {
-                                svg.rect((current_mesure * 205) + 60 + interval, (30 + (string - 1) * 10) + (i * ((nb_corde * 10)+20)) - 5, 11, 11, {fill:"white"});
-                            }
-                            svg.text((current_mesure * 205) + 60 + interval, (34 + (string - 1) * 10) + (i * ((nb_corde * 10)+20)), ""+ fret +"", {stroke: "blue", "font-size": "11px"});
-                        }
-                        else
-                        {
-                            svg.rect((current_mesure * 205) + 60 + interval, (30 + (string - 1) * 10) + (i * ((nb_corde * 10)+20)) - 5, 5.5, 11, {fill:"white"});
-                            svg.text((current_mesure * 205) + 60 + interval, (35 + (string - 1) * 10) + (i * ((nb_corde * 10)+20)), "X", {stroke: "blue", "font-size": "11px"});
-                        }
-                        //interval += parseInt(duration) + 15;
-                    }
-                    interval += 50 * (parseInt(duration) / parseInt(division));//interval = duration;
-                }
-
-            }
-        };
-*/
-        /*test new maner of drawing the measures and note*/
-
-
-
-        //test new maner of drawing the measures and note
-
-
-
-
-        function drawNotes (svg, svg_index,array, mesaure, mes)
-        {
-            for (var i = 0; i < array.length; i++)
-                {
-                    if (array[i]._listnote != null)
-                        {
-                            for (var j = 0; j < array[i]._listnote.length; j++)
-                                {
-                                    if (array[i]._listnote[j]._fret != null)
-                                        {
-                                            svg.text(array[i]._listnote[j]._x, array[i]._listnote[j]._y, ""+array[i]._listnote[j]._fret+"", {stroke: "blue", "font-size": "11px"});
-                                        }
-                                    else
-                                        {
-                                            svg.text(array[i]._listnote[j]._x, array[i]._listnote[j]._y, "X",{stroke: "blue", "font-size": "11px"});
-                                        }
-                                }
-                        }
-                }
-        }
-
-        function draw_track (svg, svg_index, nb_corde)
-        {
-           var measure_list = partition._instruments_list[svg_index]._track_part._measure_list;
-
-            var x = 0;
-            var y = 0;
-            var newline = false;
-            var ancient = 0;
-            for (var mes = 0; mes < measure_list.length; mes++)
-            {
-                if (newline)
-                    {
-                        ancient = null;
-                    }
-                    else
-                        {
-                            ancient = width;
-                        }
-                var m1 = new Array();
-                var m2 = new Array();
-                var width = 0;
-                var w2 = 0;
-
-
-                fill_it(measure_list[mes], m1, nb_corde, ancient, y );
-                width = m1[m1.length - 1]._posx+ m1[m1.length - 1]._width+ 5 - 60;
-
-               if (mes + 1 < measure_list.length)
-                   {
-                        fill_it(measure_list[mes + 1], m2, nb_corde, width,y,width);
-                       w2 = m2[m2.length - 1]._posx+m2[m2.length - 1]._width+ 5 -60;
-                   }
-
-               var all = width + w2 + x;
-
-                if (mes == 0)
-                    {
-                        x = 60;
-                        drawTAB(svg,y, nb_corde,mes);
-                        y = 30;
-                    }
-                else
-                    {
-                        if (newline)
-                        {
-                             x = 60;
-                             y += nb_corde * 10 + 20;
-                             drawTAB (svg,y, nb_corde,mes);
-                              if (all > 820)
-                                 {
-                                      x += ancient;
-                                       width = 820 - x;
-                                      newline = true;
-                                 }
-                                 else
-                                {
-                                    newline = false;
-                                }
-                        }
-                        else
-                        {
-                            if (mes + 1 < measure_list.length)
-                            {
-                                if (all > 820)
-                                    {
-                                        x += ancient;
-                                        width = 820 - x;
-                                        newline = true;
-                                    }
-                                else
-                                    {
-                                        x += ancient;
-                                    }
-                            }
-                         }
-                    }
-
-                draw_it (m1, width, mes, nb_corde,x, y, svg, svg_index, measure_list[mes]);
-
-
-
-            }
-             svg.rect(60, 20, 2, (nb_corde * 10 + 10), {id: "cursor_"+svg_index, fill:"red"});
-        }
 
         function drawTAB (svg, y, nb_corde, indice_mesure)
         {
@@ -356,14 +152,6 @@
                     svg.text(20, y+ 30 , "A");
                     svg.text(20, y+ 45 , "B");
                 }
-        }
-
-        function draw_it (array, width, mes, nb_corde, x, y, svg, svg_index, measure)
-        {
-                 var h = nb_corde * 10 -10;
-                drawMeasures(svg, svg_index, nb_corde, width, x, y, h, mes);
-                drawLines(svg, x,y,width, nb_corde);
-               // drawNotes(svg, svg_index, array, measure , mes);
         }
 
     $(".progress_bar img").click(function (){
@@ -433,7 +221,6 @@
 				'userId': config.userId,
 				'encoded': JSON.stringify({ encoded : partition })
 			},
-			//dataType: "json",
             success: function (data, textStatus, jqXHR) {
 				try {
 					data = JSON.parse(data);
