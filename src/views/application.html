@@ -98,7 +98,6 @@
     var current_svg = 0;
 
     $(document).ready (setTimeout(function(){
-        $(".tab_svg").css("height",6000);
         $(".tempo").text(partition._instruments_list[0]._track_part._measure_list[0]._sound_params._tempo);
 
         for (var i = 0; i < partition._instruments_list.length; i++)
@@ -114,15 +113,17 @@
             }
             $(".tab_svg #"+i).svg({onLoad: function(svg)
             {
-                svg_inst.push(svg);
+               svg_inst.push(svg);
                 //var height = 60 + Math.ceil((80 * (nb_measure / 4))) < 400 ? 400 : 60 + Math.ceil((80 * (nb_measure / 4)));
                var height = 6000;
-               svg.rect(0, 0, 900, height, { fill: "white", stroke:"black"});
+               svg.rect(0, 0, 900, height, { fill: "white", stroke:"black", id: "part"});
                try
                {
 
-                  DrawPartition (partition._instruments_list[i]._track_part._measure_list, svg, nb_corde);
-                    svg.rect(60, 20, 2, (nb_corde * 10 + 10), {id: "cursor_"+i, fill:"red"});
+                  var part_height = DrawPartition (partition._instruments_list[i]._track_part._measure_list, svg, nb_corde);
+                   // svg.root().css("height", '200px');
+                  $("rect[id='part']", svg.root()).attr("height", part_height);
+                  svg.rect(60, 20, 2, (nb_corde * 10 + 10), {id: "cursor_"+i, fill:"red"});
                }
                catch (err)
                {
@@ -170,7 +171,7 @@
                 var note = partition._instruments_list[current_svg]._track_part._measure_list[index_mes]._chord_list[0]._note_list[0];
 
                 $($("rect[id^='cursor']"), svg_inst[current_svg].root()).attr({"y":(note._posY-10), transform:"translate (" + (note._posX-60 + 2) +" 0)"});
-                 document.demo.SetTime(MIDItoSecond(note._begin, $(".tempo").text()));
+                 document.demo.SetTime((MIDItoSecond(note._begin, $(".tempo").text())+350) * document.demo.GetTimeScale() / 1000);
         }
     });
 
@@ -187,13 +188,10 @@
             $($("rect[id^='cursor']"), svg_inst[current_svg].root()).attr({"y": (note._posY-10), transform:"translate("+(note._posX-60+2)+" 0)"});
 
             if (note._posY >= 290)
-                {
-                    $(".overflow_svg").scrollTo(280, 1000, {axis:'y'});
-
-                }
-            alert ($(".tempo").text());
-            alert(MIDItoSecond(note._begin, $(".tempo").text()));
-            document.demo.SetTime(MIDItoSecond(note._begin, $(".tempo").text()));
+            {
+                $(".overflow_svg").scrollTo(280, 1000, {axis:'y'});
+            }
+            document.demo.SetTime((MIDItoSecond(note._begin, $(".tempo").text())+350) * document.demo.GetTimeScale() / 1000);
         });
 
         function MIDItoSecond(midi_time, tempo)

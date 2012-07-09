@@ -52,7 +52,7 @@ function DrawPartition(mesures, svg, nb_cordes)
         x = left_marge; // On repart sur une nouvel ligne
         Yline += 90;
     }
-    
+    return Yline;
 }
 
 // Fonction qui permet de setter les X des différentes notes composant la mesure en appliquant un coef si nécessaire
