@@ -92,6 +92,28 @@ $(document).ready(setTimeout(function(){
 			 var scroll2 = 820;
        //------------------------------------          
 
+	   
+	// TOUCHE ENTER PRESS
+	$(document).keyup(function (e){
+		if (e.keyCode==13){
+			if (document.demo.GetRate() != 0){ // PAUSE REQUEST
+				document.demo.Stop();
+				$("#back").attr("src", "image/playerback.png");
+				$("#play").attr("src", "image/playerplay.png");
+				$("#pause").attr("src", "image/playerpause2.png");
+				$("#stop").attr("src", "image/playerstop.png");
+			}
+			else { // PLAY REQUEST
+				document.demo.SetRate($(".tempo").text()/cur_tempo);
+				$("#back").attr("src", "image/playerback.png");
+				$("#play").attr("src", "image/playerplay2.png");
+				$("#pause").attr("src", "image/playerpause.png");
+				$("#stop").attr("src", "image/playerstop.png");
+				Animation_Play(selected);
+			}
+		}
+	});
+	   
 	function Animation_Play(index_m)
 	{
          var test = (($("rect[id='cursor_" + current_svg + " ' ]") .attr("y")-20)/90);              
