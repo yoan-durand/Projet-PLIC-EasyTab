@@ -1,7 +1,7 @@
 
 {% extends 'layout.html' %}
 
-{% block title %}Home Page{% endblock %}
+{% block title %}Tablatures{% endblock %}
 
 {% block head %}
 <link rel="stylesheet" href="css/smoothness/jquery-ui-1.8.18.custom.css" />
@@ -26,7 +26,7 @@
 		$('#trackList > li').dblclick(function(e){
 			location.href = $('a', this).attr('href');
 		});
-		// recherche automatique d鳠qu'on lache une touche
+		// recherche automatique dès qu'on lache une touche
 		$('#searchForm > input').keyup(function(e){
 			if (e.which == 27) {
 				$(this).val('');
@@ -35,7 +35,7 @@
 				search($(this).val());
 			}
 		});
-		// interception de l'appui sur la touche entrꥠpour rechercher sans changer de page
+		// interception de l'appui sur la touche entrée pour rechercher sans changer de page
 		$('#searchForm').submit(function(e){
 			e.preventDefault();
 			var recherche = $('input', this).val();
@@ -56,6 +56,9 @@
 					var id = $(t).attr('id').slice(4);
 					location.href = '/tablatures/'+id+'/suppression';
 				}
+			},
+			menuStyle: {
+				width: '133px'
 			}
 		};
 		$('#trackList > li.private').contextMenu('menu1', options);
@@ -78,9 +81,9 @@
 		<ul id="trackList">
 			{% for xml in pistes -%}
 			{% if xml.public %}
-			<li id="tab_{{xml.id}}"><span class="ui-icon ui-icon-unlocked"></span>
+			<li id="tab_{{xml.id}}"><span class="ui-icon ui-icon-unlocked" title="public"></span>
 				{% else %}
-			<li id="tab_{{xml.id}}" class="private"><span class="ui-icon ui-icon-locked"></span>
+			<li id="tab_{{xml.id}}" class="private"><span class="ui-icon ui-icon-locked" title="privé"></span>
 				{% endif %}
 				<a href="application;{{ xml.nom }}.xml">{{ xml.nom }}</a> <span id="trackInfos">{{xml.titre}} - {{xml.artiste}}</span>
 			</li>
@@ -90,36 +93,33 @@
 </section>
 <div class="contextMenu" id="menu1">
 	<ul>
-        <li id="ouvrir">
+		<li id="ouvrir">
 			<!--			<img src="folder.png" />-->
-			<span>Ouvrir</span>
+			<a>Ouvrir</a>
 		</li>
-        <li id="visibility">
+		<li id="visibility">
 			<!--			<img src="disk.png" />-->
-			<span>Rendre publique</span>
+			<a>Rendre public</a>
 		</li>
-        <li id="supprimer">
+		<li id="supprimer">
 			<!--			<img src="cross.png" />-->
-			<span>Supprimer</span>
+			<a>Supprimer</a>
 		</li>
 	</ul>
 </div>
 <div class="contextMenu" id="menu2">
 	<ul>
-        <li id="ouvrir">
+		<li id="ouvrir">
 			<!--			<img src="folder.png" />-->
-			<span>Ouvrir</span>
+			<a>Ouvrir</a>
 		</li>
-        <li id="visibility">
+		<li id="visibility">
 			<!--			<img src="disk.png" />-->
-			<span>Rendre privꥼ/span>
-<<<<<<< HEAD
-=======
+			<a>Rendre privé</a>
 		</li>
-        <li id="supprimer">
+		<li id="supprimer">
 			<!--			<img src="cross.png" />-->
-			<span>Supprimer</span>
->>>>>>> 35e9eb2... gestion de la suppression
+			<a>Supprimer</a>
 		</li>
 	</ul>
 </div>

@@ -271,39 +271,6 @@ exports.tablaturesVisibility = function(req, res) {
 		});
 }
 
-exports.tablaturesSuppression = function(req, res) {
-	if (forceLogin(req, res))
-		return;
-	var id = parseInt(req.params.id, 10);
-	if (!id) {
-		res.redirect('/tablatures');
-	}
-	var userId = req.session.user.id;
-	var bdd = mysql_connect();
-	bdd.query('SELECT count(*) FROM `tablature` where `id`=? and `userId`=?',
-		[id, userId],
-		function (err, results, fields){
-			if(err) {
-				bdd.end();
-				throw err;
-			}
-			if (results[0]['count(*)'] == 0) {
-				bdd.end();
-				res.redirect('/tablatures');
-			} else {
-				bdd.query('delete from `tablature` where `id`=?',
-					[id],
-					function (err, results, fields){
-						bdd.end();
-						if(err) {
-							throw err;
-						}
-						res.redirect('/tablatures');
-					});
-			}
-		});
-}
-
 exports.search = function(req, res) {
 	if (forceLogin(req, res))
 		return;
@@ -324,7 +291,7 @@ function mysql_connect() {
 
 function tablatureSearch(req, res, recherche, json) {
 	var userId = req.session.user.id;
-	var sql = 'SELECT id, nom, titre, artiste, public FROM `tablature` WHERE `userid` = ?';
+	var sql = 'SELECT nom, titre, artiste FROM `tablature` WHERE `userid` = ?';
 	var match = [userId];
 	if (recherche !== undefined) {
 		sql += ' AND (`nom` LIKE ? OR `titre` LIKE ? OR `artiste` LIKE ?)';
