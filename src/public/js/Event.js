@@ -122,9 +122,9 @@ $(document).ready(setTimeout(function(){
         /*
          * c'est a yoan je l'enleverai plus tard.
          console.log("valeur de test : " + test);
-         
+         */
          test = test/ 90;
-         
+         /*
          console.log("valeur de test/90 : " + test);
          */
 		 if (($("rect[id='cursor_" + current_svg + "']").attr("y") > 20) && (test % 3 == res) && (hasScrolled == false))
@@ -344,9 +344,12 @@ $(document).ready(setTimeout(function(){
         $($("rect[id='cursor_"+current_svg+"']"), svg_inst[current_svg].root()).attr("y", y);
         $($("rect[id='cursor_"+current_svg+"']"), svg_inst[current_svg].root()).attr("transform", transform);
         $(".tab_svg #"+current_svg).css("display", "block");
-       /* sline = 1;
-        scroll = $($("rect[id='cursor_"+current_svg+"']"), svg_inst[current_svg].root()).attr("y");
-        $(".overflow_svg").scrollTo(scroll, 1000, {axis:"y"});*/
+    
+        var goTo = $($("rect[id='cursor_"+current_svg+"']"), svg_inst[current_svg].root()).attr("y");
+        res = ((($($("rect[id='cursor_"+current_svg+"']"), svg_inst[current_svg].root()).attr("y") - 20) / 90) % 3);
+        console.log("nouveau res = "+ res);
+        console.log("scroll:" + scroll);
+        $(".overflow_svg").scrollTo(goTo, 1000, {axis:"y"});
     });
 	var scrollTop = 0;
 	var lastScroll = 0;
