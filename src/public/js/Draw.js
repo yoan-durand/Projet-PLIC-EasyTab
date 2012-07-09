@@ -52,7 +52,7 @@ function DrawPartition(mesures, svg, nb_cordes)
         x = left_marge; // On repart sur une nouvel ligne
         Yline += 90;
     }
-    return Yline;
+    return (Yline+90);
 }
 
 // Fonction qui permet de setter les X des différentes notes composant la mesure en appliquant un coef si nécessaire
@@ -82,19 +82,30 @@ function SetX(mesure, x, coef, posY)
                     }
                 }
                 var note = chord._note_list[0];
-                var first_duration = get_first_duration (note._duration/480);
-               //  writeInConsole (deltaMin + " " + first_duration);
-                var first_distance = ConvertNote[deltaMin][first_duration];
                 
-               
-                var second_duration = get_second_duration (note._duration/480, first_duration);
-                var second_distance = second_duration!=0? ConvertNote[deltaMin][second_duration]:0;
-                x += (first_distance + second_distance)*(coef + 1);
+                try
+                {
+                    var first_duration = get_first_duration (note._duration/480);
+                    var first_distance = ConvertNote[deltaMin][first_duration];
+                    try
+                    {
+                        var second_duration = get_second_duration (note._duration/480, first_duration);
+                        var second_distance = second_duration!=0? ConvertNote[deltaMin][second_duration]:0;
+                        x += (first_distance + second_distance)*(coef + 1);
+                    }
+                    catch (e)
+                    {
+                        writeInConsole ("Error:deltaMin=" + deltaMin + " secondduration=" + first_duration);
+                    }
+                }
+                catch (e)
+                {
+                      writeInConsole ("Error:deltaMin=" + deltaMin + " firstduration=" + first_duration);
+                }
             }
         }
     }
     return x;
-
 }
 
 // Permet de décaler toutes les positions en X des notes qui rentre sur une même ligne
@@ -159,18 +170,16 @@ function drawLines (context, x, y, width)
 {
     for (var j = 0; j < context.nb_cordes; j++)
     {
-        context.svg.line(x, y + (j*10), x+width, y + (j*10), {stroke:"black"});
+        context.svg.line(x, y + (j*10), x+width, y + (j*10), {stroke:"black", "stroke-opacity": "75%"});
     }
 }
 
 function drawTAB (svg, y)
-        {
-            
-                    svg.text(20, y + 15 , "T");
-                    svg.text(20, y+ 30 , "A");
-                    svg.text(20, y+ 45 , "B"); 
-                
-        }
+{
+        svg.text(20, y + 15 , "T");
+        svg.text(20, y+ 30 , "A");
+        svg.text(20, y+ 45 , "B"); 
+}
 
 function DrawNotes(context, file, yLine)
 {
@@ -180,61 +189,51 @@ function DrawNotes(context, file, yLine)
                 var chords = measure._chord_list;
                 if (chords != null && chords[0] != null)
                 {
-                        var chord = chords[0];
-                        if (chord._note_list != null)
-                        {
-                            var note = chord._note_list[0];
-                            var mes = file[i];
-                            mes++;
-                            context.svg.text(note._posX - context.marge_mesure - 2, yLine - 5, ""+mes+"", {stroke: "red", "font-size": "10px"});
-                            context.svg.line(note._posX -context.marge_mesure, yLine, note._posX - context.marge_mesure, yLine + (context.nb_cordes * 10) - 10,{stroke:"black"});
-                        }
+                    var chord = chords[0];
+                    if (chord._note_list != null)
+                    {
+                        var note = chord._note_list[0];
+                        var mes = file[i];
+                        mes++;
+                        context.svg.text(note._posX - context.marge_mesure - 2, yLine - 5, ""+mes+"", {stroke: "red", "font-size": "10px"});
+                        context.svg.line(note._posX -context.marge_mesure, yLine, note._posX - context.marge_mesure, yLine + (context.nb_cordes * 10) - 10,{stroke:"black"});
                     }
+                 }
                     for (var j = 0; j < chords.length; j++)
                     {
-                                var notes = chords[j]._note_list;
-                                        for (var k = 0; k < notes.length; k++)
-                                        {
-                                            var note2 = notes[k];
+                            var notes = chords[j]._note_list;
+                            for (var k = 0; k < notes.length; k++)
+                            {
+                                var note2 = notes[k];
 
-                                            if (note2._fret_technical != null)
-                                            {
-                                                if (note2._fret_technical.length == 1)
-                                                {
-                                                    context.svg.rect(note2._posX,(note2._string_technical - 1)*10+yLine  - 5, 5.5, 11, {fill:"white"});
-                                                }
-                                                else
-                                                {
-                                                        context.svg.rect(note2._posX,(note2._string_technical - 1)*10+yLine  - 5, 11, 11, {fill:"white"});
-                                                }
-                                                    context.svg.text(note2._posX, (note2._string_technical * 10) + yLine - 6, ""+note2._fret_technical+"", {id:"n_"+(mes-1)+"_"+j,stroke: "black", "font-size": "11px"});
-                                            }
-                                            else
-                                            {
-                                               
-                                                if (note2._string_technical != null)
-                                               {
-                                                    context.svg.rect(note2._posX ,(note2._string_technical - 1) *10 + yLine - 5, 5.5, 11, {fill:"white"});
-                                                    context.svg.text(note2._posX, (note2._string_technical * 10) + yLine - 6, "X", {stroke: "black", "font-size": "11px"});
-                                               }
-                                               else
-                                              {
-                                                       context.svg.rect(note2._posX , 9 + yLine, 11, 5.5, {fill:"black"});
-                                              }
-                                            }
-                                            /*  if (note2._fret_technical != null)
-                                            {
-                                                svg.text(note2._posX, (note2._string_technical * 10) + yLine - 6, ""+note2._fret_technical+"", {stroke: "blue", "font-size": "11px"});
-                                            }
-                                            else
-                                            {
-                                                svg.text(note2._posX, (note2._string_technical * 10) + yLine - 7, "X", {stroke: "blue", "font-size": "11px"});
-                                            }*/
-                                        // SVGText(note.X, (note.string * 10) + yLine, note.fret);
-                                        }
+                                if (note2._fret_technical != null)
+                                {
+                                    if (note2._fret_technical.length == 1)
+                                    {
+                                        context.svg.rect(note2._posX,(note2._string_technical - 1)*10+yLine  - 5, 7, 11, {fill:"white"});
+                                    }
+                                    else
+                                    {
+                                        context.svg.rect(note2._posX,(note2._string_technical - 1)*10+yLine  - 5, 12, 11, {fill:"white"});
+                                    }
+                                    context.svg.text(note2._posX, (note2._string_technical * 10) + yLine - 6, ""+note2._fret_technical+"", {id:"n_"+(mes-1)+"_"+j, "font-weight":"bold", "font-size": "11px"});
+                                }
+                                else
+                                {
+                                    if (note2._string_technical != null)
+                                    {
+                                        context.svg.rect(note2._posX ,(note2._string_technical - 1) *10 + yLine - 5, 8, 11, {fill:"white", "stroke-opacity": "75%"});
+                                        context.svg.text(note2._posX, (note2._string_technical * 10) + yLine - 6, "X", {"font-weight":"bold", "font-size": "11px"});
+                                    }
+                                    else
+                                    {
+                                        context.svg.rect(note2._posX , 9 + yLine, 11, 5, {fill:"#333"});
+                                    }
+                                }
+                            }
                         }
 	}
-         context.svg.line(820, yLine, context.MaxWidth, yLine +  (context.nb_cordes * 10) - 10, {stroke:"black"});
+       context.svg.line(820, yLine, context.MaxWidth, yLine +  (context.nb_cordes * 10) - 10, {stroke:"black"});
 }
 
 
@@ -278,17 +277,17 @@ function mytestduration ()
 
 function is_wrong_value (val)
 {
-   var possibilities = [4, 2, 1, 0.5, 0.25, 0.125, 0.0625];
-    
-    for (var i = 0; i < 7; i++)
-    {
-        if (val == possibilities[i])
+        var possibilities = [4, 2, 1, 0.5, 0.25, 0.125, 0.0625];
+
+        for (var i = 0; i < 7; i++)
         {
-            return null;
+            if (val == possibilities[i])
+            {
+                return false;
+            }
         }
-    }
-    alert ("wrong value  :" + val);
-    return null;  
+        writeInConsole ("ERROR:Is wrong value :" + val);
+        return true;
 }
 
 function get_first_duration (duration) //Retourne la durée sans la valeur pointé ex: 3 => 2
@@ -302,7 +301,7 @@ function get_first_duration (duration) //Retourne la durée sans la valeur point
               return possibilities[i];
         }
     }
-    alert ("wrong value");
+    writeInConsole ("ERROR:get_first_duration wrong value  :" + duration);
     return null;
 }
 function get_second_duration (duration, first_duration) //Retourne la durée de la valeur pointé ex: 1.5 => 0.5

@@ -125,7 +125,7 @@
                {
 
                   var part_height = DrawPartition (partition._instruments_list[i]._track_part._measure_list, svg, nb_corde);
-                   // svg.root().css("height", '200px');
+                  $(".tab_svg #"+i).css("height",part_height);
                   $("rect[id='part']", svg.root()).attr("height", part_height);
                   svg.rect(60, 20, 2, (nb_corde * 10 + 10), {id: "cursor_"+i, fill:"red"});
                }
