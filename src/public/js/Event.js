@@ -368,85 +368,34 @@ $(document).ready(setTimeout(function(){
 	});
 
     /// SECTION SCROLLBARS
-
-    var current_svg_advance = 100;
-    if (nb_measure > 20)
-    {
-        $("#scroll_svg").slider({
-            animate: "slow",
-            value: 100,
-            orientation: "vertical",
-            step: ((100 / ((nb_measure / 4) - 5)) | 0),
-            slide: function (event, ui){
-                var step = ((100 / ((nb_measure / 4) - 5)) | 0);
-                var current_step = ui.value;
-                var advance = ((current_step / step) | 0);
-
-                if (advance < current_svg_advance) // On va vers le bas
-                {
-                    for (var i = 0; i < svg_inst.length; i++)
-                    {
-                        svg_inst[i].root().currentTranslate.y -= 80;
-                    }
-                }
-                else // on va vers le haut
-                {
-                    for (var i = 0; i < svg_inst.length; i++)
-                    {
-                        if (svg_inst[i].root().currentTranslate.y + 80 <= 0)
-                        {
-                            svg_inst[i].root().currentTranslate.y += 80;
-                        }
-                    }
-                }
-                current_svg_advance = advance;
-            }
-        });
-    }
-
-    var current_advance = 0;
-
-    if (nb_measure > 31)
-    {
-        $("#scroll_measure").slider({
-            animate: "slow",
-            step: ((100 / (nb_measure - 31)) | 0),
-            slide: function (event, ui){
-                var step = ((100 / (nb_measure - 31)) | 0);
-                var current_step = ui.value;
-                var advance = ((current_step / step) | 0);
-                if (advance > (nb_measure - 31))
-                        advance = nb_measure - 31;
-
-                if (advance > current_advance) /// On se déplace vers la droite
-                {
-                    for (var i = current_advance + 1; i <= advance; i++)
-                    {
-                        $(".progress_bar tr:first-child td:nth-child(" + i + ")").css("display", "none");
-                        $(".progress_bar tr:nth-child(2) td:nth-child(" + i + ")").css("display", "none");
-                    }
-                    for (var j = advance + 1; j <= advance + 31; j++)
-                    {
-                        $(".progress_bar tr:first-child td:nth-child(" + j + ")").css("display", "table-cell");
-                        $(".progress_bar tr:nth-child(2) td:nth-child(" + j + ")").css("display", "table-cell");
-                    }
-                }
-                else /// On se déplace vers la gauche
-                {
-                    for (var i2 = advance + 31; i2 <= current_advance + 31; i2++)
-                    {
-                        $(".progress_bar tr:first-child td:nth-child(" + i2 + ")").css("display", "none");
-                        $(".progress_bar tr:nth-child(2) td:nth-child(" + i2 + ")").css("display", "none");
-                    }
-                    for (var j2 = advance + 1; j2 <= advance + 31; j2++)
-                    {
-                        $(".progress_bar tr:first-child td:nth-child(" + j2 + ")").css("display", "table-cell");
-                        $(".progress_bar tr:nth-child(2) td:nth-child(" + j2 + ")").css("display", "table-cell");
-                    }
-                }
-                current_advance = advance;
-            }
-        });
-    }
+	$("#volume").slider({
+		animate: "slow",
+		value: 100,
+		orientation: "horizontal",
+		step: 1,
+		slide: function (event, ui){
+			document.demo.SetVolume(ui.value);
+			if (ui.value == 0){
+				$("#speaker").removeClass("speakon").addClass("speakoff");
+			}
+			else if (!$("#speaker").hasClass("speakon"))
+			{
+				$("#speaker").removeClass("speakoff").addClass("speakon");
+			}
+		}
+	});
+	
+	$("#speaker").click(function (){
+		var ismute = document.demo.GetMute();
+		document.demo.SetMute(!ismute);
+		if (ismute){
+			$("#speaker").removeClass("speakon").addClass("speakoff");
+		}
+		else
+		{
+			$("#speaker").removeClass("speakoff").addClass("speakon");
+		}
+	});
+	
 	console.log('event');
 }, 1000));

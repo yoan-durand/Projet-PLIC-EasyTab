@@ -213,3 +213,28 @@ footer
 	border: black 1px solid;
 	border-radius: 2px;
 }
+#volume
+{
+	width: 100px;
+	position: absolute;
+	top: 60px;
+	left: 600px;
+}
+.speakon
+{
+	position: absolute;
+	top: 60px;
+	left: 575px;
+	width:16px;
+  	height:16px;
+  	background:url("smoothness/images/ui-icons_454545_256x240.png") -144px -160px no-repeat;
+}
+.speakoff
+{
+	position: absolute;
+	top: 60px;
+	left: 575px;
+	width:16px;
+  	height:16px;
+  	background:url("smoothness/images/ui-icons_454545_256x240.png") -129px -160px no-repeat;
+}
