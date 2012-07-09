@@ -15,8 +15,8 @@ exports.application = function(req, res){
 		return;
 	var config = require('./config');
 	var tablature = config.upload.dir;
+	var path = require('path');
 	if (req.params.tablature) {
-		var path = require('path');
 		if (!path.existsSync('./public/'+tablature+req.params.tablature)) {
 			// redirection si le fichier n'existe pas
 			res.redirect('/tablatures');
@@ -24,12 +24,19 @@ exports.application = function(req, res){
 		}
 		tablature += req.params.tablature;
 	} else {
-		tablature += 'demo.xml'
+		tablature = 'demo';
+	}
+	var userId = req.session.user.id;
+	var crypto = require('crypto');
+	var midiPath = config.midi.dir+crypto.createHash('md5').update(tablature+'||'+userId).digest('hex')+'.mid';
+	if (!path.existsSync('./public/'+midiPath)) {
+		midiPath = '';
 	}
 	res.render('application', {
 		connected: req.session.connected,
 		tablature: tablature,
-		userId: req.session.user.id
+		userId: userId,
+		midiPath: midiPath
 	});
 };
 
