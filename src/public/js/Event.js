@@ -22,6 +22,7 @@ $(document).ready(setTimeout(function(){
             javascript:document.demo.Stop();
             javascript:document.demo.SetTime(0);
             javascript:document.demo.Play();
+            var tata = document.demo;
             $(".overflow_svg").scrollTo( 0, 1000, {axis:'y'});
             $(this).attr("src", "image/playerback2.png");
             $("#play").attr("src", "image/playerplay.png");

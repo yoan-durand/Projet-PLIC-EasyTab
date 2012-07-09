@@ -121,7 +121,7 @@
                try
                {
 
-   no                DrawPartition (partition._instruments_list[i]._track_part._measure_list, svg, nb_corde);
+                  DrawPartition (partition._instruments_list[i]._track_part._measure_list, svg, nb_corde);
                     svg.rect(60, 20, 2, (nb_corde * 10 + 10), {id: "cursor_"+i, fill:"red"});
                }
                catch (err)
@@ -131,8 +131,6 @@
             }
         });
         }
-		$(".tab_svg").removeClass('tab_svg_loading')
-
         /*
         $('.tab_svg').svg({onLoad: function(svg)
         {
@@ -402,6 +400,8 @@
                     $(".overflow_svg").scrollTo(280, 1000, {axis:'y'});
 
                 }
+            alert ($(".tempo").text());
+            alert(MIDItoSecond(note._begin, $(".tempo").text()));
             document.demo.SetTime(MIDItoSecond(note._begin, $(".tempo").text()));
         });
 

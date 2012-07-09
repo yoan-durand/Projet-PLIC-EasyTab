@@ -151,7 +151,7 @@ function DrawSelectRect (context, file, Yline)
     }
     if (lastnote != null)
     {
-            context.svg.rect(x,Yline - 10,lastnote._posX - x + context.MaxWidth - lastnote._posX,height, {id:"n_"+file[file.length-1]+"_"+(j-1), fill:"white", stroke:"white"});
+        context.svg.rect(x,Yline - 10,lastnote._posX - x + context.MaxWidth - lastnote._posX,height, {id:"n_"+file[file.length-1]+"_"+(j-1), fill:"white", stroke:"white"});
     }
 }
 
@@ -207,7 +207,7 @@ function DrawNotes(context, file, yLine)
                                                 {
                                                         context.svg.rect(note2._posX,(note2._string_technical - 1)*10+yLine  - 5, 11, 11, {fill:"white"});
                                                 }
-                                                    context.svg.text(note2._posX, (note2._string_technical * 10) + yLine - 6, ""+note2._fret_technical+"", {stroke: "blue", "font-size": "11px"});
+                                                    context.svg.text(note2._posX, (note2._string_technical * 10) + yLine - 6, ""+note2._fret_technical+"", {stroke: "black", "font-size": "11px"});
                                             }
                                             else
                                             {
@@ -215,11 +215,11 @@ function DrawNotes(context, file, yLine)
                                                 if (note2._string_technical != null)
                                                {
                                                     context.svg.rect(note2._posX ,(note2._string_technical - 1) *10 + yLine - 5, 5.5, 11, {fill:"white"});
-                                                    context.svg.text(note2._posX, (note2._string_technical * 10) + yLine - 6, "X", {stroke: "blue", "font-size": "11px"});
+                                                    context.svg.text(note2._posX, (note2._string_technical * 10) + yLine - 6, "X", {stroke: "black", "font-size": "11px"});
                                                }
                                                else
                                               {
-                                                       context.svg.rect(note2._posX , 9 + yLine, 11, 5.5, {fill:"blue"});
+                                                       context.svg.rect(note2._posX , 9 + yLine, 11, 5.5, {fill:"black"});
                                               }
                                             }
                                             /*  if (note2._fret_technical != null)
