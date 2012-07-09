@@ -96,9 +96,11 @@
 
     var svg_inst = new Array();
     var current_svg = 0;
+	var cur_tempo;
 
     $(document).ready (setTimeout(function(){
         $(".tempo").text(partition._instruments_list[0]._track_part._measure_list[0]._sound_params._tempo);
+		cur_tempo = $(".tempo").text()*1;
 
         for (var i = 0; i < partition._instruments_list.length; i++)
         {
@@ -210,7 +212,8 @@
             {
                 event : "dblclick",
                 style : "inherit"
-        });
+			}
+		);
 
          $.ajax({
             type: "POST",

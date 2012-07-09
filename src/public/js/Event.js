@@ -21,8 +21,8 @@ $(document).ready(setTimeout(function(){
         {
             javascript:document.demo.Stop();
             javascript:document.demo.SetTime(0);
-            javascript:document.demo.Play();
-
+            //javascript:document.demo.Play();
+            document.demo.SetRate($(".tempo").text()/cur_tempo);
             $(".overflow_svg").scrollTo( 0, 1000, {axis:'y'});
             $(this).attr("src", "image/playerback2.png");
             $("#play").attr("src", "image/playerplay.png");
@@ -53,8 +53,9 @@ $(document).ready(setTimeout(function(){
     $("#play").click(function (){
         if ($(this).attr("src") == "image/playerplay.png")
         {
-			javascript:document.demo.Play();
-            $("#back").attr("src", "image/playerback.png");
+			//javascript:document.demo.Play();
+            document.demo.SetRate($(".tempo").text()/cur_tempo);
+			$("#back").attr("src", "image/playerback.png");
             $(this).attr("src", "image/playerplay2.png");
             $("#pause").attr("src", "image/playerpause.png");
             $("#stop").attr("src", "image/playerstop.png");
