@@ -85,108 +85,108 @@ $(document).ready(setTimeout(function(){
 	}
 
         //variable pour le scroll
-	var ancient = 0;
-                 var sline  = 0;
-                 var scroll = 280;
-                 var scroll2 = 820;
+			var ancient = 0;
+			 var hasScrolled  = false;
+			 var scroll = 280;
+			 var scroll2 = 820;
        //------------------------------------          
 
 	function Animation_Play(index_m)
 	{
-                        if ($("rect[id^='cursor_"+current_svg+"']").attr("y") != ancient)
-                            {
-                                //alert (current_svg+" "+ scroll+ " " + sline)
-                                ancient = $("rect[id^='cursor_"+current_svg+"']").attr("y");
-                                sline++;
-
-                                if (sline % 4 == 0)
-                                    {
-                                         $(".overflow_svg").scrollTo( scroll, 1000, {axis:'y'});
-                                         sline = 1;
-                                         scroll += 270;
-                                     }
-                            }
-                           
-                            var id = index_m + 1;
-                            selected = id;
-                            $(".progress_bar img[id='m_"+ id + "']").attr("src", "image/casebleue.png");
-                            id--;
-                             $(".progress_bar img[id='m_"+ id + "']").attr("src", "image/casegrise.png");
-                             id++;
-                             if ((id >= 30) && (id % 30 == 0))
-                                 {
-                                     $(".overflow_measure").scrollTo(scroll2, 1000, {axis:'x'});
-                                     scroll2 += 830;
-                                 }
-                    var delay_ms = 350;
-                    var delay_midi = SecondtoMIDI(delay_ms,g_tempo);
-                    var time_ms = getTime();
-                    var time_midi = SecondtoMIDI(time_ms, g_tempo);
-                        writeInConsole("GetTime MS recu: " + time_ms);
-                    var cur_mesure = partition._instruments_list[current_svg]._track_part._measure_list[index_m];
-                    for (var i = 0; i < cur_mesure._chord_list.length; i++)
-                    {
-                         var chord = cur_mesure._chord_list[i];
-                    if (chord._note_list[0]._begin + delay_midi > time_midi) // MIDI EN RETARD SUR NOTE
-                    {
-                            var delta = chord._note_list[0]._begin + delay_midi - time_midi;
-                            timeout = setTimeout(function(){
-                                            Animation_Play(index_m);
-                                    }, MIDItoSecond(delta, g_tempo));
-                            writeInConsole("EN RETARD Time out relancé de delta : " + MIDItoSecond(delta, g_tempo));
-                            return;
-                    }
-                    else
-                    {
-                            if (delay_midi + chord._note_list[0]._begin + chord._note_list[0]._duration >= time_midi) // MIDI SYNCHRO AVEC LA NOTE
-                            {
-                                    MoveCursor(chord._note_list[0]._posX, chord._note_list[0]._posY, chord._note_list[0]);
-                                    var delta = chord._note_list[0]._begin + delay_midi - time_midi;
-                                    var midi_duration = chord._note_list[0]._duration + delta;
-                                    var ms_duration = MIDItoSecond(midi_duration, g_tempo);
-                                    writeInConsole (ms_duration);
-                                    if (i != cur_mesure._chord_list.length - 1) // On est pas sur la derniere note
-                                    {
-                                        writeInConsole("Timeout lancé  " + ms_duration + " gettime: " +getTime());
-                                            timeout = setTimeout(function(){
-                                                    Animation_Play(index_m);
-                                            }, ms_duration);
-                                            return;
-                                    }
-                                    else // On est sur la derniere note de la mesure
-                                    {
-                                            if (index_m != partition._instruments_list[current_svg]._track_part._measure_list.length - 1) // Si on est pas sur la derniere mesure
-                                            {
-                                                writeInConsole("Timeout lancé  " + ms_duration + " gettime: " +getTime());
-                                                    timeout = setTimeout(function(){
-                                                            Animation_Play(index_m + 1);
-                                                    }, ms_duration);
-                                                    return;
-                                            }
-                                    }
-                            }
-                            if (i == cur_mesure._chord_list.length - 1 && index_m != partition._instruments_list[current_svg]._track_part._measure_list.length - 1) // Si on est sur la derniere note mais pas la derniere mesure
-                            {
-                                    Animation_Play(index_m + 1); // On avance à la mesure suivante
-                            }
-                    }
+         var test = (($("rect[id='cursor_" + current_svg + " ' ]") .attr("y")-20)/90);              
+        
+		 if (($("rect[id='cursor_"+current_svg+"']") .attr("y") > 20) && (test % 3 == 0) && (hasScrolled == false))
+		 {
+			ancient = $("rect[id='cursor_"+current_svg+"']") .attr("y");
+			$("rect[id^='cursor_"+current_svg+"']") .attr("y").scrollTo (scroll, 1000, {axis:'y'});
+			scroll += 270;	
+		 }
+	
+		if (ancient != ($("rect[id^='cursor_"+current_svg+"']") .attr("y")) && (hasScrolled == true))
+		{
+			hasScrolled = false;
+		}
+		
+		var id = index_m + 1;
+		selected = id;
+		$(".progress_bar img[id='m_"+ id + "']").attr("src", "image/casebleue.png");
+		id--;
+		 $(".progress_bar img[id='m_"+ id + "']").attr("src", "image/casegrise.png");
+		 id++;
+		 if ((id >= 30) && (id % 30 == 0))
+			 {
+				 $(".overflow_measure").scrollTo(scroll2, 1000, {axis:'x'});
+				 scroll2 += 830;
+			 }
+		var delay_ms = 350;
+		var delay_midi = SecondtoMIDI(delay_ms,g_tempo);
+		var time_ms = getTime();
+		var time_midi = SecondtoMIDI(time_ms, g_tempo);
+		   
+		var cur_mesure = partition._instruments_list[current_svg]._track_part._measure_list[index_m];
+		for (var i = 0; i < cur_mesure._chord_list.length; i++)
+		{
+			 var chord = cur_mesure._chord_list[i];
+		if (chord._note_list[0]._begin + delay_midi > time_midi) // MIDI EN RETARD SUR NOTE
+		{
+				var delta = chord._note_list[0]._begin + delay_midi - time_midi;
+				timeout = setTimeout(function(){
+								Animation_Play(index_m);
+						}, MIDItoSecond(delta, g_tempo));
+			   
+				return;
+		}
+		else
+		{
+		if (delay_midi + chord._note_list[0]._begin + chord._note_list[0]._duration >= time_midi) // MIDI SYNCHRO AVEC LA NOTE
+		{
+				MoveCursor(chord._note_list[0]._posX, chord._note_list[0]._posY, chord._note_list[0]);
+				var delta = chord._note_list[0]._begin + delay_midi - time_midi;
+				var midi_duration = chord._note_list[0]._duration + delta;
+				var ms_duration = MIDItoSecond(midi_duration, g_tempo);
+			   
+				if (i != cur_mesure._chord_list.length - 1) // On est pas sur la derniere note
+				{
+				   
+						timeout = setTimeout(function(){
+								Animation_Play(index_m);
+						}, ms_duration);
+						return;
+				}
+				else // On est sur la derniere note de la mesure
+				{
+						if (index_m != partition._instruments_list[current_svg]._track_part._measure_list.length - 1) // Si on est pas sur la derniere mesure
+						{
+						   
+								timeout = setTimeout(function(){
+										Animation_Play(index_m + 1);
+								}, ms_duration);
+								return;
+						}
+				}
+		}
+		if (i == cur_mesure._chord_list.length - 1 && index_m != partition._instruments_list[current_svg]._track_part._measure_list.length - 1) // Si on est sur la derniere note mais pas la derniere mesure
+		{
+				Animation_Play(index_m + 1); // On avance à la mesure suivante
+		}
+}
 		}
 	}
 
 	function MoveCursor(x, y, note)
 	{
 		var xbis = x - 60;
-                    if (note._fret_technical != null)
-                        {
-                                    if (note._fret_technical.length == 2)
-                                        {
-                                            xbis += 5;
-                                        }
-                                    else
-                                        {
-                                             xbis += 2;
-                                        }
-                        }
+		if (note._fret_technical != null)
+			{
+				if (note._fret_technical.length == 2)
+					{
+						xbis += 5;
+					}
+				else
+					{
+						 xbis += 2;
+					}
+			}
 
 		$($("rect[id='cursor_"+current_svg+"']"), svg_inst[current_svg].root()).attr({"y": y - 10});
 		$($("rect[id='cursor_"+current_svg+"']"), svg_inst[current_svg].root()).animate({svgTransform: 'translate(' + xbis + ' 0)'}, 0, 'linear');
