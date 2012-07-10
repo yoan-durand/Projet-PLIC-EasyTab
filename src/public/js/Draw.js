@@ -40,27 +40,53 @@ function DrawPartition(mesures, svg, nb_cordes)
             }
         }
     }
-    if (mesures[mesures.length - 1]._chord_list[0] != null) // A VERIFIER
+    // On traite la derniere mesure
+    var end_chord_list = mesures[mesures.length - 1]._chord_list;
+    var deltaMin = search_min_note(end_chord_list);
+    if (end_chord_list[end_chord_list.length -1] != null) //
     {
-        var end_note = mesures[mesures.length - 1]._chord_list[0]._note_list[0];
-        var Xend = end_note._posX - marge_mesure; // Position de la fin de la derniere mesure qui rentre sur la ligne
+        var end_note = end_chord_list[end_chord_list.length -1]._note_list[0];
+        var Xend = end_note._posX + getPixelLentgh (end_note, deltaMin, 1); // Position de la fin de la derniere mesure qui rentre sur la ligne
         var coef = (MaxWidth  - Xend) / (Xend - left_marge ); // Permet de décaler la position de toutes les notes afin d'occuper tout l'espace restant
+       // alert (coef);
         Optimize(context,file_mesures, coef); // Permet de décaler toutes les positions en X des notes qui rentre sur une même ligne
         DrawOneLine(context,file_mesures, Yline); // On dessine la ligne entiere (rectangles de selection, lignes et mesures)
-        file_mesures = []; // On nettoie la File afin de pouvoir assigner de nouvelles mesures
-        j--; // Afin de repartir sur la mesure qui n'est pas traiter
-        x = left_marge; // On repart sur une nouvel ligne
+        
         Yline += 90;
     }
     return (Yline+90);
 }
 
+function getPixelLentgh (note, deltaMin ,coef)
+{
+    var ConvertNote = {"4" :{"4":80}, "2":{"2":60,"1":40}, "1":{"2":55, "1":45, "0.5":30}, "0.5":{"2":55, "1": 40, "0.5":25, "0.25":15}, 
+    "0.25":{"2": 50, "1":40, "0.5":30, "0.25":20, "0.125":15}, "0.125":{"2":45, "1":40,"0.5":30,"0.25":20,"0.125":13, "0.0625":10},
+    "0.0625":{"2":45, "1":30, "0.5":20, "0.25":15, "0.125":13, "0.0625":11, "0.03125":10 } };
+    
+    try
+    {
+        var first_duration = get_first_duration (note._duration/480);
+        var first_distance = ConvertNote[deltaMin][first_duration];
+        try
+        {
+            var second_duration = get_second_duration (note._duration/480, first_duration);
+            var second_distance = second_duration!=0? ConvertNote[deltaMin][second_duration]:0;
+            return (first_distance + second_distance)*(coef + 1);
+        }
+        catch (e)
+        {
+            writeInConsole ("Error:deltaMin=" + deltaMin + " secondduration=" + first_duration);
+        }
+    }
+    catch (e)
+    {
+            writeInConsole ("Error:deltaMin=" + deltaMin + " firstduration=" + first_duration);
+    }
+}
+    
 // Fonction qui permet de setter les X des différentes notes composant la mesure en appliquant un coef si nécessaire
 function SetX(mesure, x, coef, posY)
 {
-    var ConvertNote = {"4" :{"4":80}, "2":{"2":60,"1":40}, "1":{"2":55, "1":45, "0.5":30}, "0.5":{"2":55, "1": 40, "0.5":25, "0.25":15}, 
-        "0.25":{"2": 50, "1":40, "0.5":30, "0.25":20, "0.125":15}, "0.125":{"2":45, "1":40,"0.5":30,"0.25":20,"0.125":13, "0.0625":10},
-        "0.0625":{"2":45, "1":30, "0.5":20, "0.25":15, "0.125":13, "0.0625":11, "0.03125":10 } };
     
     var deltaMin = search_min_note(mesure._chord_list); // On recherche la note qui a le temps le plus petit
     (is_wrong_value(deltaMin));
@@ -82,26 +108,7 @@ function SetX(mesure, x, coef, posY)
                     }
                 }
                 var note = chord._note_list[0];
-                
-                try
-                {
-                    var first_duration = get_first_duration (note._duration/480);
-                    var first_distance = ConvertNote[deltaMin][first_duration];
-                    try
-                    {
-                        var second_duration = get_second_duration (note._duration/480, first_duration);
-                        var second_distance = second_duration!=0? ConvertNote[deltaMin][second_duration]:0;
-                        x += (first_distance + second_distance)*(coef + 1);
-                    }
-                    catch (e)
-                    {
-                        writeInConsole ("Error:deltaMin=" + deltaMin + " secondduration=" + first_duration);
-                    }
-                }
-                catch (e)
-                {
-                      writeInConsole ("Error:deltaMin=" + deltaMin + " firstduration=" + first_duration);
-                }
+                x += getPixelLentgh (note, deltaMin, coef);
             }
         }
     }
@@ -141,7 +148,7 @@ function DrawSelectRect (context, file, Yline)
                 var cur_note = chordlist[j]._note_list[0]; //Cette note represente l'ensemble de l'accord
                 if (lastnote != null) //On dessine la derniere note de la mesure precedente
                 {
-						var prev_length = context.mesure_list[file[i-1]]._chord_list.length - 1;
+			var prev_length = context.mesure_list[file[i-1]]._chord_list.length - 1;
                         var tmpX = cur_note._posX - context.marge_mesure; //15 represente la marge entre la premiere note d'une mesure et la barre de celle-ci
                         context.svg.rect(x,Yline - 10,tmpX - x,height, {id:"n_"+file[i-1]+"_"+prev_length, fill:"white", stroke:"white"});  //file[i-1] est le numero de la mesure qui servira pour l'id du noeud
                         lastnote = null;
