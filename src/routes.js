@@ -2,8 +2,20 @@
 exports.index = function(req, res){
 	if (forceLogin(req, res))
 		return;
-	res.render('index', {
-		connected:req.session.connected
+	var params = {
+		connected: req.session.connected
+	}
+	if (req.session.error) {
+		params.error = req.session.error;
+		delete req.session.error;
+	}
+	if (req.session.success) {
+		params.success = req.session.success;
+		delete req.session.success;
+	}
+	tablatureSearch(req, res, undefined, true, function(results){
+		params.pistes = results;
+		res.render('index', params);
 	});
 };
 
@@ -12,8 +24,8 @@ exports.application = function(req, res){
 		return;
 	var config = require('./config');
 	var tablature = config.upload.dir;
+	var path = require('path');
 	if (req.params.tablature) {
-		var path = require('path');
 		if (!path.existsSync('./public/'+tablature+req.params.tablature)) {
 			// redirection si le fichier n'existe pas
 			res.redirect('/tablatures');
@@ -21,22 +33,73 @@ exports.application = function(req, res){
 		}
 		tablature += req.params.tablature;
 	} else {
-		tablature += 'demo.xml'
+		tablature = 'demo';
+	}
+	var userId = req.session.user.id;
+	var crypto = require('crypto');
+	var midiPath = config.midi.dir+crypto.createHash('md5').update(tablature+'||'+userId).digest('hex')+'.mid';
+	if (!path.existsSync('./public/'+midiPath)) {
+		midiPath = '';
 	}
 	res.render('application', {
 		connected: req.session.connected,
 		tablature: tablature,
-		userId: req.session.user.id
+		userId: userId,
+		midiPath: midiPath
 	});
 };
 
+exports.creerCompte = function(req, res) {
+	var params = {
+		connected: req.session.connected
+	}
+	if (req.session.error) {
+		params.error = req.session.error;
+		delete req.session.error;
+	}
+	if (req.session.success) {
+		params.success = req.session.success;
+		delete req.session.success;
+	}
+	res.render('creerCompte', params);
+}
+exports.creerComptePost = function(req, res) {
+	var pseudo = req.body.pseudo;
+	var password = req.body.password;
+	var confirmPassword = req.body.confirmPassword;
+	if (!pseudo || !password || !confirmPassword) {
+		// cancel connection
+		res.send();
+		return;
+	}
+	if (confirmPassword !== password) {
+		req.session.error = "Les deux mots de passe doivent être identiques.";
+		res.redirect(req.url);
+		return;
+	}
+	var now = (new Date()).getTime();
+	var encryptedPassword = encryptPassword(password, pseudo);
+	var client = mysql_connect();
+	client.query(
+		'insert `user` (dateInscription, login, password) values (?, ?, ?)',
+		[now, pseudo, encryptedPassword],
+		function(err){
+			client.end();
+			if (err) {
+				throw err;
+			}
+			req.session.success = 'Le compte "'+pseudo+'" a été créé avec succès.';
+			res.redirect('/');
+		});
+}
 exports.compte = function(req, res){
 	if (forceLogin(req, res))
 		return;
+	var dateInscription = new Date(parseInt(req.session.user.dateInscription));
 	var params = {
 		connected: req.session.connected,
 		pseudo : req.session.user.login,
-		dateInscription : req.session.user.dateInscription
+		dateInscription : dateInscription
 	}
 	if (req.session.error) {
 		params.error = req.session.error;
@@ -61,13 +124,12 @@ exports.comptePost = function(req, res){
 		req.session.error = "Les deux mots de passe doivent être identiques.";
 		res.redirect(req.url);
 	} else {
-		var config = require('./config');
-		var crypto = require('crypto');
-		var encryptedPassword = crypto.createHash('sha1').update(password+config.bdd.salt+req.session.user.login).digest('hex');
+		var encryptedPassword = encryptPassword(password, pseudo);
+		var userId = req.session.user.id;
 		var client = mysql_connect();
 		client.query(
 			'UPDATE `user` SET `password` = ? WHERE `user`.`id` = ?',
-			[encryptedPassword, req.session.user.id],
+			[encryptedPassword, userId],
 			function(err){
 				client.end();
 				if (err) {
@@ -88,7 +150,6 @@ exports.login = function(req, res){
 		});
 	});
 };
-
 exports.loginPost = function(req, res){
 	if (!req.body.login) {
 		return;
@@ -124,14 +185,12 @@ exports.loginPost = function(req, res){
 		}
 		);
 };
-
 exports.logout = function(req, res){
 	req.session.regenerate(function(e){
 		req.session.connected = false;
 		res.redirect('/');
 	});
 };
-
 function forceLogin(req, res) {
 	if (req.session.connected === true) {
 		return false;
@@ -142,17 +201,22 @@ function forceLogin(req, res) {
 		req.session.user = {
 			id: 1,
 			login: 'Admin',
-			dateInscription : '14 juillet 1789'
+			dateInscription : '-5694963725000'
 		};
 		return false;
 	}
 	//*/
+
 	var params = {
 		connected: req.session.connected
 	}
 	if (req.session.error) {
 		params.error = req.session.error;
 		delete req.session.error;
+	}
+	if (req.session.success) {
+		params.success = req.session.success;
+		delete req.session.success;
 	}
 	res.render('login', params);
 	req.session.redirect = req.url;
@@ -174,26 +238,6 @@ exports.midi = function(req, res) {
 	});
 }
 
-exports.testP = function(req, res) {
-	var request = require('request');
-	var config = require('./config');
-	request.get({
-		url: 'http://localhost:'+config.PHP.port+'/Projet-PLIC-EasyTab/src/php/testP.php',
-		form:
-		{
-			encoded: req.body.encoded
-		}
-	}
-	, function (error, response, body)
-	{
-		if (error) {
-			throw error;
-		}
-		res.send(response);
-	});
-}
-
-
 exports.upload = function(req, res) {
 	if (forceLogin(req, res))
 		return;
@@ -211,6 +255,7 @@ exports.uploadPost = function(req, res) {
 	var name = req.files.tablature.name.slice(0,-4);
 	var titre = req.body.titre; //TODO escape?
 	var artiste = req.body.artiste; //TODO escape?
+	var visibilitéPublique = req.body.visibilité == 'publique';
 	var fs = require('fs');
 	fs.rename(req.files.tablature.path, __dirname + '/public/upload/'+name+'.xml', function(err) {
 		if(err) {
@@ -218,8 +263,8 @@ exports.uploadPost = function(req, res) {
 		}
 		var client = mysql_connect();
 		client.query(
-			'INSERT INTO `tablature` (`userId` ,`nom` ,`chemin`, `titre`, `artiste`) values (?, ?, ?, ?, ?)',
-			[req.session.user.id, name, 'upload/', titre, artiste],
+			'INSERT INTO `tablature` (`userId` ,`nom` ,`chemin`, `titre`, `artiste`, `public`) values (?, ?, ?, ?, ?, ?)',
+			[req.session.user.id, name, 'upload/', titre, artiste, visibilitéPublique],
 			function(err, results, fields){
 				client.end();
 				if(err) {
@@ -233,14 +278,86 @@ exports.uploadPost = function(req, res) {
 exports.tablatures = function(req, res) {
 	if (forceLogin(req, res))
 		return;
-	tablatureSearch(req, res, undefined, false);
+	tablatureSearch(req, res, undefined, false, function(results) {
+		res.render('tablatures', {
+			pistes: results,
+			connected: req.session.connected
+		});
+	});
+}
+exports.tablaturesVisibility = function(req, res) {
+	if (forceLogin(req, res))
+		return;
+	var id = parseInt(req.params.id, 10);
+	var visibility = parseInt(req.params.visibility, 10);
+	if (!id) {
+		res.redirect('/tablatures');
+	}
+	var userId = req.session.user.id;
+	var bdd = mysql_connect();
+	bdd.query('SELECT count(*) FROM `tablature` where `id`=? and `userId`=?',
+		[id, userId],
+		function (err, results, fields){
+			if(err) {
+				bdd.end();
+				throw err;
+			}
+			if (results[0]['count(*)'] == 0) {
+				bdd.end();
+				res.redirect('/tablatures');
+			} else {
+				bdd.query('UPDATE `easytab`.`tablature` SET `public` = ? WHERE `tablature`.`id` =?;',
+					[visibility, id],
+					function (err, results, fields){
+						bdd.end();
+						if(err) {
+							throw err;
+						}
+						res.redirect('/tablatures');
+					});
+			}
+		});
+}
+exports.tablaturesSuppression = function(req, res) {
+	if (forceLogin(req, res))
+		return;
+	var id = parseInt(req.params.id, 10);
+	if (!id) {
+		res.redirect('/tablatures');
+	}
+	var userId = req.session.user.id;
+	var bdd = mysql_connect();
+	bdd.query('SELECT count(*) FROM `tablature` where `id`=? and `userId`=?',
+		[id, userId],
+		function (err, results, fields){
+			if(err) {
+				bdd.end();
+				throw err;
+			}
+			if (results[0]['count(*)'] == 0) {
+				bdd.end();
+				res.redirect('/tablatures');
+			} else {
+				bdd.query('delete from `tablature` where `id`=?',
+					[id],
+					function (err, results, fields){
+						bdd.end();
+						if(err) {
+							throw err;
+						}
+						res.redirect('/tablatures');
+					});
+			}
+		});
 }
 
 exports.search = function(req, res) {
 	if (forceLogin(req, res))
 		return;
 	var recherche = req.params.search;
-	tablatureSearch(req, res, recherche, true);
+	tablatureSearch(req, res, recherche, false, function(results) {
+		res.send(JSON.stringify(results));
+	});
 }
 
 function mysql_connect() {
@@ -254,17 +371,23 @@ function mysql_connect() {
 	return client;
 }
 
-function tablatureSearch(req, res, recherche, json) {
-	var userId = req.session.user.id;
-	var sql = 'SELECT nom, titre, artiste FROM `tablature` WHERE `userid` = ?';
-	var match = [userId];
-	if (recherche !== undefined) {
+function tablatureSearch(req, res, filter, publicOnly, callback) {
+	var sql = 'SELECT id, nom, titre, artiste, public FROM `tablature` WHERE ';
+	var match = [];
+	if (publicOnly) {
+		sql += '`public` = 1';
+	} else {
+		sql += '`userid` = ?';
+		var userId = req.session.user.id;
+		match.push(userId);
+	}
+	if (filter !== undefined) {
 		sql += ' AND (`nom` LIKE ? OR `titre` LIKE ? OR `artiste` LIKE ?)';
-		recherche = '%'+recherche+'%';
-		match.push(recherche, recherche, recherche);
+		filter = '%'+filter+'%';
+		match.push(filter, filter, filter);
 	}
 	var client = mysql_connect();
-	var q = client.query(
+	client.query(
 		sql,
 		match,
 		function(err, results, fields) {
@@ -272,14 +395,13 @@ function tablatureSearch(req, res, recherche, json) {
 			if (err) {
 				throw err;
 			}
-			if (json) {
-				res.send(JSON.stringify(results));
-			} else {
-				res.render('tablatures', {
-					pistes: results,
-					connected: req.session.connected
-				});
-			}
+			callback(results);
 		}
 		);
+}
+
+function encryptPassword(password, login) {
+	var config = require('./config');
+	var crypto = require('crypto');
+	return crypto.createHash('sha1').update(password+config.bdd.salt+login).digest('hex');
 }

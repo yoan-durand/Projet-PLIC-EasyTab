@@ -3,12 +3,11 @@
 -- http://www.phpmyadmin.net
 --
 -- Client: localhost
--- Généré le: Mer 30 Mai 2012 à 17:13
 -- Version du serveur: 5.5.20-log
 -- Version de PHP: 5.3.9
 
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
-SET time_zone = "+00:00";
+SET time_zone = "+02:00";
 
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -35,16 +34,15 @@ CREATE TABLE IF NOT EXISTS `tablature` (
   `chemin` text NOT NULL,
   `titre` text NOT NULL,
   `artiste` text NOT NULL,
+  `public` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `userId` (`userId`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=11 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=24 ;
 
 --
 -- Contenu de la table `tablature`
 --
 
-INSERT INTO `tablature` (`id`, `userId`, `nom`, `chemin`, `titre`, `artiste`) VALUES
-(5, 1, 'demo', 'upload/', 'démo', 'demoman');
 
 -- --------------------------------------------------------
 
@@ -52,22 +50,23 @@ INSERT INTO `tablature` (`id`, `userId`, `nom`, `chemin`, `titre`, `artiste`) VA
 -- Structure de la table `user`
 --
 
-CREATE TABLE IF NOT EXISTS `user` 
-(
+CREATE TABLE IF NOT EXISTS `user` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `dateInscription` int(11) NOT NULL,
+  `dateInscription` bigint(14) NOT NULL,
   `login` varchar(30) NOT NULL,
   `password` varchar(40) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `login` (`login`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=11 ;
 
 --
 -- Contenu de la table `user`
 --
 
 INSERT INTO `user` (`id`, `dateInscription`, `login`, `password`) VALUES
-(1, 0, 'Admin', '3174685bb0ac5dfed704b7b41a5e44b713b759a1');
+(1, -5694963725000, 'Admin', '3174685bb0ac5dfed704b7b41a5e44b713b759a1'),
+(2, 1341763667245, 'Fab', '03b8b8d1ba64d7498760a6b5e6cf197335d62ad7'),
+(3, 1341884838345, 'quidam', '279dc1e9d24616e6e4b553320688323cf8febf08');
 
 --
 -- Contraintes pour les tables exportées

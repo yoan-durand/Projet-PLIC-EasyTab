@@ -202,7 +202,7 @@ function DrawNotes(context, file, yLine)
                         var note = chord._note_list[0];
                         var mes = file[i];
                         mes++;
-                        context.svg.text(note._posX - context.marge_mesure - 2, yLine - 5, ""+mes+"", {stroke: "red", "font-size": "10px"});
+                        context.svg.text(note._posX - context.marge_mesure - 2, yLine - 5, ""+mes+"", {"font-weight" : "bold", fill: "red", "font-size": "10px"});
                         context.svg.line(note._posX -context.marge_mesure, yLine, note._posX - context.marge_mesure, yLine + (context.nb_cordes * 10) - 10,{stroke:"black"});
                     }
                  }

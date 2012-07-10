@@ -1,39 +1,70 @@
 
 {% extends 'layout.html' %}
 
-{% block title %}Home Page{% endblock %}
+{% block title %}Tablatures{% endblock %}
 
 {% block head %}
 <link rel="stylesheet" href="css/smoothness/jquery-ui-1.8.18.custom.css" />
 <link rel="stylesheet" href="css/site.css">
 <script src="js/jquery-1.7.1.js"></script>
 <script src="js/jquery-ui-1.8.18.custom.min.js"></script>
+<script src="js/jquery.contextmenu.r2.packed.js"></script>
 <script type="text/javascript">
 	function search(recherche) {
 		$.post('/search/'+recherche, function(data, textStatus) {
 			$('#trackList').empty();
 			for (var i = 0; i < data.length; ++i) {
-				$('#trackList').append('<li> <a href="application;'+data[i].nom+'.xml">'+data[i].nom
-					+'</a> <span id="trackInfos">'+data[i].titre+' - '+data[i].artiste+'</span></li>')
+				var html = '<li><span class="ui-icon ui-icon-'+(data[i].public?'un':'')+'locked" title="'+(data[i].public?'public':'privé')
+					+'"></span><a href="application;'+data[i].nom+'.xml">'+data[i].nom
+					+'</a> <span id="trackInfos">'+data[i].titre+' - '+data[i].artiste+'</span></li>'
+				$('#trackList').append(html)
 			}
 		}, 'json');
 	}
 	$(function(){
+		//styliser le bouton
 		$('#uploadLink > button').button();
+		// au double clic on ouvre la partition
 		$('#trackList > li').dblclick(function(e){
 			location.href = $('a', this).attr('href');
 		});
+		// recherche automatique dès qu'on lache une touche
 		$('#searchForm > input').keyup(function(e){
 			if (e.which == 27) {
 				$(this).val('');
 				search('');
+			} else {
+				search($(this).val());
 			}
 		});
+		// interception de l'appui sur la touche entrée pour rechercher sans changer de page
 		$('#searchForm').submit(function(e){
 			e.preventDefault();
 			var recherche = $('input', this).val();
 			search(recherche);
 		});
+		// activer le menu contextuel
+		var options = {
+			bindings: {
+				'ouvrir': function(t) {
+					location.href = $('a', t).attr('href');
+				},
+				'visibility': function(t) {
+					var id = $(t).attr('id').slice(4);
+					var visibility = $(t).hasClass('private') ? '1' : '0';
+					location.href = '/tablatures/'+id+'/visibility/'+visibility;
+				},
+				'supprimer': function(t) {
+					var id = $(t).attr('id').slice(4);
+					location.href = '/tablatures/'+id+'/suppression';
+				}
+			},
+			menuStyle: {
+				width: '133px'
+			}
+		};
+		$('#trackList > li.private').contextMenu('menu1', options);
+		$('#trackList > li:not(.private)').contextMenu('menu2', options);
 	});
 </script>
 {% endblock %}
@@ -41,21 +72,58 @@
 {% block content %}
 <section id="container" class="center">
 	<div>
-		<form id="searchForm">
-			<input id="searchBox" placeholder="Rechercher...">
-		</form>
 		<p>
 			<a href="upload" id="uploadLink">Ajouter une tablature <button>+</button></a>
 		</p>
 	</div>
 	<div>
+		<form id="searchForm">
+			<input id="searchBox" placeholder="Rechercher...">
+		</form>
+		<h2>Mes tablatures</h2>
 		<ul id="trackList">
 			{% for xml in pistes -%}
-			<li>
+			{% if xml.public %}
+			<li id="tab_{{xml.id}}"><span class="ui-icon ui-icon-unlocked" title="public"></span>
+				{% else %}
+			<li id="tab_{{xml.id}}" class="private"><span class="ui-icon ui-icon-locked" title="privé"></span>
+				{% endif %}
 				<a href="application;{{ xml.nom }}.xml">{{ xml.nom }}</a> <span id="trackInfos">{{xml.titre}} - {{xml.artiste}}</span>
 			</li>
 			{%- endfor %}
 		</ul>
 	</div>
 </section>
+<div class="contextMenu" id="menu1">
+	<ul>
+		<li id="ouvrir">
+			<!--			<img src="folder.png" />-->
+			<a>Ouvrir</a>
+		</li>
+		<li id="visibility">
+			<!--			<img src="disk.png" />-->
+			<a>Rendre public</a>
+		</li>
+		<li id="supprimer">
+			<!--			<img src="cross.png" />-->
+			<a>Supprimer</a>
+		</li>
+	</ul>
+</div>
+<div class="contextMenu" id="menu2">
+	<ul>
+		<li id="ouvrir">
+			<!--			<img src="folder.png" />-->
+			<a>Ouvrir</a>
+		</li>
+		<li id="visibility">
+			<!--			<img src="disk.png" />-->
+			<a>Rendre privé</a>
+		</li>
+		<li id="supprimer">
+			<!--			<img src="cross.png" />-->
+			<a>Supprimer</a>
+		</li>
+	</ul>
+</div>
 {% endblock %}
