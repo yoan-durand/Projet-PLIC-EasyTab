@@ -92,6 +92,7 @@ $(document).ready(setTimeout(function(){
         //variable pour le scroll
 			var ancient = 0;
 			 var hasScrolled  = false;
+			 var vertic = false;
 			 var res = 0;
 			 var scroll = 280;
 			 var scroll2 = 820;
@@ -135,8 +136,11 @@ $(document).ready(setTimeout(function(){
 		
 		if (onglet == true)
 			{
-				scroll = ($("rect[id='cursor_" + current_svg + "']").attr("y"));7
-				scroll = parseInt(scroll)+ 265;
+				scroll = ($("rect[id='cursor_" + current_svg + "']").attr("y"));	
+				scroll = parseInt(scroll);
+				console.log ("new scroll2 " + scroll);
+				$(".overflow_svg").scrollTo($("rect[id='cursor_" + current_svg + "']"), 1000, {axis:'y'});
+				scroll += 265;
 				onglet = false;
 			}
 		 var test = ($("rect[id='cursor_" + current_svg + "']").attr("y") - 20);              
@@ -149,7 +153,7 @@ $(document).ready(setTimeout(function(){
 			hasScrolled = true;
 			ancient = $("rect[id='cursor_" + current_svg + "']").attr("y");
 			console.log ("va a posiiton : " + scroll);
-			$(".overflow_svg").scrollTo (scroll, 1000, {axis:'y'});
+			$(".overflow_svg").scrollTo (scroll, 3500, {axis:'y'});
 			
 			scroll = scroll + 270;	
 			console.log ("prochaine posiiton : " + scroll);
@@ -165,10 +169,15 @@ $(document).ready(setTimeout(function(){
 		id--;
 		 $(".progress_bar img[id='m_"+ id + "']").attr("src", "image/casegrise.png");
 		 id++;
-		 if ((id >= 30) && (id % 30 == 0))
+		 if ((id >= 30) && (id % 30 == 0) && vertic == false)
 			 {
+			 		vertic = true;
 				 $(".overflow_measure").scrollTo(scroll2, 1000, {axis:'x'});
 				 scroll2 += 830;
+			 }
+		 else
+			 {
+			 	vertic = false;
 			 }
 		 
 		 /*
@@ -291,8 +300,8 @@ $(document).ready(setTimeout(function(){
             $("#play").attr("src", "image/playerplay.png");
             $("#pause").attr("src", "image/playerpause.png");
             $(this).attr("src", "image/playerstop2.png");
-            $(".overflow_svg").scrollTo( 0, 1000, {axis:'y'});
-            $(".overflow_measure").scrollTo( 0, 1000, {axis:'x'});
+            $(".overflow_svg").scrollTo( 0, 500, {axis:'y'});
+            $(".overflow_measure").scrollTo( 0, 500, {axis:'x'});
             scroll = 280;
             sline = 0;
             if (selected != 1)
@@ -383,7 +392,9 @@ $(document).ready(setTimeout(function(){
         res = (((newscroll - 20) / 90) % 3);
         hasScrolled = true;
         ancient = newscroll;
-        $(".overflow_svg").scrollTo(newscroll-15, 1000, {axis:"y"});
+        newscroll = newscroll - 15;
+        console.log(newscroll);
+        $(".overflow_svg").scrollTo($($("rect[id='cursor_"+current_svg+"']"), svg_inst[current_svg].root()), 1000, {axis:"y"});
         
         /*
          *
