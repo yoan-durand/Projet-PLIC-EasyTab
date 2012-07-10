@@ -2,11 +2,20 @@
 exports.index = function(req, res){
 	if (forceLogin(req, res))
 		return;
+	var params = {
+		connected: req.session.connected
+	}
+	if (req.session.error) {
+		params.error = req.session.error;
+		delete req.session.error;
+	}
+	if (req.session.success) {
+		params.success = req.session.success;
+		delete req.session.success;
+	}
 	tablatureSearch(req, res, undefined, true, function(results){
-		res.render('index', {
-			pistes: results,
-			connected:req.session.connected
-		});
+		params.pistes = results;
+		res.render('index', params);
 	});
 };
 
@@ -40,13 +49,57 @@ exports.application = function(req, res){
 	});
 };
 
+exports.creerCompte = function(req, res) {
+	var params = {
+		connected: req.session.connected
+	}
+	if (req.session.error) {
+		params.error = req.session.error;
+		delete req.session.error;
+	}
+	if (req.session.success) {
+		params.success = req.session.success;
+		delete req.session.success;
+	}
+	res.render('creerCompte', params);
+}
+exports.creerComptePost = function(req, res) {
+	var pseudo = req.body.pseudo;
+	var password = req.body.password;
+	var confirmPassword = req.body.confirmPassword;
+	if (!pseudo || !password || !confirmPassword) {
+		// cancel connection
+		res.send();
+		return;
+	}
+	if (confirmPassword !== password) {
+		req.session.error = "Les deux mots de passe doivent être identiques.";
+		res.redirect(req.url);
+		return;
+	}
+	var now = (new Date()).getTime();
+	var encryptedPassword = encryptPassword(password, pseudo);
+	var client = mysql_connect();
+	client.query(
+		'insert `user` (dateInscription, login, password) values (?, ?, ?)',
+		[now, pseudo, encryptedPassword],
+		function(err){
+			client.end();
+			if (err) {
+				throw err;
+			}
+			req.session.success = 'Le compte "'+pseudo+'" a été créé avec succès.';
+			res.redirect('/');
+		});
+}
 exports.compte = function(req, res){
 	if (forceLogin(req, res))
 		return;
+	var dateInscription = new Date(parseInt(req.session.user.dateInscription));
 	var params = {
 		connected: req.session.connected,
 		pseudo : req.session.user.login,
-		dateInscription : req.session.user.dateInscription
+		dateInscription : dateInscription
 	}
 	if (req.session.error) {
 		params.error = req.session.error;
@@ -71,13 +124,12 @@ exports.comptePost = function(req, res){
 		req.session.error = "Les deux mots de passe doivent être identiques.";
 		res.redirect(req.url);
 	} else {
-		var config = require('./config');
-		var crypto = require('crypto');
-		var encryptedPassword = crypto.createHash('sha1').update(password+config.bdd.salt+req.session.user.login).digest('hex');
+		var encryptedPassword = encryptPassword(password, pseudo);
+		var userId = req.session.user.id;
 		var client = mysql_connect();
 		client.query(
 			'UPDATE `user` SET `password` = ? WHERE `user`.`id` = ?',
-			[encryptedPassword, req.session.user.id],
+			[encryptedPassword, userId],
 			function(err){
 				client.end();
 				if (err) {
@@ -98,7 +150,6 @@ exports.login = function(req, res){
 		});
 	});
 };
-
 exports.loginPost = function(req, res){
 	if (!req.body.login) {
 		return;
@@ -134,14 +185,12 @@ exports.loginPost = function(req, res){
 		}
 		);
 };
-
 exports.logout = function(req, res){
 	req.session.regenerate(function(e){
 		req.session.connected = false;
 		res.redirect('/');
 	});
 };
-
 function forceLogin(req, res) {
 	if (req.session.connected === true) {
 		return false;
@@ -152,17 +201,22 @@ function forceLogin(req, res) {
 		req.session.user = {
 			id: 1,
 			login: 'Admin',
-			dateInscription : '14 juillet 1789'
+			dateInscription : '-5694963725000'
 		};
 		return false;
 	}
 	//*/
+
 	var params = {
 		connected: req.session.connected
 	}
 	if (req.session.error) {
 		params.error = req.session.error;
 		delete req.session.error;
+	}
+	if (req.session.success) {
+		params.success = req.session.success;
+		delete req.session.success;
 	}
 	res.render('login', params);
 	req.session.redirect = req.url;
@@ -183,26 +237,6 @@ exports.midi = function(req, res) {
 		res.send(response.body);
 	});
 }
-
-exports.testP = function(req, res) {
-	var request = require('request');
-	var config = require('./config');
-	request.get({
-		url: 'http://localhost:'+config.PHP.port+'/Projet-PLIC-EasyTab/src/php/testP.php',
-		form:
-		{
-			encoded: req.body.encoded
-		}
-	}
-	, function (error, response, body)
-	{
-		if (error) {
-			throw error;
-		}
-		res.send(response);
-	});
-}
-
 
 exports.upload = function(req, res) {
 	if (forceLogin(req, res))
@@ -251,7 +285,6 @@ exports.tablatures = function(req, res) {
 		});
 	});
 }
-
 exports.tablaturesVisibility = function(req, res) {
 	if (forceLogin(req, res))
 		return;
@@ -285,7 +318,6 @@ exports.tablaturesVisibility = function(req, res) {
 			}
 		});
 }
-
 exports.tablaturesSuppression = function(req, res) {
 	if (forceLogin(req, res))
 		return;
@@ -366,4 +398,10 @@ function tablatureSearch(req, res, filter, publicOnly, callback) {
 			callback(results);
 		}
 		);
+}
+
+function encryptPassword(password, login) {
+	var config = require('./config');
+	var crypto = require('crypto');
+	return crypto.createHash('sha1').update(password+config.bdd.salt+login).digest('hex');
 }

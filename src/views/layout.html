@@ -3,19 +3,19 @@
     <head>
         <meta charset="utf-8" />
         <title>{% block title %}EasyTab{% endblock %}</title>
-        <link rel="stylesheet" href="css/global.css">
+        <link rel="stylesheet" href="/css/global.css">
         {% block head %}{% endblock %}
     </head>
     <body>
         <header>
-            <a href=".">Acceuil</a> |
-            <a href="tablatures">Mes tablatures</a> |
-            <a href="application">Easytab</a> |
-            <a href="compte">Mon compte</a> |
+            <a href="/">Acceuil</a> |
+            <a href="/tablatures">Mes tablatures</a> |
+            <a href="/application">Easytab</a> |
+            <a href="/compte">Mon compte</a> |
 			{% if connected %}
-            <a href="logout">Déconnexion</a>
+            <a href="/logout">Déconnexion</a>
 			{% else %}
-			<a href="login">Connexion</a>
+			<a href="/login">Connexion</a>
 			{% endif %}
         </header>
         {% block content %}{% endblock %}

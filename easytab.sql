@@ -3,8 +3,6 @@
 -- http://www.phpmyadmin.net
 --
 -- Client: localhost
-
--- Généré le: Lun 09 Juillet 2012 à 13:15
 -- Version du serveur: 5.5.20-log
 -- Version de PHP: 5.3.9
 
@@ -12,10 +10,10 @@ SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+02:00";
 
 
-
-
-
-
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
 
 --
 -- Base de données: `easytab`
@@ -39,7 +37,7 @@ CREATE TABLE IF NOT EXISTS `tablature` (
   `public` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `userId` (`userId`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=19 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=24 ;
 
 --
 -- Contenu de la table `tablature`
@@ -52,25 +50,23 @@ CREATE TABLE IF NOT EXISTS `tablature` (
 -- Structure de la table `user`
 --
 
-
-
 CREATE TABLE IF NOT EXISTS `user` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `dateInscription` int(11) NOT NULL,
+  `dateInscription` bigint(14) NOT NULL,
   `login` varchar(30) NOT NULL,
   `password` varchar(40) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `login` (`login`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=11 ;
 
 --
 -- Contenu de la table `user`
 --
 
 INSERT INTO `user` (`id`, `dateInscription`, `login`, `password`) VALUES
-(1, 1310656239, 'Admin', '3174685bb0ac5dfed704b7b41a5e44b713b759a1'),
-(2, 1341846639, 'Fab', '03b8b8d1ba64d7498760a6b5e6cf197335d62ad7'),
-(3, 1341846739, 'quidam', '279dc1e9d24616e6e4b553320688323cf8febf08');
+(1, -5694963725000, 'Admin', '3174685bb0ac5dfed704b7b41a5e44b713b759a1'),
+(2, 1341763667245, 'Fab', '03b8b8d1ba64d7498760a6b5e6cf197335d62ad7'),
+(3, 1341884838345, 'quidam', '279dc1e9d24616e6e4b553320688323cf8febf08');
 
 --
 -- Contraintes pour les tables exportées
@@ -82,6 +78,6 @@ INSERT INTO `user` (`id`, `dateInscription`, `login`, `password`) VALUES
 ALTER TABLE `tablature`
   ADD CONSTRAINT `tablature_ibfk_2` FOREIGN KEY (`userId`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
 
-
-
-
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

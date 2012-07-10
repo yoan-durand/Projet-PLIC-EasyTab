@@ -57,3 +57,15 @@ li:hover a {
 .ui-icon {
 	display: inline-block;
 }
+/* formulaire */
+#form .item {
+	padding: 10px;
+}
+
+#form .left {
+    float: left;
+}
+
+#form .right {
+    margin-left: 200px;
+}
