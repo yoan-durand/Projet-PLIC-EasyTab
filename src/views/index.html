@@ -1,4 +1,97 @@
 
 {% extends 'layout.html' %}
 
-{% block title %}Home Page{% endblock %}
+{% block title %}EasyTab{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="css/smoothness/jquery-ui-1.8.18.custom.css" />
+<link rel="stylesheet" href="css/site.css">
+<script src="js/jquery-1.7.1.js"></script>
+<script src="js/jquery-ui-1.8.18.custom.min.js"></script>
+<script src="js/jquery.contextmenu.r2.packed.js"></script>
+<script type="text/javascript">
+	function search(recherche) {
+		$.post('/search/'+recherche, function(data, textStatus) {
+			$('#trackList').empty();
+			for (var i = 0; i < data.length; ++i) {
+				$('#trackList').append('<li> <a href="application;'+data[i].nom+'.xml">'+data[i].nom
+					+'</a> <span id="trackInfos">'+data[i].titre+' - '+data[i].artiste+'</span></li>')
+			}
+		}, 'json');
+	}
+	$(function(){
+		// au double clic on ouvre la partition
+		$('#trackList > li').dblclick(function(e){
+			location.href = $('a', this).attr('href');
+		});
+		// recherche automatique dès qu'on lache une touche
+		$('#searchForm > input').keyup(function(e){
+			if (e.which == 27) {
+				$(this).val('');
+				search('');
+			} else {
+				search($(this).val());
+			}
+		});
+		// interception de l'appui sur la touche entrée pour rechercher sans changer de page
+		$('#searchForm').submit(function(e){
+			e.preventDefault();
+			var recherche = $('input', this).val();
+			search(recherche);
+		});
+		// activer le menu contextuel
+		var options = {
+			bindings: {
+				'ouvrir': function(t) {
+					location.href = $('a', t).attr('href');
+				}
+			},
+			menuStyle: {
+				width: '133px'
+			}
+		};
+		$('#trackList > li').contextMenu('menu1', options);
+	});
+</script>
+{% endblock %}
+
+{% block content %}
+<section id="container" class="center">
+	{% if success %}
+	<div class="ui-state-highlight ui-corner-all" style="padding: 0 .7em;">
+		<p>
+			<span class="ui-icon ui-icon-info" style="float: left; margin-right: .3em;"></span>
+			{{ success }}
+		</p>
+	</div>
+	{% endif %}
+	{% if error %}
+	<div class="ui-state-error ui-corner-all" style="padding: 0 .7em;">
+		<p>
+			<span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;"></span>
+			{{ error }}
+		</p>
+	</div>
+	{% endif %}
+	<div>
+		<form id="searchForm">
+			<input id="searchBox" placeholder="Rechercher...">
+		</form>
+		<h2>Derniers ajouts</h2>
+		<ul id="trackList">
+			{% for xml in pistes -%}
+			<li id="tab_{{xml.id}}">
+				<a href="application;{{ xml.nom }}.xml">{{ xml.nom }}</a> <span id="trackInfos">{{xml.titre}} - {{xml.artiste}}</span>
+			</li>
+			{%- endfor %}
+		</ul>
+	</div>
+</section>
+<div class="contextMenu" id="menu1">
+	<ul>
+		<li id="ouvrir">
+			<a>Ouvrir</a>
+		</li>
+	</ul>
+</div>
+{% endblock %}

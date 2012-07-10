@@ -112,9 +112,9 @@
 			}
 		}
 	}
+	mkdir('../public/midi');
 	$jsonResult = array(
-		'filename' => 'midi/'.md5($_POST['name'].'||'.$_POST['userId']).'.mid',
-		'debug' => $_POST['name'].'||'.$_POST['userId']
+		'filename' => 'midi/'.md5($_POST['name'].'||'.$_POST['userId']).'.mid'
 	);
 	require('classes/midi.class.php');
 	$monfichier = fopen('../public/js/log.txt', 'w+');

@@ -1,5 +1,6 @@
 /nbproject/
 /src/node_modules
-/src/public
-/src/upload
+/src/public/midi
+/src/public/upload
 .project
+/src/public/js/log.txt

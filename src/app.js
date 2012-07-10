@@ -57,6 +57,8 @@ app.configure('production', function(){
 
 app.get('/', routes.index);
 app.get('/application;?:tablature?', routes.application);
+app.get('/compte/creer', routes.creerCompte);
+app.post('/compte/creer', routes.creerComptePost);
 app.get('/compte', routes.compte);
 app.post('/compte', routes.comptePost);
 app.get('/login', routes.login);
@@ -64,8 +66,9 @@ app.post('/login', routes.loginPost);
 app.get('/logout', routes.logout);
 app.get('/midi', routes.midi);
 app.post('/midi', routes.midi);
-app.get('/testP', routes.testP);
 app.get('/tablatures', routes.tablatures);
+app.get('/tablatures/:id/visibility/:visibility', routes.tablaturesVisibility);
+app.get('/tablatures/:id/suppression', routes.tablaturesSuppression);
 app.post('/search/:search?', routes.search);
 app.get('/upload', routes.upload);
 app.post('/upload', routes.uploadPost);

@@ -428,7 +428,7 @@ $(document).ready(setTimeout(function(){
 		orientation: "horizontal",
 		step: 1,
 		slide: function (event, ui){
-			document.demo.SetVolume(ui.value);
+			document.demo.SetVolume(Math.floor(ui.value*1.27));
 			if (ui.value == 0){
 				if (!$("#speaker").hasClass("speakoff")){
 					$("#speaker").removeClass("speakon").addClass("speakoff");
@@ -442,8 +442,8 @@ $(document).ready(setTimeout(function(){
 	});
 	
 	$("#speaker").click(function (){
-		var ismute = document.demo.GetMute();
-		document.demo.SetMute(!ismute);
+		var ismute = !document.demo.GetMute();
+		document.demo.SetMute(ismute);
 		if (ismute){
 			$("#speaker").removeClass("speakon").addClass("speakoff");
 		}

@@ -8,6 +8,9 @@ exports.bdd = {
 exports.upload = {
 	dir: 'upload/'
 };
+exports.midi = {
+	dir: 'midi/'
+};
 exports.PHP = {
 	port: 80
 }
