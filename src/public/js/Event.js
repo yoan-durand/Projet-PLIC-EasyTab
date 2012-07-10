@@ -394,7 +394,7 @@ $(document).ready(setTimeout(function(){
         ancient = newscroll;
         newscroll = newscroll - 15;
         console.log(newscroll);
-        $(".overflow_svg").scrollTo($($("rect[id='cursor_"+current_svg+"']"), svg_inst[current_svg].root()), 1000, {axis:"y"});
+        //$(".overflow_svg").scrollTo($($("rect[id='cursor_"+current_svg+"']"), svg_inst[current_svg].root()), 1000, {axis:"y"});
         
         /*
          *
