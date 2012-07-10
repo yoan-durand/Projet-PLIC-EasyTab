@@ -89,15 +89,7 @@ $(document).ready(setTimeout(function(){
 		return (ms * 480) / ((60 / tempo) * 1000);
 	}
 
-        //variable pour le scroll
-			var ancient = 0;
-			 var hasScrolled  = false;
-			 var vertic = false;
-			 var res = 0;
-			 var scroll = 280;
-			 var scroll2 = 820;
-			 var onglet = false;
-       //------------------------------------          
+                
 
 	   
 	// TOUCHE ENTER PRESS
@@ -123,6 +115,16 @@ $(document).ready(setTimeout(function(){
 		}
 	});
 	   
+	//variable pour le scroll
+		var ancient = 0;
+		var hasScrolled  = false;
+		var vertic = false;
+		var ref = 0;
+		var scroll = 280;
+		var scroll2 = 820;
+		var onglet = false;
+	 //------------------------------------  
+	
 	function Animation_Play(index_m)
 	{
 		
@@ -131,24 +133,29 @@ $(document).ready(setTimeout(function(){
 		 * code de scroll
 		 * 
 		 */	
-		
-		
-		
 		if (onglet == true)
 			{
+				//récupération de la position courante du curseur.
 				scroll = ($("rect[id='cursor_" + current_svg + "']").attr("y"));	
 				scroll = parseInt(scroll);
-				console.log ("new scroll2 " + scroll);
-				$(".overflow_svg").scrollTo($("rect[id='cursor_" + current_svg + "']"), 1000, {axis:'y'});
+				$(".overflow_svg").scrollTo(scroll - 15, 1000, {axis:'y'});
+				
+				res = (((scroll - 20) / 90) % 3);
+				ancient = scroll;
+				//prochaine 
 				scroll += 265;
+				
+				
+				//mise a jour des valeur booléennes.
+				hasScrolled = true;
 				onglet = false;
 			}
-		 var test = ($("rect[id='cursor_" + current_svg + "']").attr("y") - 20);              
-         test = test / 90;
+		
+		 var test = ($("rect[id='cursor_" + current_svg + "']").attr("y") - 20) / 90;
          /*
          console.log("valeur de test/90 : " + test);
          */
-		 if (($("rect[id='cursor_" + current_svg + "']").attr("y") > 20) && (test % 3 == res) && (hasScrolled == false))
+		 if (($("rect[id='cursor_" + current_svg + "']").attr("y") > 20) && (test % 3 == ref) && (hasScrolled == false))
 		 {
 			hasScrolled = true;
 			ancient = $("rect[id='cursor_" + current_svg + "']").attr("y");
@@ -163,19 +170,19 @@ $(document).ready(setTimeout(function(){
 		{
 			hasScrolled = false;
 		}
-		var id = index_m + 1;
-		selected = id;
-		$(".progress_bar img[id='m_"+ id + "']").attr("src", "image/casebleue.png");
-		id--;
-		 $(".progress_bar img[id='m_"+ id + "']").attr("src", "image/casegrise.png");
-		 id++;
-		 if ((id >= 30) && (id % 30 == 0) && vertic == false)
+		
+		
+		$(".progress_bar img[id='m_"+ selected + "']").attr("src", "image/casebleue.png");
+		
+		 $(".progress_bar img[id='m_"+ parseInt(selected - 1) + "']").attr("src", "image/casegrise.png");
+		 
+		 if ((selected >= 30) && (selected % 30 == 0) && vertic == false)
 			 {
 			 		vertic = true;
 				 $(".overflow_measure").scrollTo(scroll2, 1000, {axis:'x'});
 				 scroll2 += 830;
 			 }
-		 else
+		 if (vertic == true && (selected % 30 != 0))
 			 {
 			 	vertic = false;
 			 }
@@ -379,28 +386,8 @@ $(document).ready(setTimeout(function(){
         current_svg = array[1];
         $($("rect[id='cursor_"+current_svg+"']"), svg_inst[current_svg].root()).attr("y", y);
         $($("rect[id='cursor_"+current_svg+"']"), svg_inst[current_svg].root()).attr("transform", transform);
-        $(".tab_svg #"+current_svg).css("display", "block");
-        
-        /*
-         * 
-         * morceau de code pour le scroll au changement d'onglet
-         * 
-         */
-       
-        var newscroll = $($("rect[id='cursor_"+current_svg+"']"), svg_inst[current_svg].root()).attr("y");
+        $(".tab_svg #"+current_svg).css("display", "block");   
         onglet = true;
-        res = (((newscroll - 20) / 90) % 3);
-        hasScrolled = true;
-        ancient = newscroll;
-        newscroll = newscroll - 15;
-        console.log(newscroll);
-        //$(".overflow_svg").scrollTo($($("rect[id='cursor_"+current_svg+"']"), svg_inst[current_svg].root()), 1000, {axis:"y"});
-        
-        /*
-         *
-         *Fin du code de scroll
-         *
-         **/
     });
 	var scrollTop = 0;
 	var lastScroll = 0;
