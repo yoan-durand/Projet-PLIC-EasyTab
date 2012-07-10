@@ -49,7 +49,7 @@ footer
 .header
 {
     height: 100px;
-    padding-right: 20px;
+    //padding-right: 20px;
 }
 
 .player_section
@@ -216,7 +216,7 @@ footer
 {
 	width: 100px;
 	position: absolute;
-	top: 60px;
+	top: 64px;
 	left: 600px;
 }
 .speakon

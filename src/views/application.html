@@ -118,98 +118,90 @@
                 $(".tab_svg").append("<section id='"+i+"' style='display: none;'></section>");
             }
             $(".tab_svg #"+i).svg({onLoad: function(svg)
-            {
-               svg_inst.push(svg);
-                //var height = 60 + Math.ceil((80 * (nb_measure / 4))) < 400 ? 400 : 60 + Math.ceil((80 * (nb_measure / 4)));
-               var height = 6000;
-               svg.rect(0, 0, 900, height, { fill: "white", stroke:"black", id: "part"});
-               try
-               {
-
-                  var part_height = DrawPartition (partition._instruments_list[i]._track_part._measure_list, svg, nb_corde);
-                  $(".tab_svg #"+i).css("height",part_height);
-                  $("rect[id='part']", svg.root()).attr("height", part_height);
-                  svg.rect(60, 20, 2, (nb_corde * 10 + 10), {id: "cursor_"+i, fill:"red"});
-               }
-               catch (err)
-               {
-                   writeInConsole (err.message + " line : " + err.stack);
-               }
-            }
-        });
+				{
+				   svg_inst.push(svg);
+				   svg.rect(0, 0, 900, 2000, { fill: "white", stroke:"black", id: "part"});
+				   try
+				   {
+					  var part_height = DrawPartition (partition._instruments_list[i]._track_part._measure_list, svg, nb_corde);
+					  $(".tab_svg #"+i).css("height",part_height);
+					  $("rect[id='part']", svg.root()).attr("height", part_height);
+					  svg.rect(60, 20, 2, (nb_corde * 10 + 10), {id: "cursor_"+i, fill:"red"});
+				   }
+				   catch (err)
+				   {
+					   writeInConsole (err.message + " line : " + err.stack);
+				   }
+				}
+			});
         }
 
-	$(".tab_svg").removeClass('tab_svg_loading');
+		$(".tab_svg").removeClass('tab_svg_loading');
 
         var division;
 
         function drawTAB (svg, y, nb_corde, indice_mesure)
         {
             if (indice_mesure == 0)
-                {
-                    svg.text(20, 45, "T");
-                    svg.text(20, 60, "A");
-                    svg.text(20, 75, "B");
+			{
+				svg.text(20, 45, "T");
+				svg.text(20, 60, "A");
+				svg.text(20, 75, "B");
 
-                }
+			}
             else
-                {
-                    svg.text(20, y + 15 , "T");
-                    svg.text(20, y+ 30 , "A");
-                    svg.text(20, y+ 45 , "B");
-                }
+			{
+				svg.text(20, y + 15 , "T");
+				svg.text(20, y+ 30 , "A");
+				svg.text(20, y+ 45 , "B");
+			}
         }
 
     $(".progress_bar img").click(function (){
         if ($(this).attr("src") != "image/casebleue.png")
         {
+			$("img[id^='m_']").each(function (i, v){
+				$(this).attr({"src" : "image/casegrise.png"});
+			})
             $(this).attr("src", "image/casebleue.png");
-            $("img[id='m_" + selected+ "']").attr("src", "image/casegrise.png");
             var id = $(this).attr("id");
-
             var array = id.split('_');
-
-             var index_mes = array[1] * 1;
-             $("img[id='m_"+selected+"']").attr("src", "image/casegrise.png");
-                $("img[id="+id+"]").attr("src", "image/casebleue.png");
-                selected = index_mes;
-				index_mes--;
-                var note = partition._instruments_list[current_svg]._track_part._measure_list[index_mes]._chord_list[0]._note_list[0];
-
-                $($("rect[id^='cursor']"), svg_inst[current_svg].root()).attr({"y":(note._posY-10), transform:"translate (" + (note._posX-60 + 2) +" 0)"});
-				document.demo.SetTime((MIDItoSecond(note._begin, $(".tempo").text())+350) * document.demo.GetTimeScale() / 1000);
+			var index_mes = array[1] * 1;
+			selected = index_mes;
+			var note = partition._instruments_list[current_svg]._track_part._measure_list[index_mes]._chord_list[0]._note_list[0];
+			$($("rect[id^='cursor']"), svg_inst[current_svg].root()).attr({"y":(note._posY-10), transform:"translate (" + (note._posX-60 + 2) +" 0)"});
+			document.demo.SetTime((MIDItoSecond(note._begin, $(".tempo").text())+350) * document.demo.GetTimeScale() / 1000);
         }
     });
 
     $($("rect[id^='n_'], text[id^='n_']"), svg_inst[current_svg].root()).click(function ()
     {
-            var id = $(this).attr("id");
-            var array = id.split('_');
-            var m = array[1]*1;
-            $("img[id='m_"+selected+"']").attr("src", "image/casegrise.png");
-            $("img[id='m_"+(m + 1)+"']").attr("src", "image/casebleue.png");
-            selected = m + 1;
-            var n = array[2];
-            var note = partition._instruments_list[current_svg]._track_part._measure_list[m]._chord_list[n]._note_list[0];
-            $($("rect[id^='cursor']"), svg_inst[current_svg].root()).attr({"y": (note._posY-10), transform:"translate("+(note._posX-60+2)+" 0)"});
+		var id = $(this).attr("id");
+		var array = id.split('_');
+		var m = array[1]*1;
+		$("img[id^='m_']").each(function (i, v){
+			$(this).attr({"src" : "image/casegrise.png"});
+		})
+		$("img[id='m_"+m+"']").attr("src", "image/casebleue.png");
+		selected = m;
+		var n = array[2];
+		var note = partition._instruments_list[current_svg]._track_part._measure_list[m]._chord_list[n]._note_list[0];
+		$($("rect[id^='cursor']"), svg_inst[current_svg].root()).attr({"y": (note._posY-10), transform:"translate("+(note._posX-60+2)+" 0)"});
 
-            if (note._posY >= 290)
-            {
-                $(".overflow_svg").scrollTo(280, 1000, {axis:'y'});
-            }
-            document.demo.SetTime((MIDItoSecond(note._begin, $(".tempo").text())+350) * document.demo.GetTimeScale() / 1000);
-        });
+		if (note._posY >= 290)
+		{
+			$(".overflow_svg").scrollTo(280, 1000, {axis:'y'});
+		}
+		document.demo.SetTime((MIDItoSecond(note._begin, $(".tempo").text())+350) * document.demo.GetTimeScale() / 1000);
+	});
 
         function MIDItoSecond(midi_time, tempo)
         {
-                return midi_time * ((60/ tempo) * 1000) / 480 ;
+			return midi_time * ((60/ tempo) * 1000) / 480 ;
         }
 
         $(".tempo").editable(
             function(value, settings) {
-                var tempo = value;
-                var beat = partition._instruments_list[0]._track_part._measure_list[0]._attributes._time_beat;
-                speed = (((beat * 4) * 60) / tempo) * 1000;
 				var ratio = Math.round(100*(parseFloat(value+".0")/parseFloat(cur_tempo+".0")))/100;
 				$(".speed").text("x "+ ratio);
 

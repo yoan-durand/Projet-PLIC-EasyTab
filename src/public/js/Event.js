@@ -1,16 +1,11 @@
-var selected = 1;
+var selected = 0;
 var nb_measure;
-var line = 0;
-var elapsed_time = 0;
-var time_func;
-var speed;
 
 $(document).ready(setTimeout(function(){
 
     nb_measure = partition._instruments_list[0]._track_part._measure_list.length;
     var g_tempo = partition._instruments_list[0]._track_part._measure_list[0]._sound_params._tempo;
     var beat = partition._instruments_list[0]._track_part._measure_list[0]._attributes._time_beat;
-    speed = (((beat * 4) * 60) / g_tempo) * 1000;
     measure(nb_measure);
     tracks(partition._instruments_list);
 
@@ -21,7 +16,6 @@ $(document).ready(setTimeout(function(){
         {
             javascript:document.demo.Stop();
             javascript:document.demo.SetTime(0);
-            //javascript:document.demo.Play();
             document.demo.SetRate($(".tempo").text()/cur_tempo);
             $(".overflow_svg").css("overflow-y", "hidden");
             $(".overflow_svg").scrollTo( 0, 1000, {axis:'y'});
@@ -29,33 +23,24 @@ $(document).ready(setTimeout(function(){
             $("#play").attr("src", "image/playerplay.png");
             $("#pause").attr("src", "image/playerpause.png");
             $("#stop").attr("src", "image/playerstop.png");
-            if (selected != 1)
+            if (selected != 0)
             {
-                $("img[id='m_" + selected+ "']").attr("src", "image/casegrise.png");
-                $("img[id='m_1']").attr("src", "image/casebleue.png");
-                selected = 1;
+                $("img[id^='m_']").each(function (i, v){
+					$(this).attr({"src" : "image/casegrise.png"});
+				});
+                $("img[id='m_0']").attr("src", "image/casebleue.png");
+                selected = 0;
             }
             setTimeout(function (){
                 $("#back").attr("src", "image/playerback.png");
             }, 500);
-            /*clearInterval(time_func);
-            elapsed_time = 0;
-            line = 0;
-            $($("rect[id='cursor_"+current_svg+"']"), svg_inst[current_svg].root()).stop();
-            $($("rect[id='cursor_"+current_svg+"']"), svg_inst[current_svg].root()).attr({"y": (20 + (80 * line))});
-            $($("rect[id='cursor_"+current_svg+"']"), svg_inst[current_svg].root()).animate({svgTransform: 'translate(0 0)'}, 0, 'linear');
-            $($("rect[id='cursor_"+current_svg+"']"), svg_inst[current_svg].root()).animate({svgTransform: 'translate(800 0)'}, speed - elapsed_time, 'linear', keep_playing);
-            time_func = setInterval(chronotime, 100);*/
-			Animation_Play(current_index);
+			Animation_Play(selected);
         }
     });
-
-	var current_index = 0;
 
     $("#play").click(function (){
         if ($(this).attr("src") == "image/playerplay.png")
         {
-			//javascript:document.demo.Play();
         	//bloquage du scroll utilisateur
         	$(".overflow_svg").css("overflow-y", "hidden");
         	//-------
@@ -64,12 +49,7 @@ $(document).ready(setTimeout(function(){
             $(this).attr("src", "image/playerplay2.png");
             $("#pause").attr("src", "image/playerpause.png");
             $("#stop").attr("src", "image/playerstop.png");
-			/*setTimeout(function () {
-				$($("rect[id='cursor_"+current_svg+"']"), svg_inst[current_svg].root()).animate({svgTransform: 'translate(820 0)'}, speed - elapsed_time, 'linear', keep_playing);
-			}, 500);*/
-                  /*      alert (MIDItoSecond(314880, g_tempo));
-            alert (document.demo.GetDuration() / document.demo.GetTimeScale() * 1000);*/
-		Animation_Play(current_index);
+			Animation_Play(selected);
 		}
     });
 
@@ -266,22 +246,6 @@ $(document).ready(setTimeout(function(){
 		$($("rect[id='cursor_"+current_svg+"']"), svg_inst[current_svg].root()).animate({svgTransform: 'translate(' + xbis + ' 0)'}, 0, 'linear');
 	}
 
-    function keep_playing(){
-        line++;
-        elapsed_time = 0;
-        if (line < (nb_measure / 4))
-        {
-            $($("rect[id='cursor_"+current_svg+"']"), svg_inst[current_svg].root()).attr({"y": (30 + (80 * line))});
-            $($("rect[id='cursor_"+current_svg+"']"), svg_inst[current_svg].root()).animate({svgTransform: 'translate(0 0)'}, 0, 'linear');
-            $($("rect[id='cursor_"+current_svg+"']"), svg_inst[current_svg].root()).animate({svgTransform: 'translate(800 0)'}, speed - elapsed_time, 'linear', keep_playing);
-        }
-    };
-
-    function chronotime()
-    {
-        elapsed_time += 100;
-    }
-
     $("#pause").click(function (){
         if ($(this).attr("src") == "image/playerpause.png")
         {
@@ -290,7 +254,6 @@ $(document).ready(setTimeout(function(){
             $("#play").attr("src", "image/playerplay.png");
             $(this).attr("src", "image/playerpause2.png");
             $("#stop").attr("src", "image/playerstop.png");
-            clearInterval(time_func);
             $($("rect[id='cursor_"+current_svg+"']"), svg_inst[current_svg].root()).stop();
             $(".overflow_svg").css("overflow-y", "auto");
         }
@@ -320,12 +283,6 @@ $(document).ready(setTimeout(function(){
             setTimeout(function (){
                 $("#stop").attr("src", "image/playerstop.png");
             }, 500);
-            clearInterval(time_func);
-            elapsed_time = 0;
-            line = 0;
-            $($("rect[id='cursor_"+current_svg+"']"), svg_inst[current_svg].root()).stop();
-            $($("rect[id='cursor_"+current_svg+"']"), svg_inst[current_svg].root()).attr({"y": (20 + (80 * line))});
-            $($("rect[id='cursor_"+current_svg+"']"), svg_inst[current_svg].root()).animate({svgTransform: 'translate(0 0)'}, 0, 'linear');
         }
     });
 
@@ -333,17 +290,17 @@ $(document).ready(setTimeout(function(){
 
     function measure(i)
     {
-        for (var j = 1; j <= i; j++)
+        for (var j = 0; j <= i; j++)
         {
-            if (j == 1)
+            if (j == 0)
             {
                 $(".progress_bar tr:first-child").append("<td><img id='m_" + j + "' src='image/casebleue.png' /></td>");
-                $(".progress_bar tr:nth-child(2)").append("<td>" + j + "</td>");
+                $(".progress_bar tr:nth-child(2)").append("<td>" + (j+1) + "</td>");
             }
             else
             {
                 $(".progress_bar tr:first-child").append("<td><img id='m_" + j + "' src='image/casegrise.png' /></td>");
-                $(".progress_bar tr:nth-child(2)").append("<td>" + j + "</td>");
+                $(".progress_bar tr:nth-child(2)").append("<td>" + (j+1) + "</td>");
             }
         }
     }
