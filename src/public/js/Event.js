@@ -122,6 +122,7 @@ $(document).ready(setTimeout(function(){
 				
 				res = (((scroll - 20) / 90) % 3);
 				ancient = scroll;
+				
 				//prochaine 
 				scroll += 265;
 				
