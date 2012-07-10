@@ -152,9 +152,11 @@ $(document).ready(setTimeout(function(){
 		}
 		
 		
-		$(".progress_bar img[id='m_"+ selected + "']").attr("src", "image/casebleue.png");
+		$("img[id^='m_']").each(function (i, v){
+			$(this).attr({"src" : "image/casegrise.png"});
+		})
 		
-		 $(".progress_bar img[id='m_"+ parseInt(selected - 1) + "']").attr("src", "image/casegrise.png");
+		$(".progress_bar img[id='m_"+ selected + "']").attr("src", "image/casebleue.png");
 		 
 		 if ((selected >= 30) && (selected % 30 == 0) && vertic == false)
 			 {
@@ -274,11 +276,11 @@ $(document).ready(setTimeout(function(){
             $(".overflow_measure").scrollTo( 0, 500, {axis:'x'});
             scroll = 280;
             sline = 0;
-            if (selected != 1)
+            if (selected != 0)
             {
                 $("img[id='m_" + selected+ "']").attr("src", "image/casegrise.png");
-                $("img[id='m_1']").attr("src", "image/casebleue.png");
-                selected = 1;
+                $("img[id='m_0']").attr("src", "image/casebleue.png");
+                selected = 0;
             }
             setTimeout(function (){
                 $("#stop").attr("src", "image/playerstop.png");
