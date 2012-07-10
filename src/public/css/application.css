@@ -237,3 +237,15 @@ footer
   	height:16px;
   	background:url("smoothness/images/ui-icons_454545_256x240.png") -129px -160px no-repeat;
 }
+.ui-slider .ui-slider-handle
+{
+	position: absolute;
+	z-index: 2;
+	width: 1em;
+	height: 1em;
+	cursor: default;
+}
+.ui-slider-horizontal
+{
+	height: 0.5em;
+}
