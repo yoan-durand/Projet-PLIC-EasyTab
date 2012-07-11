@@ -190,7 +190,7 @@ $(document).ready(setTimeout(function(){
 		 */	
 		if (onglet == true)
 		{
-			//récupération de la position courante du curseur.
+			//rï¿½cupï¿½ration de la position courante du curseur.
 			scroll = ($("rect[id='cursor_" + current_svg + "']").attr("y"));	
 			scroll = parseInt(scroll);
 			$(".overflow_svg").scrollTo(scroll - 15, 1000, {axis:'y'});
@@ -201,7 +201,7 @@ $(document).ready(setTimeout(function(){
 			scroll += 265;
 			
 			
-			//mise a jour des valeur booléennes.
+			//mise a jour des valeur boolï¿½ennes.
 			hasScrolled = true;
 			onglet = false;
 		}
@@ -216,7 +216,7 @@ $(document).ready(setTimeout(function(){
 			hasScrolled = true;
 			ancient = $("rect[id='cursor_" + current_svg + "']").attr("y");
 			console.log ("va a posiiton : " + scroll);
-			$(".overflow_svg").scrollTo (scroll, 1500, {axis:'y'});
+			$(".overflow_svg").scrollTo ($("rect[id='cursor_" + current_svg + "']").attr("y") - 10, 1500, {axis:'y'});
 			
 			scroll = scroll + 270;	
 			console.log ("prochaine posiiton : " + scroll);
