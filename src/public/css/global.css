@@ -7,17 +7,41 @@ body {
 }
 header {
 	position: relative;
-	z-index: 3;
+	z-index: 4;
     background-image: -webkit-linear-gradient( rgba(242, 242, 242, 0.9), rgba(222, 222, 222, 0.9));
     height: 25px;
     padding-left: 50px;
     text-align: center;
 }
+/* décoration des liens */
 header > a {
     padding-left: 30px;
     padding-right: 30px;
 }
+a {
+	text-decoration: none;
+	color: #006;
+}
+a:hover,
+li:hover a {
+	color: brown;
+}
 .center {
     margin-left: auto;
     margin-right: auto;
+}
+/* splash message -> liste des tablatures */
+#trackInfos {
+	float: right;
+}
+#trackList {
+	list-style-type: none;
+	padding-left: 0;
+	text-align: left;
+}
+#trackList > li {
+	line-height: 2em;
+}
+#trackList li:hover {
+	background-color: rgba(255, 255, 255, 0.3);
 }

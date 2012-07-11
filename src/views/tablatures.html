@@ -14,7 +14,7 @@
 		$.post('/search/'+recherche, function(data, textStatus) {
 			$('#trackList').empty();
 			for (var i = 0; i < data.length; ++i) {
-				var html = '<li><span class="ui-icon ui-icon-'+(data[i].public?'un':'')+'locked" title="'+(data[i].public?'public':'privé')
+				var html = '<li id="tab_'+data[i].id+'"><span class="ui-icon ui-icon-'+(data[i].public?'un':'')+'locked" title="'+(data[i].public?'public':'privé')
 					+'"></span><a href="application;'+data[i].nom+'.xml">'+data[i].nom
 					+'</a> <span id="trackInfos">'+data[i].titre+' - '+data[i].artiste+'</span></li>'
 				$('#trackList').append(html)

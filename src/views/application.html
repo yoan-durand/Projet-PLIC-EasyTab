@@ -6,6 +6,7 @@
         <link rel="stylesheet" href="css/application.css" />
         <script src="js/jquery-1.7.1.js"></script>
         <script src="js/jquery-ui-1.8.18.custom.min.js"></script>
+        <script src="js/jquery.hotkeys.js"></script>
 		<script src="js/ScrollTo.js"></script>
         <script src="js/jeditable.mini.js"></script>
         <script src="js/json2.js"></script>
@@ -103,6 +104,8 @@
 	var cur_tempo;
 
     $(document).ready (setTimeout(function(){
+		var application = new Application();
+		application.bindKeys();
         $(".tempo").text(partition._instruments_list[0]._track_part._measure_list[0]._sound_params._tempo);
 		cur_tempo = $(".tempo").text()*1;
 
@@ -213,10 +216,9 @@
 			}
 		);
 
-		var application = new Application();
 		if (config.midiPath) {
 			application.appendMidiPlayer(config.midiPath);
-			application.hideSplashScreen();
+			application.hideSplashScreen('slow');
 		} else {
          $.ajax({
             type: "POST",
@@ -234,7 +236,7 @@
 					console.error("La page midi n'a pas renvoyé de JSON : ", {texte:data});
 				}
 				application.appendMidiPlayer(data.filename);
-				application.hideSplashScreen();
+				application.hideSplashScreen('slow');
 				console.log('application');
             },
             error: function (xhr, status, err) {
@@ -243,6 +245,6 @@
         });
 		}
     }, 1000));
-	console.time(1);
+	console.time('temps de chargement');
 </script>
 {% endblock %}

@@ -285,6 +285,13 @@ exports.tablatures = function(req, res) {
 		});
 	});
 }
+exports.getTablatures = function(req, res) {
+	if (forceLogin(req, res))
+		return;
+	tablatureSearch(req, res, undefined, true, function(results){
+		res.send(JSON.stringify(results));
+	});
+}
 exports.tablaturesVisibility = function(req, res) {
 	if (forceLogin(req, res))
 		return;

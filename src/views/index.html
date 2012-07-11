@@ -14,7 +14,7 @@
 		$.post('/search/'+recherche, function(data, textStatus) {
 			$('#trackList').empty();
 			for (var i = 0; i < data.length; ++i) {
-				$('#trackList').append('<li> <a href="application;'+data[i].nom+'.xml">'+data[i].nom
+				$('#trackList').append('<li id="tab_'+data[i].id+'"> <a href="application;'+data[i].nom+'.xml">'+data[i].nom
 					+'</a> <span id="trackInfos">'+data[i].titre+' - '+data[i].artiste+'</span></li>')
 			}
 		}, 'json');

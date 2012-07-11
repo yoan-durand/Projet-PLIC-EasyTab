@@ -67,6 +67,7 @@ app.get('/logout', routes.logout);
 app.get('/midi', routes.midi);
 app.post('/midi', routes.midi);
 app.get('/tablatures', routes.tablatures);
+app.get('/tablatures/get/:type', routes.getTablatures);
 app.get('/tablatures/:id/visibility/:visibility', routes.tablaturesVisibility);
 app.get('/tablatures/:id/suppression', routes.tablaturesSuppression);
 app.post('/search/:search?', routes.search);
