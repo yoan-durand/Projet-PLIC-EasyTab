@@ -81,8 +81,7 @@
 		<ul id="trackList">
 			{% for xml in pistes -%}
 			<li id="tab_{{xml.id}}">
-				<a href="application;{{ xml.nom }}.xml">{{ xml.nom }}</a> <span id="trackInfos">{{xml.titre}} - {{xml.artiste}}</span>
-			</li>
+				<a href="application;{{ xml.nom }}.xml">{{xml.titre}} - {{xml.artiste}}</a>
 			{%- endfor %}
 		</ul>
 	</div>
