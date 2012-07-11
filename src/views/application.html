@@ -174,6 +174,11 @@
 			var note = partition._instruments_list[current_svg]._track_part._measure_list[index_mes]._chord_list[0]._note_list[0];
 			$($("rect[id^='cursor']"), svg_inst[current_svg].root()).attr({"y":(note._posY-10), transform:"translate (" + (note._posX-60 + 2) +" 0)"});
 			document.demo.SetTime((MIDItoSecond(note._begin, $(".tempo").text())+350) * document.demo.GetTimeScale() / 1000);
+           ref = ((($($("rect[id^='cursor']"), svg_inst[current_svg].root()).attr("y")-20)/90)%3);
+           if (note._posY >= 290)
+		{
+			$(".overflow_svg").scrollTo($($("rect[id^='cursor']"), svg_inst[current_svg].root()).attr("y")-10, 1000, {axis:'y'}); //Ne pas décommenter
+		}
         }
     });
 

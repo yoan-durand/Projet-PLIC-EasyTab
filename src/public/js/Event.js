@@ -44,6 +44,7 @@ $(document).ready(setTimeout(function(){
         {
         	//bloquage du scroll utilisateur
         	$(".overflow_svg").css("overflow-y", "hidden");
+                $(".overflow_measure").css("overflow-x", "hidden");
         	//-------
             document.demo.SetRate($(".tempo").text()/cur_tempo);
 			$("#back").attr("src", "image/playerback.png");
@@ -261,6 +262,7 @@ $(document).ready(setTimeout(function(){
             $("#stop").attr("src", "image/playerstop.png");
             $($("rect[id='cursor_"+current_svg+"']"), svg_inst[current_svg].root()).stop();
             $(".overflow_svg").css("overflow-y", "auto");
+            $(".overflow_measure").css("overflow-x", "auto");
         }
     });
 
@@ -271,6 +273,7 @@ $(document).ready(setTimeout(function(){
             javascript:document.demo.Stop();
             javascript:document.demo.SetTime(0);
             $(".overflow_svg").css("overflow-y", "auto");
+            $(".overflow_measure").css("overflow-x", "auto");
             $("#back").attr("src", "image/playerback.png");
             $("#play").attr("src", "image/playerplay.png");
             $("#pause").attr("src", "image/playerpause.png");
