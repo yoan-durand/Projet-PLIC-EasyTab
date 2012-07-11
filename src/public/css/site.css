@@ -15,28 +15,10 @@
     /*font-size: 1.2em;*/
     padding: 7px 14px;
 }
-a {
-	text-decoration: none;
-	color: #006;
-}
-a:hover,
-li:hover a {
-	color: brown;
-}
 .ui-state-hover, .ui-widget-content .ui-state-hover, .ui-widget-header .ui-state-hover, .ui-state-focus, .ui-widget-content .ui-state-focus, .ui-widget-header .ui-state-focus {
 	color: brown;
 }
 /* tablatures */
-#trackList {
-	list-style-type: none;
-	padding-left: 0;
-}
-#trackList > li {
-	line-height: 2em;
-}
-#trackList li:hover {
-	background-color: rgba(255, 255, 255, 0.3);
-}
 #uploadLink > button {
 	color: darkgrey;
 	cursor: pointer;
@@ -44,8 +26,7 @@ li:hover a {
 #uploadLink:hover > button {
 	color: brown;
 }
-#searchBox,
-#trackInfos {
+#searchBox {
 	float: right;
 }
 #uploadLink > button.ui-button-text-only .ui-button-text {

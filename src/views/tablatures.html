@@ -14,9 +14,9 @@
 		$.post('/search/'+recherche, function(data, textStatus) {
 			$('#trackList').empty();
 			for (var i = 0; i < data.length; ++i) {
-				var html = '<li><span class="ui-icon ui-icon-'+(data[i].public?'un':'')+'locked" title="'+(data[i].public?'public':'privé')
-					+'"></span><a href="application;'+data[i].nom+'.xml">'+data[i].nom
-					+'</a> <span id="trackInfos">'+data[i].titre+' - '+data[i].artiste+'</span></li>'
+				var html = '<li id="tab_'+data[i].id+'"><span class="ui-icon ui-icon-'+(data[i].public?'un':'')+'locked" title="'+(data[i].public?'public':'privé')
+					+'"></span><a href="application;'+data[i].nom+'.xml">'+data[i].titre + ' - ' + data[i].artiste
+					+'</a></li>'
 				$('#trackList').append(html)
 			}
 		}, 'json');
@@ -88,7 +88,7 @@
 				{% else %}
 			<li id="tab_{{xml.id}}" class="private"><span class="ui-icon ui-icon-locked" title="privé"></span>
 				{% endif %}
-				<a href="application;{{ xml.nom }}.xml">{{ xml.nom }}</a> <span id="trackInfos">{{xml.titre}} - {{xml.artiste}}</span>
+				<a href="application;{{ xml.nom }}.xml">{{ xml.titre}} - {{xml.artiste}}</a>
 			</li>
 			{%- endfor %}
 		</ul>

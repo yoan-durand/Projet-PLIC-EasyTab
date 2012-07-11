@@ -14,8 +14,7 @@
 		$.post('/search/'+recherche, function(data, textStatus) {
 			$('#trackList').empty();
 			for (var i = 0; i < data.length; ++i) {
-				$('#trackList').append('<li> <a href="application;'+data[i].nom+'.xml">'+data[i].nom
-					+'</a> <span id="trackInfos">'+data[i].titre+' - '+data[i].artiste+'</span></li>')
+				$('#trackList').append('<li id="tab_'+data[i].id+'"> <a href="application;'+data[i].nom+'.xml">'+ data[i].titre+' - '+data[i].artiste+'</a> ')
 			}
 		}, 'json');
 	}
@@ -81,8 +80,7 @@
 		<ul id="trackList">
 			{% for xml in pistes -%}
 			<li id="tab_{{xml.id}}">
-				<a href="application;{{ xml.nom }}.xml">{{ xml.nom }}</a> <span id="trackInfos">{{xml.titre}} - {{xml.artiste}}</span>
-			</li>
+				<a href="application;{{ xml.nom }}.xml">{{xml.titre}} - {{xml.artiste}}</a>
 			{%- endfor %}
 		</ul>
 	</div>

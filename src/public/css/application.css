@@ -124,7 +124,7 @@ footer
 .onglets_selected
 {
 	background: white url("../image/bouton_white_underline new.png") no-repeat center bottom;
-	
+
     color: black;
 }
 
@@ -201,12 +201,12 @@ footer
 	width: 100%;
 	top: 0;
 	left: 0;
+	z-index: 3;
 }
 #splashMessage {
 	margin: 200px auto;
 	width: 300px;
 	position: relative;
-	z-index: 3;
 	padding: 20px;
 	background-image: -webkit-linear-gradient(rgba(242, 242, 242, 0.9), rgba(222, 222, 222, 0.9));
 	border: black 1px solid;
