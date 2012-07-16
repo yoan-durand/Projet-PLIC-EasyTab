@@ -104,7 +104,6 @@ $(document).ready(setTimeout(function(){
 	var vertic = false;
 	var ref = 0;
 	var scroll = 280;
-	var scroll2 = 820;
 	var onglet = false;
 	//------------------------------------  
 	
@@ -217,10 +216,7 @@ $(document).ready(setTimeout(function(){
 			hasScrolled = true;
 			ancient = $("rect[id='cursor_" + current_svg + "']").attr("y");
 			console.log ("va a posiiton : " + scroll);
-			$(".overflow_svg").scrollTo ($("rect[id='cursor_" + current_svg + "']").attr("y") - 10, 1500, {axis:'y'});
-			
-			scroll = scroll + 270;	
-			console.log ("prochaine posiiton : " + scroll);
+			$(".overflow_svg").scrollTo ($("rect[id='cursor_" + current_svg + "']").attr("y") - 10, 1000, {axis:'y'});
 		}
 	
 		if (ancient != ($("rect[id='cursor_" + current_svg + "']").attr("y")) && (hasScrolled == true))
@@ -237,8 +233,7 @@ $(document).ready(setTimeout(function(){
 		if ((selected >= 30) && (selected % 30 == 0) && vertic == false)
 		{
 			vertic = true;
-			$(".overflow_measure").scrollTo(scroll2, 1000, {axis:'x'});
-			scroll2 += 830;
+			$(".overflow_measure").scrollTo("img[id='m_"+ selected + "']", 1000, {axis:'x'});
 		}
 		if (vertic == true && (selected % 30 != 0))
 		{
