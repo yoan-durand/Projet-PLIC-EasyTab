@@ -42,17 +42,21 @@ function DrawPartition(mesures, svg, nb_cordes)
     }
     // On traite la derniere mesure
     var end_chord_list = mesures[mesures.length - 1]._chord_list;
-    var deltaMin = search_min_note(end_chord_list);
-    if (end_chord_list[end_chord_list.length -1] != null) //
+    if (end_chord_list != null)
     {
-        var end_note = end_chord_list[end_chord_list.length -1]._note_list[0];
-        var Xend = end_note._posX + getPixelLentgh (end_note, deltaMin, 1); // Position de la fin de la derniere mesure qui rentre sur la ligne
-        var coef = (MaxWidth  - Xend) / (Xend - left_marge ); // Permet de décaler la position de toutes les notes afin d'occuper tout l'espace restant
-       // alert (coef);
-        Optimize(context,file_mesures, coef); // Permet de décaler toutes les positions en X des notes qui rentre sur une même ligne
-        DrawOneLine(context,file_mesures, Yline); // On dessine la ligne entiere (rectangles de selection, lignes et mesures)
-        
-        Yline += 90;
+
+        var deltaMin = search_min_note(end_chord_list);
+        if (end_chord_list[end_chord_list.length -1] != null) //
+        {
+            var end_note = end_chord_list[end_chord_list.length -1]._note_list[0];
+            var Xend = end_note._posX + getPixelLentgh (end_note, deltaMin, 1); // Position de la fin de la derniere mesure qui rentre sur la ligne
+            var coef = (MaxWidth  - Xend) / (Xend - left_marge ); // Permet de décaler la position de toutes les notes afin d'occuper tout l'espace restant
+        // alert (coef);
+            Optimize(context,file_mesures, coef); // Permet de décaler toutes les positions en X des notes qui rentre sur une même ligne
+            DrawOneLine(context,file_mesures, Yline); // On dessine la ligne entiere (rectangles de selection, lignes et mesures)
+
+            Yline += 90;
+        }
     }
     return (Yline+90);
 }
@@ -65,6 +69,7 @@ function getPixelLentgh (note, deltaMin ,coef)
     
     try
     {
+
         var first_duration = get_first_duration (note._duration/480);
         var first_distance = ConvertNote[deltaMin][first_duration];
         try
@@ -75,12 +80,14 @@ function getPixelLentgh (note, deltaMin ,coef)
         }
         catch (e)
         {
-            writeInConsole ("Error:deltaMin=" + deltaMin + " secondduration=" + first_duration);
+            writeInConsole ("Error:deltaMin=" + deltaMin + " secondduration=" + second_duration);
+            return first_duration;
         }
     }
     catch (e)
     {
             writeInConsole ("Error:deltaMin=" + deltaMin + " firstduration=" + first_duration);
+            return first_duration;
     }
 }
     
@@ -89,6 +96,10 @@ function SetX(mesure, x, coef, posY)
 {
     
     var deltaMin = search_min_note(mesure._chord_list); // On recherche la note qui a le temps le plus petit
+            if (deltaMin == 0)
+            {
+                writeInConsole ("Bite");
+            }
     (is_wrong_value(deltaMin));
     var chords = mesure._chord_list;
     for (var i = 0; i < chords.length; i++, posY)
