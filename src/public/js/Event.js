@@ -418,21 +418,34 @@ $(document).ready(setTimeout(function(){
 	 * 
 	 */
 
-	var progress_scroll = 0;
+	var progress_scroll = selected ;
 	
 	$(".left").click(function ()
 	{
-		if (progress_scroll - 30 >= 0)
+		if (selected > progress_scroll)
+			{
+				progress_scroll = selected;
+			}
+		
+		if (progress_scroll - 1 > 0)
 		{
-			progress_scroll -= 30;
+			progress_scroll -= 1;
 		}
-		$(".bar").scrollTo(progress_scroll, 250, {axis:"x"});
+		
+		
+		
+		$(".bar").scrollTo($(".bar img[id='m_"+progress_scroll+"']"), 250, {axis:"x"});
 	});
 	
 	$(".right").click(function ()
 	{	
-		progress_scroll +=30;
-		$(".bar").scrollTo(progress_scroll, 250, {axis:"x"});
+		if (selected > progress_scroll)
+		{
+			progress_scroll = selected;
+		}
+		
+		progress_scroll +=1;
+		$(".bar").scrollTo($(".bar img[id='m_"+progress_scroll+"']"), 250, {axis:"x"});
 	});
 	
 	console.log('event');
