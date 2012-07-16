@@ -66,7 +66,7 @@ header
 
 .player
 {
-    height: 50%;
+    margin: 0 44px;
 }
 
 #play,#stop,#back,#pause
@@ -79,7 +79,12 @@ header
 
 .player_options
 {
-    height: 50%;
+    margin-left: 50px;
+}
+
+.options
+{
+	margin-left: 20px;
 }
 
 .player_options section:first-child
@@ -245,16 +250,19 @@ header
 #volume
 {
 	width: 100px;
-
+	margin-top: 11px;
+	margin-right: 40px;
 }
 .speakon
 {
+	margin-top: 8px;
 	width:16px;
   	height:16px;
   	background:url("smoothness/images/ui-icons_454545_256x240.png") -144px -160px no-repeat;
 }
 .speakoff
 {
+	margin-top: 8px;
 	width:16px;
   	height:16px;
   	background:url("smoothness/images/ui-icons_454545_256x240.png") -129px -160px no-repeat;
