@@ -233,7 +233,7 @@ $(document).ready(setTimeout(function(){
 		if ((selected >= 30) && (selected % 30 == 0) && vertic == false)
 		{
 			vertic = true;
-			$(".overflow_measure").scrollTo("img[id='m_"+ selected + "']", 1000, {axis:'x'});
+			$(".bar").scrollTo("img[id='m_"+ selected + "']", 1000, {axis:'x'});
 		}
 		if (vertic == true && (selected % 30 != 0))
 		{
@@ -412,5 +412,30 @@ $(document).ready(setTimeout(function(){
 		}
 	});
 	
+	/*
+	 * 
+	 * scoll sur la bar de progression avec click sur les fleches.
+	 * 
+	 */
+
+	var progress_scroll = 0;
+	
+	$(".left").click(function ()
+	{
+		if (progress_scroll - 30 >= 0)
+		{
+			progress_scroll -= 30;
+		}
+		$(".bar").scrollTo(progress_scroll, 250, {axis:"x"});
+	});
+	
+	$(".right").click(function ()
+	{	
+		progress_scroll +=30;
+		$(".bar").scrollTo(progress_scroll, 250, {axis:"x"});
+	});
+	
 	console.log('event');
 }, 1000));
+
+	

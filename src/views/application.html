@@ -74,14 +74,23 @@
                 </section>
 				<section class="clear"></section>
 				<section id="footer">
-					<div class="progress_bar overflow_measure float-right">
-						<table>
-							<tr>
-							</tr>
-							<tr>
-							</tr>
-						</table>
+					
+					<div class="progress_bar float-right">
+						<ul>
+						<li><img class="left" src="image/Fleche_gauche.png" /></li>	
+						<li class="bar">
+							<table>
+								<tr>
+								</tr>
+								<tr>
+								</tr>
+							</table></li>
+						<li>
+						<img class="right" src="image/Fleche_droite.png" />
+						</li>
+						</ul>
 					</div>
+					
 					<div class="clear"></div>
 				</section>
         </section>
@@ -155,7 +164,7 @@
 			}
         }
 
-    $(".progress_bar img").click(function (){
+    $(".progress_bar .bar img").click(function (){
         if ($(this).attr("src") != "image/casebleue.png")
         {
 			$("img[id^='m_']").each(function (i, v){
@@ -170,11 +179,10 @@
 			$($("rect[id^='cursor']"), svg_inst[current_svg].root()).attr({"y":(note._posY-10), transform:"translate (" + (note._posX-60 + 2) +" 0)"});
 			document.demo.SetTime((MIDItoSecond(note._begin, $(".tempo").text())+350) * document.demo.GetTimeScale() / 1000);
            ref = ((($($("rect[id^='cursor']"), svg_inst[current_svg].root()).attr("y")-20)/90)%3);
-	        if (note._posY >= 290)
-			{
+	       
 				$(".overflow_svg").scrollTo($($("rect[id^='cursor']"), svg_inst[current_svg].root()).attr("y")-10, 1000, {axis:'y'}); //Ne pas décommenter
-				$(".overflow_measure").scrollTo($($("img[id^='m_"+index_mes+"']"), svg_inst[current_svg].root()), 1000, {axis:'x'});
-			}
+				$(".bar").scrollTo($($(".bar img[id^='m_"+index_mes+"']"), svg_inst[current_svg].root()), 1000, {axis:'x'});
+			
         }
     });
 
@@ -192,11 +200,10 @@
 		var note = partition._instruments_list[current_svg]._track_part._measure_list[m]._chord_list[n]._note_list[0];
 		$($("rect[id^='cursor']"), svg_inst[current_svg].root()).attr({"y": (note._posY-10), transform:"translate("+(note._posX-60+2)+" 0)"});
 		ref = ((($($("rect[id^='cursor']"), svg_inst[current_svg].root()).attr("y") - 20) / 90)%3);
-		if (note._posY >= 290)
-		{
+		
 			$(".overflow_svg").scrollTo($($("rect[id^='cursor']"), svg_inst[current_svg].root()).attr("y")-10, 1000, {axis:'y'}); 
-			$(".overflow_measure").scrollTo($($("img[id='m_"+selected+"']"), svg_inst[current_svg].root()), 1000, {axis:'x'});
-		}
+			$(".bar").scrollTo($($(".bar img[id='m_"+selected+"']"), svg_inst[current_svg].root()), 1000, {axis:'x'});
+		
                 
 		document.demo.SetTime((MIDItoSecond(note._begin, $(".tempo").text())+350) * document.demo.GetTimeScale() / 1000);
 	});
