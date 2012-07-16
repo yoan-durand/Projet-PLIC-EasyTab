@@ -6,6 +6,15 @@
         Purpose of the stylesheet follows.
 */
 
+/* reset */
+
+ul, li
+{
+	margin:0px;
+	padding:0px;
+	list-style-type:none;
+}
+
 root
 {
     display: block;
@@ -22,7 +31,7 @@ root
 body
 {
     background-image: url("../image/bgwe.jpg");
-    background-repeat: no-repeat;
+    background-repeat: repeat-y;
     background-size: 100% 100%;
     background-origin: content-box;
     margin: 0px;
@@ -31,7 +40,8 @@ body
 
 .page
 {
-    width: 950px;
+    padding: 20px;
+    width: 1150px;
     margin-left: auto;
     margin-right: auto;
 }
@@ -41,20 +51,14 @@ header
 
 }
 
-footer
-{
-    height: 200px;
-}
-
 .header
 {
-    height: 100px;
-    //padding-right: 20px;
+	padding: 10px 0px;
 }
 
 .player_section
 {
-    width: 250px;
+    width: 900px;
     margin-top: 30px;
     height: 70px;
     margin-left: 5px;
@@ -128,6 +132,32 @@ footer
     color: black;
 }
 
+/*Panel piste*/
+#panel_pistes
+{
+
+	width:245px;
+	height:415px;
+	border:1px solid black;
+}
+
+.piste
+{
+	height:75px;
+	border:1px solid red;
+    cursor: pointer;
+
+	font-family: bebas;
+	text-align: center;
+	color: orange;
+	font-size: 0.9em;
+}
+
+.piste_selected
+{
+	border:1px solid blue;
+}
+/*SVG*/
 
 .tab_svg
 {
@@ -215,24 +245,16 @@ footer
 #volume
 {
 	width: 100px;
-	position: absolute;
-	top: 64px;
-	left: 600px;
+
 }
 .speakon
 {
-	position: absolute;
-	top: 60px;
-	left: 575px;
 	width:16px;
   	height:16px;
   	background:url("smoothness/images/ui-icons_454545_256x240.png") -144px -160px no-repeat;
 }
 .speakoff
 {
-	position: absolute;
-	top: 60px;
-	left: 575px;
 	width:16px;
   	height:16px;
   	background:url("smoothness/images/ui-icons_454545_256x240.png") -129px -160px no-repeat;
@@ -248,4 +270,9 @@ footer
 .ui-slider-horizontal
 {
 	height: 0.5em;
+}
+
+#footer
+{
+	
 }

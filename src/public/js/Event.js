@@ -301,7 +301,7 @@ $(document).ready(setTimeout(function(){
 
     function measure(i)
     {
-        for (var j = 0; j <= i; j++)
+        for (var j = 0; j < i; j++)
         {
             if (j == 0)
             {
@@ -318,19 +318,19 @@ $(document).ready(setTimeout(function(){
 
     function tracks(instruments)
     {
-		$(".instruments").empty();
+		$("#panel_pistes").empty();
         for (var i = 0; i < instruments.length;i++)
         {
             if (i == 0)
             {
-                $(".instruments").prepend("<div id='t_"+i+"' class='onglets onglets_selected float-right'>" + instruments[i]._name_instrument + "</div>");
+                $("#panel_pistes").append("<li id='t_"+i+"' class='piste piste_selected'>" + instruments[i]._name_instrument + "</li>");
             }
             else
             {
-                $(".instruments").prepend("<div id='t_"+i+"' class='onglets float-right'>" + instruments[i]._name_instrument + "</div>");
+                $("#panel_pistes").append("<li id='t_"+i+"' class='piste'>" + instruments[i]._name_instrument + "</li>");
             }
-        }
-        $(".instruments").append("<section class='clear'></section>");
+        }/*
+        $(".instruments").append("<section class='clear'></section>");*/
     }
 
     /// SECTION EVENT MESURES + TRACKS SELECTION
@@ -338,13 +338,13 @@ $(document).ready(setTimeout(function(){
 
 
 
-    $(".onglets").click(function(){
+    $(".piste").click(function(){
 		// deselectionner l'onglet selectionné
-		$(".onglets_selected")
-			.removeClass('onglets_selected')
+		$(".piste_selected")
+			.removeClass('piste_selected')
 		// sélectionner l'onglet sur lequel on a cliqué
 		$(this)
-			.addClass('onglets_selected')
+			.addClass('piste_selected')
 
         var id = $(this).attr("id");
         var array = id.split('_');
@@ -389,7 +389,7 @@ $(document).ready(setTimeout(function(){
 		orientation: "horizontal",
 		step: 1,
 		slide: function (event, ui){
-			document.demo.SetVolume(Math.floor(ui.value*1.27));
+			document.demo.SetVolume(Math.floor(ui.value*2.56));
 			if (ui.value == 0)
 			{
 				if (!$("#speaker").hasClass("speakoff"))
