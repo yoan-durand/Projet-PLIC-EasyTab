@@ -62,8 +62,7 @@ header
 .header
 {
     padding: 2px 0px;
-    border-top: 1px solid #1A1A1A;
-    border-bottom: 1px solid black;
+    border: 1px solid black;
     background-image: -webkit-gradient( linear, left bottom, left top, color-stop(0.18, #1E1E1E), color-stop(0.68, #3D3D3D));
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
@@ -113,19 +112,25 @@ header
     width: 120px;
 }
 
-#speed, #tempo
+
+.lbl
 {
+    font-family: bebas;
+    text-align: center;
+    color: orange;
+    /*font-weight: bold;*/
+    font-size:12px;
     margin-top: 7px;
 }
-
 .text
 {
     background-color: #595959;
     margin-top: 7px;
-    height: 15px;
-    width: 50px;
+    height:20px;
+    width:54px;
     margin-left: 15px;
     color: white;
+    border:1px solid black;
 }
 
 .instruments
@@ -208,10 +213,10 @@ header
 
 .progress_bar .left
 {
-	float: left;
-	padding-top: 13px;
-	padding-right: 5px;
-	cursor: pointer;
+    float: left;
+    padding-top: 13px;
+    padding-right: 5px;
+    cursor: pointer;
 }
 
 .progress_bar .right
@@ -303,36 +308,57 @@ header
 	width: 100px;
 	margin-top: 11px;
 	margin-right: 40px;
+        margin-left:10px;
 }
 .speakon
 {
 	margin-top: 8px;
-	width:16px;
-  	height:16px;
-  	background:url("smoothness/images/ui-icons_454545_256x240.png") -144px -160px no-repeat;
+	width:24px;
+  	height:21px;
+  	background:url("../image/soundOn.png") no-repeat;
 }
 .speakoff
 {
 	margin-top: 8px;
-	width:16px;
-  	height:16px;
-  	background:url("smoothness/images/ui-icons_454545_256x240.png") -129px -160px no-repeat;
+	width:24px;
+  	height:21px;
+  	background:url("../image/soundOff.png") no-repeat;
+}
+
+.part_name
+{
+    border-radius:10px;
+    border: 1px outset #303030;
+    padding:10px;
+    margin-right:33px;
+    margin-top:5px;
+    color:orange;
+    font-family: bebas;
+    font-size: 0.9em;   
 }
 .ui-slider .ui-slider-handle
 {
     position: absolute;
     z-index: 2;
-    width: 1em;
-    height: 1em;
+    width: 11px;
+    height: 13px;
     cursor: default;
+    border-radius: 3px;
+    top: -3px;
 }
 .ui-slider-horizontal
 {
     height: 0.5em;
 }
+.ui-widget-header {
+    border: 1px solid #E78F08;
+    background: orange;
+}
+
 
 #footer
 {
+    border: 1px solid black;
     border-top: 1px solid #555;
     background-image: -webkit-gradient( linear, left bottom, left top, color-stop(0.18, #1E1E1E), color-stop(0.68, #3D3D3D));
     border-bottom-left-radius: 10px;
