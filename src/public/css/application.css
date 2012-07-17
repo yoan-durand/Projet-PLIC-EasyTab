@@ -53,7 +53,13 @@ header
 
 .header
 {
-	padding: 10px 0px;
+    padding: 2px 0px;
+    border-top: 1px solid #1A1A1A;
+    border-bottom: 1px solid black;
+    background-image: -webkit-gradient( linear, left bottom, left top, color-stop(0.18, #1E1E1E), color-stop(0.68, #3D3D3D));
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+
 }
 
 .player_section
@@ -144,24 +150,25 @@ header
 
 	width:245px;
 	height:415px;
-	border:1px solid black;
+        background-image: url("../image/bg_piste_test.png");
 }
 
 .piste
 {
 	height:75px;
-	border:1px solid red;
-    cursor: pointer;
-
+        cursor: pointer;
 	font-family: bebas;
 	text-align: center;
 	color: orange;
 	font-size: 0.9em;
+        border-bottom: 1px solid black;
+        border-top: 1px solid #333232;
 }
 
 .piste_selected
 {
-	border:1px solid blue;
+    border-bottom: 1px solid orange;
+    border-top: 1px solid orange;
 }
 /*SVG*/
 
@@ -298,18 +305,21 @@ header
 }
 .ui-slider .ui-slider-handle
 {
-	position: absolute;
-	z-index: 2;
-	width: 1em;
-	height: 1em;
-	cursor: default;
+    position: absolute;
+    z-index: 2;
+    width: 1em;
+    height: 1em;
+    cursor: default;
 }
 .ui-slider-horizontal
 {
-	height: 0.5em;
+    height: 0.5em;
 }
 
 #footer
 {
-	
+    border-bottom: 1px solid #1A1A1A;
+    background-image: -webkit-gradient( linear, left bottom, left top, color-stop(0.18, #1E1E1E), color-stop(0.68, #3D3D3D));
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
 }
