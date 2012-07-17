@@ -11,19 +11,32 @@ $(document).ready(setTimeout(function(){
     tracks(partition._instruments_list);
 
     /// SECTION EVENT PLAYER
+    
+    $("#back").hover(function (){ //IN Handler
+        if ($(this).attr("src") != "image/backactif.png")
+            {
+                $(this).attr("src", "image/backhover.png");
+            }
+     }, function ()
+     { //Out Handler
+      if ($(this).attr("src") != "image/backactif.png")
+          {
+              $(this).attr("src", "image/back.png");
+          }  
+     });
 
     $("#back").click(function (){
-        if ($(this).attr("src") == "image/playerback.png")
+        if ($(this).attr("src") == "image/backhover.png")
         {
             javascript:document.demo.Stop();
             javascript:document.demo.SetTime(0);
             document.demo.SetRate($(".tempo").text()/cur_tempo);
             $(".overflow_svg").css("overflow-y", "hidden");
             $(".overflow_svg").scrollTo( 0, 1000, {axis:'y'});
-            $(this).attr("src", "image/playerback2.png");
-            $("#play").attr("src", "image/playerplay.png");
-            $("#pause").attr("src", "image/playerpause.png");
-            $("#stop").attr("src", "image/playerstop.png");
+            $(this).attr("src", "image/backactif.png");
+            $("#play").attr("src", "image/play.png");
+            $("#pause").attr("src", "image/pause.png");
+            $("#stop").attr("src", "image/stop.png");
             if (selected != 0)
             {
                 $("img[id^='m_']").each(function (i, v){
@@ -33,24 +46,38 @@ $(document).ready(setTimeout(function(){
                 selected = 0;
             }
             setTimeout(function (){
-                $("#back").attr("src", "image/playerback.png");
+                $("#back").attr("src", "image/back.png");
             }, 500);
 			Animation_Play(selected);
         }
     });
+    
+     $("#play").hover(function (){ //IN Handler
+         if ($(this).attr("src") != "image/playactif.png")
+             {
+                 $(this).attr("src", "image/playhover.png");
+             }
+     }, function ()
+     { //Out Handler
+      if ($(this).attr("src") != "image/playactif.png")
+          {
+              $(this).attr("src", "image/play.png");
+          }
+     });
 
     $("#play").click(function (){
-        if ($(this).attr("src") == "image/playerplay.png")
+        
+        if ($(this).attr("src") == "image/playhover.png")
         {
         	//bloquage du scroll utilisateur
         	$(".overflow_svg").css("overflow-y", "hidden");
                 $(".overflow_measure").css("overflow-x", "hidden");
         	//-------
             document.demo.SetRate($(".tempo").text()/cur_tempo);
-			$("#back").attr("src", "image/playerback.png");
-            $(this).attr("src", "image/playerplay2.png");
-            $("#pause").attr("src", "image/playerpause.png");
-            $("#stop").attr("src", "image/playerstop.png");
+			$("#back").attr("src", "image/back.png");
+            $(this).attr("src", "image/playactif.png");
+            $("#pause").attr("src", "image/pause.png");
+            $("#stop").attr("src", "image/stop.png");
 			Animation_Play(selected);
 		}
     });
@@ -79,19 +106,19 @@ $(document).ready(setTimeout(function(){
 			if (document.demo.GetRate() != 0) // PAUSE REQUEST
 			{
 				document.demo.Stop();
-				$("#back").attr("src", "image/playerback.png");
-				$("#play").attr("src", "image/playerplay.png");
-				$("#pause").attr("src", "image/playerpause2.png");
-				$("#stop").attr("src", "image/playerstop.png");
+				$("#back").attr("src", "image/back.png");
+				$("#play").attr("src", "image/play.png");
+				$("#pause").attr("src", "image/pauseactif.png");
+				$("#stop").attr("src", "image/stop.png");
 				$(".overflow_svg").css("overflow-y", "auto");
 			}
 			else // PLAY REQUEST
 			{
 				document.demo.SetRate($(".tempo").text()/cur_tempo);
-				$("#back").attr("src", "image/playerback.png");
-				$("#play").attr("src", "image/playerplay2.png");
-				$("#pause").attr("src", "image/playerpause.png");
-				$("#stop").attr("src", "image/playerstop.png");
+				$("#back").attr("src", "image/back.png");
+				$("#play").attr("src", "image/playactif.png");
+				$("#pause").attr("src", "image/pause.png");
+				$("#stop").attr("src", "image/stop.png");
 				$(".overflow_svg").css("overflow-y", "hidden");
 				Animation_Play(selected);
 			}
@@ -247,31 +274,57 @@ $(document).ready(setTimeout(function(){
 		  */
 	}
 
+     $("#pause").hover(function (){ //IN Handler
+        if ($(this).attr("src") != "image/pauseactif.png")
+            {
+                $(this).attr("src", "image/pausehover.png");
+            }
+     }, function ()
+     { //Out Handler
+      if ($(this).attr("src") != "image/pauseactif.png")
+          {
+              $(this).attr("src", "image/pause.png");
+          } 
+     });
+     
     $("#pause").click(function (){
-        if ($(this).attr("src") == "image/playerpause.png")
+        if ($(this).attr("src") == "image/pausehover.png")
         {
-			javascript:document.demo.Stop();
-            $("#back").attr("src", "image/playerback.png");
-            $("#play").attr("src", "image/playerplay.png");
-            $(this).attr("src", "image/playerpause2.png");
-            $("#stop").attr("src", "image/playerstop.png");
+            javascript:document.demo.Stop();
+            $("#back").attr("src", "image/back.png");
+            $("#play").attr("src", "image/play.png");
+            $(this).attr("src", "image/pauseactif.png");
+            $("#stop").attr("src", "image/stop.png");
             $($("rect[id='cursor_"+current_svg+"']"), svg_inst[current_svg].root()).stop();
             $(".overflow_svg").css("overflow-y", "auto");
             $(".overflow_measure").css("overflow-x", "auto");
         }
     });
 
+     $("#stop").hover(function (){ //IN Handler
+         if ($(this).attr("src") != "image/stopactif.png")
+            {
+                $(this).attr("src", "image/stophover.png");
+            }
+     }, function ()
+     { //Out Handler
+       if ($(this).attr("src") != "image/stopactif.png")
+       {
+          $(this).attr("src", "image/stop.png");
+       }
+         
+     });
     $("#stop").click(function (){
-        if ($(this).attr("src") == "image/playerstop.png")
+        if ($(this).attr("src") == "image/stophover.png")
         {
             clearTimeout(timeout);
             javascript:document.demo.Stop();
             javascript:document.demo.SetTime(0);
             $(".overflow_svg").css("overflow-y", "auto");
-            $("#back").attr("src", "image/playerback.png");
-            $("#play").attr("src", "image/playerplay.png");
-            $("#pause").attr("src", "image/playerpause.png");
-            $(this).attr("src", "image/playerstop2.png");
+            $("#back").attr("src", "image/back.png");
+            $("#play").attr("src", "image/play.png");
+            $("#pause").attr("src", "image/pause.png");
+            $(this).attr("src", "image/stopactif.png");
             $(".overflow_svg").scrollTo( 0, 0, {axis:'y'});
             $(".bar").scrollTo( 0, 0, {axis:'x'});
             scroll = 280;
@@ -283,7 +336,7 @@ $(document).ready(setTimeout(function(){
                 selected = 0;
             }
             setTimeout(function (){
-                $("#stop").attr("src", "image/playerstop.png");
+                $("#stop").attr("src", "image/stop.png");
             }, 500);
             
             for (var j = 0; j < svg_inst.length; j++)

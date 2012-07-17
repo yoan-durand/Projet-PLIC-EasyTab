@@ -27,7 +27,7 @@
         <script src="js/DrawNote.js"></script>
         <script src="js/Draw.js"></script>
         <script src="js/application.js"></script>
-        <script src="js/mousehold.js"></script>>
+        <script src="js/mousehold.js"></script>
         <script type="text/javascript">
                 if (config) {
                         alert('conflit entre 2 variables');
@@ -44,12 +44,15 @@
 
 {% block content %}
         <section class="page">
+            <section class="easytab">
+                
+            </section>
                 <section class="header">
                         <section class="player float-left">
-                            <img id="back" src="image/playerback.png" />
-                            <img id="play" src="image/playerplay.png" />
-                            <img id="pause" src="image/playerpause.png" />
-                            <img id="stop" src="image/playerstop.png" />
+                            <img id="back" src="image/back.png" />
+                            <img id="play" src="image/play.png" />
+                            <img id="pause" src="image/pause.png" />
+                            <img id="stop" src="image/stop.png" />
                         </section>
                         <section class="player_options float-left">
 							<div id="speaker" class="speakon float-left"></div>
@@ -68,7 +71,7 @@
                         </section>
                     <section class="clear"></section>
                 </section>
-				<ul id="panel_pistes" class="float-left overflow_svg">
+				<ul id="panel_pistes" class="float-left overflow">
 					<li class="piste"></li>
 				</ul>
                 <section class="tab_svg overflow_svg tab_svg_loading float-right">
@@ -134,7 +137,7 @@
 					  var part_height = DrawPartition (partition._instruments_list[i]._track_part._measure_list, svg, nb_corde);
 					  $(".tab_svg #"+i).css("height",part_height);
 					  $("rect[id='part']", svg.root()).attr("height", part_height);
-					  svg.rect(60, 20, 2, (nb_corde * 10 + 10), {id: "cursor_"+i, fill:"red"});
+					  svg.rect(60, 20, 2, (nb_corde * 10 + 10), {id: "cursor_"+i, fill:"#67bbab"});
 				   }
 				   catch (err)
 				   {

@@ -40,15 +40,23 @@ body
 
 .page
 {
-    padding: 20px;
+    padding: 0 20px;
     width: 1150px;
     margin-left: auto;
     margin-right: auto;
 }
 
+.easytab
+{
+    background-image: url("../image/easytab_title.png");
+    width:449px;
+    height: 90px;
+    margin:auto;
+}
+
 header
 {
-
+   
 }
 
 .header
@@ -59,6 +67,7 @@ header
     background-image: -webkit-gradient( linear, left bottom, left top, color-stop(0.18, #1E1E1E), color-stop(0.68, #3D3D3D));
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
+    height:53px;
 
 }
 
@@ -72,7 +81,10 @@ header
 
 .player
 {
-    margin: 0 44px;
+    margin: 5px 33px;
+    border-radius:10px;
+    border: 1px outset #303030;
+    padding:3px;
 }
 
 #play,#stop,#back,#pause
@@ -86,6 +98,7 @@ header
 .player_options
 {
     margin-left: 50px;
+    margin-top: 10px;
 }
 
 .options
@@ -151,7 +164,8 @@ header
 	width:245px;
 	height:415px;
         background-image: url("../image/bg_piste_test.png");
-}
+        overflow:auto;
+}   
 
 .piste
 {
@@ -178,19 +192,18 @@ header
     width: 901px;
 }
 .tab_svg_loading {
-	background-color: white;
-	border: 1px solid grey;
+    background-color: white;
+    border: 1px solid grey;
 }
 
 .progress_bar
 {
-    height: 65px;
     width:900px;
 }
 
 .progress_bar ul
 {
-	display: inline;
+    display: inline;
 }
 
 .progress_bar .left
@@ -210,14 +223,16 @@ header
 
 .progress_bar .bar
 {
-	float: left;
-	width: 841px;
-	overflow-x: hidden;
+    float: left;
+    width: 841px;
+    overflow-x: hidden;
+    font-size:11px;
+    color:whitesmoke;
 }
 
 .progress_bar table
 {
-    margin-top: 10px;
+
 }
 
 .progress_bar tr:first-child img
@@ -318,8 +333,9 @@ header
 
 #footer
 {
-    border-bottom: 1px solid #1A1A1A;
+    border-top: 1px solid #555;
     background-image: -webkit-gradient( linear, left bottom, left top, color-stop(0.18, #1E1E1E), color-stop(0.68, #3D3D3D));
     border-bottom-left-radius: 10px;
     border-bottom-right-radius: 10px;
+    box-shadow: -3px 11px 22px #818181;
 }
