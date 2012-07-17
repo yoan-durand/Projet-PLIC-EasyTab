@@ -101,7 +101,7 @@ $(document).ready(setTimeout(function(){
 	   
 	// TOUCHE ENTER PRESS
 	$(document).keyup(function (e){
-		if (e.keyCode==13)
+		if (e.keyCode==112 || e.keyCode==80)
 		{
 			if (document.demo.GetRate() != 0) // PAUSE REQUEST
 			{
