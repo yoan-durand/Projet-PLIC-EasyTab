@@ -427,12 +427,8 @@ $(document).ready(setTimeout(function(){
 	
 	$(".left").click(function ()
 	{
-		if (selected > progress_scroll)
-			{
-				progress_scroll = selected;
-			}
 		
-		if (progress_scroll - 1 > 0)
+		if (progress_scroll - 1 >= 0)
 		{
 			progress_scroll -= 1;
 		}
@@ -455,11 +451,7 @@ $(document).ready(setTimeout(function(){
 	
 	$(".left").mousehold(function ()
 			{
-				if (selected > progress_scroll)
-				{
-					progress_scroll = selected;
-				}
-				
+								
 				if (progress_scroll - 1 >= 0)
 				{
 					progress_scroll -= 1;
