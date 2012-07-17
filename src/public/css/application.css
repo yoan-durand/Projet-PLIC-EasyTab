@@ -62,8 +62,7 @@ header
 .header
 {
     padding: 2px 0px;
-    border-top: 1px solid #1A1A1A;
-    border-bottom: 1px solid black;
+    border: 1px solid black;
     background-image: -webkit-gradient( linear, left bottom, left top, color-stop(0.18, #1E1E1E), color-stop(0.68, #3D3D3D));
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
@@ -325,6 +324,18 @@ header
   	height:21px;
   	background:url("../image/soundOff.png") no-repeat;
 }
+
+.part_name
+{
+    border-radius:10px;
+    border: 1px outset #303030;
+    padding:10px;
+    margin-right:33px;
+    margin-top:5px;
+    color:orange;
+    font-family: bebas;
+    font-size: 0.9em;   
+}
 .ui-slider .ui-slider-handle
 {
     position: absolute;
@@ -340,16 +351,14 @@ header
     height: 0.5em;
 }
 .ui-widget-header {
-border: 1px solid #E78F08;
-background: orange;
-color: white;
-font-weight: bold;
+    border: 1px solid #E78F08;
+    background: orange;
 }
 
-.ui-slider-range { background: orange; }
 
 #footer
 {
+    border: 1px solid black;
     border-top: 1px solid #555;
     background-image: -webkit-gradient( linear, left bottom, left top, color-stop(0.18, #1E1E1E), color-stop(0.68, #3D3D3D));
     border-bottom-left-radius: 10px;
