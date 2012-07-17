@@ -193,7 +193,7 @@ $(document).ready(setTimeout(function(){
 			//r�cup�ration de la position courante du curseur.
 			scroll = ($("rect[id='cursor_" + current_svg + "']").attr("y"));	
 			scroll = parseInt(scroll);
-			$(".overflow_svg").scrollTo(scroll - 15, 1000, {axis:'y'});
+			$(".overflow_svg").scrollTo(scroll - 15, 0, {axis:'y'});
 			
 			res = (((scroll - 20) / 90) % 3);
 			ancient = scroll;
@@ -216,7 +216,7 @@ $(document).ready(setTimeout(function(){
 			hasScrolled = true;
 			ancient = $("rect[id='cursor_" + current_svg + "']").attr("y");
 			console.log ("va a posiiton : " + scroll);
-			$(".overflow_svg").scrollTo ($("rect[id='cursor_" + current_svg + "']").attr("y") - 10, 1000, {axis:'y'});
+			$(".overflow_svg").scrollTo ($("rect[id='cursor_" + current_svg + "']").attr("y") - 10, 0, {axis:'y'});
 		}
 	
 		if (ancient != ($("rect[id='cursor_" + current_svg + "']").attr("y")) && (hasScrolled == true))
@@ -233,7 +233,7 @@ $(document).ready(setTimeout(function(){
 		if ((selected >= 30) && (selected % 30 == 0) && vertic == false)
 		{
 			vertic = true;
-			$(".bar").scrollTo("img[id='m_"+ selected + "']", 1000, {axis:'x'});
+			$(".bar").scrollTo("img[id='m_"+ selected + "']", 0, {axis:'x'});
 		}
 		if (vertic == true && (selected % 30 != 0))
 		{
@@ -273,8 +273,8 @@ $(document).ready(setTimeout(function(){
             $("#play").attr("src", "image/playerplay.png");
             $("#pause").attr("src", "image/playerpause.png");
             $(this).attr("src", "image/playerstop2.png");
-            $(".overflow_svg").scrollTo( 0, 500, {axis:'y'});
-            $(".overflow_measure").scrollTo( 0, 500, {axis:'x'});
+            $(".overflow_svg").scrollTo( 0, 0, {axis:'y'});
+            $(".overflow_measure").scrollTo( 0, 0, {axis:'x'});
             scroll = 280;
             sline = 0;
             if (selected != 0)
@@ -434,7 +434,7 @@ $(document).ready(setTimeout(function(){
 		
 		
 		
-		$(".bar").scrollTo($(".bar img[id='m_"+progress_scroll+"']"), 250, {axis:"x"});
+		$(".bar").scrollTo($(".bar img[id='m_"+progress_scroll+"']"), 0, {axis:"x"});
 	});
 	
 	$(".right").click(function ()
@@ -445,7 +445,7 @@ $(document).ready(setTimeout(function(){
 		}
 		
 		progress_scroll +=1;
-		$(".bar").scrollTo($(".bar img[id='m_"+progress_scroll+"']"), 250, {axis:"x"});
+		$(".bar").scrollTo($(".bar img[id='m_"+progress_scroll+"']"), 0, {axis:"x"});
 	});
 	
 	console.log('event');

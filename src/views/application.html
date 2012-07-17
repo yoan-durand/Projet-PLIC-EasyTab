@@ -180,8 +180,8 @@
 			document.demo.SetTime((MIDItoSecond(note._begin, $(".tempo").text())+350) * document.demo.GetTimeScale() / 1000);
            ref = ((($($("rect[id^='cursor']"), svg_inst[current_svg].root()).attr("y")-20)/90)%3);
 	       
-				$(".overflow_svg").scrollTo($($("rect[id^='cursor']"), svg_inst[current_svg].root()).attr("y")-10, 1000, {axis:'y'}); //Ne pas décommenter
-				$(".bar").scrollTo($($(".bar img[id^='m_"+index_mes+"']"), svg_inst[current_svg].root()), 1000, {axis:'x'});
+				$(".overflow_svg").scrollTo($($("rect[id^='cursor']"), svg_inst[current_svg].root()).attr("y")-10, 0, {axis:'y'}); //Ne pas décommenter
+				$(".bar").scrollTo($($(".bar img[id^='m_"+index_mes+"']"), svg_inst[current_svg].root()), 0, {axis:'x'});
 			
         }
     });
@@ -201,8 +201,8 @@
 		$($("rect[id^='cursor']"), svg_inst[current_svg].root()).attr({"y": (note._posY-10), transform:"translate("+(note._posX-60+2)+" 0)"});
 		ref = ((($($("rect[id^='cursor']"), svg_inst[current_svg].root()).attr("y") - 20) / 90)%3);
 		
-			$(".overflow_svg").scrollTo($($("rect[id^='cursor']"), svg_inst[current_svg].root()).attr("y")-10, 1000, {axis:'y'}); 
-			$(".bar").scrollTo($($(".bar img[id='m_"+selected+"']"), svg_inst[current_svg].root()), 1000, {axis:'x'});
+			$(".overflow_svg").scrollTo($($("rect[id^='cursor']"), svg_inst[current_svg].root()).attr("y")-10, 0, {axis:'y'}); 
+			$(".bar").scrollTo($($(".bar img[id='m_"+selected+"']"), svg_inst[current_svg].root()), 0, {axis:'x'});
 		
                 
 		document.demo.SetTime((MIDItoSecond(note._begin, $(".tempo").text())+350) * document.demo.GetTimeScale() / 1000);
