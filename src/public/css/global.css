@@ -5,18 +5,25 @@ body {
 	background-size: cover;
 
 }
-header {
+nav
+{
 	position: relative;
 	z-index: 4;
-    background-image: -webkit-linear-gradient( rgba(242, 242, 242, 0.9), rgba(222, 222, 222, 0.9));
+    background-image: -webkit-gradient( linear, left bottom, left top, color-stop(0.18, #1E1E1E), color-stop(0.68, #3D3D3D));;
     height: 25px;
     padding-left: 50px;
     text-align: center;
 }
 /* décoration des liens */
-header > a {
+nav > a {
     padding-left: 30px;
     padding-right: 30px;
+    color: white;
+}
+
+nav > a:hover
+{
+	color: orange;
 }
 a {
 	text-decoration: none;

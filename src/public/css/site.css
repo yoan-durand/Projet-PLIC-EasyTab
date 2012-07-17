@@ -2,6 +2,7 @@
 	background-color: rgba(0, 0, 0, 0.1);
 	border: solid 1px white;
 	border-top: none;
+	border-radius: 15px;
 	/*border-radius: 0 0 35px 35px;*/
     width: 600px;
     padding: 50px 75px;
