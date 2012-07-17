@@ -7,17 +7,17 @@
         {% block head %}{% endblock %}
     </head>
     <body>
-        <header>
-            <a href="/">Acceuil</a> |
-            <a href="/tablatures">Mes tablatures</a> |
-            <a href="/application">Easytab</a> |
-            <a href="/compte">Mon compte</a> |
+        <nav>
+            <a href="/">Acceuil</a> 
+            <a href="/tablatures">Mes tablatures</a> 
+            <a href="/application">Easytab</a> 
+            <a href="/compte">Mon compte</a> 
 			{% if connected %}
             <a href="/logout">Déconnexion</a>
 			{% else %}
 			<a href="/login">Connexion</a>
 			{% endif %}
-        </header>
+        </nav>
         {% block content %}{% endblock %}
         <footer>
         </footer>

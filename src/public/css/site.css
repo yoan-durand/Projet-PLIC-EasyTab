@@ -2,6 +2,7 @@
 	background-color: rgba(0, 0, 0, 0.1);
 	border: solid 1px white;
 	border-top: none;
+	border-radius: 15px;
 	/*border-radius: 0 0 35px 35px;*/
     width: 600px;
     padding: 50px 75px;
@@ -49,4 +50,33 @@
 
 #form .right {
     margin-left: 200px;
+    
+}
+
+#upload
+{
+	display: block;
+	margin :35px 0px 5px 192px;
+}
+
+#uploadField
+{
+	display : block;
+	margin : 0px 0px 5px 192px;
+}
+
+.elt_form
+{
+	text-align: center;
+	margin:0px 0px 5px 0px;
+}
+
+.visibility
+{
+	margin : 15px 0px 5px 192px;
+}
+
+#titre
+{
+	margin-left: 14px;
 }
