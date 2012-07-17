@@ -214,18 +214,44 @@ header
 .progress_bar .left
 {
     float: left;
-    padding-top: 13px;
-    padding-right: 5px;
+    margin-top: 3px;
+    margin-right: 3px;
+    padding-top: 10px;
+    padding-bottom: 10px;
     cursor: pointer;
+    border-radius: 5px;
+}
+
+.progress_bar .left:hover
+{
+    border: 1px solid black;
+    margin-right: 1px;
+}
+
+.progress_bar .left:active
+{
+    background: rgba(77, 77, 77, 0.55);
 }
 
 .progress_bar .right
 {
-	float: right;
-	padding-top: 14px;
-	cursor: pointer;
+    float: right;
+    margin-top: 3px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    cursor: pointer;
+    border-radius: 5px;
 }
 
+.progress_bar .right:hover
+{
+    border: 1px solid black;
+}
+
+.progress_bar .right:active
+{
+    background: rgba(77, 77, 77, 0.55);
+}
 .progress_bar .bar
 {
     float: left;
