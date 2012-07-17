@@ -113,19 +113,25 @@ header
     width: 120px;
 }
 
-#speed, #tempo
+
+.lbl
 {
+    font-family: bebas;
+    text-align: center;
+    color: orange;
+    /*font-weight: bold;*/
+    font-size:12px;
     margin-top: 7px;
 }
-
 .text
 {
     background-color: #595959;
     margin-top: 7px;
-    height: 15px;
-    width: 50px;
+    height:20px;
+    width:54px;
     margin-left: 15px;
     color: white;
+    border:1px solid black;
 }
 
 .instruments
@@ -208,10 +214,10 @@ header
 
 .progress_bar .left
 {
-	float: left;
-	padding-top: 13px;
-	padding-right: 5px;
-	cursor: pointer;
+    float: left;
+    padding-top: 13px;
+    padding-right: 5px;
+    cursor: pointer;
 }
 
 .progress_bar .right
@@ -303,33 +309,44 @@ header
 	width: 100px;
 	margin-top: 11px;
 	margin-right: 40px;
+        margin-left:10px;
 }
 .speakon
 {
 	margin-top: 8px;
-	width:16px;
-  	height:16px;
-  	background:url("smoothness/images/ui-icons_454545_256x240.png") -144px -160px no-repeat;
+	width:24px;
+  	height:21px;
+  	background:url("../image/soundOn.png") no-repeat;
 }
 .speakoff
 {
 	margin-top: 8px;
-	width:16px;
-  	height:16px;
-  	background:url("smoothness/images/ui-icons_454545_256x240.png") -129px -160px no-repeat;
+	width:24px;
+  	height:21px;
+  	background:url("../image/soundOff.png") no-repeat;
 }
 .ui-slider .ui-slider-handle
 {
     position: absolute;
     z-index: 2;
-    width: 1em;
-    height: 1em;
+    width: 11px;
+    height: 13px;
     cursor: default;
+    border-radius: 3px;
+    top: -3px;
 }
 .ui-slider-horizontal
 {
     height: 0.5em;
 }
+.ui-widget-header {
+border: 1px solid #E78F08;
+background: orange;
+color: white;
+font-weight: bold;
+}
+
+.ui-slider-range { background: orange; }
 
 #footer
 {
