@@ -18,10 +18,18 @@
 {% block content %}
 <section id="container" class="center">
 	<form method="post" action="upload" enctype="multipart/form-data" id="form">
-		<input id="uploadField" type="file" name="tablature"><br>
-		<label>Titre : <input name="titre" placeholder="entrez un titre"></label><br>
-		<label>Artiste : <input name="artiste" placeholder="entrez un l'artiste"></label><br>
-		<label>Visibilité : Publique <input name="visibilité" type="checkbox" value="publique" checked></label><br>
+		
+		<div class="elt_form">
+			<label>Titre :</label>
+			<input id="titre" name="titre" placeholder="entrez le titre">
+		</div>
+		<div class="elt_form">
+			<label>Artiste : </label>
+			<input name="artiste" placeholder="entrez l'artiste"/>
+		</div>
+		<input id="uploadField" type="file" name="tablature" accept="text/xml">
+		<label class="visibility">Visibilité : Publique</label>
+		<input name="visibilité" type="checkbox" value="publique" checked/>
 		<input id="upload" type="submit" value="Uploader">
 	</form>
 </section>
