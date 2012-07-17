@@ -439,8 +439,11 @@ $(document).ready(setTimeout(function(){
 	$("#volume").slider({
 		animate: "slow",
 		value: 100,
+		range: "min",
 		orientation: "horizontal",
 		step: 1,
+		min: 1,
+		max: 100,
 		slide: function (event, ui){
 			document.demo.SetVolume(Math.floor(ui.value*2.56));
 			if (ui.value == 0)
