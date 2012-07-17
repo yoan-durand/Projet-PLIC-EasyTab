@@ -29,8 +29,8 @@ function Application(){
 			$.get('/tablatures/get/all', function(data, textStatus, jqXHR) {
 				var html = '<h2>Charger une autre partition</h2><ul id="trackList">';
 				for (var i = 0; i < data.length; ++i) {
-					html += '<li id="tab_'+data[i].id+'"> <a href="application;'+data[i].nom+'.xml">'+data[i].nom
-					+'</a> <span id="trackInfos">'+data[i].titre+' - '+data[i].artiste+'</span></li>';
+					html += '<li id="tab_'+data[i].id+'" style="text-align:center;"> <a href="application;'+data[i].nom+'.xml">'+data[i].titre+' - '+data[i].artiste
+					+'</a></li>';
 				}
 				html += '</ul>'
 				$('#splashMessage').css({
@@ -46,6 +46,7 @@ function Application(){
 		}
 
 	};
+	
 	this.showHelp = function(e) {
 		e.preventDefault();
 		console.warn('fixMe: Application.showHelp')
