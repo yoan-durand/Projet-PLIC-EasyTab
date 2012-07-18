@@ -376,11 +376,6 @@ header
 {
     height: 0.5em;
 }
-.ui-widget-header {
-    border: 1px solid #E78F08;
-    background: orange;
-}
-
 
 #footer
 {
@@ -391,3 +386,12 @@ header
     border-bottom-right-radius: 10px;
     box-shadow: -3px 11px 22px #818181;
 }
+
+.ui-widget-header
+{
+	border: 1px solid #E78F08;
+	background: #F6A828 url(images/ui-widget-header.png) 50% 50% repeat-x;
+	color: white;
+	font-weight: bold;
+}
+>>>>>>> 0c4bab111c1c14ae1c1706e4f8b23cd9ffeebc3a
