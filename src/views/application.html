@@ -45,7 +45,7 @@
 {% block content %}
         <section class="page">
             <section class="easytab">
-                
+
             </section>
                 <section class="header">
                         <section class="player float-left">
@@ -70,7 +70,7 @@
                             <section class="clear"></section>
                         </section>
                         <section class="float-right part_name">
-                                 Artiste - Morceau
+							{{tablatureInfo.artiste}} - {{tablatureInfo.titre}}
                         </section>
                     <section class="clear"></section>
                 </section>
@@ -81,10 +81,10 @@
                 </section>
 				<section class="clear"></section>
 				<section id="footer">
-					
+
 					<div class="progress_bar float-right">
 						<ul>
-						<li ><img class="left" src="image/Fleche_gauche.png" /></li>	
+						<li ><img class="left" src="image/Fleche_gauche.png" /></li>
 						<li class="bar">
 							<table>
 								<tr>
@@ -97,7 +97,7 @@
 						</li>
 						</ul>
 					</div>
-					
+
 					<div class="clear"></div>
 				</section>
         </section>
@@ -196,10 +196,10 @@
 		}
 			document.demo.SetTime((MIDItoSecond(note._begin, $(".tempo").text())+350) * document.demo.GetTimeScale() / 1000);
            ref = ((($($("rect[id^='cursor']"), svg_inst[current_svg].root()).attr("y")-20)/90)%3);
-	       
+
 				$(".overflow_svg").scrollTo($($("rect[id^='cursor']"), svg_inst[current_svg].root()).attr("y")-10, 0, {axis:'y'}); //Ne pas décommenter
 				$(".bar").scrollTo($($(".bar img[id^='m_"+index_mes+"']"), svg_inst[current_svg].root()), 0, {axis:'x'});
-			
+
         }
     });
 
@@ -226,13 +226,13 @@
 				 $($("rect[id^='cursor']"), svg_inst[current_svg].root()).attr({"y": (note._posY-10), transform:"translate("+(note._posX-60+2)+" 0)"});;
 			}
 		}
-		
+
 		ref = ((($($("rect[id^='cursor']"), svg_inst[current_svg].root()).attr("y") - 20) / 90)%3);
-		
-			$(".overflow_svg").scrollTo($($("rect[id^='cursor']"), svg_inst[current_svg].root()).attr("y")-10, 0, {axis:'y'}); 
+
+			$(".overflow_svg").scrollTo($($("rect[id^='cursor']"), svg_inst[current_svg].root()).attr("y")-10, 0, {axis:'y'});
 			$(".bar").scrollTo($($(".bar img[id='m_"+selected+"']"), svg_inst[current_svg].root()), 0, {axis:'x'});
-		
-                
+
+
 		document.demo.SetTime((MIDItoSecond(note._begin, $(".tempo").text())+350) * document.demo.GetTimeScale() / 1000);
 	});
 

@@ -41,12 +41,27 @@ exports.application = function(req, res){
 	if (!path.existsSync('./public/'+midiPath)) {
 		midiPath = '';
 	}
-	res.render('application', {
-		connected: req.session.connected,
-		tablature: tablature,
-		userId: userId,
-		midiPath: midiPath
-	});
+	var bdd = mysql_connect();
+	bdd.query(
+		'SELECT titre, artiste FROM `tablature` where nom = ?',
+		[req.params.tablature.slice(0,-4)],
+		function(err, results, fields) {
+			bdd.end(); // close sql connection
+			if (err) {
+				throw err;
+			}
+			if (results.length = 0) {
+				throw 'gestion des erreurs';
+			}
+			res.render('application', {
+				connected: req.session.connected,
+				tablature: tablature,
+				userId: userId,
+				midiPath: midiPath,
+				tablatureInfo: results[0]
+			});
+		}
+		);
 };
 
 exports.creerCompte = function(req, res) {
