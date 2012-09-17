@@ -25,9 +25,9 @@ $(document).ready(setTimeout(function(){
           }  
      });
 
-    $("#back").click(function (){
-        if ($(this).attr("src") == "image/backhover.png")
-        {
+	var back = function (e){
+        // if ($(this).attr("src") == "image/backhover.png")
+        // {
             javascript:document.demo.Stop();
             javascript:document.demo.SetTime(0);
             document.demo.SetRate($(".tempo").text()/cur_tempo);
@@ -49,8 +49,14 @@ $(document).ready(setTimeout(function(){
                 $("#back").attr("src", "image/back.png");
             }, 500);
 			Animation_Play(selected);
-        }
-    });
+        // }
+    };
+    $("#back").click(back);
+	// bind de la touche début sur le back
+	$(document).bind('keyup', 'home', function(e) {
+		e.preventDefault();
+		back.call($("#back")[0]);
+	});
     
      $("#play").hover(function (){ //IN Handler
          if ($(this).attr("src") != "image/playactif.png")
@@ -99,7 +105,7 @@ $(document).ready(setTimeout(function(){
 		return (ms * 480) / ((60 / tempo) * 1000);
 	}
 	   
-	// TOUCHE ENTER PRESS
+	// Bind de la touche P
 	$(document).keyup(function (e){
 		if (e.keyCode==112 || e.keyCode==80)
 		{
@@ -314,9 +320,10 @@ $(document).ready(setTimeout(function(){
        }
          
      });
-    $("#stop").click(function (){
-        if ($(this).attr("src") == "image/stophover.png")
-        {
+    
+	var stop = function (){
+        // if ($(this).attr("src") == "image/stophover.png")
+        // {
             clearTimeout(timeout);
             javascript:document.demo.Stop();
             javascript:document.demo.SetTime(0);
@@ -347,8 +354,14 @@ $(document).ready(setTimeout(function(){
             
 			/*$($("rect[id='cursor_"+current_svg+"']"), svg_inst[current_svg].root()).stop();*/
 			
-        }
-    });
+        // }
+    }
+	$("#stop").click(stop);
+	// bind de la touche s sur le stop
+	$(document).bind('keyup', 's', function(e) {
+		e.preventDefault();
+		stop.call($("#stop")[0]);
+	});
 
     /// SECTION INITIALISATION GRAPHIQUE MESURES + TRACKS
 

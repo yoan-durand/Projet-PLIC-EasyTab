@@ -51,6 +51,8 @@ app.configure('production', function(){
 // Routes
 
 app.get('/', routes.index);
+app.get('/crash', routes.crash);
+app.post('/crash', routes.crashPost);
 app.get('/application;?:tablature?', routes.application);
 app.get('/compte/creer', routes.creerCompte);
 app.post('/compte/creer', routes.creerComptePost);

@@ -115,8 +115,6 @@
 	var cur_tempo;
 
     $(document).ready (setTimeout(function(){
-		var application = new Application();
-		application.bindKeys();
         $(".tempo").text(partition._instruments_list[0]._track_part._measure_list[0]._sound_params._tempo);
 		cur_tempo = $(".tempo").text()*1;
 
@@ -267,8 +265,11 @@
 		);
 
 		if (config.midiPath) {
+			var application = Application.get();
 			application.appendMidiPlayer(config.midiPath);
 			application.hideSplashScreen('slow');
+			application.bindKeys();
+			console.timeEnd('temps de chargement');
 		} else {
          $.ajax({
             type: "POST",
@@ -285,9 +286,11 @@
 				} catch(ex) {
 					console.error("La page midi n'a pas renvoyé de JSON : ", {texte:data});
 				}
+				var application = Application.get();
 				application.appendMidiPlayer(data.filename);
 				application.hideSplashScreen('slow');
-				console.log('application');
+				application.bindKeys();
+				console.timeEnd('temps de chargement');
             },
             error: function (xhr, status, err) {
                 alert("fail");

@@ -309,6 +309,8 @@ header
     overflow-y: auto;
     overflow-x: hidden;
 }
+
+/* popup */
 #splashbg {
 	opacity: 0.7;
 }
@@ -329,6 +331,13 @@ header
 	border: black 1px solid;
 	border-radius: 2px;
 }
+#splashMessage li:hover {
+	background-color: rgba(255, 255, 255, 0.3);
+}
+#raccourcis li {
+	text-align: left;
+}
+/* */
 #volume
 {
 	width: 100px;

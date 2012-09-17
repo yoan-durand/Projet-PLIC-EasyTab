@@ -1,4 +1,11 @@
 
+exports.crash = function(req, res, next){//TODO à supprimer pour la mise en production
+	res.send('<form method="post"><input type="submit"></form>');
+}
+exports.crashPost = function(req, res, next){//TODO à supprimer pour la mise en production
+	process.exit(Math.floor(Math.random()*10));
+}
+
 exports.index = function(req, res, next){
 	if (forceLogin(req, res))
 		return;
