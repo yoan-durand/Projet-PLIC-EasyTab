@@ -1,5 +1,5 @@
 
-exports.index = function(req, res){
+exports.index = function(req, res, next){
 	if (forceLogin(req, res))
 		return;
 	var params = {
@@ -13,13 +13,13 @@ exports.index = function(req, res){
 		params.success = req.session.success;
 		delete req.session.success;
 	}
-	tablatureSearch(req, res, undefined, true, function(results){
+	tablatureSearch(req, res, next, undefined, true, function(results){
 		params.pistes = results;
 		res.render('index', params);
 	});
 };
 
-exports.application = function(req, res){
+exports.application = function(req, res, next){
 	if (forceLogin(req, res))
 		return;
 	var config = require('./config');
@@ -33,7 +33,8 @@ exports.application = function(req, res){
 		}
 		tablature += req.params.tablature;
 	} else {
-		tablature = 'demo';
+		res.redirect('/application;demo.xml');
+		return;
 	}
 	var userId = req.session.user.id;
 	var crypto = require('crypto');
@@ -48,10 +49,12 @@ exports.application = function(req, res){
 		function(err, results, fields) {
 			bdd.end(); // close sql connection
 			if (err) {
-				throw err;
+				next(new Error(JSON.stringify(err)));
+				return;
 			}
-			if (results.length = 0) {
-				throw 'gestion des erreurs';
+			if (results.length === 0) {
+				next(new Error("La tablature n'est plus dans la base de données"));
+				return;
 			}
 			res.render('application', {
 				connected: req.session.connected,
@@ -64,7 +67,7 @@ exports.application = function(req, res){
 		);
 };
 
-exports.creerCompte = function(req, res) {
+exports.creerCompte = function(req, res, next) {
 	var params = {
 		connected: req.session.connected
 	}
@@ -78,7 +81,7 @@ exports.creerCompte = function(req, res) {
 	}
 	res.render('creerCompte', params);
 }
-exports.creerComptePost = function(req, res) {
+exports.creerComptePost = function(req, res, next) {
 	var pseudo = req.body.pseudo;
 	var password = req.body.password;
 	var confirmPassword = req.body.confirmPassword;
@@ -101,13 +104,13 @@ exports.creerComptePost = function(req, res) {
 		function(err){
 			client.end();
 			if (err) {
-				throw err;
+				next(new Error(JSON.stringify(err)));
 			}
 			req.session.success = 'Le compte "'+pseudo+'" a été créé avec succès.';
 			res.redirect('/');
 		});
 }
-exports.compte = function(req, res){
+exports.compte = function(req, res, next){
 	if (forceLogin(req, res))
 		return;
 	var dateInscription = new Date(parseInt(req.session.user.dateInscription));
@@ -126,7 +129,7 @@ exports.compte = function(req, res){
 	}
 	res.render('compte', params);
 };
-exports.comptePost = function(req, res){
+exports.comptePost = function(req, res, next){
 	if (forceLogin(req, res))
 		return;
 	if (!req.body.password || !req.body.confirmPassword) {
@@ -148,7 +151,7 @@ exports.comptePost = function(req, res){
 			function(err){
 				client.end();
 				if (err) {
-					throw err;
+					next(new Error(JSON.stringify(err)));
 				}
 				req.session.success = 'Le mot de passe a bien été modifié.';
 				res.redirect(req.url);
@@ -156,7 +159,7 @@ exports.comptePost = function(req, res){
 	}
 }
 
-exports.login = function(req, res){
+exports.login = function(req, res, next){
 	req.session.regenerate(function(e){
 		req.session.connected = false;
 		req.session.redirect = '/';
@@ -165,7 +168,7 @@ exports.login = function(req, res){
 		});
 	});
 };
-exports.loginPost = function(req, res){
+exports.loginPost = function(req, res, next){
 	if (!req.body.login) {
 		return;
 	}
@@ -181,7 +184,7 @@ exports.loginPost = function(req, res){
 		function(err, results, fields) {
 			client.end(); // close sql connection
 			if (err) {
-				throw err;
+				next(new Error(JSON.stringify(err)));
 			}
 			var crypto = require('crypto');
 			var password = crypto.createHash('sha1').update(req.body.password+config.bdd.salt+req.body.login).digest('hex');
@@ -200,13 +203,13 @@ exports.loginPost = function(req, res){
 		}
 		);
 };
-exports.logout = function(req, res){
+exports.logout = function(req, res, next){
 	req.session.regenerate(function(e){
 		req.session.connected = false;
 		res.redirect('/');
 	});
 };
-function forceLogin(req, res) {
+function forceLogin(req, res, next) {
 	if (req.session.connected === true) {
 		return false;
 	}
@@ -238,7 +241,7 @@ function forceLogin(req, res) {
 	return (true);
 }
 
-exports.midi = function(req, res) {
+exports.midi = function(req, res, next) {
 	var request = require('request');
 	var config = require('./config');
 	request.post({
@@ -246,21 +249,21 @@ exports.midi = function(req, res) {
 		form: req.body
 	}, function(error, response, body) {
 		if (error) {
-			throw error;
+			next(new Error(JSON.stringify(error)));
 		}
 		//if (response.statusCode == 404) {}
 		res.send(response.body);
 	});
 }
 
-exports.upload = function(req, res) {
+exports.upload = function(req, res, next) {
 	if (forceLogin(req, res))
 		return;
 	res.render('upload', {
 		connected:req.session.connected
 	});
 }
-exports.uploadPost = function(req, res) {
+exports.uploadPost = function(req, res, next) {
 	if (forceLogin(req, res))
 		return;
 	if (req.files.tablature && req.files.tablature.type !== 'text/xml') {
@@ -274,7 +277,7 @@ exports.uploadPost = function(req, res) {
 	var fs = require('fs');
 	fs.rename(req.files.tablature.path, __dirname + '/public/upload/'+name+'.xml', function(err) {
 		if(err) {
-			throw err;
+			next(new Error(JSON.stringify(err)));
 		}
 		var client = mysql_connect();
 		client.query(
@@ -283,31 +286,31 @@ exports.uploadPost = function(req, res) {
 			function(err, results, fields){
 				client.end();
 				if(err) {
-					throw err;
+					next(new Error(JSON.stringify(err)));
 				}
 				res.redirect('/tablatures');
 			});
 	});
 }
 
-exports.tablatures = function(req, res) {
+exports.tablatures = function(req, res, next) {
 	if (forceLogin(req, res))
 		return;
-	tablatureSearch(req, res, undefined, false, function(results) {
+	tablatureSearch(req, res, next, undefined, false, function(results) {
 		res.render('tablatures', {
 			pistes: results,
 			connected: req.session.connected
 		});
 	});
 }
-exports.getTablatures = function(req, res) {
+exports.getTablatures = function(req, res, next) {
 	if (forceLogin(req, res))
 		return;
-	tablatureSearch(req, res, undefined, true, function(results){
+	tablatureSearch(req, res, next, undefined, true, function(results){
 		res.send(JSON.stringify(results));
 	});
 }
-exports.tablaturesVisibility = function(req, res) {
+exports.tablaturesVisibility = function(req, res, next) {
 	if (forceLogin(req, res))
 		return;
 	var id = parseInt(req.params.id, 10);
@@ -322,7 +325,7 @@ exports.tablaturesVisibility = function(req, res) {
 		function (err, results, fields){
 			if(err) {
 				bdd.end();
-				throw err;
+				next(new Error(JSON.stringify(err)));
 			}
 			if (results[0]['count(*)'] == 0) {
 				bdd.end();
@@ -333,14 +336,14 @@ exports.tablaturesVisibility = function(req, res) {
 					function (err, results, fields){
 						bdd.end();
 						if(err) {
-							throw err;
+							next(new Error(JSON.stringify(err)));
 						}
 						res.redirect('/tablatures');
 					});
 			}
 		});
 }
-exports.tablaturesSuppression = function(req, res) {
+exports.tablaturesSuppression = function(req, res, next) {
 	if (forceLogin(req, res))
 		return;
 	var id = parseInt(req.params.id, 10);
@@ -354,7 +357,7 @@ exports.tablaturesSuppression = function(req, res) {
 		function (err, results, fields){
 			if(err) {
 				bdd.end();
-				throw err;
+				next(new Error(JSON.stringify(err)));
 			}
 			if (results[0]['count(*)'] == 0) {
 				bdd.end();
@@ -365,7 +368,7 @@ exports.tablaturesSuppression = function(req, res) {
 					function (err, results, fields){
 						bdd.end();
 						if(err) {
-							throw err;
+							next(new Error(JSON.stringify(err)));
 						}
 						res.redirect('/tablatures');
 					});
@@ -373,11 +376,11 @@ exports.tablaturesSuppression = function(req, res) {
 		});
 }
 
-exports.search = function(req, res) {
+exports.search = function(req, res, next) {
 	if (forceLogin(req, res))
 		return;
 	var recherche = req.params.search;
-	tablatureSearch(req, res, recherche, false, function(results) {
+	tablatureSearch(req, res, next, recherche, false, function(results) {
 		res.send(JSON.stringify(results));
 	});
 }
@@ -393,7 +396,7 @@ function mysql_connect() {
 	return client;
 }
 
-function tablatureSearch(req, res, filter, publicOnly, callback) {
+function tablatureSearch(req, res, next, filter, publicOnly, callback) {
 	var sql = 'SELECT id, nom, titre, artiste, public FROM `tablature` WHERE ';
 	var match = [];
 	if (publicOnly) {
@@ -415,11 +418,11 @@ function tablatureSearch(req, res, filter, publicOnly, callback) {
 		function(err, results, fields) {
 			client.end(); // close sql connection
 			if (err) {
-				throw err;
+				next(new Error(JSON.stringify(err)));
 			}
 			callback(results);
 		}
-		);
+	);
 }
 
 function encryptPassword(password, login) {

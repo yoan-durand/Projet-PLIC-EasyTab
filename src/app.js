@@ -30,12 +30,7 @@ app.configure(function(){
 	app.use(express.session({
 		secret: 'secret u20acQzs^$~{eZSn'
 	}));
-/*
-	// file upload
-	app.use(connect.multipart({
-		uploadDir: __dirname + 'upload'
-	}));
-*/
+
 	app.use(express.bodyParser());
 	app.use(express.methodOverride());
 	app.use(app.router);
