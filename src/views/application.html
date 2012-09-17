@@ -203,6 +203,10 @@
         }
     });
 
+/*
+ * selection des notes en cliquant sur une note ou sur le rectangle derriere.
+ */
+
     $($("rect[id^='n_'], text[id^='n_']"), svg_inst[current_svg].root()).click(function ()
     {
 		var id = $(this).attr("id");
@@ -216,7 +220,7 @@
 		var n = array[2];
 		var note = partition._instruments_list[current_svg]._track_part._measure_list[m]._chord_list[n]._note_list[0];
 		if (note._fret_technical != null)
-		{
+		{			
 			if (note._fret_technical.length == 2)
 			{
 				$($("rect[id^='cursor']"), svg_inst[current_svg].root()).attr({"y": (note._posY-10), transform:"translate("+(note._posX-60+5)+" 0)"});;
@@ -225,6 +229,10 @@
 			{
 				 $($("rect[id^='cursor']"), svg_inst[current_svg].root()).attr({"y": (note._posY-10), transform:"translate("+(note._posX-60+2)+" 0)"});;
 			}
+		}
+		else
+		{	
+			$($("rect[id^='cursor']"), svg_inst[current_svg].root()).attr({"y": (note._posY-10), transform:"translate("+(note._posX-60+5)+" 0)"});;
 		}
 
 		ref = ((($($("rect[id^='cursor']"), svg_inst[current_svg].root()).attr("y") - 20) / 90)%3);

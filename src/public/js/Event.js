@@ -242,7 +242,7 @@ $(document).ready(setTimeout(function(){
 		{
 			hasScrolled = true;
 			ancient = $("rect[id='cursor_" + current_svg + "']").attr("y");
-			console.log ("va a posiiton : " + scroll);
+			
 			$(".overflow_svg").scrollTo ($("rect[id='cursor_" + current_svg + "']").attr("y") - 10, 0, {axis:'y'});
 		}
 	
@@ -527,8 +527,6 @@ $(document).ready(setTimeout(function(){
 		
 		$(".bar").scrollTo($(".bar img[id='m_"+progress_scroll+"']"), 0, {axis:"x"});
 	});
-	
-	console.log('event');
 }, 1000));
 
 	
