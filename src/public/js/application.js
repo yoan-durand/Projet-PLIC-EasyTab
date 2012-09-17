@@ -75,12 +75,14 @@ Application.prototype = {
 		} else {
 			var html = '<h2>Raccourcis</h2>'
 				+'<ul id="raccourcis">'
-				+'<li><b>Échap</b> : Ferme la fenêtre actuelement ouverte.<li>'
 				+'<li><b>H</b> : Affiche la fenêtre d\'aide.<li>'
 				+'<li><b>O</b> : Ouvre la fenêtre de changement de tablature.<li>'
 				+'<li><b>P</b> : Démarre/met en pause la lecture.<li>'
 				+'<li><b>S</b> : Arrête la lecture.<li>'
+				+'<li><b>Échap</b> : Ferme la fenêtre actuelement ouverte.<li>'
 				+'<li><b>Début</b> : Revient au début de la tablature.<li>'
+				+'<li><b>-</b> : Baisse le son.<li>'
+				+'<li><b>+</b> : Augmente le son.<li>'
 				+'</ul>';
 			this.popupContent.html(html);
 			this.showSplashScreen();

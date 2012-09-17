@@ -449,6 +449,20 @@ $(document).ready(setTimeout(function(){
 	});
 
     /// SECTION SCROLLBARS
+	var onSlide = function(value) {
+		document.demo.SetVolume(Math.floor(value*2.56));
+		if (value == 0)
+		{
+			if (!$("#speaker").hasClass("speakoff"))
+			{
+				$("#speaker").removeClass("speakon").addClass("speakoff");
+			}
+		}
+		else if (!$("#speaker").hasClass("speakon"))
+		{
+			$("#speaker").removeClass("speakoff").addClass("speakon");
+		}
+	}
 	$("#volume").slider({
 		animate: "slow",
 		value: 100,
@@ -458,19 +472,30 @@ $(document).ready(setTimeout(function(){
 		min: 1,
 		max: 100,
 		slide: function (event, ui){
-			document.demo.SetVolume(Math.floor(ui.value*2.56));
-			if (ui.value == 0)
-			{
-				if (!$("#speaker").hasClass("speakoff"))
-				{
-					$("#speaker").removeClass("speakon").addClass("speakoff");
-				}
-			}
-			else if (!$("#speaker").hasClass("speakon"))
-			{
-				$("#speaker").removeClass("speakoff").addClass("speakon");
-			}
+			onSlide(ui.value);
 		}
+	});
+	$(document).bind('keydown', '-', function(e) {
+		e.preventDefault();
+		var value = $("#volume").slider('value');
+		var min = $("#volume").slider('option', 'min');
+		value -= 5;
+		if (value < min) {
+			value = min;
+		}
+		$("#volume").slider('value', value);
+		onSlide(value);
+	});
+	$(document).bind('keydown', '+', function(e) {
+		e.preventDefault();
+		var value = $("#volume").slider('value');
+		var max = $("#volume").slider('option', 'max');
+		value += 5;
+		if (value > max) {
+			value = max;
+		}
+		$("#volume").slider('value', value);
+		onSlide(value);
 	});
 	
 	$("#speaker").click(function (){
