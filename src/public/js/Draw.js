@@ -248,6 +248,9 @@ function DrawNotes(context, file, yLine)
                                         context.svg.rect(note2._posX , 9 + yLine, 11, 5, {fill:"#333"});
                                     }
                                 }
+                                
+                                context.svg.line(note2._posX + 2, yLine + (context.nb_cordes * 10),note2._posX + 2, yLine + (context.nb_cordes * 10) + 20, {stroke:"black"} );
+                                context.svg.line(note2._posX + 2, yLine +(context.nb_cordes * 10)+20,note2._posX + 2 + 5, yLine +(context.nb_cordes * 10)+20, {stroke:"black"} );
                             }
                         }
 	}
