@@ -73,4 +73,13 @@ app.post('/upload', routes.uploadPost);
 
 app.listen(8080, function(){
 	console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);
+	var config = require('./config');
+	var fs = require('fs');
+	var path = require('path');
+	if (!path.existsSync('./public/'+config.upload.dir)) {
+		fs.mkdir('./public/'+config.upload.dir);
+	}
+	if (!path.existsSync('./public/'+config.midi.dir)) {
+		fs.mkdir('./public/'+config.midi.dir);
+	}
 });
