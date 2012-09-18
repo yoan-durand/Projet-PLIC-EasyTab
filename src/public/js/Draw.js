@@ -219,10 +219,12 @@ function DrawNotes(context, file, yLine)
                  }
                     for (var j = 0; j < chords.length; j++)
                     {
+                    	 	var rythm = false;
                             var notes = chords[j]._note_list;
                             for (var k = 0; k < notes.length; k++)
                             {
                                 var note2 = notes[k];
+                               
 
                                 if (note2._fret_technical != null)
                                 {
@@ -248,7 +250,32 @@ function DrawNotes(context, file, yLine)
                                         context.svg.rect(note2._posX , 9 + yLine, 11, 5, {fill:"#333"});
                                     }
                                 }
-                                
+                               
+                                if (!rythm)
+                                {
+	                                switch (note2._duration/480) 
+	                                {
+									case 0.25:
+										context.svg.line(note2._posX + 2, yLine + (context.nb_cordes * 10) - 5 ,note2._posX + 2, yLine + (context.nb_cordes * 10) + 15, {stroke:"black"} );
+		                                context.svg.rect(note2._posX + 2, yLine + (context.nb_cordes * 10) + 13, 5, 2, {fill:"#333"} );
+										rythm = true;
+		                                break;
+									case 0.125:
+										context.svg.line(note2._posX + 2, yLine + (context.nb_cordes * 10) - 5 ,note2._posX + 2, yLine + (context.nb_cordes * 10) + 15, {stroke:"black"} );
+		                                context.svg.rect(note2._posX + 2, yLine + (context.nb_cordes * 10) + 13, 5, 2, {fill:"#333"} );
+		                                context.svg.rect(note2._posX + 2, yLine + (context.nb_cordes * 10) + 10, 5, 2, {fill:"#333"} );
+		                                rythm = true;
+		                                break;
+									case 0.625:
+										context.svg.line(note2._posX + 2, yLine + (context.nb_cordes * 10) - 5 ,note2._posX + 2, yLine + (context.nb_cordes * 10) + 15, {stroke:"black"} );
+		                                context.svg.rect(note2._posX + 2, yLine + (context.nb_cordes * 10) + 13, 5, 2, {fill:"#333"} );
+		                                context.svg.rect(note2._posX + 2, yLine + (context.nb_cordes * 10) + 10, 5, 2, {fill:"#333"} );
+		                                context.svg.rect(note2._posX + 2, yLine + (context.nb_cordes * 10) + 9, 5, 2, {fill:"#333"} ); 
+		                                rythm = true;
+									default:
+										break;
+									}
+                                }
                                 context.svg.line(note2._posX + 2, yLine + (context.nb_cordes * 10) - 5 ,note2._posX + 2, yLine + (context.nb_cordes * 10) + 15, {stroke:"black"} );
                                 context.svg.rect(note2._posX + 2, yLine + (context.nb_cordes * 10) + 13, 5, 2, {fill:"#333"} );
 								
