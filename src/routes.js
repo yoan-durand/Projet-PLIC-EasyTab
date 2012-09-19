@@ -112,6 +112,7 @@ exports.creerComptePost = function(req, res, next) {
 			client.end();
 			if (err) {
 				next(new Error(JSON.stringify(err)));
+				return;
 			}
 			req.session.success = 'Le compte "'+pseudo+'" a été créé avec succès.';
 			res.redirect('/');
@@ -159,6 +160,7 @@ exports.comptePost = function(req, res, next){
 				client.end();
 				if (err) {
 					next(new Error(JSON.stringify(err)));
+					return;
 				}
 				req.session.success = 'Le mot de passe a bien été modifié.';
 				res.redirect(req.url);
@@ -192,6 +194,7 @@ exports.loginPost = function(req, res, next){
 			client.end(); // close sql connection
 			if (err) {
 				next(new Error(JSON.stringify(err)));
+				return;
 			}
 			var crypto = require('crypto');
 			var password = crypto.createHash('sha1').update(req.body.password+config.bdd.salt+req.body.login).digest('hex');
@@ -257,6 +260,7 @@ exports.midi = function(req, res, next) {
 	}, function(error, response, body) {
 		if (error) {
 			next(new Error(JSON.stringify(error)));
+			return;
 		}
 		//if (response.statusCode == 404) {}
 		res.send(response.body);
@@ -285,6 +289,7 @@ exports.uploadPost = function(req, res, next) {
 	fs.rename(req.files.tablature.path, __dirname + '/public/upload/'+name+'.xml', function(err) {
 		if(err) {
 			next(new Error(JSON.stringify(err)));
+			return;
 		}
 		var client = mysql_connect();
 		client.query(
@@ -294,6 +299,7 @@ exports.uploadPost = function(req, res, next) {
 				client.end();
 				if(err) {
 					next(new Error(JSON.stringify(err)));
+					return;
 				}
 				res.redirect('/tablatures');
 			});
@@ -333,6 +339,7 @@ exports.tablaturesVisibility = function(req, res, next) {
 			if(err) {
 				bdd.end();
 				next(new Error(JSON.stringify(err)));
+				return;
 			}
 			if (results[0]['count(*)'] == 0) {
 				bdd.end();
@@ -344,6 +351,7 @@ exports.tablaturesVisibility = function(req, res, next) {
 						bdd.end();
 						if(err) {
 							next(new Error(JSON.stringify(err)));
+							return;
 						}
 						res.redirect('/tablatures');
 					});
@@ -365,6 +373,7 @@ exports.tablaturesSuppression = function(req, res, next) {
 			if(err) {
 				bdd.end();
 				next(new Error(JSON.stringify(err)));
+				return;
 			}
 			if (results[0]['count(*)'] == 0) {
 				bdd.end();
@@ -376,6 +385,7 @@ exports.tablaturesSuppression = function(req, res, next) {
 						bdd.end();
 						if(err) {
 							next(new Error(JSON.stringify(err)));
+							return;
 						}
 						res.redirect('/tablatures');
 					});
@@ -387,9 +397,10 @@ exports.search = function(req, res, next) {
 	if (forceLogin(req, res))
 		return;
 	var recherche = req.params.search;
+	var option = req.params.option;
 	tablatureSearch(req, res, next, recherche, false, function(results) {
 		res.send(JSON.stringify(results));
-	});
+	}, option);
 }
 
 function mysql_connect() {
@@ -403,8 +414,8 @@ function mysql_connect() {
 	return client;
 }
 
-function tablatureSearch(req, res, next, filter, publicOnly, callback) {
-	var sql = 'SELECT id, nom, titre, artiste, public FROM `tablature` WHERE ';
+function tablatureSearch(req, res, next, filter, publicOnly, callback, option) {
+	var sql = 'SELECT tablature.id, nom, titre, artiste, public, userId, user.login FROM `tablature` JOIN `user` ON tablature.userId = user.id WHERE ';
 	var match = [];
 	if (publicOnly) {
 		sql += '`public` = 1';
@@ -418,6 +429,13 @@ function tablatureSearch(req, res, next, filter, publicOnly, callback) {
 		filter = '%'+filter+'%';
 		match.push(filter, filter, filter);
 	}
+	if (option !== undefined) {
+		if (option === 'alpha') {
+			sql += ' ORDER BY nom';
+		} else if (option === 'date') {
+			sql += ' ORDER BY id';
+		}
+	}
 	var client = mysql_connect();
 	client.query(
 		sql,
@@ -426,6 +444,7 @@ function tablatureSearch(req, res, next, filter, publicOnly, callback) {
 			client.end(); // close sql connection
 			if (err) {
 				next(new Error(JSON.stringify(err)));
+				return;
 			}
 			callback(results);
 		}
