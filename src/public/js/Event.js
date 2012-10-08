@@ -11,7 +11,7 @@ $(document).ready(setTimeout(function(){
     tracks(partition._instruments_list);
 
     /// SECTION EVENT PLAYER
-    
+
     $("#back").hover(function (){ //IN Handler
         if ($(this).attr("src") != "image/backactif.png")
             {
@@ -22,12 +22,12 @@ $(document).ready(setTimeout(function(){
       if ($(this).attr("src") != "image/backactif.png")
           {
               $(this).attr("src", "image/back.png");
-          }  
+          }
      });
 
-    $("#back").click(function (){
-        if ($(this).attr("src") == "image/backhover.png")
-        {
+	var back = function (e){
+        // if ($(this).attr("src") == "image/backhover.png")
+        // {
             javascript:document.demo.Stop();
             javascript:document.demo.SetTime(0);
             document.demo.SetRate($(".tempo").text()/cur_tempo);
@@ -49,9 +49,15 @@ $(document).ready(setTimeout(function(){
                 $("#back").attr("src", "image/back.png");
             }, 500);
 			Animation_Play(selected);
-        }
-    });
-    
+        // }
+    };
+    $("#back").click(back);
+	// bind de la touche début sur le back
+	$(document).bind('keyup', 'home', function(e) {
+		e.preventDefault();
+		back.call($("#back")[0]);
+	});
+
      $("#play").hover(function (){ //IN Handler
          if ($(this).attr("src") != "image/playactif.png")
              {
@@ -66,7 +72,7 @@ $(document).ready(setTimeout(function(){
      });
 
     $("#play").click(function (){
-        
+
         if ($(this).attr("src") == "image/playhover.png")
         {
         	//bloquage du scroll utilisateur
@@ -98,33 +104,30 @@ $(document).ready(setTimeout(function(){
 	{
 		return (ms * 480) / ((60 / tempo) * 1000);
 	}
-	   
-	// TOUCHE ENTER PRESS
-	$(document).keyup(function (e){
-		if (e.keyCode==112 || e.keyCode==80)
+
+	// Bind de la touche P
+	$(document).bind('keyup', 'p', function (e){
+		if (document.demo.GetRate() != 0) // PAUSE REQUEST
 		{
-			if (document.demo.GetRate() != 0) // PAUSE REQUEST
-			{
-				document.demo.Stop();
-				$("#back").attr("src", "image/back.png");
-				$("#play").attr("src", "image/play.png");
-				$("#pause").attr("src", "image/pauseactif.png");
-				$("#stop").attr("src", "image/stop.png");
-				$(".overflow_svg").css("overflow-y", "auto");
-			}
-			else // PLAY REQUEST
-			{
-				document.demo.SetRate($(".tempo").text()/cur_tempo);
-				$("#back").attr("src", "image/back.png");
-				$("#play").attr("src", "image/playactif.png");
-				$("#pause").attr("src", "image/pause.png");
-				$("#stop").attr("src", "image/stop.png");
-				$(".overflow_svg").css("overflow-y", "hidden");
-				Animation_Play(selected);
-			}
+			document.demo.Stop();
+			$("#back").attr("src", "image/back.png");
+			$("#play").attr("src", "image/play.png");
+			$("#pause").attr("src", "image/pauseactif.png");
+			$("#stop").attr("src", "image/stop.png");
+			$(".overflow_svg").css("overflow-y", "auto");
+		}
+		else // PLAY REQUEST
+		{
+			document.demo.SetRate($(".tempo").text()/cur_tempo);
+			$("#back").attr("src", "image/back.png");
+			$("#play").attr("src", "image/playactif.png");
+			$("#pause").attr("src", "image/pause.png");
+			$("#stop").attr("src", "image/stop.png");
+			$(".overflow_svg").css("overflow-y", "hidden");
+			Animation_Play(selected);
 		}
 	});
-	   
+
 	//variable pour le scroll
 	var ancient = 0;
 	var hasScrolled  = false;
@@ -132,18 +135,18 @@ $(document).ready(setTimeout(function(){
 	var ref = 0;
 	var scroll = 280;
 	var onglet = false;
-	//------------------------------------  
-	
+	//------------------------------------
+
 	function Animation_Play(index_m)
 	{
-		
+
 		selected = index_m;
-		
+
 		var delay_ms = 350;
 		var delay_midi = SecondtoMIDI(delay_ms,g_tempo);
 		var time_ms = getTime();
 		var time_midi = SecondtoMIDI(time_ms, g_tempo);
-		   
+
 		var cur_mesure = partition._instruments_list[current_svg]._track_part._measure_list[index_m];
 		for (var i = 0; i < cur_mesure._chord_list.length; i++)
 		{
@@ -164,7 +167,7 @@ $(document).ready(setTimeout(function(){
 					var delta = chord._note_list[0]._begin + delay_midi - time_midi;
 					var midi_duration = chord._note_list[0]._duration + delta;
 					var ms_duration = MIDItoSecond(midi_duration, g_tempo);
-				   
+
 					if (i != cur_mesure._chord_list.length - 1) // On est pas sur la derniere note
 					{
 						timeout = setTimeout(function(){
@@ -176,7 +179,7 @@ $(document).ready(setTimeout(function(){
 					{
 						if (index_m != partition._instruments_list[current_svg]._track_part._measure_list.length - 1) // Si on est pas sur la derniere mesure
 						{
-						   
+
 							timeout = setTimeout(function(){
 									Animation_Play(index_m + 1);
 							}, ms_duration);
@@ -209,31 +212,31 @@ $(document).ready(setTimeout(function(){
 
 		$($("rect[id='cursor_"+current_svg+"']"), svg_inst[current_svg].root()).attr({"y": y - 10});
 		$($("rect[id='cursor_"+current_svg+"']"), svg_inst[current_svg].root()).animate({svgTransform: 'translate(' + xbis + ' 0)'}, 0, 'linear');
-		
+
 		/*
-		 * 
+		 *
 		 * code de scroll
-		 * 
-		 */	
+		 *
+		 */
 		if (onglet == true)
 		{
 			//r�cup�ration de la position courante du curseur.
-			scroll = ($("rect[id='cursor_" + current_svg + "']").attr("y"));	
+			scroll = ($("rect[id='cursor_" + current_svg + "']").attr("y"));
 			scroll = parseInt(scroll);
 			$(".overflow_svg").scrollTo(scroll - 15, 0, {axis:'y'});
-			
+
 			res = (((scroll - 20) / 90) % 3);
 			ancient = scroll;
-			//prochaine 
+			//prochaine
 			scroll += 265;
-			
-			
+
+
 			//mise a jour des valeur bool�ennes.
 			hasScrolled = true;
 			onglet = false;
 		}
 
-		
+
 		var test = ($("rect[id='cursor_" + current_svg + "']").attr("y") - 20) / 90;
 		/*
 		console.log("valeur de test/90 : " + test);
@@ -242,21 +245,21 @@ $(document).ready(setTimeout(function(){
 		{
 			hasScrolled = true;
 			ancient = $("rect[id='cursor_" + current_svg + "']").attr("y");
-			
+
 			$(".overflow_svg").scrollTo ($("rect[id='cursor_" + current_svg + "']").attr("y") - 10, 0, {axis:'y'});
 		}
-	
+
 		if (ancient != ($("rect[id='cursor_" + current_svg + "']").attr("y")) && (hasScrolled == true))
 		{
 			hasScrolled = false;
 		}
-		
+
 		$("img[id^='m_']").each(function (i, v){
 			$(this).attr({"src" : "image/casegrise.png"});
 		})
-		
+
 		$(".progress_bar img[id='m_"+ selected + "']").attr("src", "image/casebleue.png");
-		 
+
 		if ((selected >= 28) && (selected % 14 == 0) && vertic == false)
 		{
 			vertic = true;
@@ -266,11 +269,11 @@ $(document).ready(setTimeout(function(){
 		{
 			vertic = false;
 		}
-		 
+
 		 /*
 		  *
 		  * fin du code de scroll
-		  * 
+		  *
 		  */
 	}
 
@@ -284,9 +287,9 @@ $(document).ready(setTimeout(function(){
       if ($(this).attr("src") != "image/pauseactif.png")
           {
               $(this).attr("src", "image/pause.png");
-          } 
+          }
      });
-     
+
     $("#pause").click(function (){
         if ($(this).attr("src") == "image/pausehover.png")
         {
@@ -312,11 +315,12 @@ $(document).ready(setTimeout(function(){
        {
           $(this).attr("src", "image/stop.png");
        }
-         
+
      });
-    $("#stop").click(function (){
-        if ($(this).attr("src") == "image/stophover.png")
-        {
+
+	var stop = function (){
+        // if ($(this).attr("src") == "image/stophover.png")
+        // {
             clearTimeout(timeout);
             javascript:document.demo.Stop();
             javascript:document.demo.SetTime(0);
@@ -338,17 +342,23 @@ $(document).ready(setTimeout(function(){
             setTimeout(function (){
                 $("#stop").attr("src", "image/stop.png");
             }, 500);
-            
+
             for (var j = 0; j < svg_inst.length; j++)
             	{
             	$($("rect[id='cursor_"+current_svg+"']"), svg_inst[j].root()).attr({"y": 20});
     			$($("rect[id='cursor_"+current_svg+"']"), svg_inst[j].root()).animate({svgTransform: 'translate(0 0)'}, 0, 'linear');
             	}
-            
+
 			/*$($("rect[id='cursor_"+current_svg+"']"), svg_inst[current_svg].root()).stop();*/
-			
-        }
-    });
+
+        // }
+    }
+	$("#stop").click(stop);
+	// bind de la touche s sur le stop
+	$(document).bind('keyup', 's', function(e) {
+		e.preventDefault();
+		stop.call($("#stop")[0]);
+	});
 
     /// SECTION INITIALISATION GRAPHIQUE MESURES + TRACKS
 
@@ -402,16 +412,16 @@ $(document).ready(setTimeout(function(){
         var id = $(this).attr("id");
         var array = id.split('_');
         $(".tab_svg #"+current_svg).css("display", "none");
-      
+
         current_svg = array[1];
-        
-        $(".tab_svg #"+current_svg).css("display", "block");   
+
+        $(".tab_svg #"+current_svg).css("display", "block");
         onglet = true;
     });
-	
+
 	var scrollTop = 0;
 	var lastScroll = 0;
-	
+
 	$(".instruments").scroll(function(e){
 		var self = $(this);
 		if (e.timeStamp - lastScroll > 100)
@@ -436,6 +446,20 @@ $(document).ready(setTimeout(function(){
 	});
 
     /// SECTION SCROLLBARS
+	var onSlide = function(value) {
+		document.demo.SetVolume(Math.floor(value*2.56));
+		if (value == $("#volume").slider('option', 'min'))
+		{
+			if (!$("#speaker").hasClass("speakoff"))
+			{
+				$("#speaker").removeClass("speakon").addClass("speakoff");
+			}
+		}
+		else if (!$("#speaker").hasClass("speakon"))
+		{
+			$("#speaker").removeClass("speakoff").addClass("speakon");
+		}
+	}
 	$("#volume").slider({
 		animate: "slow",
 		value: 100,
@@ -445,21 +469,43 @@ $(document).ready(setTimeout(function(){
 		min: 1,
 		max: 100,
 		slide: function (event, ui){
-			document.demo.SetVolume(Math.floor(ui.value*2.56));
-			if (ui.value == 0)
-			{
-				if (!$("#speaker").hasClass("speakoff"))
-				{
-					$("#speaker").removeClass("speakon").addClass("speakoff");
-				}
-			}
-			else if (!$("#speaker").hasClass("speakon"))
-			{
-				$("#speaker").removeClass("speakoff").addClass("speakon");
-			}
+			onSlide(ui.value);
 		}
 	});
-	
+	$(document).bind('keydown', '-', function(e) {
+		e.preventDefault();
+		var value = $("#volume").slider('value');
+		var min = $("#volume").slider('option', 'min');
+		value -= 5;
+		if (value < min) {
+			value = min;
+		}
+		$("#volume").slider('value', value);
+		onSlide(value);
+	});
+	$(document).bind('keydown', '+', function(e) {
+		e.preventDefault();
+		var value = $("#volume").slider('value');
+		var max = $("#volume").slider('option', 'max');
+		value += 5;
+		if (value > max) {
+			value = max;
+		}
+		$("#volume").slider('value', value);
+		onSlide(value);
+	});
+	$(document).bind('keydown', 'shift+=', function(e) {
+		e.preventDefault();
+		var value = $("#volume").slider('value');
+		var max = $("#volume").slider('option', 'max');
+		value += 5;
+		if (value > max) {
+			value = max;
+		}
+		$("#volume").slider('value', value);
+		onSlide(value);
+	});
+
 	$("#speaker").click(function (){
 		var ismute = !document.demo.GetMute();
 		document.demo.SetMute(ismute);
@@ -472,61 +518,61 @@ $(document).ready(setTimeout(function(){
 			$("#speaker").removeClass("speakoff").addClass("speakon");
 		}
 	});
-	
+
 	/*
-	 * 
+	 *
 	 * scoll sur la bar de progression avec click sur les fleches.
-	 * 
+	 *
 	 */
 
 	var progress_scroll = selected ;
-	
+
 	$(".left").click(function ()
 	{
-		
+
 		if (progress_scroll - 1 >= 0)
 		{
 			progress_scroll -= 1;
 		}
-		
-		
-		
+
+
+
 		$(".bar").scrollTo($(".bar img[id='m_"+progress_scroll+"']"), 0, {axis:"x"});
 	});
-	
+
 	$(".right").click(function ()
-	{	
+	{
 		if (selected > progress_scroll)
 		{
 			progress_scroll = selected;
 		}
-		
+
 		progress_scroll +=1;
 		$(".bar").scrollTo($(".bar img[id='m_"+progress_scroll+"']"), 0, {axis:"x"});
 	});
-	
+
 	$(".left").mousehold(function ()
 			{
-								
+
 				if (progress_scroll - 1 >= 0)
 				{
 					progress_scroll -= 1;
 				}
-				
+
 				$(".bar").scrollTo($(".bar img[id='m_"+progress_scroll+"']"), 0, {axis:"x"});
 			});
-	
+
 	$(".right").mousehold(function ()
 	{
 		if (selected > progress_scroll)
 		{
 			progress_scroll = selected;
 		}
-		
+
 		progress_scroll += 1;
-		
+
 		$(".bar").scrollTo($(".bar img[id='m_"+progress_scroll+"']"), 0, {axis:"x"});
 	});
 }, 1000));
 
-	
+

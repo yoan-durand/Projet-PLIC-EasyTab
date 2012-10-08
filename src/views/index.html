@@ -10,17 +10,27 @@
 <script src="js/jquery-ui-1.8.18.custom.min.js"></script>
 <script src="js/jquery.contextmenu.r2.packed.js"></script>
 <script type="text/javascript">
-	function search(recherche) {
-		$.post('/search/'+recherche, function(data, textStatus) {
+	function search(recherche, option) {
+		var url = '/search/'+recherche;
+		if (option === undefined) {
+			url += recherche;
+		} else {
+			url += 'o;'+option+'/'+recherche;
+		}
+		$.post(url, function(data, textStatus) {
 			$('#trackList').empty();
 			for (var i = 0; i < data.length; ++i) {
-				$('#trackList').append('<li id="tab_'+data[i].id+'"> <a href="application;'+data[i].nom+'.xml">'+ data[i].titre+' - '+data[i].artiste+'</a> ')
+				$('#trackList').append('<tr id="tab_'+data[i].id+'">'
+					+'<td><a href="application;'+data[i].nom+'.xml">'+ data[i].titre+'</a></td>'
+					+'<td>'+data[i].artiste+'</td>'
+					+'<td><a href="user;'+data[i].userId+';'+data[i].login+'">'+ data[i].login+'</td>'
+					+'</tr>');
 			}
 		}, 'json');
 	}
 	$(function(){
 		// au double clic on ouvre la partition
-		$('#trackList > li').dblclick(function(e){
+		$('#trackList tr').dblclick(function(e){
 			location.href = $('a', this).attr('href');
 		});
 		// recherche automatique dès qu'on lache une touche
@@ -39,7 +49,7 @@
 			search(recherche);
 		});
 		// activer le menu contextuel
-		var options = {
+		var menu1 = {
 			bindings: {
 				'ouvrir': function(t) {
 					location.href = $('a', t).attr('href');
@@ -49,7 +59,25 @@
 				width: '133px'
 			}
 		};
-		$('#trackList > li').contextMenu('menu1', options);
+		$('#trackList tr').contextMenu('menu1', menu1);
+		var menuOption = {
+			bindings: {
+				'date': function(e) {
+					search('', 'date');
+				},
+				'alpha': function(e) {
+					search('', 'alpha');
+				}
+			},
+			menuStyle: {
+				width: '233px'
+			}
+		};
+		$('#container h2 .options').contextMenu('menuOption', menuOption);
+		$('#container h2 .options').click(function(){
+			$('#dialog').html('Il faut faire un clic droit.').dialog();
+			setTimeout(function(){$('#dialog').dialog('close');}, 1000);
+		});
 	});
 </script>
 {% endblock %}
@@ -76,13 +104,23 @@
 		<form id="searchForm">
 			<input id="searchBox" placeholder="Rechercher...">
 		</form>
-		<h2>Derniers ajouts</h2>
-		<ul id="trackList">
+		<h2><span>Toutes les tablatures</span><div class="options"></div></h2>
+		<table id="trackList">
+			{% for xml in pistes -%}
+			<tr id="tab_{{xml.id}}">
+				<td><a href="application;{{ xml.nom }}.xml">{{xml.titre}}</a></td>
+				<td>{{xml.artiste}}</td>
+				<td><a href="user;{{xml.userId}};{{xml.login}}" title="Mis en ligne par {{xml.login}}">{{xml.login}}</td>
+			</tr>
+			{%- endfor %}
+		</table>
+		<!--ul id="trackList">
 			{% for xml in pistes -%}
 			<li id="tab_{{xml.id}}">
 				<a href="application;{{ xml.nom }}.xml">{{xml.titre}} - {{xml.artiste}}</a>
+			</li>
 			{%- endfor %}
-		</ul>
+		</ul-->
 	</div>
 </section>
 <div class="contextMenu" id="menu1">
@@ -92,4 +130,11 @@
 		</li>
 	</ul>
 </div>
+<div class="contextMenu" id="menuOption">
+	<ul>
+		<li id="date"><a>Trier par data d'ajout</a></li>
+		<li id="alpha"><a>Trier par ordre alphabétique</a></li>
+	</ul>
+</div>
+<div id="dialog"></div>
 {% endblock %}
