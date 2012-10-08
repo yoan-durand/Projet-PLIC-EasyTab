@@ -3,7 +3,9 @@
 {% block head %}
 		<link rel="stylesheet" href="css/smoothness/jquery-ui-1.8.18.custom.css" />
         <link rel="stylesheet" href="JQuery-PLUGIN/jquery.svg.css" />
+		<link rel="stylesheet" href="knob/css/styles.css" />
         <link rel="stylesheet" href="css/application.css" />
+        <link rel="stylesheet" href="knob/knobKnob/knobKnob.css" />
         <script src="js/jquery-1.7.1.js"></script>
         <script src="js/jquery-ui-1.8.18.custom.min.js"></script>
         <script src="js/jquery.hotkeys.js"></script>
@@ -28,6 +30,9 @@
         <script src="js/Draw.js"></script>
         <script src="js/application.js"></script>
         <script src="js/mousehold.js"></script>
+        <script src="knob/knobKnob/transform.js"></script>
+        <script src="knob/knobKnob/knobKnob.jquery.js"></script>
+        <script src="knob/js/script.js"></script>
         <script type="text/javascript">
                 if (config) {
                         alert('conflit entre 2 variables');
@@ -107,6 +112,13 @@
 				<img src="image/ajax-loader.gif" alt="loading" style="width:32px; height:32px"><br>
 				<span>Chargement de l'application en cours...</span>
 			</div>
+		</section>
+		<section id="main">
+			
+			<div id="bars">
+				<div id="control"></div>
+			</div>
+			
 		</section>
 <script type="text/javascript">
 
