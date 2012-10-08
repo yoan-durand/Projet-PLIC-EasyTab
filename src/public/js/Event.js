@@ -1,9 +1,10 @@
 var selected = 0;
 var nb_measure;
 var timeout;
+var eventObj;
 
-$(document).ready(setTimeout(function(){
-
+function EventObj(partition)
+{
     nb_measure = partition._instruments_list[0]._track_part._measure_list.length;
     var g_tempo = partition._instruments_list[0]._track_part._measure_list[0]._sound_params._tempo;
     var beat = partition._instruments_list[0]._track_part._measure_list[0]._attributes._time_beat;
@@ -48,7 +49,7 @@ $(document).ready(setTimeout(function(){
             setTimeout(function (){
                 $("#back").attr("src", "image/back.png");
             }, 500);
-			Animation_Play(selected);
+            eventObj.Animation_Play(selected);
         // }
     };
     $("#back").click(back);
@@ -84,7 +85,7 @@ $(document).ready(setTimeout(function(){
             $(this).attr("src", "image/playactif.png");
             $("#pause").attr("src", "image/pause.png");
             $("#stop").attr("src", "image/stop.png");
-			Animation_Play(selected);
+            eventObj.Animation_Play(selected);
 		}
     });
 
@@ -124,7 +125,7 @@ $(document).ready(setTimeout(function(){
 			$("#pause").attr("src", "image/pause.png");
 			$("#stop").attr("src", "image/stop.png");
 			$(".overflow_svg").css("overflow-y", "hidden");
-			Animation_Play(selected);
+			eventObj.Animation_Play(selected);
 		}
 	});
 
@@ -136,12 +137,11 @@ $(document).ready(setTimeout(function(){
 	var scroll = 280;
 	var onglet = false;
 	//------------------------------------
-
-	function Animation_Play(index_m)
+	
+	this.Animation_Play = function (index_m)
 	{
 
 		selected = index_m;
-
 		var delay_ms = 350;
 		var delay_midi = SecondtoMIDI(delay_ms,g_tempo);
 		var time_ms = getTime();
@@ -155,7 +155,7 @@ $(document).ready(setTimeout(function(){
 			{
 				var delta = chord._note_list[0]._begin + delay_midi - time_midi;
 				timeout = setTimeout(function(){
-								Animation_Play(index_m);
+						eventObj.Animation_Play(index_m);
 						}, MIDItoSecond(delta, g_tempo));
 				return;
 			}
@@ -171,7 +171,8 @@ $(document).ready(setTimeout(function(){
 					if (i != cur_mesure._chord_list.length - 1) // On est pas sur la derniere note
 					{
 						timeout = setTimeout(function(){
-								Animation_Play(index_m);
+							
+						eventObj.Animation_Play(index_m);
 						}, ms_duration);
 						return;
 					}
@@ -181,7 +182,7 @@ $(document).ready(setTimeout(function(){
 						{
 
 							timeout = setTimeout(function(){
-									Animation_Play(index_m + 1);
+								eventObj.Animation_Play(index_m + 1);
 							}, ms_duration);
 							return;
 						}
@@ -189,7 +190,7 @@ $(document).ready(setTimeout(function(){
 				}
 				if (i == cur_mesure._chord_list.length - 1 && index_m != partition._instruments_list[current_svg]._track_part._measure_list.length - 1) // Si on est sur la derniere note mais pas la derniere mesure
 				{
-					Animation_Play(index_m + 1); // On avance à la mesure suivante
+					eventObj.Animation_Play(index_m + 1); // On avance à la mesure suivante
 				}
 			}
 		}
@@ -360,6 +361,44 @@ $(document).ready(setTimeout(function(){
 		stop.call($("#stop")[0]);
 	});
 
+	$(".progress_bar .bar img").click(function (){
+        if ($(this).attr("src") != "image/casebleue.png")
+        {
+			$("img[id^='m_']").each(function (i, v){
+				$(this).attr({"src" : "image/casegrise.png"});
+			})
+            $(this).attr("src", "image/casebleue.png");
+            var id = $(this).attr("id");
+            var array = id.split('_');
+			var index_mes = array[1] * 1;
+			selected = index_mes;
+			var note = partition._instruments_list[current_svg]._track_part._measure_list[index_mes]._chord_list[0]._note_list[0];
+			if (note._fret_technical != null)
+			{
+				if (note._fret_technical.length == 2)
+				{
+					$($("rect[id^='cursor']"), svg_inst[current_svg].root()).attr({"y": (note._posY-10), transform:"translate("+(note._posX-60+5)+" 0)"});;
+				}
+				else
+				{
+					 $($("rect[id^='cursor']"), svg_inst[current_svg].root()).attr({"y": (note._posY-10), transform:"translate("+(note._posX-60+2)+" 0)"});;
+				}
+			
+			}
+			else
+			{
+				$($("rect[id^='cursor']"), svg_inst[current_svg].root()).attr({"y": (note._posY-10), transform:"translate("+(note._posX-60+5)+" 0)"});;
+			}
+			document.demo.SetTime((MIDItoSecond(note._begin, $(".tempo").text())+350) * document.demo.GetTimeScale() / 1000);
+            ref = ((($($("rect[id^='cursor']"), svg_inst[current_svg].root()).attr("y")-20)/90)%3);
+
+				$(".overflow_svg").scrollTo($($("rect[id^='cursor']"), svg_inst[current_svg].root()).attr("y")-10, 0, {axis:'y'}); 
+				$(".bar").scrollTo($($(".bar img[id^='m_"+index_mes+"']"), svg_inst[current_svg].root()), 0, {axis:'x'});
+				eventObj.Animation_Play(selected);	
+        }
+    });
+	
+	
     /// SECTION INITIALISATION GRAPHIQUE MESURES + TRACKS
 
     function measure(i)
@@ -573,6 +612,8 @@ $(document).ready(setTimeout(function(){
 
 		$(".bar").scrollTo($(".bar img[id='m_"+progress_scroll+"']"), 0, {axis:"x"});
 	});
-}, 1000));
+	
+	this.caca = "moncul";
+}
 
 
