@@ -386,7 +386,9 @@ $(document).ready(setTimeout(function(){
         {
             if (i == 0)
             {
-                $("#panel_pistes").append("<li id='t_"+i+"' class='piste piste_selected'>" + instruments[i]._name_instrument + "</li>");
+                $("#panel_pistes").append("<li id='t_"+i+"' class='piste piste_selected'><p>" + instruments[i]._name_instrument + "</p>"+
+				"<input class='knob' data-width='150' data-displayPrevious=true data-fgColor='#ffec03' data-skin='tron' data-thickness='.2' value='75'>"+
+				+"</li>");
             }
             else
             {

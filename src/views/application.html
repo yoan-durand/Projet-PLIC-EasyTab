@@ -3,9 +3,7 @@
 {% block head %}
 		<link rel="stylesheet" href="css/smoothness/jquery-ui-1.8.18.custom.css" />
         <link rel="stylesheet" href="JQuery-PLUGIN/jquery.svg.css" />
-		<link rel="stylesheet" href="knob/css/styles.css" />
         <link rel="stylesheet" href="css/application.css" />
-        <link rel="stylesheet" href="knob/knobKnob/knobKnob.css" />
         <script src="js/jquery-1.7.1.js"></script>
         <script src="js/jquery-ui-1.8.18.custom.min.js"></script>
         <script src="js/jquery.hotkeys.js"></script>
@@ -30,9 +28,7 @@
         <script src="js/Draw.js"></script>
         <script src="js/application.js"></script>
         <script src="js/mousehold.js"></script>
-        <script src="knob/knobKnob/transform.js"></script>
-        <script src="knob/knobKnob/knobKnob.jquery.js"></script>
-        <script src="knob/js/script.js"></script>
+        <script src="knob/jquery.knob.js">
         <script type="text/javascript">
                 if (config) {
                         alert('conflit entre 2 variables');
@@ -109,13 +105,6 @@
 				<img src="image/ajax-loader.gif" alt="loading" style="width:32px; height:32px"><br>
 				<span>Chargement de l'application en cours...</span>
 			</div>
-		</section>
-		<section id="main">
-			
-			<div id="bars">
-				<div id="control"></div>
-			</div>
-			
 		</section>
 <script type="text/javascript">
 
@@ -253,6 +242,61 @@
 
 
 		document.demo.SetTime((MIDItoSecond(note._begin, $(".tempo").text())+350) * document.demo.GetTimeScale() / 1000);
+	});
+	
+	$(".knob").knob({
+		/*change : function (value) {
+			//console.log("change : " + value);
+		},
+		release : function (value) {
+			console.log("release : " + value);
+		},
+		cancel : function () {
+			console.log("cancel : " + this.value);
+		},*/
+		draw : function () {
+
+			// "tron" case
+			if(this.$.data('skin') == 'tron') {
+
+				var a = this.angle(this.cv)  // Angle
+					, sa = this.startAngle          // Previous start angle
+					, sat = this.startAngle         // Start angle
+					, ea                            // Previous end angle
+					, eat = sat + a                 // End angle
+					, r = 1;
+
+				this.g.lineWidth = this.lineWidth;
+
+				this.o.cursor
+					&& (sat = eat - 0.3)
+					&& (eat = eat + 0.3);
+
+				if (this.o.displayPrevious) {
+					ea = this.startAngle + this.angle(this.v);
+					this.o.cursor
+						&& (sa = ea - 0.3)
+						&& (ea = ea + 0.3);
+					this.g.beginPath();
+					this.g.strokeStyle = this.pColor;
+					this.g.arc(this.xy, this.xy, this.radius - this.lineWidth, sa, ea, false);
+					this.g.stroke();
+				}
+
+				this.g.beginPath();
+				this.g.strokeStyle = r ? this.o.fgColor : this.fgColor ;
+				this.g.arc(this.xy, this.xy, this.radius - this.lineWidth, sat, eat, false);
+				this.g.stroke();
+
+				this.g.lineWidth = 2;
+				this.g.beginPath();
+				this.g.strokeStyle = this.o.fgColor;
+				this.g.arc( this.xy, this.xy, this.radius - this.lineWidth + 1 + this.lineWidth * 2 / 3, 0, 2 * Math.PI, false);
+				this.g.stroke();
+
+				return false;
+			}
+		}
 	});
 
         function MIDItoSecond(midi_time, tempo)
