@@ -14,6 +14,12 @@ nav
     padding-left: 50px;
     text-align: center;
 }
+.easytab {
+    background-image: url("../image/easytab_title.png");
+    width:449px;
+    height: 90px;
+    margin:auto;
+}
 /* décoration des liens */
 nav > a {
     padding-left: 30px;
@@ -30,7 +36,8 @@ a {
 	color: #006;
 }
 a:hover,
-li:hover a {
+li:hover a,
+tr:hover a {
 	color: brown;
 }
 .center {
@@ -46,9 +53,17 @@ li:hover a {
 	padding-left: 0;
 	text-align: left;
 }
-#trackList > li {
+table#trackList{
+	-webkit-border-horizontal-spacing: 0;
+	width: 100%;
+}
+#trackList > li{
 	line-height: 2em;
 }
+#trackList > tr{
+	height: 2em;
+}
+#trackList tr:hover,
 #trackList li:hover {
 	background-color: rgba(255, 255, 255, 0.3);
 }

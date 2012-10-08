@@ -44,9 +44,6 @@
 
 {% block content %}
         <section class="page">
-            <section class="easytab">
-
-            </section>
                 <section class="header">
                         <section class="player float-left">
                             <img id="back" src="image/back.png" />
@@ -115,8 +112,7 @@
 	var cur_tempo;
 
     $(document).ready (setTimeout(function(){
-		var application = new Application();
-		application.bindKeys();
+    	eventObj = new EventObj(partition);
         $(".tempo").text(partition._instruments_list[0]._track_part._measure_list[0]._sound_params._tempo);
 		cur_tempo = $(".tempo").text()*1;
 
@@ -171,37 +167,11 @@
 			}
         }
 
-    $(".progress_bar .bar img").click(function (){
-        if ($(this).attr("src") != "image/casebleue.png")
-        {
-			$("img[id^='m_']").each(function (i, v){
-				$(this).attr({"src" : "image/casegrise.png"});
-			})
-            $(this).attr("src", "image/casebleue.png");
-            var id = $(this).attr("id");
-            var array = id.split('_');
-			var index_mes = array[1] * 1;
-			selected = index_mes;
-			var note = partition._instruments_list[current_svg]._track_part._measure_list[index_mes]._chord_list[0]._note_list[0];
-			if (note._fret_technical != null)
-		{
-			if (note._fret_technical.length == 2)
-			{
-				$($("rect[id^='cursor']"), svg_inst[current_svg].root()).attr({"y": (note._posY-10), transform:"translate("+(note._posX-60+5)+" 0)"});;
-			}
-			else
-			{
-				 $($("rect[id^='cursor']"), svg_inst[current_svg].root()).attr({"y": (note._posY-10), transform:"translate("+(note._posX-60+2)+" 0)"});;
-			}
-		}
-			document.demo.SetTime((MIDItoSecond(note._begin, $(".tempo").text())+350) * document.demo.GetTimeScale() / 1000);
-           ref = ((($($("rect[id^='cursor']"), svg_inst[current_svg].root()).attr("y")-20)/90)%3);
+    
 
-				$(".overflow_svg").scrollTo($($("rect[id^='cursor']"), svg_inst[current_svg].root()).attr("y")-10, 0, {axis:'y'}); //Ne pas décommenter
-				$(".bar").scrollTo($($(".bar img[id^='m_"+index_mes+"']"), svg_inst[current_svg].root()), 0, {axis:'x'});
-
-        }
-    });
+/*
+ * selection des notes en cliquant sur une note ou sur le rectangle derriere.
+ */
 
     $($("rect[id^='n_'], text[id^='n_']"), svg_inst[current_svg].root()).click(function ()
     {
@@ -216,7 +186,7 @@
 		var n = array[2];
 		var note = partition._instruments_list[current_svg]._track_part._measure_list[m]._chord_list[n]._note_list[0];
 		if (note._fret_technical != null)
-		{
+		{			
 			if (note._fret_technical.length == 2)
 			{
 				$($("rect[id^='cursor']"), svg_inst[current_svg].root()).attr({"y": (note._posY-10), transform:"translate("+(note._posX-60+5)+" 0)"});;
@@ -226,14 +196,18 @@
 				 $($("rect[id^='cursor']"), svg_inst[current_svg].root()).attr({"y": (note._posY-10), transform:"translate("+(note._posX-60+2)+" 0)"});;
 			}
 		}
+		else
+		{	
+			$($("rect[id^='cursor']"), svg_inst[current_svg].root()).attr({"y": (note._posY-10), transform:"translate("+(note._posX-60+5)+" 0)"});;
+		}
 
 		ref = ((($($("rect[id^='cursor']"), svg_inst[current_svg].root()).attr("y") - 20) / 90)%3);
 
-			$(".overflow_svg").scrollTo($($("rect[id^='cursor']"), svg_inst[current_svg].root()).attr("y")-10, 0, {axis:'y'});
-			$(".bar").scrollTo($($(".bar img[id='m_"+selected+"']"), svg_inst[current_svg].root()), 0, {axis:'x'});
-
-
+		$(".overflow_svg").scrollTo($($("rect[id^='cursor']"), svg_inst[current_svg].root()).attr("y")-10, 0, {axis:'y'});
+		$(".bar").scrollTo($($(".bar img[id='m_"+selected+"']"), svg_inst[current_svg].root()), 0, {axis:'x'});
+			
 		document.demo.SetTime((MIDItoSecond(note._begin, $(".tempo").text())+350) * document.demo.GetTimeScale() / 1000);
+		 eventObj.Animation_Play(selected);
 	});
 
         function MIDItoSecond(midi_time, tempo)
@@ -255,8 +229,11 @@
 		);
 
 		if (config.midiPath) {
+			var application = Application.get();
 			application.appendMidiPlayer(config.midiPath);
 			application.hideSplashScreen('slow');
+			application.bindKeys();
+			console.timeEnd('temps de chargement');
 		} else {
          $.ajax({
             type: "POST",
@@ -273,9 +250,11 @@
 				} catch(ex) {
 					console.error("La page midi n'a pas renvoyé de JSON : ", {texte:data});
 				}
+				var application = Application.get();
 				application.appendMidiPlayer(data.filename);
 				application.hideSplashScreen('slow');
-				console.log('application');
+				application.bindKeys();
+				console.timeEnd('temps de chargement');
             },
             error: function (xhr, status, err) {
                 alert("fail");

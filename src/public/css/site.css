@@ -19,6 +19,17 @@
 .ui-state-hover, .ui-widget-content .ui-state-hover, .ui-widget-header .ui-state-hover, .ui-state-focus, .ui-widget-content .ui-state-focus, .ui-widget-header .ui-state-focus {
 	color: brown;
 }
+h2 .options {
+	margin-left: 0.5em;
+	background-image: url("/image/buttonOptions.png");
+	display: inline-block;
+	width: 17px;
+	height: 17px;
+	cursor: pointer;
+}
+h2 .options:hover {
+	background-position: 0 17px;
+}
 /* tablatures */
 #uploadLink > button {
 	color: darkgrey;

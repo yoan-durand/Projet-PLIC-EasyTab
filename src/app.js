@@ -30,12 +30,7 @@ app.configure(function(){
 	app.use(express.session({
 		secret: 'secret u20acQzs^$~{eZSn'
 	}));
-/*
-	// file upload
-	app.use(connect.multipart({
-		uploadDir: __dirname + 'upload'
-	}));
-*/
+
 	app.use(express.bodyParser());
 	app.use(express.methodOverride());
 	app.use(app.router);
@@ -56,6 +51,8 @@ app.configure('production', function(){
 // Routes
 
 app.get('/', routes.index);
+app.get('/crash', routes.crash);
+app.post('/crash', routes.crashPost);
 app.get('/application;?:tablature?', routes.application);
 app.get('/compte/creer', routes.creerCompte);
 app.post('/compte/creer', routes.creerComptePost);
@@ -70,10 +67,20 @@ app.get('/tablatures', routes.tablatures);
 app.get('/tablatures/get/:type', routes.getTablatures);
 app.get('/tablatures/:id/visibility/:visibility', routes.tablaturesVisibility);
 app.get('/tablatures/:id/suppression', routes.tablaturesSuppression);
+app.post('/search/o;:option/:search?', routes.search);
 app.post('/search/:search?', routes.search);
 app.get('/upload', routes.upload);
 app.post('/upload', routes.uploadPost);
 
 app.listen(8080, function(){
 	console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);
+	var config = require('./config');
+	var fs = require('fs');
+	var path = require('path');
+	if (!path.existsSync('./public/'+config.upload.dir)) {
+		fs.mkdir('./public/'+config.upload.dir);
+	}
+	if (!path.existsSync('./public/'+config.midi.dir)) {
+		fs.mkdir('./public/'+config.midi.dir);
+	}
 });

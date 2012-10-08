@@ -46,14 +46,6 @@ body
     margin-right: auto;
 }
 
-.easytab
-{
-    background-image: url("../image/easytab_title.png");
-    width:449px;
-    height: 90px;
-    margin:auto;
-}
-
 header
 {
    
@@ -309,6 +301,8 @@ header
     overflow-y: auto;
     overflow-x: hidden;
 }
+
+/* popup */
 #splashbg {
 	opacity: 0.7;
 }
@@ -329,6 +323,13 @@ header
 	border: black 1px solid;
 	border-radius: 2px;
 }
+#splashMessage li:hover {
+	background-color: rgba(255, 255, 255, 0.3);
+}
+#raccourcis li {
+	text-align: left;
+}
+/* */
 #volume
 {
 	width: 100px;
@@ -394,4 +395,20 @@ header
 	color: white;
 	font-weight: bold;
 }
->>>>>>> 0c4bab111c1c14ae1c1706e4f8b23cd9ffeebc3a
+
+::-webkit-scrollbar
+{
+	width:7px;
+}
+
+::-webkit-scrollbar-track 
+{
+    background-color: #474644 ;
+    border-radius: 10px;
+}
+ 
+::-webkit-scrollbar-thumb 
+{
+    border-radius: 10px;
+    background-color:#F6A828;
+}
