@@ -267,7 +267,7 @@ function DrawNotes(context, file, yLine)
                             {
                                     crossBeat = true
                             }
-                            // Draw_ligature (lastNote, currentNote)
+                            complete_rythm(context, yLine, lastNote, currentNote);
                         }
                         else
                         {
@@ -395,6 +395,8 @@ function complete_rythm (context, yLine, note, snd_note)
 			j -= 3;
 		}
 	}
+	
+	draw_simple_rythm(context, yLine, snd_note, false, true);
 	
 }
 
