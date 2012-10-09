@@ -31,8 +31,9 @@ Application.prototype = {
 					console.error("La page midi n'a pas renvoyé de JSON : ", {texte:data});
 				}
 				_this.appendMidiPlayer(data.filename);
+                
 				_this.hideSplashScreen('slow');
-				if (callback !== undefined) callback();
+				if (callback !== undefined) _this.addEventListener(document.demo, "qt_load", callback, false);;
 				console.timeEnd('temps de chargement');
 			},
 			error: function (xhr, status, err) {
@@ -126,5 +127,14 @@ Application.prototype = {
 	error: function(err) {
 		this.popupContent.html(err);
 		this.showSplashScreen();
-	}
+	},
+    addEventListener: function(obj, evt, handler, captures) {
+        if (document.addEventListener) {
+            if (document.addEventListener){
+                obj.addEventListener(evt, handler, captures);
+            } else { //IE
+                obj.attachEvent('on' + evt, handler);
+            }
+        }
+     }
 };

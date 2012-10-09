@@ -10,7 +10,10 @@ function EventObj(partition)
     var beat = partition._instruments_list[0]._track_part._measure_list[0]._attributes._time_beat;
     measure(nb_measure);
     tracks(partition._instruments_list);
-
+    
+    
+ 
+    
     /// SECTION EVENT PLAYER
 
     $("#back").hover(function (){ //IN Handler
@@ -72,7 +75,7 @@ function EventObj(partition)
           }
      });
 	
-	var play = function() {
+	play = function() {
 			document.demo.SetRate($(".tempo").text()/cur_tempo);
 			$("#back").attr("src", "image/back.png");
 			$("#play").attr("src", "image/playactif.png");
