@@ -41,7 +41,7 @@ exports.application = function(req, res, next){
 	}
 	var bdd = mysql_connect();
 	bdd.query(
-		'SELECT titre, artiste FROM `tablature` where nom = ?',
+		'SELECT id, titre, artiste FROM `tablature` where nom = ?',
 		[req.params.tablature.slice(0,-4)],
 		function(err, results, fields) {
 			bdd.end(); // close sql connection
@@ -92,7 +92,7 @@ exports.creerComptePost = function(req, res, next) {
 		res.redirect(req.url);
 		return;
 	}
-	var now = (new Date()).getTime();
+	var now = now();
 	var encryptedPassword = encryptPassword(password, pseudo);
 	var client = mysql_connect();
 	client.query(
@@ -442,6 +442,25 @@ exports.profil = function(req, res, next) {
 	);
 }
 
+exports.commentaire = function(req, res, next) {
+	if (forceLogin(req, res))
+		return;
+	var client = mysql_connect();
+	var tablatureId = req.params.tablatureId;
+	client.query(
+		'SELECT comment.`id`,`auteurId`,`texte`, date, login FROM `comment` JOIN user ON user.id = comment.auteurId WHERE `tablatureId` = ?',
+		[tablatureId],
+		function(err, results, fields) {
+			client.end(); // close sql connection
+			if (err) {
+				next(new Error(JSON.stringify(err)));
+				return;
+			}
+			res.send(JSON.stringify(results));
+		}
+	);
+};
+
 function mysql_connect() {
 	var mysql = require('mysql');
 	var config = require('./config');
@@ -484,9 +503,6 @@ function tablatureSearch(req, res, next, filter, publicOnly, callback, option, u
 				next(new Error(JSON.stringify(err)));
 				return;
 			}
-				console.log(JSON.stringify(sql)+JSON.stringify(match));
-				// next(new Error(JSON.stringify(sql)+JSON.stringify(match)));
-				// return;
 			callback(results);
 		}
 	);
@@ -532,5 +548,8 @@ function conversionTemps(temps) {
 		return nbMinutes + ' minutes';
 	}
 	return temps + ' secondes';
+}
+function now() {
+	return (new Date()).getTime();
 }
 

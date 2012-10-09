@@ -2,7 +2,10 @@ function Application(){
 	this.popup = $('#splashScreen');
 	this.popupContent = $('#splashMessage', this.popup);
 	this.mustRegenerateMidi = true;
+	this.comments = [];
+
 	this.bindKeys();
+	this.initComments();
 }
 Application.get = function() {
 	if (this.instance == null) {
@@ -63,27 +66,37 @@ Application.prototype = {
 		$('#splashScreen').fadeOut(vitesse);
 		this.popupName = '';
 	},
-	showSplashScreen: function(vitesse) {
-		if (vitesse === undefined) {
-			vitesse = 'fast';
+	showSplashScreen: function(nom, css) {
+		if (css !== undefined) {
+			this.popupContent.css(css);
 		}
-		$('#splashScreen').fadeIn(vitesse);
+		this.popup.fadeIn('fast');
+		if (nom != undefined) {
+			this.popupName = nom;
+		}
 	},
-	isPopupOpen: function() {
-		return $('#splashScreen').css('display') !== 'none'
+	showSpinner: function() {
+		this.popupContent.html('<img src="image/ajax-loader.gif" alt="loading" style="width:32px; height:32px"><br>'+
+		'<span>Chargement de l\'application en cours...</span>');
+		this.showSplashScreen('spinner');
+	},
+	isPopupOpen: function(nom) {
+		return $('#splashScreen').css('display') !== 'none' && (nom === undefined || this.popupName === nom);
 	},
 	bindKeys: function() {
 		$('#splashbg').click($.proxy(this.hideSplashScreen, this));
 		$(document).bind('keydown', 'esc', $.proxy(this.hideSplashScreen, this));
 		$(document).bind('keydown', 'o', $.proxy(this.toggleOpenFile, this));
 		$(document).bind('keydown', 'h', $.proxy(this.help, this));
+		$(document).bind('keydown', 'c', $.proxy(this.showComments, this));
 	},
 	toggleOpenFile: function(e) {
 		e.preventDefault();
 		if (this.popupName === 'open') {
 			this.hideSplashScreen();
-			this.popupName = '';
 		} else {
+			var _this = this;
+			this.showSpinner();
 			$.get('/tablatures/get/all', function(data, textStatus, jqXHR) {
 				var html = '<h2>Charger une autre partition</h2><ul id="trackList">';
 				for (var i = 0; i < data.length; ++i) {
@@ -91,15 +104,12 @@ Application.prototype = {
 					+'</a></li>';
 				}
 				html += '</ul>'
-				$('#splashMessage').css({
-					width: '600px'
-				}).html(html);
+				_this.popupContent.css().html(html);
 				$('#trackList > li').dblclick(function(e){
 					location.href = $('a', this).attr('href');
 				});
+				this.showSplashScreen('open', {width: '600px'});
 			}, 'json');
-			this.showSplashScreen();
-			this.popupName = 'open';
 		}
 	},
 	help: function(e) {
@@ -110,6 +120,7 @@ Application.prototype = {
 		} else {
 			var html = '<h2>Raccourcis</h2>'
 				+'<ul id="raccourcis">'
+				+'<li><b>C</b> : Affiche les commentaires.<li>'
 				+'<li><b>H</b> : Affiche la fenêtre d\'aide.<li>'
 				+'<li><b>O</b> : Ouvre la fenêtre de changement de tablature.<li>'
 				+'<li><b>P</b> : Démarre/met en pause la lecture.<li>'
@@ -120,21 +131,70 @@ Application.prototype = {
 				+'<li><b>+</b> : Augmente le son.<li>'
 				+'</ul>';
 			this.popupContent.html(html);
-			this.showSplashScreen();
-			this.popupName = 'help';
+			this.showSplashScreen('help', {width: '310px'});
 		}
 	},
 	error: function(err) {
 		this.popupContent.html(err);
 		this.showSplashScreen();
 	},
-    addEventListener: function(obj, evt, handler, captures) {
-        if (document.addEventListener) {
-            if (document.addEventListener){
-                obj.addEventListener(evt, handler, captures);
-            } else { //IE
-                obj.attachEvent('on' + evt, handler);
-            }
-        }
-     }
+	addEventListener: function(obj, evt, handler, captures) {
+		if (document.addEventListener) {
+			if (document.addEventListener){
+				obj.addEventListener(evt, handler, captures);
+			} else { //IE
+				obj.attachEvent('on' + evt, handler);
+			}
+		}
+	},
+	initComments: function() {
+		var _this = this;
+		this.getComments();
+		window.ws=ws=new WebSocket("ws://localhost:8081")//FIXME window.ws
+		ws.onclose=function(){
+			console.log('commentaire: close');
+			// _this.popupContent.html("Déconnexion des commentaires");
+			// _this.showSplashScreen();
+		};
+		ws.onopen=function(){
+			console.log('commentaire: open');
+		};
+		ws.onerror=function(){
+			console.log('commentaire: error');
+			// _this.popupContent.html("erreur: Déconnexion des commentaires");
+			// _this.showSplashScreen();
+		};
+		ws.onmessage=function(data){
+			_this.addComment(JSON.parse(data.data));
+		};
+	},
+	addComment: function(data) {
+		this.comments.push(data);
+	},
+	showComments: function() {
+		if (this.isPopupOpen('comments')) {
+			this.hideSplashScreen();
+		} else {
+			var html = '<h2>Commentaires</h2>'
+					+'<div id="ajoutComment"><input placeholder="Ajouter un commentaire"></div>'
+					+'<ul id="comments">';
+			for(var i = 0; i < this.comments.length; ++i) {
+				var data = this.comments[i];
+				html += '<li><div><a href="/user/'+data.auteurId+'/'+data.login+'">'+data.login+'</a></div><div class="message">'+data.texte+'</div></li>';
+			}
+			html += '</ul>';
+			this.popupContent.empty().append(html);
+			this.showSplashScreen('comments', {width: '600px'});
+		}
+	},
+	getComments: function() {
+		var _this = this;
+		$.post('/commentaire/'+config.tablatureId, function(data, textStatus, jqXHR){
+			for (var i = 0; i < data.length; ++i) {
+				_this.addComment(data[i]);
+			}
+			// _this.showComments();
+		}, 'json');
+	}
+>>>>>>> ajout des requètes par websocket
 };

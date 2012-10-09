@@ -68,9 +68,54 @@ INSERT INTO `user` (`id`, `dateInscription`, `login`, `password`) VALUES
 (2, 1341763667245, 'Fab', '03b8b8d1ba64d7498760a6b5e6cf197335d62ad7'),
 (3, 1341884838345, 'quidam', '279dc1e9d24616e6e4b553320688323cf8febf08');
 
+
+--
+-- Structure de la table `comment`
+--
+
+CREATE TABLE IF NOT EXISTS `comment` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `auteurId` int(11) NOT NULL,
+  `texte` text NOT NULL,
+  `tablatureId` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `auteurId` (`auteurId`),
+  KEY `tablatureId` (`tablatureId`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `note`
+--
+
+CREATE TABLE IF NOT EXISTS `note` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `userId` int(11) NOT NULL,
+  `tablatureId` int(11) NOT NULL,
+  `note` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `tablatureId` (`tablatureId`),
+  KEY `userId` (`userId`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
 --
 -- Contraintes pour les tables exportées
 --
+
+--
+-- Contraintes pour la table `comment`
+--
+ALTER TABLE `comment`
+  ADD CONSTRAINT `comment_ibfk_2` FOREIGN KEY (`tablatureId`) REFERENCES `tablature` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  ADD CONSTRAINT `comment_ibfk_1` FOREIGN KEY (`auteurId`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
+
+--
+-- Contraintes pour la table `note`
+--
+ALTER TABLE `note`
+  ADD CONSTRAINT `note_ibfk_2` FOREIGN KEY (`tablatureId`) REFERENCES `tablature` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  ADD CONSTRAINT `note_ibfk_1` FOREIGN KEY (`userId`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
 
 --
 -- Contraintes pour la table `tablature`

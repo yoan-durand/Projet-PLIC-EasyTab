@@ -54,6 +54,7 @@ app.get('/', routes.index);
 app.get('/crash', routes.crash);
 app.post('/crash', routes.crashPost);
 app.get('/application;?:tablature?', routes.application);
+app.post('/commentaire/:tablatureId', routes.commentaire);
 app.get('/compte/creer', routes.creerCompte);
 app.post('/compte/creer', routes.creerComptePost);
 app.get('/compte', routes.compte);
@@ -70,7 +71,6 @@ app.get('/tablatures/:id/suppression', routes.tablaturesSuppression);
 app.get('/search/u\::user/o\::option/:search?', routes.search2);
 app.post('/search/u\::user/o\::option/:search?', routes.search);
 app.post('/search/u\::user/:search?', routes.search);
-app.post('/search/u;:user/o;:option/:search?', routes.search);
 app.post('/search/o;:option/:search?', routes.search);
 app.post('/search/:search?', routes.search);
 app.get('/upload', routes.upload);
@@ -89,3 +89,6 @@ app.listen(8080, function(){
 		fs.mkdir('./public/'+config.midi.dir);
 	}
 });
+
+var websocket = require('./websocket');
+websocket.init();

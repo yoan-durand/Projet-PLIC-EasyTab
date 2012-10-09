@@ -326,16 +326,30 @@ header
 #splashMessage li:hover {
 	background-color: rgba(255, 255, 255, 0.3);
 }
+#comments li,
 #raccourcis li {
 	text-align: left;
 }
+#ajoutComment {
+	text-align: left;
+}
+#ajoutComment > input {
+	width: 100%;
+	line-height: 2em;
+}
+#comments li {
+	margin: 0.5em 0;
+}
+/*#comments .message {
+	margin-left: 30px;
+}*/
 /* */
 #volume
 {
 	width: 100px;
 	margin-top: 11px;
 	margin-right: 40px;
-        margin-left:10px;
+	margin-left:10px;
 }
 .speakon
 {
