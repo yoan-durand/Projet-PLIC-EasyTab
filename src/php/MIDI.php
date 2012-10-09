@@ -48,7 +48,7 @@
 		$txt .= "MTrk\n";
 		$txt .=	"0 Meta Text '".$partition["_instruments_list"][$i]["_name_instrument"]."'\n";
                 $txt .= '0 PrCh ch='.$partition["_instruments_list"][$i]["_midi_channel"].' p='.$partition["_instruments_list"][$i]["_gm_instrument"]."\n";
-
+                $txt .= '0 Par ch='.$partition["_instruments_list"][$i]["_midi_channel"].' c=10 v='.$partition["_instruments_list"][$i]["_pan"]."\n";
                 $measures = $partition["_instruments_list"][$i]["_track_part"]["_measure_list"];
 
 		for ($j = 0; $j < count($measures); $j++)
@@ -69,10 +69,10 @@
                                         {
                                             $n=$notes[$h]["_fret_technical"];
                                         }
-                                        $velocite = 95;
+                                        $velocite = $partition["_instruments_list"][$i]["_volume"];
                                         if ($notes[$h]["_other_technical"] == "palm mute")
                                         {
-                                             $velocite = 70;
+                                             $velocite = $partition["_instruments_list"][$i]["_volume"] - 30;
                                         }
                                         $txt .= $notes[$h]["_begin"]." On ch=".$partition["_instruments_list"][$i]["_midi_channel"]." n=".$n." v=".$velocite."\n";
                                     }
@@ -91,11 +91,11 @@
                                             $n=$notes[$h]["_fret_technical"];
                                         }
                                         $miditime = ($notes[$h]["_begin"]+($notes[$h]["_duration"]));
-                                        $velocite = 80;
+                                        $velocite = $partition["_instruments_list"][$i]["_volume"];
                                         if ($notes[$h]["_other_technical"] == "palm mute")
                                         {
                                              $miditime = ($notes[$h]["_begin"]+($notes[$h]["_duration"] * 0.75));
-                                             $velocite = 30;
+                                             $velocite = $partition["_instruments_list"][$i]["_volume"] - 30;
                                         }
                                         //$txt .= ($notes[$h]["_begin"]+($notes[$h]["_duration"] * 0.75))." Off ch=".$partition["_instruments_list"][$i]["_midi_channel"]." n=".$n." v=80\n";
                                         $txt .= $miditime." Off ch=".$partition["_instruments_list"][$i]["_midi_channel"]." n=".$n." v=".$velocite."\n";

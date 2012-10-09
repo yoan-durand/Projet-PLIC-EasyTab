@@ -412,3 +412,29 @@ header
     border-radius: 10px;
     background-color:#F6A828;
 }
+
+li canvas
+{
+	position: relative;
+	top: -10px;
+	left: -70px;
+}
+
+li div:last-child canvas
+{
+	position: relative;
+	top: -15px;
+	left: 70px;
+}
+
+.vol.knob
+{
+	top: -32px;
+	left: -70px;
+}
+
+.pan.knob
+{
+	top: -32px;
+	left: 70px;
+}
