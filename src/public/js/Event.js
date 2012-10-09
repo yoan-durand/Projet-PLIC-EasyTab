@@ -425,13 +425,17 @@ function EventObj(partition)
         {
             if (i == 0)
             {
-                $("#panel_pistes").append("<li id='t_"+i+"' class='piste piste_selected'><p>" + instruments[i]._name_instrument + "</p>"+
-				"<input class='knob' data-width='150' data-displayPrevious=true data-fgColor='#ffec03' data-skin='tron' data-thickness='.2' value='75'>"+
-				+"</li>");
+                $("#panel_pistes").append("<li id='t_"+i+"' class='piste piste_selected'><p style='margin:0px; padding:0px;'>" + instruments[i]._name_instrument + "</p>"+
+				"<input class='vol knob' data-width='50' data-height='50' data-angleOffset=180 data-displayPrevious=true data-fgColor='#ffec03' data-skin='tron' data-thickness='.2' value='50'>"+
+				"<input class='pan knob' data-width='35' data-height='35' data-angleOffset=-125 data-fgColor='#66CC66' data-angleArc=260 data-thickness='.2' value='0' data-min='-64' data-max='64'>"+
+				"</li>");
             }
             else
             {
-                $("#panel_pistes").append("<li id='t_"+i+"' class='piste'>" + instruments[i]._name_instrument + "</li>");
+                $("#panel_pistes").append("<li id='t_"+i+"' class='piste'><p style='margin:0px; padding:0px;'>" + instruments[i]._name_instrument + "</p>"+
+				"<input class='vol knob' data-width='50' data-height='50' data-angleOffset=180 data-displayPrevious=true data-fgColor='#ffec03' data-skin='tron' data-thickness='.2' value='50'>"+
+				"<input class='pan knob' data-width='35' data-height='35' data-angleOffset=-125 data-fgColor='#66CC66' data-angleArc=260 data-thickness='.2' value='0' data-min='-64' data-max='64'>"+
+				"</li>");
             }
         }/*
         $(".instruments").append("<section class='clear'></section>");*/

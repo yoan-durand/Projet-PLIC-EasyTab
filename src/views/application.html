@@ -28,7 +28,7 @@
         <script src="js/Draw.js"></script>
         <script src="js/application.js"></script>
         <script src="js/mousehold.js"></script>
-        <script src="knob/jquery.knob.js">
+        <script src="knob/jquery.knob.js"></script>
         <script type="text/javascript">
                 if (config) {
                         alert('conflit entre 2 variables');
@@ -208,16 +208,26 @@
 		$(".bar").scrollTo($($(".bar img[id='m_"+selected+"']"), svg_inst[current_svg].root()), 0, {axis:'x'});
 			
 		document.demo.SetTime((MIDItoSecond(note._begin, $(".tempo").text())+350) * document.demo.GetTimeScale() / 1000);
-		 eventObj.Animation_Play(selected);
+		eventObj.Animation_Play(selected);
 	});
 	
 	$(".knob").knob({
-		/*change : function (value) {
+		change : function (value) {
 			//console.log("change : " + value);
 		},
 		release : function (value) {
-			console.log("release : " + value);
-		},
+			var id_instru = $(this.$).parents("li").attr("id").replace('t_', '');
+			if ($(this.$).hasClass('vol'))
+			{
+				partition._instruments_list[id_instru]._volume = value;
+				//alert("Volume set to "+partition._instruments_list[id_instru]._volume+" for "+partition._instruments_list[id_instru]._name_instrument);
+			}
+			else
+			{
+				partition._instruments_list[id_instru]._pan = value;
+				//alert("Pan set to "+partition._instruments_list[id_instru]._pan+" for "+partition._instruments_list[id_instru]._name_instrument);
+			}
+		},/*
 		cancel : function () {
 			console.log("cancel : " + this.value);
 		},*/
