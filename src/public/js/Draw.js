@@ -205,6 +205,11 @@ function DrawNotes(context, file, yLine)
 	{
                 var measure = context.mesure_list[[file[i]]];
                 var chords = measure._chord_list;
+                
+                var beatCursor = 0;
+                var crossBeat = false;
+                var time_beat = 4 //measure._attributes._time_beat;           
+                
                 if (chords != null && chords[0] != null)
                 {
                     var chord = chords[0];
@@ -217,42 +222,68 @@ function DrawNotes(context, file, yLine)
                         context.svg.line(note._posX -context.marge_mesure, yLine, note._posX - context.marge_mesure, yLine + (context.nb_cordes * 10) - 10,{stroke:"black"});
                     }
                  }
+                    var currentNote = null;
+                    var lastNote = null;
                     for (var j = 0; j < chords.length; j++)
                     {
-                    	 	var rythm = false;
-                            var notes = chords[j]._note_list;
-                            for (var k = 0; k < notes.length; k++)
+                        var rythm = false;
+                        var notes = chords[j]._note_list;
+                        for (var k = 0; k < notes.length; k++)
+                        {
+                            var note2 = notes[k];
+                            currentNote = note2;
+                            if (note2._fret_technical != null)
                             {
-                                var note2 = notes[k];
-                                if (note2._fret_technical != null)
+                                if (note2._fret_technical.length == 1)
                                 {
-                                    if (note2._fret_technical.length == 1)
-                                    {
-                                        context.svg.rect(note2._posX,(note2._string_technical - 1)*10+yLine  - 5, 7, 11, {fill:"white"});
-                                    }
-                                    else
-                                    {
-                                        context.svg.rect(note2._posX,(note2._string_technical - 1)*10+yLine  - 5, 12, 11, {fill:"white"});
-                                    }
-                                    context.svg.text(note2._posX, (note2._string_technical * 10) + yLine - 6, ""+note2._fret_technical+"", {id:"n_"+(mes-1)+"_"+j, "font-weight":"bold", "font-size": "11px"});
+                                    context.svg.rect(note2._posX,(note2._string_technical - 1)*10+yLine  - 5, 7, 11, {fill:"white"});
                                 }
                                 else
                                 {
-                                    if (note2._string_technical != null)
-                                    {
-                                        context.svg.rect(note2._posX ,(note2._string_technical - 1) *10 + yLine - 5, 8, 11, {fill:"white", "stroke-opacity": "75%"});
-                                        context.svg.text(note2._posX, (note2._string_technical * 10) + yLine - 6, "X", {"font-weight":"bold", "font-size": "11px"});
-                                    }
-                                    else
-                                    {
-                                        context.svg.rect(note2._posX , 9 + yLine, 11, 5, {fill:"#333"});
-                                    }
+                                    context.svg.rect(note2._posX,(note2._string_technical - 1)*10+yLine  - 5, 12, 11, {fill:"white"});
                                 }
-                               
-                                rythm = draw_rythm(context, rythm, note2, yLine)
-                                						
+                                context.svg.text(note2._posX, (note2._string_technical * 10) + yLine - 6, ""+note2._fret_technical+"", {id:"n_"+(mes-1)+"_"+j, "font-weight":"bold", "font-size": "11px"});
+                            }
+                            else
+                            {
+                                if (note2._string_technical != null)
+                                {
+                                    context.svg.rect(note2._posX ,(note2._string_technical - 1) *10 + yLine - 5, 8, 11, {fill:"white", "stroke-opacity": "75%"});
+                                    context.svg.text(note2._posX, (note2._string_technical * 10) + yLine - 6, "X", {"font-weight":"bold", "font-size": "11px"});
+                                }
+                                else
+                                {
+                                    context.svg.rect(note2._posX , 9 + yLine, 11, 5, {fill:"#333"});
+                                }
+                            }
+                            rythm = draw_rythm(context, rythm, note2, yLine)
+
+                        }
+                        if ((currentNote._duration / 480) < 1)
+                        {
+                            if (beatCursor % time_beat != 0)
+                            {
+                                if (crossBeat == false)
+                                {
+                                    var lastNoteBeat = Math.floor ((beatCursor - (lastNote._duration / 480)) / time_beat);
+                                    var currentNoteBeat = Math.floor (beatCursor / time_beat);
+
+                                    if (lastNoteBeat != currentNoteBeat)
+                                    {
+                                         crossBeat = true
+                                    }
+                                   // Draw_ligature (lastNote, currentNote)
+                                }
+                                else
+                                {
+                                    crossBeat = false;
+                                }
                             }
                         }
+                        lastNote = currentNote;
+                        beatCursor = currentNote._duration / 480;                          
+                }
+
 	}
        context.svg.line(820, yLine, context.MaxWidth, yLine +  (context.nb_cordes * 10) - 10, {stroke:"black"});
 }

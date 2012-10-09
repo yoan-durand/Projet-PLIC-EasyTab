@@ -612,8 +612,6 @@ function EventObj(partition)
 
 		$(".bar").scrollTo($(".bar img[id='m_"+progress_scroll+"']"), 0, {axis:"x"});
 	});
-	
-	this.caca = "moncul";
 }
 
 
