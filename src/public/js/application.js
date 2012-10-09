@@ -1,6 +1,8 @@
 function Application(){
 	this.popup = $('#splashScreen');
 	this.popupContent = $('#splashMessage', this.popup);
+	this.mustRegenerateMidi = true;
+	this.bindKeys();
 }
 Application.get = function() {
 	if (this.instance == null) {
@@ -9,15 +11,47 @@ Application.get = function() {
 	return this.instance;
 };
 Application.prototype = {
+	midi_ajax: function (callback){
+		var _this = this;
+		this.mustRegenerateMidi = false;
+		// this.showSpinner();
+		$.ajax({
+			type: "POST",
+			url: 'midi',
+			data: {
+				'name': config.tablature,
+				'userId': config.userId,
+				'encoded': JSON.stringify({ encoded : partition })
+			},
+			success: function (data, textStatus, jqXHR) {
+				try {
+					data = JSON.parse(data);
+					console.log("la page midi a renvoyé : ", {data:data});
+				} catch(ex) {
+					console.error("La page midi n'a pas renvoyé de JSON : ", {texte:data});
+				}
+				_this.appendMidiPlayer(data.filename);
+				_this.hideSplashScreen('slow');
+				if (callback !== undefined) callback();
+				console.timeEnd('temps de chargement');
+			},
+			error: function (xhr, status, err) {
+				_this.mustRegenerateMidi = true;
+				alert("fail");
+			}
+		});
+	},
 	appendMidiPlayer: function (midiPath) {
+		$("#demo").remove();
 		$(".page").append(
 			"<object classid='clsid:02BF25D5-8C17-4B23-BC80-D3488ABDDC6B'"+
 			"codebase='http://www.apple.com/qtactivex/qtplugin.cab' width='180'"+
-			"height='160' id='demo'>"+
+			"height='160' id='demo' style='behavior:url(#qt_event_source);'>"+
 			"<param name='src' value='js/demo.mid'>"+
+			"<param name='postdomevents' value='true' />"+
 			"<param name='Autoplay' value='false'>"+
-			"<embed width='0' height='0' src='"+midiPath+"' name='demo'"+
-			"enablejavascript='true' autostart='false'>"+
+			"<embed id='embed_demo' width='0' height='0' src='"+midiPath+"' name='demo'"+
+			"enablejavascript='true' autostart='false' postdomevents='true'>"+
 			"</object>"
 			);
 	},
