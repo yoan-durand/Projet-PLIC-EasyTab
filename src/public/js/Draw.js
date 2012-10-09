@@ -208,7 +208,7 @@ function DrawNotes(context, file, yLine)
                 
                 var beatCursor = 0;
                 var crossBeat = false;
-                var time_beat = 4 //measure._attributes._time_beat;           
+                var time_beat = 4 / 4 //measure._attributes._time_beat;           
                 
                 if (chords != null && chords[0] != null)
                 {
@@ -256,32 +256,29 @@ function DrawNotes(context, file, yLine)
                                     context.svg.rect(note2._posX , 9 + yLine, 11, 5, {fill:"#333"});
                                 }
                             }
-                            rythm = draw_rythm(context, rythm, note2, yLine)
-
+                         //   rythm = draw_rythm(context, rythm, note2, yLine)
                         }
-                        if ((currentNote._duration / 480) < 1)
+                        if (((currentNote._duration / 480) < 1) && (beatCursor % time_beat != 0) && (crossBeat == false))
                         {
-                            if (beatCursor % time_beat != 0)
-                            {
-                                if (crossBeat == false)
-                                {
-                                    var lastNoteBeat = Math.floor ((beatCursor - (lastNote._duration / 480)) / time_beat);
-                                    var currentNoteBeat = Math.floor (beatCursor / time_beat);
+                            var lastNoteBeat = Math.floor ((beatCursor - (lastNote._duration / 480)) / time_beat);
+                            var currentNoteBeat = Math.floor (beatCursor / time_beat);
 
-                                    if (lastNoteBeat != currentNoteBeat)
-                                    {
-                                         crossBeat = true
-                                    }
-                                   // Draw_ligature (lastNote, currentNote)
-                                }
-                                else
-                                {
-                                    crossBeat = false;
-                                }
+                            if (lastNoteBeat != currentNoteBeat)
+                            {
+                                    crossBeat = true
                             }
+                            // Draw_ligature (lastNote, currentNote)
+                        }
+                        else
+                        {
+                            if (crossBeat == true)
+                            {
+                                crossBeat == false;
+                            }
+                            draw_simple_rythm (context, yLine, currentNote, false, false); //last false = dessin croche a droite
                         }
                         lastNote = currentNote;
-                        beatCursor = currentNote._duration / 480;                          
+                        beatCursor += currentNote._duration / 480;                          
                 }
 
 	}
@@ -361,205 +358,102 @@ function get_second_duration (duration, first_duration) //Retourne la durée de 
        return (duration % first_duration);
 }
 
-function draw_rythm (context, rythm, note2, yLine)
+function draw_simple_rythm (context, yLine, note, rythm)
 {
-	if ((!rythm) && (note2._fret_technical != null))
-    {
-        switch (note2._duration/480) 
-        {
-        
-        case 3:
-        	if (note2._fret_technical.length == 1)
-        	{
-        		context.svg.line(note2._posX + 3, yLine + (context.nb_cordes * 10) + 5, note2._posX + 3, yLine + (context.nb_cordes * 10) + 15, {stroke:"black"});
-        		context.svg.rect(note2._posX + 5, yLine + (context.nb_cordes * 10) + 13, 2, 2, {fill:"#333"});
-        	}
-        	else
-        	{
-        		context.svg.line(note2._posX + 5, yLine + (context.nb_cordes * 10) + 5, note2._posX + 5, yLine + (context.nb_cordes * 10) + 15, {stroke:"black"});
-        		context.svg.rect(note2._posX + 7, yLine + (context.nb_cordes * 10) + 13, 2, 2, {fill:"#333"} );
-        	}
-        	rythm = true;
-        	break;
-        
-        case 2:
-        	if (note2._fret_technical.length == 1)
-        	{
-        		context.svg.line(note2._posX + 3, yLine + (context.nb_cordes * 10) + 5, note2._posX + 3, yLine + (context.nb_cordes * 10) + 15, {stroke:"black"} );
-        	}
-        	else
-        	{
-        		context.svg.line(note2._posX + 5, yLine + (context.nb_cordes * 10) + 5, note2._posX + 5, yLine + (context.nb_cordes * 10) + 15, {stroke:"black"} );
-        	}
-        	rythm = true;
-        	break;
-        case 1:
-        	if (note2._fret_technical.length == 1)
-    		{
-    			context.svg.line(note2._posX + 3, yLine + (context.nb_cordes * 10) - 5 ,note2._posX + 3, yLine + (context.nb_cordes * 10) + 15, {stroke:"black"} );
-    		}
-        	else
-    		{
-        		context.svg.line(note2._posX + 5, yLine + (context.nb_cordes * 10) - 5 ,note2._posX + 5, yLine + (context.nb_cordes * 10) + 15, {stroke:"black"} );
-    		}
-        	rythm = true;
-    		break;
-        case 1.5:
-        	if (note2._fret_technical.length == 1)
-        	{
-        		context.svg.line(note2._posX + 3, yLine + (context.nb_cordes * 10) - 5, note2._posX + 3, yLine + (context.nb_cordes * 10) + 15, {stroke:"black"});
-        		context.svg.rect(note2._posX + 5, yLine + (context.nb_cordes * 10) + 13, 2, 2, {fill:"#333"} );
-        	}
-        	else
-        	{
-        		context.svg.line(note2._posX + 5, yLine + (context.nb_cordes * 10) + 5, note2._posX + 5, yLine + (context.nb_cordes * 10) + 15, {stroke:"black"});
-        		context.svg.rect(note2._posX + 7, yLine + (context.nb_cordes * 10) + 13, 2, 2, {fill:"#333"} );
-        	}
-        	rythm = true;
-        	break;	
-		case 0.5:
-			if (note2._fret_technical.length == 1)
+	var duration = note._duration / 480;
+	var tableau_barre = {"0.5":1, "0.25":2, "0.125":3, "0.0625":4};
+	
+	if (!rythm)
+	{
+			if (duration < 1)
 			{
-				context.svg.line(note2._posX + 3, yLine + (context.nb_cordes * 10) - 5 ,note2._posX + 3, yLine + (context.nb_cordes * 10) + 15, {stroke:"black"} );
-				context.svg.rect(note2._posX + 3, yLine + (context.nb_cordes * 10) + 13, 5, 2, {fill:"#333"} );
-			}
-			else
-			{
-				context.svg.line(note2._posX + 5, yLine + (context.nb_cordes * 10) - 5 ,note2._posX + 5, yLine + (context.nb_cordes * 10) + 15, {stroke:"black"} );
-				context.svg.rect(note2._posX + 5, yLine + (context.nb_cordes * 10) + 13, 5, 2, {fill:"#333"});
-			}
+				context.svg.line(note._posX + 3, yLine + (context.nb_cordes * 10) - 5, note._posX + 3, yLine + (context.nb_cordes * 10) + 15, {stroke:"black"});
+				
+				var j = 13;
+				var nb_bar = tableau_barre[get_first_duration(duration)];
+				for (var i = 0; i < nb_bar; i++)
+				{
+					if ( note.fret_technical == null || note._fret_technical.length == 1)
+		        	{	
+		        		context.svg.rect(note._posX + 3, yLine + (context.nb_cordes * 10) + j, 5, 2, {fill:"#333"});
+		        	}
+		        	else
+		        	{
+		        		context.svg.rect(note._posX + 5, yLine + (context.nb_cordes * 10) + j, 5, 2, {fill:"#333"} );
+		        	}
+					j -= 3;
+				}
+				if (get_second_duration(duration, get_first_duration(duration)) != 0)
+				{
+					if (note._fret_technical == null || note._fret_technical.length == 1)
+		        	{	
+		        		context.svg.rect(note._posX + 5, yLine + (context.nb_cordes * 10) + j - 3, 2, 2, {fill:"#333"});
+		        	}
+		        	else
+		        	{
+		        		context.svg.rect(note._posX + 7, yLine + (context.nb_cordes * 10) + j - 3, 2, 2, {fill:"#333"} );
+		        	}
+				}
 				rythm = true;
-            break;
-		case 0.75:
-			if (note2._fret_technical.length == 1)
-			{
-				context.svg.line(note2._posX + 3, yLine + (context.nb_cordes * 10) - 5 ,note2._posX + 3, yLine + (context.nb_cordes * 10) + 15, {stroke:"black"} );
-				context.svg.rect(note2._posX + 3, yLine + (context.nb_cordes * 10) + 13, 5, 2, {fill:"#333"} );
-				context.svg.rect(note2._posX + 5, yLine + (context.nb_cordes * 10) + 10, 2, 2, {fill:"#333"} );
 			}
 			else
 			{
-				context.svg.line(note2._posX + 5, yLine + (context.nb_cordes * 10) - 5 ,note2._posX + 5, yLine + (context.nb_cordes * 10) + 15, {stroke:"black"} );
-				context.svg.rect(note2._posX + 5, yLine + (context.nb_cordes * 10) + 13, 5, 2, {fill:"#333"});
-				context.svg.rect(note2._posX + 7, yLine + (context.nb_cordes * 10) + 10, 2, 2, {fill:"#333"} );
+				
+				switch (duration) 
+		        {
+		        
+		        case 3:
+		        	if (note._fret_technical == null || note._fret_technical.length == 1)
+		        	{
+		        		context.svg.line(note._posX + 3, yLine + (context.nb_cordes * 10) + 5, note._posX + 3, yLine + (context.nb_cordes * 10) + 15, {stroke:"black"});
+		        		context.svg.rect(note._posX + 5, yLine + (context.nb_cordes * 10) + 13, 2, 2, {fill:"#333"});
+		        	}
+		        	else
+		        	{
+		        		context.svg.line(note._posX + 5, yLine + (context.nb_cordes * 10) + 5, note._posX + 5, yLine + (context.nb_cordes * 10) + 15, {stroke:"black"});
+		        		context.svg.rect(note._posX + 7, yLine + (context.nb_cordes * 10) + 13, 2, 2, {fill:"#333"} );
+		        	}
+		        	rythm = true;
+		        	break;
+		        
+		        case 2:
+		        	if (note._fret_technical == null || note._fret_technical.length == 1)
+		        	{
+		        		context.svg.line(note._posX + 3, yLine + (context.nb_cordes * 10) + 5, note._posX + 3, yLine + (context.nb_cordes * 10) + 15, {stroke:"black"} );
+		        	}
+		        	else
+		        	{
+		        		context.svg.line(note._posX + 5, yLine + (context.nb_cordes * 10) + 5, note._posX + 5, yLine + (context.nb_cordes * 10) + 15, {stroke:"black"} );
+		        	}
+		        	rythm = true;
+		        	break;
+		        case 1:
+		        	if (note._fret_technical == null || note._fret_technical.length == 1)
+		    		{
+		    			context.svg.line(note._posX + 3, yLine + (context.nb_cordes * 10) - 5 ,note._posX + 3, yLine + (context.nb_cordes * 10) + 15, {stroke:"black"} );
+		    		}
+		        	else
+		    		{
+		        		context.svg.line(note._posX + 5, yLine + (context.nb_cordes * 10) - 5 ,note._posX + 5, yLine + (context.nb_cordes * 10) + 15, {stroke:"black"} );
+		    		}
+		        	rythm = true;
+		    		break;
+		        case 1.5:
+		        	if (note._fret_technical == null || note._fret_technical.length == 1)
+		        	{
+		        		context.svg.line(note._posX + 3, yLine + (context.nb_cordes * 10) - 5, note._posX + 3, yLine + (context.nb_cordes * 10) + 15, {stroke:"black"});
+		        		context.svg.rect(note._posX + 5, yLine + (context.nb_cordes * 10) + 13, 2, 2, {fill:"#333"} );
+		        	}
+		        	else
+		        	{
+		        		context.svg.line(note._posX + 5, yLine + (context.nb_cordes * 10) + 5, note._posX + 5, yLine + (context.nb_cordes * 10) + 15, {stroke:"black"});
+		        		context.svg.rect(note._posX + 7, yLine + (context.nb_cordes * 10) + 13, 2, 2, {fill:"#333"} );
+		        	}
+		        	rythm = true;
+		        	break;
+		        }
 			}
-				rythm = true;
-            break;
-		case 0.25:
-			if (note2._fret_technical.length == 1)
-			{
-				context.svg.line(note2._posX + 3, yLine + (context.nb_cordes * 10) - 5 ,note2._posX + 3, yLine + (context.nb_cordes * 10) + 15, {stroke:"black"} );
-				context.svg.rect(note2._posX + 3, yLine + (context.nb_cordes * 10) + 13, 5, 2, {fill:"#333"} );
-				context.svg.rect(note2._posX + 3, yLine + (context.nb_cordes * 10) + 10, 5, 2, {fill:"#333"} );
-			}
-			else
-			{
-				context.svg.line(note2._posX + 5, yLine + (context.nb_cordes * 10) - 5 ,note2._posX + 5, yLine + (context.nb_cordes * 10) + 15, {stroke:"black"} );
-				context.svg.rect(note2._posX + 5, yLine + (context.nb_cordes * 10) + 13, 5, 2, {fill:"#333"} );
-				context.svg.rect(note2._posX + 5, yLine + (context.nb_cordes * 10) + 10, 5, 2, {fill:"#333"} );
-			}
-            rythm = true;
-            break;
-		case 0.375:
-			if (note2._fret_technical.length == 1)
-			{
-				context.svg.line(note2._posX + 3, yLine + (context.nb_cordes * 10) - 5 ,note2._posX + 3, yLine + (context.nb_cordes * 10) + 15, {stroke:"black"} );
-				context.svg.rect(note2._posX + 3, yLine + (context.nb_cordes * 10) + 13, 5, 2, {fill:"#333"} );
-				context.svg.rect(note2._posX + 3, yLine + (context.nb_cordes * 10) + 10, 5, 2, {fill:"#333"} );
-				context.svg.rect(note2._posX + 5, yLine + (context.nb_cordes * 10) + 7, 2, 2, {fill:"#333"} );
-			}
-			else
-			{
-				context.svg.line(note2._posX + 5, yLine + (context.nb_cordes * 10) - 5 ,note2._posX + 5, yLine + (context.nb_cordes * 10) + 15, {stroke:"black"} );
-				context.svg.rect(note2._posX + 5, yLine + (context.nb_cordes * 10) + 13, 5, 2, {fill:"#333"} );
-				context.svg.rect(note2._posX + 5, yLine + (context.nb_cordes * 10) + 10, 5, 2, {fill:"#333"} );
-				context.svg.rect(note2._posX + 7, yLine + (context.nb_cordes * 10) + 7, 2, 2, {fill:"#333"} );
-			}
-            rythm = true;
-            break;
-            
-		case 0.125:
-			if (note2._fret_technical.length == 1)
-			{
-				context.svg.line(note2._posX + 3, yLine + (context.nb_cordes * 10) - 5 ,note2._posX + 3, yLine + (context.nb_cordes * 10) + 15, {stroke:"black"} );
-                context.svg.rect(note2._posX + 3, yLine + (context.nb_cordes * 10) + 13, 5, 2, {fill:"#333"} );
-                context.svg.rect(note2._posX + 3, yLine + (context.nb_cordes * 10) + 10, 5, 2, {fill:"#333"} );
-                context.svg.rect(note2._posX + 3, yLine + (context.nb_cordes * 10) + 7, 5, 2, {fill:"#333"} ); 
-			}
-			else
-			{
-				context.svg.line(note2._posX + 5, yLine + (context.nb_cordes * 10) - 5 ,note2._posX + 5, yLine + (context.nb_cordes * 10) + 15, {stroke:"black"} );
-                context.svg.rect(note2._posX + 5, yLine + (context.nb_cordes * 10) + 13, 5, 2, {fill:"#333"} );
-                context.svg.rect(note2._posX + 5, yLine + (context.nb_cordes * 10) + 10, 5, 2, {fill:"#333"} );
-                context.svg.rect(note2._posX + 5, yLine + (context.nb_cordes * 10) + 7, 5, 2, {fill:"#333"} );
-			}
-            rythm = true;
-            break;
-            
-		case 0.1875 :
-			
-			if (note2._fret_technical.length == 1)
-			{
-				context.svg.line(note2._posX + 3, yLine + (context.nb_cordes * 10) - 5 ,note2._posX + 3, yLine + (context.nb_cordes * 10) + 15, {stroke:"black"} );
-                context.svg.rect(note2._posX + 3, yLine + (context.nb_cordes * 10) + 13, 5, 2, {fill:"#333"} );
-                context.svg.rect(note2._posX + 3, yLine + (context.nb_cordes * 10) + 10, 5, 2, {fill:"#333"} );
-                context.svg.rect(note2._posX + 3, yLine + (context.nb_cordes * 10) + 7, 5, 2, {fill:"#333"} ); 
-                context.svg.rect(note2._posX + 5, yLine + (context.nb_cordes * 10) + 4, 2, 2, {fill:"#333"} );
-			}
-			else
-			{
-				context.svg.line(note2._posX + 5, yLine + (context.nb_cordes * 10) - 5 ,note2._posX + 5, yLine + (context.nb_cordes * 10) + 15, {stroke:"black"} );
-                context.svg.rect(note2._posX + 5, yLine + (context.nb_cordes * 10) + 13, 5, 2, {fill:"#333"} );
-                context.svg.rect(note2._posX + 5, yLine + (context.nb_cordes * 10) + 10, 5, 2, {fill:"#333"} );
-                context.svg.rect(note2._posX + 5, yLine + (context.nb_cordes * 10) + 7, 5, 2, {fill:"#333"} );
-                context.svg.rect(note2._posX + 7, yLine + (context.nb_cordes * 10) + 4, 2, 2, {fill:"#333"} );
-			}
-			
-            rythm = true;
-            break;
-			
-		case 0.0625:
-			if (note2._fret_technical == 1)
-			{
-				context.svg.line(note2._posX + 3, yLine + (context.nb_cordes * 10) - 5 ,note2._posX + 3, yLine + (context.nb_cordes * 10) + 15, {stroke:"black"} );
-                context.svg.rect(note2._posX + 3, yLine + (context.nb_cordes * 10) + 13, 5, 2, {fill:"#333"});
-                context.svg.rect(note2._posX + 3, yLine + (context.nb_cordes * 10) + 10, 5, 2, {fill:"#333"});
-                context.svg.rect(note2._posX + 3, yLine + (context.nb_cordes * 10) + 7, 5, 2, {fill:"#333"});
-                context.svg.rect(note2._posX + 3, yLine + (context.nb_cordes * 10) + 4, 5, 2, {fill:"#333"});
-			}
-			else
-			{
-				context.svg.line(note2._posX + 5, yLine + (context.nb_cordes * 10) - 5 ,note2._posX + 5, yLine + (context.nb_cordes * 10) + 15, {stroke:"black"} );
-                context.svg.rect(note2._posX + 5, yLine + (context.nb_cordes * 10) + 13, 5, 2, {fill:"#333"});
-                context.svg.rect(note2._posX + 5, yLine + (context.nb_cordes * 10) + 10, 5, 2, {fill:"#333"});
-                context.svg.rect(note2._posX + 5, yLine + (context.nb_cordes * 10) + 7, 5, 2, {fill:"#333"});
-                context.svg.rect(note2._posX + 5, yLine + (context.nb_cordes * 10) + 4, 5, 2, {fill:"#333"});
-			}
-			rythm = true;
-            break;
-		case 0.09375:
-			if (note2._fret_technical == 1)
-			{
-				context.svg.line(note2._posX + 3, yLine + (context.nb_cordes * 10) - 5 ,note2._posX + 3, yLine + (context.nb_cordes * 10) + 15, {stroke:"black"} );
-                context.svg.rect(note2._posX + 3, yLine + (context.nb_cordes * 10) + 13, 5, 2, {fill:"#333"});
-                context.svg.rect(note2._posX + 3, yLine + (context.nb_cordes * 10) + 10, 5, 2, {fill:"#333"});
-                context.svg.rect(note2._posX + 3, yLine + (context.nb_cordes * 10) + 7, 5, 2, {fill:"#333"});
-                context.svg.rect(note2._posX + 3, yLine + (context.nb_cordes * 10) + 4, 5, 2, {fill:"#333"});
-                context.svg.rect(note2._posX + 5, yLine + (context.nb_cordes * 10) + 1, 2, 2, {fill:"#333"});
-			}
-			else
-			{
-				context.svg.line(note2._posX + 5, yLine + (context.nb_cordes * 10) - 5 ,note2._posX + 5, yLine + (context.nb_cordes * 10) + 15, {stroke:"black"} );
-                context.svg.rect(note2._posX + 5, yLine + (context.nb_cordes * 10) + 13, 5, 2, {fill:"#333"});
-                context.svg.rect(note2._posX + 5, yLine + (context.nb_cordes * 10) + 10, 5, 2, {fill:"#333"});
-                context.svg.rect(note2._posX + 5, yLine + (context.nb_cordes * 10) + 7, 5, 2, {fill:"#333"});
-                context.svg.rect(note2._posX + 5, yLine + (context.nb_cordes * 10) + 4, 5, 2, {fill:"#333"});
-                context.svg.rect(note2._posX + 7, yLine + (context.nb_cordes * 10) + 1, 2, 2, {fill:"#333"});
-			}
-			rythm = true;
-            break;
-		
 		}
-    }
 	return rythm;
 }
+
