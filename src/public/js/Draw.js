@@ -258,7 +258,7 @@ function DrawNotes(context, file, yLine)
                             }
                          //   rythm = draw_rythm(context, rythm, note2, yLine)
                         }
-                        if (((currentNote._duration / 480) < 1) && (beatCursor % time_beat != 0) && (crossBeat == false))
+                        if (((currentNote._duration / 480) < 1) && (beatCursor % time_beat != 0) && (crossBeat == false) && (lastNote._duration/480 < 1))
                         {
                             var lastNoteBeat = Math.floor ((beatCursor - (lastNote._duration / 480)) / time_beat);
                             var currentNoteBeat = Math.floor (beatCursor / time_beat);
@@ -267,7 +267,7 @@ function DrawNotes(context, file, yLine)
                             {
                                     crossBeat = true
                             }
-                            // Draw_ligature (lastNote, currentNote)
+                            complete_rythm(context, yLine, lastNote, currentNote);
                         }
                         else
                         {
@@ -358,7 +358,41 @@ function get_second_duration (duration, first_duration) //Retourne la durée de 
        return (duration % first_duration);
 }
 
-function draw_simple_rythm (context, yLine, note, rythm)
+// complete le rythme
+function complete_rythm (context, yLine, note, snd_note)
+{
+	var tableau_barre = {"0.5":1, "0.25":2, "0.125":3, "0.0625":4};
+	var duration = note._duration / 480;
+	var duration_snd = snd_note._duration / 480;
+	var nb_bar1 = tableau_barre[get_first_duration(duration)];
+	var nb_bar2 = tableau_barre[get_first_duration(duration_snd)];
+	var max = 0;
+	
+	if (nb_bar1 >= nb_bar2)
+		max = nb_bar2;
+	else
+		max = nb_bar1;
+	
+	var j = 13;
+	for (var i = 0; i < max; i++)
+	{
+		if ( note.fret_technical == null || note._fret_technical.length == 1)
+    	{	
+    		context.svg.rect(note._posX + 3, yLine + (context.nb_cordes * 10) + j, snd_note._posX - note._posX, 2, {fill:"#333"});
+    	}
+    	else
+    	{
+    		context.svg.rect(note._posX + 5, yLine + (context.nb_cordes * 10) + j, snd_note._posX - note._posX, 2, {fill:"#333"} );
+    	}
+		j -= 3;	
+	}
+	
+	draw_simple_rythm(context, yLine, snd_note, false, true);
+	
+}
+
+//dessine les barre de rythme. left indique si on dessine a droite ou a gauche.
+function draw_simple_rythm (context, yLine, note, rythm, left)
 {
 	var duration = note._duration / 480;
 	var tableau_barre = {"0.5":1, "0.25":2, "0.125":3, "0.0625":4};
@@ -375,11 +409,17 @@ function draw_simple_rythm (context, yLine, note, rythm)
 				{
 					if ( note.fret_technical == null || note._fret_technical.length == 1)
 		        	{	
-		        		context.svg.rect(note._posX + 3, yLine + (context.nb_cordes * 10) + j, 5, 2, {fill:"#333"});
+						if (!left)
+							context.svg.rect(note._posX + 3, yLine + (context.nb_cordes * 10) + j, 5, 2, {fill:"#333"});
+						else
+							context.svg.rect(note._posX - 3, yLine + (context.nb_cordes * 10) + j, 5, 2, {fill:"#333"});
 		        	}
 		        	else
 		        	{
-		        		context.svg.rect(note._posX + 5, yLine + (context.nb_cordes * 10) + j, 5, 2, {fill:"#333"} );
+		        		if (!left)
+							context.svg.rect(note._posX + 5, yLine + (context.nb_cordes * 10) + j, 5, 2, {fill:"#333"});
+						else
+							context.svg.rect(note._posX - 5, yLine + (context.nb_cordes * 10) + j, 5, 2, {fill:"#333"});
 		        	}
 					j -= 3;
 				}
