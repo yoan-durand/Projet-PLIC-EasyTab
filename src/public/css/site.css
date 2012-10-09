@@ -51,14 +51,15 @@ h2 .options:hover {
 	display: inline-block;
 }
 /* formulaire */
+#container .item,
 #form .item {
 	padding: 10px;
 }
-
+#container .left,
 #form .left {
     float: left;
 }
-
+#container .right,
 #form .right {
     margin-left: 200px;
     

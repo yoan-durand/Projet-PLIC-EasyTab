@@ -1,6 +1,6 @@
 {% extends 'layout.html' %}
 
-{% block title %}EasyTab{% endblock %}
+{% block title %}EasyTab - Résultat de recherche{% endblock %}
 
 {% block head %}
 <link rel="stylesheet" href="/css/smoothness/jquery-ui-1.8.18.custom.css" />
@@ -10,11 +10,11 @@
 <script src="/js/jquery.contextmenu.r2.packed.js"></script>
 <script type="text/javascript">
 	function search(recherche, option) {
-		var url = '/search/';
+		var url = '/search/u:{{userId}}/';
 		if (option === undefined) {
 			url += recherche;
 		} else {
-			url += 'o;'+option+'/'+recherche;
+			url += 'o:'+option+'/'+recherche;
 		}
 		$.post(url, function(data, textStatus) {
 			$('#trackList').empty();
@@ -103,13 +103,12 @@
 		<form id="searchForm">
 			<input id="searchBox" placeholder="Rechercher...">
 		</form>
-		<h2><span>Toutes les tablatures</span><div class="options"></div></h2>
+		<h2><span>Résultat de la recherche</span><div class="options"></div></h2>
 		<table id="trackList">
 			{% for xml in pistes -%}
 			<tr id="tab_{{xml.id}}">
-				<td><a href="application;{{ xml.nom }}.xml">{{xml.titre}}</a></td>
+				<td><a href="/application;{{ xml.nom }}.xml">{{xml.titre}}</a></td>
 				<td>{{xml.artiste}}</td>
-				<td><a href="user/{{xml.userId}}/{{xml.login}}" title="Mis en ligne par {{xml.login}}">{{xml.login}}</td>
 			</tr>
 			{%- endfor %}
 		</table>

@@ -9,17 +9,7 @@ exports.crashPost = function(req, res, next){//TODO à supprimer pour la mise en
 exports.index = function(req, res, next){
 	if (forceLogin(req, res))
 		return;
-	var params = {
-		connected: req.session.connected
-	}
-	if (req.session.error) {
-		params.error = req.session.error;
-		delete req.session.error;
-	}
-	if (req.session.success) {
-		params.success = req.session.success;
-		delete req.session.success;
-	}
+	var params = getRenderParams(req, true);
 	tablatureSearch(req, res, next, undefined, true, function(results){
 		params.pistes = results;
 		res.render('index', params);
@@ -314,14 +304,14 @@ exports.tablatures = function(req, res, next) {
 			pistes: results,
 			connected: req.session.connected
 		});
-	});
+	}, undefined, req.session.user.id);
 }
 exports.getTablatures = function(req, res, next) {
 	if (forceLogin(req, res))
 		return;
 	tablatureSearch(req, res, next, undefined, true, function(results){
 		res.send(JSON.stringify(results));
-	});
+	}, undefined, req.session.user.id);
 }
 exports.tablaturesVisibility = function(req, res, next) {
 	if (forceLogin(req, res))
@@ -398,9 +388,58 @@ exports.search = function(req, res, next) {
 		return;
 	var recherche = req.params.search;
 	var option = req.params.option;
+	var user = parseInt(req.params.user);
+	if (!user) {
+		user = undefined;
+	}
 	tablatureSearch(req, res, next, recherche, false, function(results) {
 		res.send(JSON.stringify(results));
-	}, option);
+	}, option, user);
+}
+exports.search2 = function(req, res, next) {
+	if (forceLogin(req, res))
+		return;
+	var recherche = req.params.search;
+	var option = req.params.option;
+	var user = parseInt(req.params.user);
+	if (!user) {
+		user = undefined;
+	}
+
+	tablatureSearch(req, res, next, recherche, false, function(results) {
+		var params = getRenderParams(req, true);
+		params.pistes = results;
+		params.userId = user;
+		res.render('search', params);
+	}, option, user);
+}
+
+exports.profil = function(req, res, next) {
+	if (forceLogin(req, res))
+		return;
+	var params = getRenderParams(req, true);
+	var client = mysql_connect();
+	var id = req.params.userId;
+	params.userId = id;
+	client.query(
+		'SELECT `login`,`dateInscription`, count(*) as nbTablature FROM `user` join tablature on tablature.`userId` = `user`.`id` WHERE `user`.`id` = ?',
+		[id],
+		function(err, results, fields) {
+			client.end(); // close sql connection
+			if (err) {
+				next(new Error(JSON.stringify(err)));
+				return;
+			}
+			params.pseudo = results[0].login;
+			if (results[0].dateInscription === 0) {
+				params.inscritDepuis = 'Toujours';
+			} else {
+				params.inscritDepuis = conversionTemps((new Date()).getTime() - results[0].dateInscription);
+			}
+			params.nbTablature = results[0].nbTablature;
+			res.render('profil', params);
+		}
+	);
 }
 
 function mysql_connect() {
@@ -414,15 +453,14 @@ function mysql_connect() {
 	return client;
 }
 
-function tablatureSearch(req, res, next, filter, publicOnly, callback, option) {
+function tablatureSearch(req, res, next, filter, publicOnly, callback, option, user) {
 	var sql = 'SELECT tablature.id, nom, titre, artiste, public, userId, user.login FROM `tablature` JOIN `user` ON tablature.userId = user.id WHERE ';
 	var match = [];
-	if (publicOnly) {
-		sql += '`public` = 1';
-	} else {
-		sql += '`userid` = ?';
-		var userId = req.session.user.id;
-		match.push(userId);
+	sql += '((`public` = 0 AND `userId` = ?) OR (`public` = 1))';
+	match.push(req.session.user.id);
+	if (user) {
+		sql += ' AND `userid` = ?';
+		match.push(user);
 	}
 	if (filter !== undefined) {
 		sql += ' AND (`nom` LIKE ? OR `titre` LIKE ? OR `artiste` LIKE ?)';
@@ -446,6 +484,9 @@ function tablatureSearch(req, res, next, filter, publicOnly, callback, option) {
 				next(new Error(JSON.stringify(err)));
 				return;
 			}
+				console.log(JSON.stringify(sql)+JSON.stringify(match));
+				// next(new Error(JSON.stringify(sql)+JSON.stringify(match)));
+				// return;
 			callback(results);
 		}
 	);
@@ -456,3 +497,40 @@ function encryptPassword(password, login) {
 	var crypto = require('crypto');
 	return crypto.createHash('sha1').update(password+config.bdd.salt+login).digest('hex');
 }
+/**
+ * @param {bool} gestionErreurs (optionnel) indique si les erreurs sont gérée par cette page
+ */
+function getRenderParams(req, gestionErreurs) {
+	var params = {
+		connected: req.session.connected
+	};
+	if (gestionErreurs) {
+		if (req.session.error) {
+			params.error = req.session.error;
+			delete req.session.error;
+		}
+		if (req.session.success) {
+			params.success = req.session.success;
+			delete req.session.success;
+		}
+	}
+	return params;
+}
+function conversionTemps(temps) {
+	// repassons en secondes
+	temps /= 1000;
+	var nbJours=Math.floor(temps/(3600*24));
+	if (nbJours) {
+		return nbJours + ' jours';
+	}
+	var nbHeures=Math.floor(temps/(3600));
+	if (nbHeures) {
+		return nbHeures + ' heures';
+	}
+	var nbMinutes=Math.floor(temps/(60));
+	if (nbMinutes) {
+		return nbMinutes + ' minutes';
+	}
+	return temps + ' secondes';
+}
+
