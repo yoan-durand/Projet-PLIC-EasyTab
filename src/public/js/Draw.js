@@ -330,7 +330,48 @@ function get_second_duration (duration, first_duration) //Retourne la durée de 
        return (duration % first_duration);
 }
 
-function draw_simple_rythm (context, yLine, note, rythm)
+// complete le rythme
+function complete_rythm (context, yLine, note, snd_note)
+{
+	var tableau_barre = {"0.5":1, "0.25":2, "0.125":3, "0.0625":4};
+	var duration = note._duration / 480;
+	var duration_snd = snd_note._duration / 480;
+	var nb_bar1 = get_first_duration(duration);
+	var nb_bar2 = get_first_duration(duration_snd);
+	var max = 0;
+	
+	if (nb_bar1 == nb_bar2)
+	{
+		max = nb_bar1;	
+	}
+	
+	if (nb_bar1 > nb_bar2)
+		max = nb_bar2;
+	else
+		max = nb_bar1;
+	
+	for (var i = 0; i < max; i++)
+	{
+		var j = 13;
+		var nb_bar = tableau_barre[get_first_duration(duration)];
+		for (var i = 0; i < nb_bar; i++)
+		{
+			if ( note.fret_technical == null || note._fret_technical.length == 1)
+        	{	
+        		context.svg.rect(note._posX + 3, yLine + (context.nb_cordes * 10) + j, snd_note._posX - note._posX, 2, {fill:"#333"});
+        	}
+        	else
+        	{
+        		context.svg.rect(note._posX + 5, yLine + (context.nb_cordes * 10) + j, snd_note._posX - note._posX, 2, {fill:"#333"} );
+        	}
+			j -= 3;
+		}
+	}
+	
+}
+
+//dessine les barre de rythme. left indique si on dessine a droite ou a gauche.
+function draw_simple_rythm (context, yLine, note, rythm, left)
 {
 	var duration = note._duration / 480;
 	var tableau_barre = {"0.5":1, "0.25":2, "0.125":3, "0.0625":4};
@@ -347,11 +388,17 @@ function draw_simple_rythm (context, yLine, note, rythm)
 				{
 					if ( note.fret_technical == null || note._fret_technical.length == 1)
 		        	{	
-		        		context.svg.rect(note._posX + 3, yLine + (context.nb_cordes * 10) + j, 5, 2, {fill:"#333"});
+						if (!left)
+							context.svg.rect(note._posX + 3, yLine + (context.nb_cordes * 10) + j, 5, 2, {fill:"#333"});
+						else
+							context.svg.rect(note._posX - 3, yLine + (context.nb_cordes * 10) + j, 5, 2, {fill:"#333"});
 		        	}
 		        	else
 		        	{
-		        		context.svg.rect(note._posX + 5, yLine + (context.nb_cordes * 10) + j, 5, 2, {fill:"#333"} );
+		        		if (!left)
+							context.svg.rect(note._posX + 5, yLine + (context.nb_cordes * 10) + j, 5, 2, {fill:"#333"});
+						else
+							context.svg.rect(note._posX - 5, yLine + (context.nb_cordes * 10) + j, 5, 2, {fill:"#333"});
 		        	}
 					j -= 3;
 				}
