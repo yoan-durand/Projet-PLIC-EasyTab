@@ -10,7 +10,10 @@ function EventObj(partition)
     var beat = partition._instruments_list[0]._track_part._measure_list[0]._attributes._time_beat;
     measure(nb_measure);
     tracks(partition._instruments_list);
-
+    
+    
+ 
+    
     /// SECTION EVENT PLAYER
 
     $("#back").hover(function (){ //IN Handler
@@ -71,7 +74,16 @@ function EventObj(partition)
               $(this).attr("src", "image/play.png");
           }
      });
-
+	
+	play = function() {
+			document.demo.SetRate($(".tempo").text()/cur_tempo);
+			$("#back").attr("src", "image/back.png");
+			$("#play").attr("src", "image/playactif.png");
+			$("#pause").attr("src", "image/pause.png");
+			$("#stop").attr("src", "image/stop.png");
+			$(".overflow_svg").css("overflow-y", "hidden");
+			eventObj.Animation_Play(selected);
+	};
     $("#play").click(function (){
 
         if ($(this).attr("src") == "image/playhover.png")
@@ -80,12 +92,12 @@ function EventObj(partition)
         	$(".overflow_svg").css("overflow-y", "hidden");
                 $(".overflow_measure").css("overflow-x", "hidden");
         	//-------
-            document.demo.SetRate($(".tempo").text()/cur_tempo);
-			$("#back").attr("src", "image/back.png");
-            $(this).attr("src", "image/playactif.png");
-            $("#pause").attr("src", "image/pause.png");
-            $("#stop").attr("src", "image/stop.png");
-            eventObj.Animation_Play(selected);
+			var application = Application.get();
+			if (application.mustRegenerateMidi) {
+				application.midi_ajax(play);
+			} else {
+				play();
+			}
 		}
     });
 
@@ -119,13 +131,12 @@ function EventObj(partition)
 		}
 		else // PLAY REQUEST
 		{
-			document.demo.SetRate($(".tempo").text()/cur_tempo);
-			$("#back").attr("src", "image/back.png");
-			$("#play").attr("src", "image/playactif.png");
-			$("#pause").attr("src", "image/pause.png");
-			$("#stop").attr("src", "image/stop.png");
-			$(".overflow_svg").css("overflow-y", "hidden");
-			eventObj.Animation_Play(selected);
+			var application = Application.get();
+			if (application.mustRegenerateMidi) {
+				application.midi_ajax(play);
+			} else {
+				play();
+			}
 		}
 	});
 
@@ -426,15 +437,15 @@ function EventObj(partition)
             if (i == 0)
             {
                 $("#panel_pistes").append("<li id='t_"+i+"' class='piste piste_selected'><p style='margin:0px; padding:0px;'>" + instruments[i]._name_instrument + "</p>"+
-				"<input class='vol knob' data-width='50' data-height='50' data-angleOffset=180 data-displayPrevious=true data-fgColor='#ffec03' data-skin='tron' data-thickness='.2' value='50'>"+
-				"<input class='pan knob' data-width='35' data-height='35' data-angleOffset=-125 data-fgColor='#67bbab' data-angleArc=260 data-thickness='.2' value='0' data-min='-64' data-max='64'>"+
+				"<input class='vol knob' data-width='50' data-height='50' data-angleOffset=180 data-displayPrevious=true data-fgColor='#ffec03' data-skin='tron' data-thickness='.2' value='100' data-min='0' data-max='127'>"+
+				"<input class='pan knob' data-width='35' data-height='35' data-angleOffset=-125 data-fgColor='#67bbab' data-angleArc=260 data-thickness='.2' value='64' data-min='0' data-max='127'>"+
 				"</li>");
             }
             else
             {
                 $("#panel_pistes").append("<li id='t_"+i+"' class='piste'><p style='margin:0px; padding:0px;'>" + instruments[i]._name_instrument + "</p>"+
-				"<input class='vol knob' data-width='50' data-height='50' data-angleOffset=180 data-displayPrevious=true data-fgColor='#ffec03' data-skin='tron' data-thickness='.2' value='50'>"+
-				"<input class='pan knob' data-width='35' data-height='35' data-angleOffset=-125 data-fgColor='#67bbab' data-angleArc=260 data-thickness='.2' value='0' data-min='-64' data-max='64'>"+
+				"<input class='vol knob' data-width='50' data-height='50' data-angleOffset=180 data-displayPrevious=true data-fgColor='#ffec03' data-skin='tron' data-thickness='.2' value='100' data-min='0' data-max='127'>"+
+				"<input class='pan knob' data-width='35' data-height='35' data-angleOffset=-125 data-fgColor='#67bbab' data-angleArc=260 data-thickness='.2' value='64' data-min='0' data-max='127'>"+
 				"</li>");
             }
         }/*

@@ -326,8 +326,44 @@ header
 #splashMessage li:hover {
 	background-color: rgba(255, 255, 255, 0.3);
 }
+#comments li,
 #raccourcis li {
 	text-align: left;
+}
+#ajoutComment {
+	text-align: left;
+}
+#ajoutComment > input {
+	width: 100%;
+	line-height: 2em;
+}
+#comments li {
+	margin: 0.5em 0;
+}
+#comments li > a {
+	float: right;
+	display: none;
+}
+#comments li:hover > a {
+	display: inline;
+}
+/* panneau d'icône en bas à gauche */
+#botleft-pannel {
+	margin: 10px 12px;
+}
+#comments-icon {
+	width: 26px;
+	height: 25px;
+	background-image: url('/image/icone-commentaire.png');
+	background-size: 100%;
+}
+#comments-icon > span {
+	color: whiteSmoke;
+	position: relative;
+	bottom: -16px;
+	text-align: right;
+	width: 100%;
+	display: inline-block;
 }
 /* */
 #volume
@@ -335,7 +371,7 @@ header
 	width: 100px;
 	margin-top: 11px;
 	margin-right: 40px;
-        margin-left:10px;
+	margin-left:10px;
 }
 .speakon
 {
@@ -391,7 +427,7 @@ header
 .ui-widget-header
 {
 	border: 1px solid #E78F08;
-	background: #F6A828 url(images/ui-widget-header.png) 50% 50% repeat-x;
+	background: #F6A828;
 	color: white;
 	font-weight: bold;
 }

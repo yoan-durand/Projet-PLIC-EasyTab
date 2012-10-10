@@ -35,9 +35,10 @@
                         debugger;
                 }
                 var config = {
-                        tablature: '{{tablature}}',
-			userId: '{{userId}}',
-			midiPath: '{{midiPath}}'
+					tablature: '{{tablature}}',
+					tablatureId: '{{tablatureInfo.id}}',
+					userId: '{{userId}}',
+					midiPath: '{{midiPath}}'
                 }
         </script>
 
@@ -95,7 +96,11 @@
 						</li>
 						</ul>
 					</div>
-
+					<div id="botleft-pannel">
+						<div id="comments-icon">
+							<span></span>
+						</div>
+					</div>
 					<div class="clear"></div>
 				</section>
         </section>
@@ -214,6 +219,8 @@
 	
 	$(".knob").knob({
 		change : function (value) {
+			var application = Application.get();
+			application.mustRegenerateMidi = true;
 			var id_instru = $(this.$).parents("li").attr("id").replace('t_', '');
 			if ($(this.$).hasClass('vol'))
 			{
@@ -225,6 +232,8 @@
 			}
 		},
 		release : function (value) {
+			var application = Application.get();
+			application.mustRegenerateMidi = true;
 			var id_instru = $(this.$).parents("li").attr("id").replace('t_', '');
 			if ($(this.$).hasClass('vol'))
 			{
@@ -300,40 +309,8 @@
                 style : "inherit"
 			}
 		);
-
-		if (config.midiPath) {
-			var application = Application.get();
-			application.appendMidiPlayer(config.midiPath);
-			application.hideSplashScreen('slow');
-			application.bindKeys();
-			console.timeEnd('temps de chargement');
-		} else {
-         $.ajax({
-            type: "POST",
-            url: 'midi',
-			data: {
-				'name': config.tablature,
-				'userId': config.userId,
-				'encoded': JSON.stringify({ encoded : partition })
-			},
-            success: function (data, textStatus, jqXHR) {
-				try {
-					data = JSON.parse(data);
-					console.log("la page midi a renvoyé : ", {data:data});
-				} catch(ex) {
-					console.error("La page midi n'a pas renvoyé de JSON : ", {texte:data});
-				}
-				var application = Application.get();
-				application.appendMidiPlayer(data.filename);
-				application.hideSplashScreen('slow');
-				application.bindKeys();
-				console.timeEnd('temps de chargement');
-            },
-            error: function (xhr, status, err) {
-                alert("fail");
-            }
-        });
-		}
+		var application = Application.get();
+		application.midi_ajax();
     }, 1000));
 	console.time('temps de chargement');
 </script>
