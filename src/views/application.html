@@ -176,6 +176,7 @@
 
     $($("rect[id^='n_'], text[id^='n_']"), svg_inst[current_svg].root()).click(function ()
     {
+    	alert ("click son of bitch");
 		var id = $(this).attr("id");
 		var array = id.split('_');
 		var m = array[1]*1;
