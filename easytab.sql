@@ -76,12 +76,13 @@ INSERT INTO `user` (`id`, `dateInscription`, `login`, `password`) VALUES
 CREATE TABLE IF NOT EXISTS `comment` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `auteurId` int(11) NOT NULL,
-  `texte` text NOT NULL,
   `tablatureId` int(11) NOT NULL,
+  `texte` text NOT NULL,
+  `date` bigint(14) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `auteurId` (`auteurId`),
   KEY `tablatureId` (`tablatureId`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
 
 -- --------------------------------------------------------
 

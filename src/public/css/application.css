@@ -333,8 +333,8 @@ header
 #ajoutComment {
 	text-align: left;
 }
-#ajoutComment > input {
-	width: 100%;
+#ajoutComment input.ajout {
+	width: 82%;
 	line-height: 2em;
 }
 #comments li {

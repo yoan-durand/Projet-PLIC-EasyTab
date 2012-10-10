@@ -63,10 +63,19 @@ Application.prototype = {
 		if (vitesse === undefined) {
 			vitesse = 'fast';
 		}
-		$('#splashScreen').fadeOut(vitesse);
+		this.popup.fadeOut(vitesse);
 		this.popupName = '';
 	},
 	showSplashScreen: function(nom, css) {
+		var close = $('#popupClose', this.popupContent);
+		if (!close.length) {
+			close = $('<div id="popupClose"><span class="ui-icon ui-icon-closethick"></span></div>');
+			close.button();
+			close.css({'float': 'right'});
+			$('>span', close).css({'padding': '0.2em 0.3em'});
+			close.click($.proxy(this.hideSplashScreen, this));
+			this.popupContent.prepend(close);
+		}
 		if (css !== undefined) {
 			this.popupContent.css(css);
 		}
@@ -78,7 +87,8 @@ Application.prototype = {
 	showSpinner: function() {
 		this.popupContent.html('<img src="image/ajax-loader.gif" alt="loading" style="width:32px; height:32px"><br>'+
 		'<span>Chargement de l\'application en cours...</span>');
-		this.showSplashScreen('spinner');
+		this.showSplashScreen('spinner', {width: '300px'});
+		$('#popupClose', this.popupContent).remove();
 	},
 	isPopupOpen: function(nom) {
 		return $('#splashScreen').css('display') !== 'none' && (nom === undefined || this.popupName === nom);
@@ -186,8 +196,27 @@ Application.prototype = {
 			this.hideSplashScreen();
 		} else {
 			this.popupContent.html('<h2>Commentaires</h2>'
-					+'<div id="ajoutComment"><input placeholder="Ajouter un commentaire"></div>'
+					+'<div id="ajoutComment"><input class="ajout" placeholder="Ajouter un commentaire"><input type="submit" value="Envoyer"></div>'
 					+'<ul id="comments"></ul>');
+			var _this = this;
+			var submit = function(e) {
+				e.preventDefault();
+				var commentaire = $.trim($('#ajoutComment .ajout', _this.popupContent).val());
+				if (commentaire.length === 0) {
+					return;
+				}
+				var param = {
+					auteurId: config.userId,
+					tablatureId: config.tablatureId,
+					texte: commentaire
+				};
+				_this.webSocket.send(JSON.stringify(param));
+			}
+			$('#ajoutComment', this.popupContent).buttonset();
+			$('#ajoutComment .ajout', this.popupContent)
+				.bind('keyup', 'return', submit)
+				.next().click(submit);
+			$('#ajoutComment form input:eq(0)', this.popupContent).bind('keyup', 'esc', $.proxy(this.hideSplashScreen, this));
 			var commentList = $('#comments', this.popupContent);
 			var buildClickEvent = function(url){
 				return function(e){
@@ -205,19 +234,6 @@ Application.prototype = {
 				$('>a', elem).click(buildClickEvent(url));
 				commentList.append(elem);
 			}
-			var _this = this;
-			$('#ajoutComment input', this.popupContent).bind('keyup', 'return', function() {
-				var commentaire = $.trim($(this).val());
-				if (commentaire.length === 0) {
-					return;
-				}
-				var param = {
-					auteurId: config.userId,
-					tablatureId: config.tablatureId,
-					texte: commentaire
-				};
-				_this.webSocket.send(JSON.stringify(param));
-			});
 			this.showSplashScreen('comments', {width: '600px'});
 		}
 	},
