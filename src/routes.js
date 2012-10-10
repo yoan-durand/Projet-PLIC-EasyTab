@@ -448,7 +448,7 @@ exports.commentaire = function(req, res, next) {
 	var client = mysql_connect();
 	var tablatureId = req.params.tablatureId;
 	client.query(
-		'SELECT comment.`id`,`auteurId`,`texte`, date, login FROM `comment` JOIN user ON user.id = comment.auteurId WHERE `tablatureId` = ?',
+		'SELECT comment.`id`,`auteurId`,`texte`, date, login FROM `comment` JOIN user ON user.id = comment.auteurId WHERE `tablatureId` = ? ORDER BY `comment`.`id` ASC',
 		[tablatureId],
 		function(err, results, fields) {
 			client.end(); // close sql connection
@@ -456,7 +456,32 @@ exports.commentaire = function(req, res, next) {
 				next(new Error(JSON.stringify(err)));
 				return;
 			}
+			results.date = conversionTemps(now - results.date);
 			res.send(JSON.stringify(results));
+		}
+	);
+};
+exports.addCommentaire = function(params, callback) {
+	var client = mysql_connect();
+	client.query(
+		'INSERT INTO `easytab`.`comment` (`auteurId`, `tablatureId`, `texte`, `date`) VALUES (?, ?, ?, ?)',
+		[params.auteurId, params.tablatureId, params.texte, now()],
+		function(err, results, fields) {
+			if (err) {
+				console.error(err);
+			}
+			client.query(
+				'SELECT `login` FROM `user` WHERE `id` = ? LIMIT 1',
+				[params.auteurId],
+				function(err, results, fields) {
+					client.end(); // close sql connection
+					if (err) {
+						console.error(err);
+					}
+					params.login = results[0].login;
+					callback(params);
+				}
+			);
 		}
 	);
 };

@@ -340,9 +340,24 @@ header
 #comments li {
 	margin: 0.5em 0;
 }
-/*#comments .message {
-	margin-left: 30px;
-}*/
+/* panneau d'icône en bas à gauche */
+#botleft-pannel {
+	margin: 10px 12px;
+}
+#comments-icon {
+	width: 26px;
+	height: 25px;
+	background-image: url('/image/icone-commentaire.png');
+	background-size: 100%;
+}
+#comments-icon > span {
+	color: whiteSmoke;
+	position: relative;
+	bottom: -16px;
+	text-align: right;
+	width: 100%;
+	display: inline-block;
+}
 /* */
 #volume
 {
