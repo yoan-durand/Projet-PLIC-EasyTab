@@ -92,12 +92,11 @@ exports.creerComptePost = function(req, res, next) {
 		res.redirect(req.url);
 		return;
 	}
-	var now = now();
 	var encryptedPassword = encryptPassword(password, pseudo);
 	var client = mysql_connect();
 	client.query(
 		'insert `user` (dateInscription, login, password) values (?, ?, ?)',
-		[now, pseudo, encryptedPassword],
+		[now(), pseudo, encryptedPassword],
 		function(err){
 			client.end();
 			if (err) {
@@ -456,7 +455,7 @@ exports.commentaire = function(req, res, next) {
 				next(new Error(JSON.stringify(err)));
 				return;
 			}
-			results.date = conversionTemps(now - results.date);
+			results.date = conversionTemps(now() - results.date);
 			res.send(JSON.stringify(results));
 		}
 	);
