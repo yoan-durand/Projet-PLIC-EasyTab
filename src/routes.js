@@ -470,6 +470,7 @@ exports.addCommentaire = function(params, callback) {
 			if (err) {
 				console.error(err);
 			}
+			params.id = results.insertId;
 			client.query(
 				'SELECT `login` FROM `user` WHERE `id` = ? LIMIT 1',
 				[params.auteurId],
@@ -485,6 +486,26 @@ exports.addCommentaire = function(params, callback) {
 		}
 	);
 };
+exports.supprCommentaire = function(req, res, next) {
+	var id = parseInt(req.params.commentId);
+	if (id >= 0) {
+		var client = mysql_connect();
+		client.query(
+			'DELETE from `comment` WHERE id = ?',
+			[id],
+			function(err, results, fields) {
+				client.end(); // close sql connection
+				if (err) {
+					console.error(err);
+				}
+				res.send(JSON.stringify(true));
+			}
+		);
+	} else {
+		res.send(JSON.stringify(false));
+	}
+};
+
 
 function mysql_connect() {
 	var mysql = require('mysql');

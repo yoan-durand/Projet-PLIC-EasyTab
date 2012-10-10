@@ -34,7 +34,7 @@ Application.prototype = {
 					console.error("La page midi n'a pas renvoyé de JSON : ", {texte:data});
 				}
 				_this.appendMidiPlayer(data.filename);
-                
+
 				_this.hideSplashScreen('slow');
 				if (callback !== undefined) _this.addEventListener(document.demo, "qt_load", callback, false);;
 				console.timeEnd('temps de chargement');
@@ -176,6 +176,7 @@ Application.prototype = {
 	},
 	addComment: function(data) {
 		this.comments.push(data);
+		this.updateCommentNumber();
 	},
 	clearComments: function() {
 		this.comments = [];
@@ -184,15 +185,26 @@ Application.prototype = {
 		if (this.isPopupOpen('comments') && forceShow !== true) {
 			this.hideSplashScreen();
 		} else {
-			var html = '<h2>Commentaires</h2>'
+			this.popupContent.html('<h2>Commentaires</h2>'
 					+'<div id="ajoutComment"><input placeholder="Ajouter un commentaire"></div>'
-					+'<ul id="comments">';
+					+'<ul id="comments"></ul>');
+			var commentList = $('#comments', this.popupContent);
+			var buildClickEvent = function(url){
+				return function(e){
+					e.preventDefault();
+					$(this).parent().remove();
+					$.post(url, function() {
+						_this.getComments();
+					});
+				}
+			};
 			for(var i = this.comments.length - 1; i >= 0; --i) {
 				var data = this.comments[i];
-				html += '<li><div><a href="/user/'+data.auteurId+'/'+data.login+'">'+data.login+'</a></div><div class="message">'+data.texte+'</div></li>';
+				var url = '/commentaire/delete/'+data.id;
+				var elem = $('<li><a href="'+url+'">X<a><div><a href="/user/'+data.auteurId+'/'+data.login+'">'+data.login+'</a></div><div class="message">'+data.texte+'</div></li>');
+				$('>a', elem).click(buildClickEvent(url));
+				commentList.append(elem);
 			}
-			html += '</ul>';
-			this.popupContent.empty().append(html);
 			var _this = this;
 			$('#ajoutComment input', this.popupContent).bind('keyup', 'return', function() {
 				var commentaire = $.trim($(this).val());
@@ -216,8 +228,11 @@ Application.prototype = {
 			for (var i = 0; i < data.length; ++i) {
 				_this.addComment(data[i]);
 			}
-			$('#comments-icon > span').text(_this.comments.length);
+			_this.updateCommentNumber();
 		}, 'json');
+	},
+	updateCommentNumber: function() {
+		$('#comments-icon > span').text(this.comments.length);
 	}
 };
 function now() {

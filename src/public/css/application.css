@@ -340,6 +340,13 @@ header
 #comments li {
 	margin: 0.5em 0;
 }
+#comments li > a {
+	float: right;
+	display: none;
+}
+#comments li:hover > a {
+	display: inline;
+}
 /* panneau d'icône en bas à gauche */
 #botleft-pannel {
 	margin: 10px 12px;
