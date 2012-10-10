@@ -17,7 +17,7 @@ Application.prototype = {
 	midi_ajax: function (callback){
 		var _this = this;
 		this.mustRegenerateMidi = false;
-		// this.showSpinner();
+		this.showSpinner();
 		$.ajax({
 			type: "POST",
 			url: 'midi',
@@ -196,5 +196,4 @@ Application.prototype = {
 			// _this.showComments();
 		}, 'json');
 	}
->>>>>>> ajout des requètes par websocket
 };
