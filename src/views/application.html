@@ -74,11 +74,10 @@
                     <section class="clear"></section>
                 </section>
 				<ul id="panel_pistes" class="float-left overflow">
-					<li class="piste"></li>
 				</ul>
                 <section class="tab_svg overflow_svg tab_svg_loading float-right">
                 </section>
-				<section class="clear"></section>
+				<section class="clear"> </section>
 				<section id="footer">
 
 					<div class="progress_bar float-right">
@@ -105,17 +104,73 @@
 				</section>
         </section>
 		<section id="splashScreen">
-			<div id="splashbg" class="ui-widget-overlay"></div>
+			<div id="splashbg" class="ui-widget-overlay"> </div>
 			<div id="splashMessage">
 				<img src="image/ajax-loader.gif" alt="loading" style="width:32px; height:32px"><br>
 				<span>Chargement de l'application en cours...</span>
 			</div>
 		</section>
 <script type="text/javascript">
-
     var svg_inst = new Array();
     var current_svg = 0;
 	var cur_tempo;
+	
+	
+	$(document).on('click', '.solo_button' , function (e) {
+		var application = Application.get();
+		application.mustRegenerateMidi = true;
+		e.stopPropagation();
+		node = e.target;
+		var id_piste = $(node).parent("li").attr("id");
+        var array_split = id_piste.split('_');
+        var num_piste = array_split[1];
+        var solo;
+		if ($(node).hasClass("active"))
+		{
+			$(node).removeClass("active");
+			solo = false;
+		}
+		else
+		{
+			$(node).addClass("active");
+			solo = true;
+			var mute_node = $(node).parent("li").find(".mute_button");
+			if ($(mute_node).hasClass("active"))
+			{
+				$(mute_node).removeClass("active");
+				partition._instruments_list[num_piste]._mute = false;
+			}
+		}
+		partition._instruments_list[num_piste]._solo = solo;
+	});
+	
+	$(document).on('click', '.mute_button' , function (e) {
+		var application = Application.get();
+		application.mustRegenerateMidi = true;
+		e.stopPropagation();
+		node = e.target;
+		var id_piste = $(node).parent("li").attr("id");
+        var array_split = id_piste.split('_');
+        var num_piste = array_split[1];
+        var mute;
+		if ($(node).hasClass("active"))
+		{
+			$(node).removeClass("active");
+			mute = false;
+		}
+		else
+		{
+			$(node).addClass("active");
+			mute = true;
+			var solo_node = $(node).parent("li").find(".solo_button");
+			if ($(solo_node).hasClass("active"))
+			{
+				$(solo_node).removeClass("active");
+				partition._instruments_list[num_piste]._solo = false;
+			}
+		}
+		partition._instruments_list[num_piste]._mute = mute;
+	});
 
     $(document).ready (setTimeout(function(){
     	eventObj = new EventObj(partition);
