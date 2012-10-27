@@ -511,6 +511,13 @@ li div:last-child canvas
 {
 	cursor: help;
 }
+
+#open a
+{
+	text-decoration: none;
+	color: white;
+}
+
 .vol.knob
 {
 	top: -32px;
