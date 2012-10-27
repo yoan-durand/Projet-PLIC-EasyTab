@@ -629,6 +629,12 @@ function EventObj(partition)
 
 		$(".bar").scrollTo($(".bar img[id='m_"+progress_scroll+"']"), 0, {axis:"x"});
 	});
+	
+	$(".help").click(function ()
+	{
+		var appli = new Application ();
+		appli.help(event);
+	})
 }
 
 

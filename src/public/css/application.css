@@ -347,11 +347,12 @@ header
 #comments li:hover > a {
 	display: inline;
 }
-/* panneau d'icône en bas à gauche */
+/* panneau d'icï¿½ne en bas ï¿½ gauche */
 #botleft-pannel {
 	margin: 10px 12px;
 }
 #comments-icon {
+	float: left;
 	width: 26px;
 	height: 25px;
 	background-image: url('/image/icone-commentaire.png');
@@ -463,6 +464,20 @@ li div:last-child canvas
 	left: 70px;
 }
 
+#comments-icon:hover
+{
+	cursor: pointer;
+}
+
+.help a
+{
+	text-decoration: none;
+    color: white;
+}
+.help a:hover
+{
+	cursor: help;
+}
 .vol.knob
 {
 	top: -32px;
