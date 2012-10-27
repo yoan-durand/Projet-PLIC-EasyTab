@@ -99,6 +99,9 @@
 						<div id="comments-icon">
 							<span></span>
 						</div>
+						<div class="help float-rigth">
+							<a href="#">Aide</a>
+						</div>
 					</div>
 					<div class="clear"></div>
 				</section>
@@ -244,7 +247,8 @@
 		})
 		$("img[id='m_"+m+"']").attr("src", "image/casebleue.png");
 		selected = m;
-		var n = array[2];
+		var n = parseInt(array[2]);
+		n++;
 		var note = partition._instruments_list[current_svg]._track_part._measure_list[m]._chord_list[n]._note_list[0];
 		if (note._fret_technical != null)
 		{			
