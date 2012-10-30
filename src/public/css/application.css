@@ -182,38 +182,6 @@ header
     border-top: 1px solid orange;
 }
 
-.solo_button
-{
-	width: 16px;
-	height: 16px;
-	padding: 2px;
-	color: white;
-	font-size: 9px;
-	border:1px solid black;
-	border-radius: 2px;
-}
-
-.solo_button.active
-{
-
-	background-color: rgba(0, 128, 0, 0.52);
-}
-
-.mute_button
-{
-	width: 16px;
-	height: 16px;
-	padding: 2px;
-	border-radius: 2px;
-	color: white;
-	font-size: 9px;
-	border:1px solid black;
-}
-
-.mute_button.active
-{
-	background-color: rgba(255, 20, 0, 0.56);
-}
 /*SVG*/
 
 .tab_svg
@@ -483,18 +451,74 @@ header
     background-color:#F6A828;
 }
 
-li canvas
+.piste div:nth-child(2) canvas
 {
 	position: relative;
-	top: -10px;
-	left: -70px;
+	top: 2px;
+	right: -78px;
 }
 
-li div:last-child canvas
+.vol.knob
+{
+	top: -20px;
+	right: -38px;
+}
+
+.piste div:nth-child(3) canvas
 {
 	position: relative;
-	top: -15px;
-	left: 70px;
+	top: 0px;
+	right: -70px;
+}
+
+.pan.knob
+{
+	top: -14px;
+	left: 42px;
+}
+
+.solo_button
+{
+	position: relative;
+	top: -42px;
+	left: 20px;
+	text-align: center;
+	display: block;
+	margin: 0px;
+	width: 10px;
+	height: 14px;
+	padding: 2px 5px;
+	border-radius: 2px;
+	color: white;
+	font-size: 9px;
+	border: 1px solid black;
+}
+
+.solo_button.active
+{
+	background-color: rgba(0, 128, 0, 0.52);
+}
+
+.mute_button
+{
+	position: relative;
+	top: -40px;
+	left: 20px;
+	text-align: center;
+	display: block;
+	margin: 0px;
+	width: 10px;
+	height: 14px;
+	padding: 2px 5px;
+	border-radius: 2px;
+	color: white;
+	font-size: 9px;
+	border: 1px solid black;
+}
+
+.mute_button.active
+{
+	background-color: rgba(255, 20, 0, 0.56);
 }
 
 #comments-icon:hover
@@ -516,16 +540,4 @@ li div:last-child canvas
 {
 	text-decoration: none;
 	color: white;
-}
-
-.vol.knob
-{
-	top: -32px;
-	left: -70px;
-}
-
-.pan.knob
-{
-	top: -32px;
-	left: 70px;
 }

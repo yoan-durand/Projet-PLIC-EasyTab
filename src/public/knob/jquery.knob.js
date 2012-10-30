@@ -568,8 +568,8 @@
                         ,'height' : ((this.o.width / 3) >> 0) + 'px'
                         ,'position' : 'relative'
                         //,'vertical-align' : 'middle'
-                        ,'margin-top' : ((this.o.width / 3) >> 0) + 'px'
-                        ,'margin-left' : '-' + ((this.o.width * 3 / 4 + 2) >> 0) + 'px'
+                        //,'margin-top' : ((this.o.width / 3) >> 0) + 'px'
+                        //,'margin-left' : '-' + ((this.o.width * 3 / 4 + 2) >> 0) + 'px'
                         ,'border' : 0
                         ,'background' : 'none'
                         ,'font' : 'bold ' + ((this.o.width / s) >> 0) + 'px Arial'
