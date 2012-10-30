@@ -455,33 +455,33 @@ header
 {
 	position: relative;
 	top: 2px;
-	right: -78px;
+	left: -45px;
 }
 
 .vol.knob
 {
 	top: -20px;
-	right: -38px;
+	left: -85px;
 }
 
 .piste div:nth-child(3) canvas
 {
 	position: relative;
-	top: 0px;
-	right: -70px;
+	top: 6px;
+	right: -66px;
 }
 
 .pan.knob
 {
-	top: -14px;
-	left: 42px;
+	top: -8px;
+	left: 38px;
 }
 
 .solo_button
 {
 	position: relative;
-	top: -42px;
-	left: 20px;
+	top: -28px;
+	left: 98px;
 	text-align: center;
 	display: block;
 	margin: 0px;
@@ -502,8 +502,8 @@ header
 .mute_button
 {
 	position: relative;
-	top: -40px;
-	left: 20px;
+	top: -48px;
+	left: 126px;
 	text-align: center;
 	display: block;
 	margin: 0px;
