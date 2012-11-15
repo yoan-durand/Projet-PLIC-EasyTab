@@ -7,18 +7,34 @@
         {% block head %}{% endblock %}
     </head>
     <body>
-        <nav>
-            <a href="/">Acceuil</a> 
-            <a href="/tablatures">Mes tablatures</a> 
-            <a href="/application">Easytab</a> 
-            <a href="/compte">Mon compte</a> 
-			{% if connected %}
-            <a href="/logout">Déconnexion</a>
-			{% else %}
-			<a href="/login">Connexion</a>
-			{% endif %}
-        </nav>
-		<section class="easytab"></section>
+		<div id="top">
+			<div id="top-nav">
+				<a href="/">
+					<img class="easytab" src="../image/easytab_title.png" height="40" width="200" alt="EasyTab" />
+				</a>
+				<ul>
+					<li>
+						<a href="/">Partitions</a> 
+					</li>
+					<li>
+						<a href="/tablatures">Mes tablatures</a>
+					</li>
+					<li>
+						<a href="/compte">Mon compte</a>
+					</li>
+				</ul>
+				<div id="log">
+					{% if connected %}
+					
+					<a href="/logout">Déconnexion</a>
+					{% else %}
+					<a href="/login">Connexion</a>
+					{% endif %}
+				</div>
+			</div>
+		</div>
+		<!--<img src="../image/easytab_title.png" height="40" width="200" alt="EasyTab" />
+		<section class="easytab"></section>-->
         {% block content %}{% endblock %}
         <footer>
         </footer>

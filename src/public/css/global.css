@@ -1,40 +1,99 @@
-body {
+body
+{
     margin: 0;
 	background-color: #a7a79f;
 	background-image: url("../image/bgwe.jpg");
 	background-size: cover;
+}
 
-}
-nav
+@font-face
 {
-	position: relative;
-	z-index: 4;
-    background-image: -webkit-gradient( linear, left bottom, left top, color-stop(0.18, #1E1E1E), color-stop(0.68, #3D3D3D));;
-    height: 25px;
-    padding-left: 50px;
-    text-align: center;
+    font-family: 'neuropolitical';
+    src: url('font/neuropolitical rg.ttf');
+    font-weight: lighter;
+    font-style: normal;
 }
-.easytab {
-    background-image: url("../image/easytab_title.png");
-    width:449px;
-    height: 90px;
-    margin:auto;
+
+.easytab
+{
+    float: left;
 }
+
+
+
+#log
+{
+	float: right;
+	margin-right:30px;
+	margin-top: 11px;
+}
+
+#log a
+{
+	text-decoration: none;
+	color: white;
+	padding: 16px 10px 11px;
+	-webkit-transition: all .3s
+}
+
+#log a:hover
+{
+	border-bottom: 3px solid #0D7BBC;
+}
+
+#top
+{
+	font-family: 'neuropolitical';
+    background-image: -webkit-gradient( linear, left bottom, left top, color-stop(0.18, #1E1E1E), color-stop(0.68, #3D3D3D));
+	margin-bottom: 40px;
+	font-size: 12px;
+}
+
+#top-nav
+{
+	margin: auto;
+	width: 1090px;
+    height: 44px;
+}
+
+#top-nav ul,
+#top-nav li
+{
+	float: left;
+	list-style: none;
+	margin:0px;
+	padding:0px;
+}
+
+#top-nav ul
+{
+	margin-left: 200px;
+	margin-top: 11px;
+}
+
 /* décoration des liens */
-nav > a {
-    padding-left: 30px;
-    padding-right: 30px;
+#top-nav  li a
+{
     color: white;
+	padding: 16px 10px 11px;
+	-webkit-transition: all .3s;/*
+	border-left: 1px solid #474747;
+	border-right: 1px solid #474747;*/
 }
 
-nav > a:hover
+#top-nav  li a:hover
 {
-	color: orange;
+	/*border-left: 1px solid #474747;
+	border-right: 1px solid #474747;*/
+	border-bottom: 3px solid #F0BB12;
 }
-a {
+
+a
+{
 	text-decoration: none;
 	color: #006;
 }
+
 a:hover,
 li:hover a,
 tr:hover a {
