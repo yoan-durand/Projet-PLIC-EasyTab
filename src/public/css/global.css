@@ -9,10 +9,11 @@
 body
 {
     margin: 0;
-	//background-color: #f0f0f0;
-	background: url("http://raisingworshipleaders.files.wordpress.com/2011/08/musicnote.jpg");
+	height: 800px;
+	background: url("../image/musicnote_no_background.png");
+	background-color: #f0f0f0;
 	background-repeat: no-repeat;
-	background-size: 100%;
+	background-size: 1580px auto;
 	background-position-x: 0px;
 	background-position-y: -150px;
 }
@@ -83,6 +84,23 @@ body
 #top-nav  li a:hover
 {
 	border-bottom: 3px solid orange;
+}
+
+#bottom
+{
+	font-family: 'neuropolitical';
+    background-image: -webkit-gradient( linear, left bottom, left top, color-stop(0.18, #3D3D3D), color-stop(0.68, #1E1E1E));
+	font-size: 12px;
+	box-shadow: 0px -4px 10px black;
+	position: relative;
+	top: -710px;
+}
+
+#bottom-nav
+{
+	margin: auto;
+	width: 1090px;
+    height: 44px;
 }
 
 a
