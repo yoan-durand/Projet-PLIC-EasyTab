@@ -70,17 +70,14 @@
 {% endblock %}
 
 {% block content %}
+<div class="containerTransparent center"></div>
 <section id="container" class="center">
-	<div>
-		<p>
-			<a href="upload" id="uploadLink">Ajouter une tablature <button>+</button></a>
-		</p>
-	</div>
-	<div>
+	<div class="top-container">
 		<form id="searchForm">
 			<input id="searchBox" placeholder="Rechercher...">
 		</form>
-		<h2>Mes tablatures</h2>
+		<h2 class="center">Mes tablatures</h2>
+		<a href="upload" id="uploadLink"><button>Ajouter une tablature</button></a>
 		<ul id="trackList">
 			{% for xml in pistes -%}
 			{% if xml.public %}

@@ -1,11 +1,3 @@
-body
-{
-    margin: 0;
-	background-color: #a7a79f;
-	background-image: url("../image/bgwe.jpg");
-	background-size: cover;
-}
-
 @font-face
 {
     font-family: 'neuropolitical';
@@ -14,12 +6,21 @@ body
     font-style: normal;
 }
 
+body
+{
+    margin: 0;
+	//background-color: #f0f0f0;
+	background: url("http://raisingworshipleaders.files.wordpress.com/2011/08/musicnote.jpg");
+	background-repeat: no-repeat;
+	background-size: 100%;
+	background-position-x: 0px;
+	background-position-y: -150px;
+}
+
 .easytab
 {
     float: left;
 }
-
-
 
 #log
 {
@@ -45,8 +46,8 @@ body
 {
 	font-family: 'neuropolitical';
     background-image: -webkit-gradient( linear, left bottom, left top, color-stop(0.18, #1E1E1E), color-stop(0.68, #3D3D3D));
-	margin-bottom: 40px;
 	font-size: 12px;
+	box-shadow: 0px 4px 10px black;
 }
 
 #top-nav
@@ -67,7 +68,7 @@ body
 
 #top-nav ul
 {
-	margin-left: 200px;
+	margin-left: 180px;
 	margin-top: 11px;
 }
 
@@ -76,16 +77,12 @@ body
 {
     color: white;
 	padding: 16px 10px 11px;
-	-webkit-transition: all .3s;/*
-	border-left: 1px solid #474747;
-	border-right: 1px solid #474747;*/
+	-webkit-transition: all .3s;
 }
 
 #top-nav  li a:hover
 {
-	/*border-left: 1px solid #474747;
-	border-right: 1px solid #474747;*/
-	border-bottom: 3px solid #F0BB12;
+	border-bottom: 3px solid orange;
 }
 
 a
@@ -96,33 +93,48 @@ a
 
 a:hover,
 li:hover a,
-tr:hover a {
+tr:hover a
+{
 	color: brown;
 }
-.center {
+
+.center
+{
     margin-left: auto;
     margin-right: auto;
 }
+
 /* splash message -> liste des tablatures */
-#trackInfos {
+#trackInfos
+{
 	float: right;
 }
-#trackList {
+
+#trackList
+{
 	list-style-type: none;
 	padding-left: 0;
 	text-align: left;
 }
-table#trackList{
+
+table#trackList
+{
 	-webkit-border-horizontal-spacing: 0;
 	width: 100%;
 }
-#trackList > li{
+
+#trackList > li
+{
 	line-height: 2em;
 }
-#trackList > tr{
+
+#trackList > tr
+{
 	height: 2em;
 }
+
 #trackList tr:hover,
-#trackList li:hover {
+#trackList li:hover
+{
 	background-color: rgba(255, 255, 255, 0.3);
 }

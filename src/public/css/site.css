@@ -1,17 +1,90 @@
-#container {
-	background-color: rgba(0, 0, 0, 0.1);
-	border: solid 1px white;
-	border-top: none;
-	border-radius: 15px;
-	/*border-radius: 0 0 35px 35px;*/
-    width: 600px;
-    padding: 50px 75px;
-	/*text-align: center;*/
+#container,
+.containerTransparent
+{
+	width: 1090px;
+	border-bottom-left-radius: 15px;
+	border-bottom-right-radius: 15px;
+	position: relative;
 }
-/*#container > #trackListContainer {
-	display: inline-block;
-	text-align: left;
-}*/
+
+.containerTransparent
+{
+	opacity: 0.35;
+	background-image: url("../image/bgwe.jpg");
+	z-index: 1;
+	top: 5px;
+	height: 530px;
+}
+
+#container
+{
+	box-shadow: 2px 2px 6px #444;
+	background-color: transparent;
+	z-index: 2;
+	top: -530px;
+	height: 535px;
+}
+
+.top-container
+{
+	color: black;
+}
+
+.top-container form
+{
+	position: relative;
+	float: right;
+	z-index: 1;
+}
+
+.top-container h2
+{
+	color: white;
+	border-bottom: 2px solid orange;
+	font-family: 'neuropolitical';
+	width: 366px;
+	padding: 0px 10px 10px;
+	border-bottom-left-radius: 20px;
+	border-bottom-right-radius: 20px;
+	box-shadow: 0px 6px 15px black;
+	margin-top: 0px;
+	margin-bottom: 0px;
+	text-align: center;
+	background-image: -webkit-gradient( linear, left bottom, left top, color-stop(0.18, #3D3D3D), color-stop(0.68, #1E1E1E));
+}
+
+#searchBox
+{
+	padding: 8px 10px;
+	width: 240px;
+	border-radius: 5px;
+}
+
+#searchBox:focus
+{
+	border: 2px solid rgba(0,0,0,0);
+	box-shadow: 0px 0px 10px orange;
+}
+
+.content-container
+{
+	width: 800px;
+	height: 400px;
+	margin-top: 50px;
+}
+
+#trackList thead
+{
+	color: orange;
+	background-color: black;
+	font-weight: 700;
+}
+
+#trackList thead td
+{
+	padding: 10px 0px;
+}
+
 .gros-bouton {
     /*font-size: 1.2em;*/
     padding: 7px 14px;
@@ -37,9 +110,6 @@ h2 .options:hover {
 }
 #uploadLink:hover > button {
 	color: brown;
-}
-#searchBox {
-	float: right;
 }
 #uploadLink > button.ui-button-text-only .ui-button-text {
 	padding: 0.2em 0.6em;
