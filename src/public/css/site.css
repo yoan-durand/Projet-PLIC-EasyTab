@@ -1,7 +1,12 @@
+#wrapper
+{
+	width: 1090px;
+	height: 717px;
+}
+
 #container,
 .containerTransparent
 {
-	width: 1090px;
 	position: relative;
 }
 
@@ -67,7 +72,7 @@
 .content-container
 {
 	width: 800px;
-	height: 400px;
+	height: 580px;
 	margin-top: 50px;
 }
 

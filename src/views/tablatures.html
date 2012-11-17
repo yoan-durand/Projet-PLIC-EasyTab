@@ -70,27 +70,29 @@
 {% endblock %}
 
 {% block content %}
-<div class="containerTransparent center"></div>
-<section id="container" class="center">
-	<div class="top-container">
-		<form id="searchForm">
-			<input id="searchBox" placeholder="Rechercher...">
-		</form>
-		<h2 class="center">Mes tablatures</h2>
-		<a href="upload" id="uploadLink"><button>Ajouter une tablature</button></a>
-		<ul id="trackList">
-			{% for xml in pistes -%}
-			{% if xml.public %}
-			<li id="tab_{{xml.id}}"><span class="ui-icon ui-icon-unlocked" title="public"></span>
-				{% else %}
-			<li id="tab_{{xml.id}}" class="private"><span class="ui-icon ui-icon-locked" title="privé"></span>
-				{% endif %}
-				<a href="application;{{ xml.nom }}.xml">{{ xml.titre}} - {{xml.artiste}}</a>
-			</li>
-			{%- endfor %}
-		</ul>
-	</div>
-</section>
+<div id="wrapper" class="center">
+	<div class="containerTransparent"></div>
+	<section id="container">
+		<div class="top-container">
+			<form id="searchForm">
+				<input id="searchBox" placeholder="Rechercher...">
+			</form>
+			<h2 class="center">Mes tablatures</h2>
+			<a href="upload" id="uploadLink"><button>Ajouter une tablature</button></a>
+			<ul id="trackList">
+				{% for xml in pistes -%}
+				{% if xml.public %}
+				<li id="tab_{{xml.id}}"><span class="ui-icon ui-icon-unlocked" title="public"></span>
+					{% else %}
+				<li id="tab_{{xml.id}}" class="private"><span class="ui-icon ui-icon-locked" title="privé"></span>
+					{% endif %}
+					<a href="application;{{ xml.nom }}.xml">{{ xml.titre}} - {{xml.artiste}}</a>
+				</li>
+				{%- endfor %}
+			</ul>
+		</div>
+	</section>
+</div>
 <div class="contextMenu" id="menu1">
 	<ul>
 		<li id="ouvrir">

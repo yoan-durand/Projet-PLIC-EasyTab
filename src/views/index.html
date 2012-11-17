@@ -82,57 +82,58 @@
 {% endblock %}
 
 {% block content %}
-
-<div class="containerTransparent center"></div>
-<section id="container" class="center">
-	{% if success %}
-	<div class="ui-state-highlight ui-corner-all" style="padding: 0 .7em;">
-		<p>
-			<span class="ui-icon ui-icon-info" style="float: left; margin-right: .3em;"></span>
-			{{ success }}
-		</p>
-	</div>
-	{% endif %}
-	{% if error %}
-	<div class="ui-state-error ui-corner-all" style="padding: 0 .7em;">
-		<p>
-			<span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;"></span>
-			{{ error }}
-		</p>
-	</div>
-	{% endif %}
-	<div class="top-container">
-		<form id="searchForm">
-			<input id="searchBox" placeholder="Rechercher...">
-		</form>
-		<h2 class="center">Partitions</h2><!--<div class="options"></div>-->
-	</div>
-	<div class="content-container center">
-		<table id="trackList">
-			<thead>
-				<tr>
-					<td><span>Titre</span></td>
-					<td><span>Artiste</span></td>
-					<td><span>Uploader par</span></td>
+<div id="wrapper" class="center">
+	<div class="containerTransparent"></div>
+	<section id="container">
+		{% if success %}
+		<div class="ui-state-highlight ui-corner-all" style="padding: 0 .7em;">
+			<p>
+				<span class="ui-icon ui-icon-info" style="float: left; margin-right: .3em;"></span>
+				{{ success }}
+			</p>
+		</div>
+		{% endif %}
+		{% if error %}
+		<div class="ui-state-error ui-corner-all" style="padding: 0 .7em;">
+			<p>
+				<span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;"></span>
+				{{ error }}
+			</p>
+		</div>
+		{% endif %}
+		<div class="top-container">
+			<form id="searchForm">
+				<input id="searchBox" placeholder="Rechercher...">
+			</form>
+			<h2 class="center">Partitions</h2><!--<div class="options"></div>-->
+		</div>
+		<div class="content-container center">
+			<table id="trackList">
+				<thead>
+					<tr>
+						<td><span>Titre</span></td>
+						<td><span>Artiste</span></td>
+						<td><span>Uploader par</span></td>
+					</tr>
+				</thead>
+				{% for xml in pistes -%}
+				<tr id="tab_{{xml.id}}">
+					<td><a href="application;{{ xml.nom }}.xml">{{xml.titre}}</a></td>
+					<td>{{xml.artiste}}</td>
+					<td><a href="user/{{xml.userId}}/{{xml.login}}" title="Mis en ligne par {{xml.login}}">{{xml.login}}</td>
 				</tr>
-			</thead>
-			{% for xml in pistes -%}
-			<tr id="tab_{{xml.id}}">
-				<td><a href="application;{{ xml.nom }}.xml">{{xml.titre}}</a></td>
-				<td>{{xml.artiste}}</td>
-				<td><a href="user/{{xml.userId}}/{{xml.login}}" title="Mis en ligne par {{xml.login}}">{{xml.login}}</td>
-			</tr>
-			{%- endfor %}
-		</table>
-		<!--ul id="trackList">
-			{% for xml in pistes -%}
-			<li id="tab_{{xml.id}}">
-				<a href="application;{{ xml.nom }}.xml">{{xml.titre}} - {{xml.artiste}}</a>
-			</li>
-			{%- endfor %}
-		</ul-->
-	</div>
-</section>
+				{%- endfor %}
+			</table>
+			<!--ul id="trackList">
+				{% for xml in pistes -%}
+				<li id="tab_{{xml.id}}">
+					<a href="application;{{ xml.nom }}.xml">{{xml.titre}} - {{xml.artiste}}</a>
+				</li>
+				{%- endfor %}
+			</ul-->
+		</div>
+	</section>
+</div>
 <div class="contextMenu" id="menu1">
 	<ul>
 		<li id="ouvrir">
