@@ -56,6 +56,31 @@
 	background-image: -webkit-gradient( linear, left bottom, left top, color-stop(0.18, #3D3D3D), color-stop(0.68, #1E1E1E));
 }
 
+.content-container
+{
+	width: 1040px;
+	height: 580px;
+	margin-top: 50px;
+}
+
+.left-content,
+.right-content
+{
+	padding-top: 10px;
+}
+
+.left-content
+{
+	float: left;
+	width: 70%;
+}
+
+.right-content
+{
+	float: right;
+	width: 30%;
+}
+
 #searchBox
 {
 	padding: 8px 10px;
@@ -69,17 +94,40 @@
 	box-shadow: 0px 0px 10px orange;
 }
 
-.content-container
+#searchForm
 {
-	width: 800px;
-	height: 580px;
-	margin-top: 50px;
+	width: 304px;
+	padding: 5px 15px 5px;
+	border-top-left-radius: 15px;
+	border-top-right-radius: 15px;
+	background-color: #242424;
+}
+
+.search_button
+{
+	background-image: url("../image/loop1.png");
+	width: 35px;
+	height: 35px;
+	float: right;
+	margin: 2px 0px;
+}
+
+.search_button:hover
+{
+	background-image: url("../image/loop2.png");
+}
+
+#trackList
+{
+	border-collapse: collapse;
+	text-align: center;
+	width: 100%;
 }
 
 #trackList thead
 {
-	color: orange;
-	background-color: black;
+	color: white;
+	background-color: #242424;
 	font-weight: 700;
 }
 

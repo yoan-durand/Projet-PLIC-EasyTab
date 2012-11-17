@@ -82,45 +82,48 @@
 {% endblock %}
 
 {% block content %}
-<section id="container" class="center">
-	{% if success %}
-	<div class="ui-state-highlight ui-corner-all" style="padding: 0 .7em;">
-		<p>
-			<span class="ui-icon ui-icon-info" style="float: left; margin-right: .3em;"></span>
-			{{ success }}
-		</p>
-	</div>
-	{% endif %}
-	{% if error %}
-	<div class="ui-state-error ui-corner-all" style="padding: 0 .7em;">
-		<p>
-			<span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;"></span>
-			{{ error }}
-		</p>
-	</div>
-	{% endif %}
-	<div>
-		<form id="searchForm">
-			<input id="searchBox" placeholder="Rechercher...">
-		</form>
-		<h2><span>Résultat de la recherche</span><div class="options"></div></h2>
-		<table id="trackList">
-			{% for xml in pistes -%}
-			<tr id="tab_{{xml.id}}">
-				<td><a href="/application;{{ xml.nom }}.xml">{{xml.titre}}</a></td>
-				<td>{{xml.artiste}}</td>
-			</tr>
-			{%- endfor %}
-		</table>
-		<!--ul id="trackList">
-			{% for xml in pistes -%}
-			<li id="tab_{{xml.id}}">
-				<a href="application;{{ xml.nom }}.xml">{{xml.titre}} - {{xml.artiste}}</a>
-			</li>
-			{%- endfor %}
-		</ul-->
-	</div>
-</section>
+<div id="wrapper" class="center">
+	<div class="containerTransparent"></div>
+	<section id="container" class="center">
+		{% if success %}
+		<div class="ui-state-highlight ui-corner-all" style="padding: 0 .7em;">
+			<p>
+				<span class="ui-icon ui-icon-info" style="float: left; margin-right: .3em;"></span>
+				{{ success }}
+			</p>
+		</div>
+		{% endif %}
+		{% if error %}
+		<div class="ui-state-error ui-corner-all" style="padding: 0 .7em;">
+			<p>
+				<span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;"></span>
+				{{ error }}
+			</p>
+		</div>
+		{% endif %}
+		<div>
+			<form id="searchForm">
+				<input id="searchBox" placeholder="Rechercher...">
+			</form>
+			<h2><span>Résultat de la recherche</span><div class="options"></div></h2>
+			<table id="trackList">
+				{% for xml in pistes -%}
+				<tr id="tab_{{xml.id}}">
+					<td><a href="/application;{{ xml.nom }}.xml">{{xml.titre}}</a></td>
+					<td>{{xml.artiste}}</td>
+				</tr>
+				{%- endfor %}
+			</table>
+			<!--ul id="trackList">
+				{% for xml in pistes -%}
+				<li id="tab_{{xml.id}}">
+					<a href="application;{{ xml.nom }}.xml">{{xml.titre}} - {{xml.artiste}}</a>
+				</li>
+				{%- endfor %}
+			</ul-->
+		</div>
+	</section>
+</div>
 <div class="contextMenu" id="menu1">
 	<ul>
 		<li id="ouvrir">

@@ -13,34 +13,37 @@
 {% endblock %}
 
 {% block content %}
-<section id="container" class="center">
-	{% if success %}
-	<div class="ui-state-highlight ui-corner-all" style="padding: 0 .7em;">
-		<p>
-			<span class="ui-icon ui-icon-info" style="float: left; margin-right: .3em;"></span>
-			{{ success }}
-		</p>
-	</div>
-	{% endif %}
-	{% if error %}
-	<div class="ui-state-error ui-corner-all" style="padding: 0 .7em;">
-		<p>
-			<span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;"></span>
-			{{ error }}
-		</p>
-	</div>
-	{% endif %}
-	<h2>Profil de {{ pseudo }}</h2>
-	<div class="item">
-		<div class="left">Inscrit depuis :</div>
-		<div class="right">{{ inscritDepuis }}</div>
-	</div>
-	<div class="item">
-		<div class="left">Nombre de tablatures :</div>
-		<div class="right">{{ nbTablature }}</div>
-		<div class="right"><a href="/search/u:{{userId}}/o:date">Voir toutes les tablatures</a></div>
-	</div>
-</section>
+<div id="wrapper" class="center">
+	<div class="containerTransparent"></div>
+	<section id="container">
+		{% if success %}
+		<div class="ui-state-highlight ui-corner-all" style="padding: 0 .7em;">
+			<p>
+				<span class="ui-icon ui-icon-info" style="float: left; margin-right: .3em;"></span>
+				{{ success }}
+			</p>
+		</div>
+		{% endif %}
+		{% if error %}
+		<div class="ui-state-error ui-corner-all" style="padding: 0 .7em;">
+			<p>
+				<span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;"></span>
+				{{ error }}
+			</p>
+		</div>
+		{% endif %}
+		<h2>Profil de {{ pseudo }}</h2>
+		<div class="item">
+			<div class="left">Inscrit depuis :</div>
+			<div class="right">{{ inscritDepuis }}</div>
+		</div>
+		<div class="item">
+			<div class="left">Nombre de tablatures :</div>
+			<div class="right">{{ nbTablature }}</div>
+			<div class="right"><a href="/search/u:{{userId}}/o:date">Voir toutes les tablatures</a></div>
+		</div>
+	</section>
+</div>
 <div class="contextMenu" id="menu1">
 	<ul>
 		<li id="ouvrir">

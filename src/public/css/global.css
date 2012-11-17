@@ -106,14 +106,6 @@ footer
 a
 {
 	text-decoration: none;
-	color: #006;
-}
-
-a:hover,
-li:hover a,
-tr:hover a
-{
-	color: brown;
 }
 
 .center
@@ -126,33 +118,4 @@ tr:hover a
 #trackInfos
 {
 	float: right;
-}
-
-#trackList
-{
-	list-style-type: none;
-	padding-left: 0;
-	text-align: left;
-}
-
-table#trackList
-{
-	-webkit-border-horizontal-spacing: 0;
-	width: 100%;
-}
-
-#trackList > li
-{
-	line-height: 2em;
-}
-
-#trackList > tr
-{
-	height: 2em;
-}
-
-#trackList tr:hover,
-#trackList li:hover
-{
-	background-color: rgba(255, 255, 255, 0.3);
 }
