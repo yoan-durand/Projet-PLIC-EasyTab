@@ -150,6 +150,11 @@
 	padding: 10px 0px;
 }
 
+#trackList tbody > tr
+{
+	height: 30px;
+}
+
 .custom-button
 {
 	-webkit-transition: all .3s;
