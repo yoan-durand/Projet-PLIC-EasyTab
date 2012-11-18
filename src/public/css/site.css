@@ -150,9 +150,21 @@
 	padding: 10px 0px;
 }
 
+#trackList tbody td > a
+{
+	font-weight: 700;
+	color: orange;
+}
+
 #trackList tbody > tr
 {
 	height: 30px;
+	-webkit-transition: all .3s;
+}
+
+#trackList tbody > tr:hover
+{
+	background-color: rgba(36, 36, 36, 0.28);
 }
 
 .custom-button
