@@ -1,3 +1,5 @@
+/************************************************ Containers **************************************************/
+
 #wrapper
 {
 	width: 1090px;
@@ -41,7 +43,7 @@
 }
 
 .top-container h2
-{/*
+{
 	color: white;
 	border-bottom: 2px solid orange;
 	font-family: 'neuropolitical';
@@ -49,19 +51,7 @@
 	padding: 0px 10px 10px;
 	border-bottom-left-radius: 20px;
 	border-bottom-right-radius: 20px;
-	box-shadow: 0px 6px 15px black;
-	margin-top: 0px;
-	margin-bottom: 0px;
-	text-align: center;
-	background-image: -webkit-gradient( linear, left bottom, left top, color-stop(0.18, #3D3D3D), color-stop(0.68, #1E1E1E));*/
-	color: white;
-	border-bottom: 2px solid orange;
-	font-family: 'neuropolitical';
-	width: 366px;
-	padding: 0px 10px 10px;
-	border-bottom-left-radius: 20px;
-	border-bottom-right-radius: 20px;
-	box-shadow: 0px 1px 15px black;
+	box-shadow: 0px 1px 15px black; /*	box-shadow: 0px 6px 15px black; */
 	margin-top: 0px;
 	margin-bottom: 0px;
 	text-align: center;
@@ -93,6 +83,8 @@
 	width: 30%;
 }
 
+/************************************************ Barre de recherche **************************************************/
+
 #searchBox
 {
 	margin: 4px 0px;
@@ -122,45 +114,15 @@
 	padding: 5px 15px 5px;
 }
 
-.add_tab
-{
-	padding: 10px 10px 10px;
-	float: right;
-}
-
-.search_button
-{/*
-	background-image: url("../image/loop1.png");
-	width: 35px;
-	height: 35px;
-	float: right;
-	margin: 2px 0px;*/
-	background-image: url("../image/loop1.png");
-	width: 35px;
-	height: 35px;
-	float: right;
-	margin: 2px 0px;
-	border: 1px solid #1E1E1E;
-	border-radius: 5px;
-}
-
-.search_button:hover
-{
-	background-image: url("../image/loop2.png");
-}
+/************************************************ Tableaux **************************************************/
 
 #trackList
-{/*
-	border-collapse: collapse;
-	text-align: center;
-	width: 100%;
-	clear: both;*/
+{
 	border-collapse: collapse;
 	text-align: center;
 	width: 100%;
 	clear: both;
-	/*border: 2px solid #3D3D3D;*/
-	border: 2px solid #242424;
+	border: 2px solid #242424; /* border: 2px solid #3D3D3D; */
 	background-color: rgba(240, 240, 240, 0.73);
 }
 
@@ -168,12 +130,8 @@
 {
 	color: white;
 	background-color: #242424;
-	font-weight: 700;/*
-	color: orange;
-	background-color: #3D3D3D;
 	font-weight: 700;
-	text-shadow: 0px 1px 0px rgba(167, 167, 167, 0.56);*/
-
+	/* text-shadow: 0px 1px 0px rgba(167, 167, 167, 0.56); */
 }
 
 #trackList thead td
@@ -182,17 +140,13 @@
 }
 
 #trackList tbody td > a
-{/*
+{
 	font-weight: 700;
-	color: orange;*/
-	font-weight: 700;
-	color: #0085DD;
+	color: #0085DD; /* color: orange; */
 }
 
 #trackList tbody > tr
-{/*
-	height: 30px;
-	-webkit-transition: all .3s;*/
+{
 	height: 40px;
 	-webkit-transition: all .3s;
 	border-bottom: 1px dashed #B1B1B1;
@@ -202,6 +156,8 @@
 {
 	background-color: rgba(36, 36, 36, 0.28);
 }
+
+/************************************************ Boutons **************************************************/
 
 .custom-button
 {
@@ -218,38 +174,37 @@
 {
 	background-image: -webkit-gradient( linear, left bottom, left top, color-stop(0.18, #FCD402), color-stop(0.68, orange));
 }
-/*
-.ui-state-hover,
-.ui-widget-content .ui-state-hover,
-.ui-widget-header .ui-state-hover,
-.ui-state-focus,
-.ui-widget-content .ui-state-focus,
-.ui-widget-header .ui-state-focus
-{
-	color: brown;
-}*/
 
-h2 .options
+.add_tab
 {
-	margin-left: 0.5em;
-	background-image: url("/image/buttonOptions.png");
-	display: inline-block;
-	width: 17px;
-	height: 17px;
-	cursor: pointer;
+	padding: 10px 10px 10px;
+	float: right;
 }
 
-h2 .options:hover
+.search_button
 {
-	background-position: 0 17px;
+	background-image: url("../image/loop1.png");
+	width: 35px;
+	height: 35px;
+	float: right;
+	margin: 2px 0px;
+	border: 1px solid #1E1E1E;
+	border-radius: 5px;
 }
+
+.search_button:hover
+{
+	background-image: url("../image/loop2.png");
+}
+
+/************************************************ Icônes ************************************************/
 
 .ui-icon
 {
 	display: inline-block;
 }
 
-/* formulaire */
+/************************************************ Formulaires ************************************************/
 .form-struct
 {
     border-spacing: 30px;

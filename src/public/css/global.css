@@ -1,3 +1,5 @@
+/************************************************ Police **************************************************/
+
 @font-face
 {
     font-family: 'neuropolitical';
@@ -5,6 +7,8 @@
     font-weight: lighter;
     font-style: normal;
 }
+
+/************************************************ Body/Header/Footer **************************************************/
 
 body
 {
@@ -16,11 +20,6 @@ body
 	background-size: 100% auto;//1580px auto;
 	background-position: center top;
 	background-position-y: -120px;
-}
-
-.easytab
-{
-    float: left;
 }
 
 #log
@@ -83,7 +82,6 @@ header
 	margin-top: 11px;
 }
 
-/* décoration des liens */
 #top-nav  li a,
 #footer-nav li a
 {
@@ -112,22 +110,7 @@ footer
 	box-shadow: 0px -2px 2px black;
 }
 
-a
-{
-	text-decoration: none;
-}
-
-.center
-{
-    margin-left: auto;
-    margin-right: auto;
-}
-
-/* splash message -> liste des tablatures */
-#trackInfos
-{
-	float: right;
-}
+/************************************************ Erreur **************************************************/
 
 div.error
 {
@@ -145,6 +128,19 @@ span.error
 	margin-top: 2px;
 }
 
+/************************************************ Général **************************************************/
+
+a
+{
+	text-decoration: none;
+}
+
+.center
+{
+    margin-left: auto;
+    margin-right: auto;
+}
+
 .float-left
 {
 	float: left;
@@ -158,4 +154,9 @@ span.error
 .clear
 {
 	clear: both;
+}
+
+.easytab
+{
+    float: left;
 }
