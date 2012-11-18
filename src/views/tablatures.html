@@ -94,17 +94,17 @@
 					</thead>
 					<tbody>
 						{% for xml in pistes -%}
-						{% if xml.public %}
+							{% if xml.public %}
 							<tr id="tab_{{xml.id}}">
 								<td>
 									<span class="ui-icon ui-icon-unlocked" title="public"></span>
 								</td>
-								{% else %}
+							{% else %}
 							<tr id="tab_{{xml.id}}" class="private">
 								<td>
 									<span class="ui-icon ui-icon-locked" title="privé"></span>
-								<td>
-								{% endif %}
+								</td>
+							{% endif %}
 								<td>
 									<a href="application;{{ xml.nom }}.xml">{{ xml.titre}}</a>
 								</td>

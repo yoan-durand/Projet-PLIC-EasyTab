@@ -101,7 +101,7 @@ header
 
 #footer-nav  li a:hover
 {
-	border-top: 3px solid red;
+	color: #0085DD;
 }
 
 footer
