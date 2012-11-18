@@ -68,7 +68,7 @@
 .left-content,
 .right-content
 {
-	padding-top: 10px;
+	margin-top: 10px;
 }
 
 .left-content
@@ -81,6 +81,45 @@
 {
 	float: right;
 	width: 30%;
+}
+
+.right-content a
+{
+	color : #0085DD;
+	font-weight: 700;
+}
+
+.right-content ul
+{
+	list-style-type: none;
+	padding: 0px;
+	margin: 0px;
+}
+
+.right-content li
+{
+	padding: 10px 0px 10px 15px;
+	margin: 2px 0px 2px 20px;
+	-webkit-transition: all .3s;
+	
+	border-radius: 5px;
+	border: 1px solid #242424;
+	background-color: rgba(252, 252, 252, 0.50);
+}
+
+.right-content li:hover
+{
+	margin-left: 10px;
+	margin-right: 10px;
+	color: white;
+	background-color: rgba(36, 36, 36, 0.70); /* background-color: rgba(252, 252, 252, 0.8); */
+}
+
+.right-content h2
+{
+	text-align: center;
+	font-family: 'neuropolitical';
+	margin: 10px 0px;
 }
 
 /************************************************ Barre de recherche **************************************************/
