@@ -25,19 +25,28 @@
 		
 		<div class="content-container center">
 			<form method="post" action="upload" enctype="multipart/form-data" id="form">
-				
-				<div class="elt_form">
-					<label>Titre :</label>
-					<input id="titre" name="titre" placeholder="entrez le titre">
-				</div>
-				<div class="elt_form">
-					<label>Artiste : </label>
-					<input name="artiste" placeholder="entrez l'artiste"/>
-				</div>
-				<input id="uploadField" type="file" name="tablature" accept="text/xml">
-				<label class="visibility">Visibilité : Publique</label>
-				<input name="visibilité" type="checkbox" value="publique" checked/>
-				<input id="upload" type="submit" value="Upload">
+				<table class="center form-struct">
+					<tr>
+						<td>Titre :</td>
+						<td><input id="titre" name="titre" placeholder="Entrez le titre"></td>
+					</tr>
+					<tr>
+						<td>Artiste :</td>
+						<td><input name="artiste" placeholder="Entrez l'artiste"/></td>
+					</tr>
+					<tr>
+						<td>Fichier : </td>
+						<td><input id="uploadField" type="file" name="tablature" accept="text/xml"></td>
+					</tr>
+					<tr>
+						<td>Visibilité :</td>
+						<td>Publique <input name="visibilité" type="checkbox" value="publique" checked/></td>
+					</tr>
+					<tr>
+						<td></td>
+						<td><input id="upload" type="submit" value="Upload"/></td>
+					</tr>
+				</table>
 			</form>
 		</div>
 	</section>

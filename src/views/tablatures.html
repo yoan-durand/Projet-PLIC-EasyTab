@@ -107,10 +107,10 @@
 							<td>
 							{% endif %}
 							<td>
-								{{ xml.titre}}
+								<a href="application;{{ xml.nom }}.xml">{{ xml.titre}}</a>
 							</td>
 							<td>
-								<a href="application;{{ xml.nom }}.xml">{{xml.artiste}}</a>
+								{{xml.artiste}}
 							</td>
 						</tr>
 					{%- endfor %}

@@ -182,48 +182,13 @@ h2 .options:hover {
 #uploadLink > button.ui-widget {
 	font-size: 0.8em;
 }
-.ui-icon {
+.ui-icon
+{
 	display: inline-block;
 }
 /* formulaire */
-#container .item,
-#form .item {
-	padding: 10px;
-}
-#container .left,
-#form .left {
-    float: left;
-}
-#container .right,
-#form .right {
-    margin-left: 200px;
-    
-}
-
-#upload
+.form-struct
 {
-	display: block;
-	margin :35px 0px 5px 192px;
-}
-
-#uploadField
-{
-	display : block;
-	margin : 0px 0px 5px 192px;
-}
-
-.elt_form
-{
-	text-align: center;
-	margin:0px 0px 5px 0px;
-}
-
-.visibility
-{
-	margin : 15px 0px 5px 192px;
-}
-
-#titre
-{
-	margin-left: 14px;
+    border-spacing: 30px;
+	text-align: left;
 }

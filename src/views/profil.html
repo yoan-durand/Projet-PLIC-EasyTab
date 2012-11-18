@@ -33,19 +33,23 @@
 		</div>
 		{% endif %}
 		<div class="top-container">
-			<h2 class="center">Profil</h2>
+			<h2 class="center">Profil &lsaquo; {{ pseudo }} &rsaquo;</h2>
 		</div>
 		<div class="content-container center">
-			<h2>{{ pseudo }}</h2>
-			<div class="item">
-				<div class="left">Inscrit depuis :</div>
-				<div class="right">{{ inscritDepuis }}</div>
-			</div>
-			<div class="item">
-				<div class="left">Nombre de tablatures :</div>
-				<div class="right">{{ nbTablature }}</div>
-				<div class="right"><a href="/search/u:{{userId}}/o:date">Voir toutes les tablatures</a></div>
-			</div>
+			<table class="center form-struct">
+				<tr>
+					<td>Inscrit depuis :</td>
+					<td>{{ inscritDepuis }}</td>
+				</tr>
+				<tr>
+					<td>Nombre de tablatures :</td>
+					<td>{{ nbTablature }}</td>
+				</tr>
+				<tr>
+					<td><a href="/search/u:{{userId}}/o:date">Voir toutes les tablatures</a></td>
+					<td></td>
+				</tr>
+			</table>
 		</div>
 	</section>
 </div>

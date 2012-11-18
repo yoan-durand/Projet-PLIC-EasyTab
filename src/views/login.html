@@ -45,20 +45,20 @@
 					</p>
 				</div>
 				{% endif %}
-				<div class="item">
-					<div class="left">Nom d'utilisateur : </div>
-					<div class="right"><input name="login" placeholder="pseudo"></div>
-				</div>
-				<div class="item">
-					<div class="left">Mot de passe : </div>
-					<div class="right"><input name="password" type="password" placeholder="password"></div>
-				</div>
-				<div class="item">
-					<div class="right">
-						<input type="submit" value="Se connecter"><br>
-						<a href="/compte/creer">Créer un compte</a>
-					</div>
-				</div>
+				<table class="center form-struct">
+					<tr>
+						<td>Login :</td>
+						<td><input name="login" placeholder="Login"></td>
+					</tr>
+					<tr>
+						<td>Mot de passe :</td>
+						<td><input name="password" type="password" placeholder="Mot de passe"></td>
+					</tr>
+					<tr>
+						<td><a href="/compte/creer">Créer un compte</a></td>
+						<td><input type="submit" value="Se connecter"></td>
+					</tr>
+				</table>
 			</form>
 		</div>
 	</section>
