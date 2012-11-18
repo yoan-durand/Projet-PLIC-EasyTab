@@ -13,7 +13,7 @@
 .containerTransparent
 {
 	opacity: 0.35;
-	background-image: url("../image/bgwe.jpg");
+	background-image: url("/image/bgwe.jpg");
 	z-index: 1;
 	top: 5px;
 	height: 712px;
@@ -148,6 +148,15 @@
 #trackList thead td
 {
 	padding: 10px 0px;
+}
+
+.custom-button
+{
+	color: white;
+	font-weight: 700;
+	background-image: -webkit-gradient( linear, left bottom, left top, color-stop(0.18, orange), color-stop(0.68, #FCD402));
+	text-shadow: 1px 1px 6px black;
+	padding: 10px 15px;
 }
 
 .gros-bouton {

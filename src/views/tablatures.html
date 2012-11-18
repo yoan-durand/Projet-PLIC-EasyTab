@@ -23,7 +23,7 @@
 	}
 	$(function(){
 		//styliser le bouton
-		$('#uploadLink > button').button();
+		$('.custom-button').button();
 		// au double clic on ouvre la partition
 		$('#trackList > li').dblclick(function(e){
 			location.href = $('a', this).attr('href');
@@ -83,9 +83,7 @@
 					<input id="searchBox" placeholder="Rechercher...">
 					<span class="search_button"></span>
 				</form>
-				<div class="add_tab">
-					<a href="upload" id="uploadLink"><button>Ajouter une tablature</button></a>
-				</div>
+				<a href="upload" id="uploadLink"><input class="custom-button float-right" type="submit" value="Ajouter une tablature"/></a>
 				<table id="trackList">
 					<thead>
 						<tr>

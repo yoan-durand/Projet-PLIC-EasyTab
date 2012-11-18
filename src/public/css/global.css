@@ -10,7 +10,7 @@ body
 {
     margin: 0;
 	height: 800px;
-	background: url("~/image/musicnote_no_background.png");
+	background: url("/image/musicnote_no_background.png");
 	background-color: #f0f0f0;
 	background-repeat: no-repeat;
 	background-size: 100% auto;//1580px auto;
@@ -118,4 +118,19 @@ a
 #trackInfos
 {
 	float: right;
+}
+
+.float-left
+{
+	float: left;
+}
+
+.float-right
+{
+	float: right;
+}
+
+.clear
+{
+	clear: both;
 }
