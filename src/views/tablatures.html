@@ -65,6 +65,30 @@
 		};
 		$('#trackList tbody > tr.private').contextMenu('menu1', options);
 		$('#trackList tbody > tr:not(.private)').contextMenu('menu2', options);
+		
+		var MOUSE_OVER = false;
+		$('body').bind('mousewheel', function(e)
+		{
+			if(MOUSE_OVER)
+			{
+				if (e.preventDefault) 
+				{
+					e.preventDefault();
+				} 
+				e.returnValue = false; 
+				return false; 
+			}
+		});
+
+		$('.right-content ul').mouseenter(function(){ MOUSE_OVER = true; });
+		$('.right-content ul').mouseleave(function(){ MOUSE_OVER = false; });
+
+		$('.right-content ul').bind('mousewheel', function(e)
+		{
+			var ul = $('.right-content ul');
+			var li = $(ul).children("a:first-child");
+			$(ul).remove("a:first-child").append(li);
+		});
 	});
 </script>
 {% endblock %}
@@ -124,6 +148,7 @@
 					<a href="#"><li>Children of Bodom - Everytime I die</li></a>
 					<a href="#"><li>Made of Hate - Bullet in your head</li></a>
 					<a href="#"><li>Wintersun - Beautiful Death</li></a>
+					<a href="#"><li>Finntroll - Trollhammaren</li></a>
 				</ul>
 			</div>
 		</div>
