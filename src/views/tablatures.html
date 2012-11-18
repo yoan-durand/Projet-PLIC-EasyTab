@@ -12,12 +12,12 @@
 <script type="text/javascript">
 	function search(recherche) {
 		$.post('/search/'+recherche, function(data, textStatus) {
-			$('#trackList').empty();
+			$('#trackList tbody').empty();
 			for (var i = 0; i < data.length; ++i) {
-				var html = '<li id="tab_'+data[i].id+'"><span class="ui-icon ui-icon-'+(data[i].public?'un':'')+'locked" title="'+(data[i].public?'public':'privé')
-					+'"></span><a href="application;'+data[i].nom+'.xml">'+data[i].titre + ' - ' + data[i].artiste
-					+'</a></li>'
-				$('#trackList').append(html)
+				var html = '<tr id="tab_'+data[i].id+'"><td><span class="ui-icon ui-icon-'+(data[i].public?'un':'')+'locked" title="'+(data[i].public?'public':'privé')
+					+'"></span></td><td><a href="application;'+data[i].nom+'.xml">'+data[i].titre + '</a></td><td>' + data[i].artiste
+					+'</td></tr>'
+				$('#trackList tbody').append(html)
 			}
 		}, 'json');
 	}
@@ -25,7 +25,7 @@
 		//styliser le bouton
 		$('.custom-button').button();
 		// au double clic on ouvre la partition
-		$('#trackList > li').dblclick(function(e){
+		$('#trackList tbody > tr').dblclick(function(e){
 			location.href = $('a', this).attr('href');
 		});
 		// recherche automatique dès qu'on lache une touche
@@ -63,8 +63,8 @@
 				width: '133px'
 			}
 		};
-		$('#trackList > li.private').contextMenu('menu1', options);
-		$('#trackList > li:not(.private)').contextMenu('menu2', options);
+		$('#trackList tbody > tr.private').contextMenu('menu1', options);
+		$('#trackList tbody > tr:not(.private)').contextMenu('menu2', options);
 	});
 </script>
 {% endblock %}
@@ -92,26 +92,28 @@
 							<td><span>Artiste</span></td>
 						</tr>
 					</thead>
-					{% for xml in pistes -%}
-					{% if xml.public %}
-						<tr id="tab_{{xml.id}}">
-							<td>
-								<span class="ui-icon ui-icon-unlocked" title="public"></span>
-							</td>
-							{% else %}
-						<tr id="tab_{{xml.id}}" class="private">
-							<td>
-								<span class="ui-icon ui-icon-locked" title="privé"></span>
-							<td>
-							{% endif %}
-							<td>
-								<a href="application;{{ xml.nom }}.xml">{{ xml.titre}}</a>
-							</td>
-							<td>
-								{{xml.artiste}}
-							</td>
-						</tr>
-					{%- endfor %}
+					<tbody>
+						{% for xml in pistes -%}
+						{% if xml.public %}
+							<tr id="tab_{{xml.id}}">
+								<td>
+									<span class="ui-icon ui-icon-unlocked" title="public"></span>
+								</td>
+								{% else %}
+							<tr id="tab_{{xml.id}}" class="private">
+								<td>
+									<span class="ui-icon ui-icon-locked" title="privé"></span>
+								<td>
+								{% endif %}
+								<td>
+									<a href="application;{{ xml.nom }}.xml">{{ xml.titre}}</a>
+								</td>
+								<td>
+									{{xml.artiste}}
+								</td>
+							</tr>
+						{%- endfor %}
+					</tbody>
 				</table>
 			</div>
 			<div class="right-content">

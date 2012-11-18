@@ -10,12 +10,8 @@
 <script src="js/jquery-ui-1.8.18.custom.min.js"></script>
 <script type="text/javascript">
     $(function(){
-		// au clic sur une ligne focus de l'input
-        $('.item').click(function(){
-            $('input', this).focus();
-        });
 		//styliser le bouton
-		$('input[type=submit]').button();
+		$('.custom-button').button();
     });
 </script>
 {% endblock %}
@@ -46,18 +42,20 @@
 				</div>
 				{% endif %}
 				<table class="center form-struct">
-					<tr>
-						<td>Login :</td>
-						<td><input name="login" placeholder="Login"></td>
-					</tr>
-					<tr>
-						<td>Mot de passe :</td>
-						<td><input name="password" type="password" placeholder="Mot de passe"></td>
-					</tr>
-					<tr>
-						<td><a href="/compte/creer">Créer un compte</a></td>
-						<td><input class="custom-button"  type="submit" value="Se connecter"></td>
-					</tr>
+					<tbody>
+						<tr>
+							<td>Login :</td>
+							<td><input name="login" placeholder="Login"></td>
+						</tr>
+						<tr>
+							<td>Mot de passe :</td>
+							<td><input name="password" type="password" placeholder="Mot de passe"></td>
+						</tr>
+						<tr>
+							<td><a href="/compte/creer">Créer un compte</a></td>
+							<td><input class="custom-button"  type="submit" value="Se connecter"></td>
+						</tr>
+					</tbody>
 				</table>
 			</form>
 		</div>

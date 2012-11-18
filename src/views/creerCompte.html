@@ -7,12 +7,8 @@
 <script src="/js/jquery-ui-1.8.18.custom.min.js"></script>
 <script type="text/javascript">
     $(function(){
-		// au clic sur une ligne focus de l'input
-        $('.item').click(function(){
-            $('input', this).focus();
-        });
 		//styliser le bouton
-		$('input[type=submit]').button();
+		$('.custom-button').button();
     });
 </script>
 {% endblock %}
@@ -43,22 +39,24 @@
 				</div>
 				{% endif %}
 				<table class="center form-struct">
-					<tr>
-						<td>Login :</td>
-						<td><input name="pseudo" placeholder="Login"></td>
-					</tr>
-					<tr>
-						<td>Mot de passe :</td>
-						<td><input name="password" placeholder="Mot de passe" type="password" ></td>
-					</tr>
-					<tr>
-						<td>Confirmation du mot de passe :</td>
-						<td><input name="confirmPassword" placeholder="Confirmez mot de passe" type="password" ></td>
-					</tr>
-					<tr>
-						<td></td>
-						<td><input class="custom-button" type="submit"></td>
-					</tr>
+					<tbody>
+						<tr>
+							<td>Login :</td>
+							<td><input name="pseudo" placeholder="Login"></td>
+						</tr>
+						<tr>
+							<td>Mot de passe :</td>
+							<td><input name="password" placeholder="Mot de passe" type="password" ></td>
+						</tr>
+						<tr>
+							<td>Confirmation du mot de passe :</td>
+							<td><input name="confirmPassword" placeholder="Confirmez mot de passe" type="password" ></td>
+						</tr>
+						<tr>
+							<td></td>
+							<td><input class="custom-button" type="submit"></td>
+						</tr>
+					</tbody>
 				</table>
 			</form>
 		</div>

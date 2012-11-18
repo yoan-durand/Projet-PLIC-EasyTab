@@ -17,19 +17,18 @@
 			url += 'o:'+option+'/'+recherche;
 		}
 		$.post(url, function(data, textStatus) {
-			$('#trackList').empty();
+			$('#trackList tbody').empty();
 			for (var i = 0; i < data.length; ++i) {
-				$('#trackList').append('<tr id="tab_'+data[i].id+'">'
+				$('#trackList tbody').append('<tr id="tab_'+data[i].id+'">'
 					+'<td><a href="application;'+data[i].nom+'.xml">'+ data[i].titre+'</a></td>'
 					+'<td>'+data[i].artiste+'</td>'
-					+'<td><a href="user/'+data[i].userId+'/'+data[i].login+'">'+ data[i].login+'</td>'
 					+'</tr>');
 			}
 		}, 'json');
 	}
 	$(function(){
 		// au double clic on ouvre la partition
-		$('#trackList tr').dblclick(function(e){
+		$('#trackList tbody tr').dblclick(function(e){
 			location.href = $('a', this).attr('href');
 		});
 		// recherche automatique dès qu'on lache une touche
@@ -58,7 +57,7 @@
 				width: '133px'
 			}
 		};
-		$('#trackList tr').contextMenu('menu1', menu1);
+		$('#trackList tbody tr').contextMenu('menu1', menu1);
 		var menuOption = {
 			bindings: {
 				'date': function(e) {
@@ -111,25 +110,20 @@
 			</form>
 			<table id="trackList">
 				<thead>
-						<tr>
-							<td><span>Titre</span></td>
-							<td><span>Artiste</span></td>
-						</tr>
-					</thead>
-				{% for xml in pistes -%}
-				<tr id="tab_{{xml.id}}">
-					<td><a href="/application;{{ xml.nom }}.xml">{{xml.titre}}</a></td>
-					<td>{{xml.artiste}}</td>
-				</tr>
-				{%- endfor %}
+					<tr>
+						<td><span>Titre</span></td>
+						<td><span>Artiste</span></td>
+					</tr>
+				</thead>
+				<tbody>
+					{% for xml in pistes -%}
+					<tr id="tab_{{xml.id}}">
+						<td><a href="/application;{{ xml.nom }}.xml">{{xml.titre}}</a></td>
+						<td>{{xml.artiste}}</td>
+					</tr>
+					{%- endfor %}
+				</tbody>
 			</table>
-			<!--ul id="trackList">
-				{% for xml in pistes -%}
-				<li id="tab_{{xml.id}}">
-					<a href="application;{{ xml.nom }}.xml">{{xml.titre}} - {{xml.artiste}}</a>
-				</li>
-				{%- endfor %}
-			</ul-->
 		</div>
 	</section>
 </div>

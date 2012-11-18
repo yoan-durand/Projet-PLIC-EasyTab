@@ -17,9 +17,9 @@
 			url += 'o;'+option+'/'+recherche;
 		}
 		$.post(url, function(data, textStatus) {
-			$('#trackList').empty();
+			$('#trackList tbody').empty();
 			for (var i = 0; i < data.length; ++i) {
-				$('#trackList').append('<tr id="tab_'+data[i].id+'">'
+				$('#trackList tbody').append('<tr id="tab_'+data[i].id+'">'
 					+'<td><a href="application;'+data[i].nom+'.xml">'+ data[i].titre+'</a></td>'
 					+'<td>'+data[i].artiste+'</td>'
 					+'<td><a href="user/'+data[i].userId+'/'+data[i].login+'">'+ data[i].login+'</td>'
@@ -58,7 +58,7 @@
 				width: '133px'
 			}
 		};
-		$('#trackList tr').contextMenu('menu1', menu1);
+		$('#trackList tbody tr').contextMenu('menu1', menu1);
 		var menuOption = {
 			bindings: {
 				'date': function(e) {
@@ -118,13 +118,15 @@
 							<td><span>Uploader par</span></td>
 						</tr>
 					</thead>
-					{% for xml in pistes -%}
-					<tr id="tab_{{xml.id}}">
-						<td><a href="application;{{ xml.nom }}.xml">{{xml.titre}}</a></td>
-						<td>{{xml.artiste}}</td>
-						<td><a href="user/{{xml.userId}}/{{xml.login}}" title="Mis en ligne par {{xml.login}}">{{xml.login}}</td>
-					</tr>
-					{%- endfor %}
+					<tbody>
+						{% for xml in pistes -%}
+						<tr id="tab_{{xml.id}}">
+							<td><a href="application;{{ xml.nom }}.xml">{{xml.titre}}</a></td>
+							<td>{{xml.artiste}}</td>
+							<td><a href="user/{{xml.userId}}/{{xml.login}}" title="Mis en ligne par {{xml.login}}">{{xml.login}}</td>
+						</tr>
+						{%- endfor %}
+					</tbody>
 				</table>
 			</div>
 			<div class="right-content">
