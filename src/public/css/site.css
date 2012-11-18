@@ -152,21 +152,31 @@
 
 .custom-button
 {
+	-webkit-transition: all .3s;
 	color: white;
 	font-weight: 700;
 	background-image: -webkit-gradient( linear, left bottom, left top, color-stop(0.18, orange), color-stop(0.68, #FCD402));
 	text-shadow: 1px 1px 6px black;
-	padding: 10px 15px;
+	padding: 10px 15px!important;
 }
 
-.gros-bouton {
-    /*font-size: 1.2em;*/
-    padding: 7px 14px;
+.custom-button:hover
+{
+	background-image: -webkit-gradient( linear, left bottom, left top, color-stop(0.18, #FCD402), color-stop(0.68, orange));
 }
-.ui-state-hover, .ui-widget-content .ui-state-hover, .ui-widget-header .ui-state-hover, .ui-state-focus, .ui-widget-content .ui-state-focus, .ui-widget-header .ui-state-focus {
+
+.ui-state-hover,
+.ui-widget-content .ui-state-hover,
+.ui-widget-header .ui-state-hover,
+.ui-state-focus,
+.ui-widget-content .ui-state-focus,
+.ui-widget-header .ui-state-focus
+{
 	color: brown;
 }
-h2 .options {
+
+h2 .options
+{
 	margin-left: 0.5em;
 	background-image: url("/image/buttonOptions.png");
 	display: inline-block;
@@ -174,27 +184,17 @@ h2 .options {
 	height: 17px;
 	cursor: pointer;
 }
-h2 .options:hover {
+
+h2 .options:hover
+{
 	background-position: 0 17px;
 }
-/* tablatures */
-#uploadLink > button {
-	color: darkgrey;
-	cursor: pointer;
-}
-#uploadLink:hover > button {
-	color: brown;
-}
-#uploadLink > button.ui-button-text-only .ui-button-text {
-	padding: 0.2em 0.6em;
-}
-#uploadLink > button.ui-widget {
-	font-size: 0.8em;
-}
+
 .ui-icon
 {
 	display: inline-block;
 }
+
 /* formulaire */
 .form-struct
 {
