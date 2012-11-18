@@ -24,7 +24,7 @@
 		</div>
 		
 		<div class="content-container center">
-			<form method="post" id="form">
+			<form method="post" id="form" class="simple-form">
 				{% if success %}
 				<div class="ui-state-highlight ui-corner-all" style="padding: 0 .7em;">
 					<p>
@@ -41,31 +41,24 @@
 					</p>
 				</div>
 				{% endif %}
-				<div></div>
-				<table class="center form-struct">
-					<tbody>
-						<tr>
-							<td>Nom d'utilisateur :</td>
-							<td>{{ pseudo }}</td>
-						</tr>
-						<tr>
-							<td>Date d'inscription :</td>
-							<td>{{ dateInscription }}</td>
-						</tr>
-						<tr>
-							<td>Nouveau mot de passe :</td>
-							<td><input name="password" placeholder="Mot de passe" type="password" ></td>
-						</tr>
-						<tr>
-							<td>Confirmation du mot de passe :</td>
-							<td><input name="confirmPassword" placeholder="Confirmez mot de passe" type="password" ></td>
-						</tr>
-						<tr>
-							<td></td>
-							<td><input class="custom-button" type="submit"/></td>
-						</tr>
-					</tbody>
-				</table>
+				<div class="item">
+					<label>Nom d'utilisateur</label>
+					<div class="item-text"><span>{{ pseudo }}</span></div>
+				</div>
+				<div class="item">
+					<label>Date d'inscription</label>
+					<div class="item-text"><span>{{ dateInscription }}</span></div>
+				</div>
+				<div class="item">
+					<label>Nouveau mot de passe</label>
+					<div class="item-text"><input name="password" placeholder="Mot de passe" type="password" ></div>
+				</div>
+				<div class="item">
+					<label>Confirmation du mot de passe</label>
+					<div class="item-text"><input name="confirmPassword" placeholder="Confirmez mot de passe" type="password" ></div>
+				</div>
+				<input class="float-right custom-button" type="submit"/>
+				<div class="clear"/>
 			</form>
 		</div>
 	</section>

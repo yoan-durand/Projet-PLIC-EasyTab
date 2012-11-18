@@ -252,3 +252,54 @@
     border-spacing: 30px;
 	text-align: left;
 }
+
+.simple-form
+{
+	width: 500px;
+	margin: auto;
+	background-image: -webkit-gradient( linear, left bottom, left top, color-stop(0.08, black), color-stop(0.9, #666) );
+	border-radius: 15px;
+	border: 2px solid orange;
+	padding: 25px 15px;
+}
+
+.simple-form > input
+{
+	margin: 20px 47px 10px 0px;
+}
+
+.item
+{
+	margin: 10px 0px 0px 50px;
+}
+
+.item label
+{
+	color: #E2E2E2;
+}
+
+.item-text
+{
+	margin-top: 4px;
+	border: 1px inset;
+	background-image: -webkit-gradient( linear, left bottom, left top, color-stop(0.08, black), color-stop(0.9, #666) );
+	color: white;
+	font-weight: 500;
+	height: 30px;
+	border-radius: 5px;
+	width: 400px;
+}
+.item-text span
+{
+	position: relative;
+	top: 3px;
+	left: 8px;
+}
+
+.item-text input
+{
+	background-color: transparent;
+	border: none;
+	padding: 6px 242px 9px 10px;
+	margin: 0px;
+}
