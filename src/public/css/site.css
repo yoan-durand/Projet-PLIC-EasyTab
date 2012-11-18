@@ -297,9 +297,10 @@
 {
 	margin-top: 4px;
 	border: 1px inset;
-	background-image: -webkit-gradient( linear, left bottom, left top, color-stop(0.08, black), color-stop(0.9, #666) );
+	background-color: white;
+	/*background-image: -webkit-gradient( linear, left bottom, left top, color-stop(0.08, black), color-stop(0.9, #666) );
 	color: white;
-	font-weight: 500;
+	font-weight: 500;*/
 	height: 30px;
 	border-radius: 5px;
 	width: 400px;
