@@ -16,21 +16,30 @@
 {% endblock %}
 
 {% block content %}
-<section id="container" class="center">
-	<form method="post" action="upload" enctype="multipart/form-data" id="form">
+<div id="wrapper" class="center">
+	<div class="containerTransparent"></div>
+	<section id="container" class="center">
+		<div class="top-container">
+			<h2 class="center">Upload</h2>
+		</div>
 		
-		<div class="elt_form">
-			<label>Titre :</label>
-			<input id="titre" name="titre" placeholder="entrez le titre">
+		<div class="content-container center">
+			<form method="post" action="upload" enctype="multipart/form-data" id="form">
+				
+				<div class="elt_form">
+					<label>Titre :</label>
+					<input id="titre" name="titre" placeholder="entrez le titre">
+				</div>
+				<div class="elt_form">
+					<label>Artiste : </label>
+					<input name="artiste" placeholder="entrez l'artiste"/>
+				</div>
+				<input id="uploadField" type="file" name="tablature" accept="text/xml">
+				<label class="visibility">Visibilité : Publique</label>
+				<input name="visibilité" type="checkbox" value="publique" checked/>
+				<input id="upload" type="submit" value="Upload">
+			</form>
 		</div>
-		<div class="elt_form">
-			<label>Artiste : </label>
-			<input name="artiste" placeholder="entrez l'artiste"/>
-		</div>
-		<input id="uploadField" type="file" name="tablature" accept="text/xml">
-		<label class="visibility">Visibilité : Publique</label>
-		<input name="visibilité" type="checkbox" value="publique" checked/>
-		<input id="upload" type="submit" value="Upload">
-	</form>
-</section>
+	</section>
+</div>
 {% endblock %}

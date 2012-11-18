@@ -74,22 +74,50 @@
 	<div class="containerTransparent"></div>
 	<section id="container">
 		<div class="top-container">
-			<form id="searchForm">
-				<input id="searchBox" placeholder="Rechercher...">
-			</form>
 			<h2 class="center">Mes tablatures</h2>
-			<a href="upload" id="uploadLink"><button>Ajouter une tablature</button></a>
-			<ul id="trackList">
-				{% for xml in pistes -%}
-				{% if xml.public %}
-				<li id="tab_{{xml.id}}"><span class="ui-icon ui-icon-unlocked" title="public"></span>
-					{% else %}
-				<li id="tab_{{xml.id}}" class="private"><span class="ui-icon ui-icon-locked" title="privé"></span>
-					{% endif %}
-					<a href="application;{{ xml.nom }}.xml">{{ xml.titre}} - {{xml.artiste}}</a>
-				</li>
-				{%- endfor %}
-			</ul>
+		</div>
+		
+		<div class="content-container center">
+			<div class="left-content">
+				<form id="searchForm">
+					<input id="searchBox" placeholder="Rechercher...">
+					<span class="search_button"></span>
+				</form>
+				<div class="add_tab">
+					<a href="upload" id="uploadLink"><button>Ajouter une tablature</button></a>
+				</div>
+				<table id="trackList">
+					<thead>
+						<tr>
+							<td><span>Publique</span></td>
+							<td><span>Titre</span></td>
+							<td><span>Artiste</span></td>
+						</tr>
+					</thead>
+					{% for xml in pistes -%}
+					{% if xml.public %}
+						<tr id="tab_{{xml.id}}">
+							<td>
+								<span class="ui-icon ui-icon-unlocked" title="public"></span>
+							</td>
+							{% else %}
+						<tr id="tab_{{xml.id}}" class="private">
+							<td>
+								<span class="ui-icon ui-icon-locked" title="privé"></span>
+							<td>
+							{% endif %}
+							<td>
+								{{ xml.titre}}
+							</td>
+							<td>
+								<a href="application;{{ xml.nom }}.xml">{{xml.artiste}}</a>
+							</td>
+						</tr>
+					{%- endfor %}
+				</table>
+			</div>
+			<div class="right-content">
+			</div>
 		</div>
 	</section>
 </div>

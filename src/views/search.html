@@ -101,12 +101,20 @@
 			</p>
 		</div>
 		{% endif %}
-		<div>
+		<div class="top-container">
+			<h2 class="center">Recherche</h2>
+		</div>
+		<div class="content-container center">
 			<form id="searchForm">
 				<input id="searchBox" placeholder="Rechercher...">
 			</form>
-			<h2><span>Résultat de la recherche</span><div class="options"></div></h2>
 			<table id="trackList">
+				<thead>
+						<tr>
+							<td><span>Titre</span></td>
+							<td><span>Artiste</span></td>
+						</tr>
+					</thead>
 				{% for xml in pistes -%}
 				<tr id="tab_{{xml.id}}">
 					<td><a href="/application;{{ xml.nom }}.xml">{{xml.titre}}</a></td>

@@ -32,15 +32,20 @@
 			</p>
 		</div>
 		{% endif %}
-		<h2>Profil de {{ pseudo }}</h2>
-		<div class="item">
-			<div class="left">Inscrit depuis :</div>
-			<div class="right">{{ inscritDepuis }}</div>
+		<div class="top-container">
+			<h2 class="center">Profil</h2>
 		</div>
-		<div class="item">
-			<div class="left">Nombre de tablatures :</div>
-			<div class="right">{{ nbTablature }}</div>
-			<div class="right"><a href="/search/u:{{userId}}/o:date">Voir toutes les tablatures</a></div>
+		<div class="content-container center">
+			<h2>{{ pseudo }}</h2>
+			<div class="item">
+				<div class="left">Inscrit depuis :</div>
+				<div class="right">{{ inscritDepuis }}</div>
+			</div>
+			<div class="item">
+				<div class="left">Nombre de tablatures :</div>
+				<div class="right">{{ nbTablature }}</div>
+				<div class="right"><a href="/search/u:{{userId}}/o:date">Voir toutes les tablatures</a></div>
+			</div>
 		</div>
 	</section>
 </div>

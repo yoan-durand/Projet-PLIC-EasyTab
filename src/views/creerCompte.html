@@ -21,39 +21,44 @@
 <div id="wrapper" class="center">
 	<div class="containerTransparent"></div>
 	<section id="container" class="center">
-		<form method="post" id="form">
-			{% if success %}
-			<div class="ui-state-highlight ui-corner-all" style="padding: 0 .7em;">
-				<p>
-					<span class="ui-icon ui-icon-info" style="float: left; margin-right: .3em;"></span>
-					{{ success }}
-				</p>
-			</div>
-			{% endif %}
-			{% if error %}
-			<div class="ui-state-error ui-corner-all" style="padding: 0 .7em;">
-				<p>
-					<span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;"></span>
-					{{ error }}
-				</p>
-			</div>
-			{% endif %}
-			<div class="item">
-				<div class="left">Nom d'utilisateur</div>
-				<div class="right"><input name="pseudo" placeholder="Nom d'utilisateur"></div>
-			</div>
-			<div class="item">
-				<div class="left">Nouveau mot de passe</div>
-				<div class="right"><input name="password" placeholder="password" type="password" ></div>
-			</div>
-			<div class="item">
-				<div class="left">Confirmation du mot de passe</div>
-				<div class="right"><input name="confirmPassword" placeholder="password" type="password" ></div>
-			</div>
-			<div class="item">
-				<input type="submit" class="right">
-			</div>
-		</form>
+		<div class="top-container">
+			<h2 class="center">Creer un Compte</h2>
+		</div>
+		<div class="content-container center">
+			<form method="post" id="form">
+				{% if success %}
+				<div class="ui-state-highlight ui-corner-all" style="padding: 0 .7em;">
+					<p>
+						<span class="ui-icon ui-icon-info" style="float: left; margin-right: .3em;"></span>
+						{{ success }}
+					</p>
+				</div>
+				{% endif %}
+				{% if error %}
+				<div class="ui-state-error ui-corner-all" style="padding: 0 .7em;">
+					<p>
+						<span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;"></span>
+						{{ error }}
+					</p>
+				</div>
+				{% endif %}
+				<div class="item">
+					<div class="left">Nom d'utilisateur</div>
+					<div class="right"><input name="pseudo" placeholder="Nom d'utilisateur"></div>
+				</div>
+				<div class="item">
+					<div class="left">Nouveau mot de passe</div>
+					<div class="right"><input name="password" placeholder="password" type="password" ></div>
+				</div>
+				<div class="item">
+					<div class="left">Confirmation du mot de passe</div>
+					<div class="right"><input name="confirmPassword" placeholder="password" type="password" ></div>
+				</div>
+				<div class="item">
+					<input type="submit" class="right">
+				</div>
+			</form>
+		</div>
 	</section>
 </div>
 {% endblock %}

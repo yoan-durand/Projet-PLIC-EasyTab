@@ -21,38 +21,46 @@
 {% endblock %}
 
 {% block content %}
-<section id="container" class="center">
-    <form method="post" action="/login" id="form">
-		{% if success %}
-		<div class="ui-state-highlight ui-corner-all" style="padding: 0 .7em;">
-			<p>
-				<span class="ui-icon ui-icon-info" style="float: left; margin-right: .3em;"></span>
-				{{ success }}
-			</p>
+<div id="wrapper" class="center">
+	<div class="containerTransparent"></div>
+	<section id="container" class="center">
+		<div class="top-container">
+			<h2 class="center">Connexion</h2>
 		</div>
-		{% endif %}
-		{% if error %}
-		<div class="ui-state-error ui-corner-all" style="padding: 0 .7em;">
-			<p>
-				<span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;"></span>
-				{{ error }}
-			</p>
+		<div class="content-container center">
+			<form method="post" action="/login" id="form">
+				{% if success %}
+				<div class="ui-state-highlight ui-corner-all" style="padding: 0 .7em;">
+					<p>
+						<span class="ui-icon ui-icon-info" style="float: left; margin-right: .3em;"></span>
+						{{ success }}
+					</p>
+				</div>
+				{% endif %}
+				{% if error %}
+				<div class="ui-state-error ui-corner-all" style="padding: 0 .7em;">
+					<p>
+						<span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;"></span>
+						{{ error }}
+					</p>
+				</div>
+				{% endif %}
+				<div class="item">
+					<div class="left">Nom d'utilisateur : </div>
+					<div class="right"><input name="login" placeholder="pseudo"></div>
+				</div>
+				<div class="item">
+					<div class="left">Mot de passe : </div>
+					<div class="right"><input name="password" type="password" placeholder="password"></div>
+				</div>
+				<div class="item">
+					<div class="right">
+						<input type="submit" value="Se connecter"><br>
+						<a href="/compte/creer">Créer un compte</a>
+					</div>
+				</div>
+			</form>
 		</div>
-		{% endif %}
-		<div class="item">
-			<div class="left">Nom d'utilisateur : </div>
-			<div class="right"><input name="login" placeholder="pseudo"></div>
-		</div>
-		<div class="item">
-			<div class="left">Mot de passe : </div>
-			<div class="right"><input name="password" type="password" placeholder="password"></div>
-		</div>
-		<div class="item">
-			<div class="right">
-				<input type="submit" value="Se connecter"><br>
-				<a href="/compte/creer">Créer un compte</a>
-			</div>
-		</div>
-    </form>
-</section>
+	</section>
+</div>
 {% endblock %}
