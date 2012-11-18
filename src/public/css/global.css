@@ -135,6 +135,12 @@ a
 	text-decoration: none;
 }
 
+h2,
+.item-text span
+{
+	cursor: default;
+}
+
 .center
 {
     margin-left: auto;

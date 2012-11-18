@@ -24,7 +24,7 @@
 			<h2 class="center">Connexion</h2>
 		</div>
 		<div class="content-container center">
-			<form method="post" action="/login" id="form">
+			<form method="post" action="/login" id="form" class="simple-form">
 				{% if success %}
 				<div class="ui-state-highlight ui-corner-all" style="padding: 0 .7em;">
 					<p>
@@ -41,22 +41,17 @@
 					</p>
 				</div>
 				{% endif %}
-				<table class="center form-struct">
-					<tbody>
-						<tr>
-							<td>Login :</td>
-							<td><input name="login" placeholder="Login"></td>
-						</tr>
-						<tr>
-							<td>Mot de passe :</td>
-							<td><input name="password" type="password" placeholder="Mot de passe"></td>
-						</tr>
-						<tr>
-							<td><a href="/compte/creer">Créer un compte</a></td>
-							<td><input class="custom-button"  type="submit" value="Se connecter"></td>
-						</tr>
-					</tbody>
-				</table>
+				<div class="item">
+					<label>Login</label>
+					<div class="item-text"><input name="login" placeholder="Login"></div>
+				</div>
+				<div class="item">
+					<label>Mot de passe</label>
+					<div class="item-text"><input name="password" type="password" placeholder="Mot de passe"></div>
+				</div>
+				<input class="float-right custom-button" type="submit" value="Se connecter">
+				<a href="/compte/creer" class="float-right create-account">Créer un compte</a>
+				<div class="clear"/>
 			</form>
 		</div>
 	</section>

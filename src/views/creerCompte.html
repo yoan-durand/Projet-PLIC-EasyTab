@@ -21,7 +21,7 @@
 			<h2 class="center">Creer un Compte</h2>
 		</div>
 		<div class="content-container center">
-			<form method="post" id="form">
+			<form method="post" id="form" class="simple-form">
 				{% if success %}
 				<div class="ui-state-highlight ui-corner-all" style="padding: 0 .7em;">
 					<p>
@@ -38,26 +38,20 @@
 					</p>
 				</div>
 				{% endif %}
-				<table class="center form-struct">
-					<tbody>
-						<tr>
-							<td>Login :</td>
-							<td><input name="pseudo" placeholder="Login"></td>
-						</tr>
-						<tr>
-							<td>Mot de passe :</td>
-							<td><input name="password" placeholder="Mot de passe" type="password" ></td>
-						</tr>
-						<tr>
-							<td>Confirmation du mot de passe :</td>
-							<td><input name="confirmPassword" placeholder="Confirmez mot de passe" type="password" ></td>
-						</tr>
-						<tr>
-							<td></td>
-							<td><input class="custom-button" type="submit"></td>
-						</tr>
-					</tbody>
-				</table>
+				<div class="item">
+					<label>Login</label>
+					<div class="item-text"><input name="pseudo" placeholder="Login"/></div>
+				</div>
+				<div class="item">
+					<label>Mot de passe</label>
+					<div class="item-text"><input name="password" placeholder="Mot de passe" type="password"/></div>
+				</div>
+				<div class="item">
+					<label>Confirmation du mot de passe</label>
+					<div class="item-text"><input name="confirmPassword" placeholder="Confirmez mot de passe" type="password"/></div>
+				</div>
+				<input class="float-right custom-button" type="submit"/>
+				<div class="clear"/>
 			</form>
 		</div>
 	</section>

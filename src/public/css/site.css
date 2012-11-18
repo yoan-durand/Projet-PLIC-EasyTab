@@ -202,7 +202,7 @@
 
 .custom-button
 {
-	-webkit-transition: all .3s;
+	-webkit-transition: background-image .3s;
 	color: white;
 	font-weight: 700;
 	background-image: -webkit-gradient( linear, left bottom, left top, color-stop(0.18, orange), color-stop(0.68, #FCD402));
@@ -247,6 +247,20 @@
 }
 
 /************************************************ Formulaires ************************************************/
+
+.create-account
+{
+	margin: 30px 15px 0px 0px;
+	color: #E2E2E2;
+	text-decoration: underline;
+	-webkit-transition: color .3s;
+}
+
+.create-account:hover
+{
+	color: #0085DD;
+}
+
 .form-struct
 {
     border-spacing: 30px;
@@ -263,7 +277,8 @@
 	padding: 25px 15px;
 }
 
-.simple-form > input
+.simple-form > input,
+.simple-form > a input
 {
 	margin: 20px 47px 10px 0px;
 }

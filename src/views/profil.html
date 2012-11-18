@@ -9,6 +9,10 @@
 <script src="/js/jquery-ui-1.8.18.custom.min.js"></script>
 <script src="/js/jquery.contextmenu.r2.packed.js"></script>
 <script type="text/javascript">
+	$(function(){
+		//styliser le bouton
+		$('.custom-button').button();
+    });
 </script>
 {% endblock %}
 
@@ -33,25 +37,25 @@
 		</div>
 		{% endif %}
 		<div class="top-container">
-			<h2 class="center">Profil &lsaquo; {{ pseudo }} &rsaquo;</h2>
+			<h2 class="center">Profil</h2>
 		</div>
 		<div class="content-container center">
-			<table class="center form-struct">
-				<tbody>
-					<tr>
-						<td>Inscrit depuis le :</td>
-						<td>{{ inscritDepuis }}</td>
-					</tr>
-					<tr>
-						<td>Nombre de tablatures :</td>
-						<td>{{ nbTablature }}</td>
-					</tr>
-					<tr>
-						<td><a href="/search/u:{{userId}}/o:date">Voir toutes les tablatures</a></td>
-						<td></td>
-					</tr>
-				</tbody>
-			</table>
+			<div class="simple-form">
+				<div class="item">
+					<label>Login</label>
+					<div class="item-text"><span>{{ pseudo }}</span></div>
+				</div>
+				<div class="item">
+					<label>Inscrit depuis le</label>
+					<div class="item-text"><span>{{ inscritDepuis }}</span></div>
+				</div>
+				<div class="item">
+					<label>Nombre de tablatures</label>
+					<div class="item-text"><span>{{ nbTablature }}</span></div>
+				</div>
+				<a href="/search/u:{{userId}}/o:date"><input class="float-right custom-button" type="button" value="Voir toutes les tablatures" /></a>
+				<div class="clear"/>
+			</div>
 		</div>
 	</section>
 </div>
