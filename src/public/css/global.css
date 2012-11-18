@@ -129,6 +129,22 @@ a
 	float: right;
 }
 
+div.error
+{
+	padding: 0 .7em;
+	width: 350px;
+	margin: auto;
+	font-weight: 700;
+	border: 2px inset red;
+}
+
+span.error
+{
+	float: left;
+	margin-right: .3em;
+	margin-top: 2px;
+}
+
 .float-left
 {
 	float: left;
