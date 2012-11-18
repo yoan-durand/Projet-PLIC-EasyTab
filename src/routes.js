@@ -114,7 +114,7 @@ exports.compte = function(req, res, next){
 	var params = {
 		connected: req.session.connected,
 		pseudo : req.session.user.login,
-		dateInscription : dateInscription
+		dateInscription : (dateInscription.getDate() < 10 ? '0'+dateInscription.getDate() : dateInscription.getDate())+"/"+(dateInscription.getMonth() < 10 ? '0'+dateInscription.getMonth() : dateInscription.getMonth())+"/"+dateInscription.getFullYear()
 	}
 	if (req.session.error) {
 		params.error = req.session.error;
@@ -433,7 +433,8 @@ exports.profil = function(req, res, next) {
 			if (results[0].dateInscription === 0) {
 				params.inscritDepuis = 'Toujours';
 			} else {
-				params.inscritDepuis = conversionTemps((new Date()).getTime() - results[0].dateInscription);
+				var dateInscription = new Date(parseInt(results[0].dateInscription))
+				params.inscritDepuis = (dateInscription.getDate() < 10 ? '0'+dateInscription.getDate() : dateInscription.getDate())+"/"+(dateInscription.getMonth() < 10 ? '0'+dateInscription.getMonth() : dateInscription.getMonth())+"/"+dateInscription.getFullYear();
 			}
 			params.nbTablature = results[0].nbTablature;
 			res.render('profil', params);
