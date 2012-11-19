@@ -33,7 +33,7 @@ body
 {
 	text-decoration: none;
 	color: white;
-	padding: 16px 10px 11px;
+	padding: 16px 10px 7px;
 	-webkit-transition: all .3s;
 	border-left: 3px solid transparent;
 	border-right: 3px solid transparent;
@@ -88,7 +88,7 @@ header
 	border-left: 3px solid transparent;
 	border-right: 3px solid transparent;
     color: white;
-	padding: 6px 10px 11px;
+	padding: 6px 10px 7px;
 	-webkit-transition: all .3s;
 }
 
