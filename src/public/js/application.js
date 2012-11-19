@@ -130,18 +130,18 @@ Application.prototype = {
 		} else {
 			var html = '<h2>Raccourcis</h2>'
 				+'<ul id="raccourcis">'
-				+'<li><b>C</b> : Affiche les commentaires.<li>'
-				+'<li><b>H</b> : Affiche la fenêtre d\'aide.<li>'
-				+'<li><b>O</b> : Ouvre la fenêtre de changement de tablature.<li>'
-				+'<li><b>P</b> : Démarre/met en pause la lecture.<li>'
-				+'<li><b>S</b> : Arrête la lecture.<li>'
-				+'<li><b>Échap</b> : Ferme la fenêtre actuelement ouverte.<li>'
-				+'<li><b>Début</b> : Revient au début de la tablature.<li>'
-				+'<li><b>-</b> : Baisse le son.<li>'
-				+'<li><b>+</b> : Augmente le son.<li>'
+				+'<li><b>C</b> : Affiche les commentaires.</li>'
+				+'<li><b>H</b> : Affiche la fenêtre d\'aide.</li>'
+				+'<li><b>O</b> : Ouvre la fenêtre de changement de tablature.</li>'
+				+'<li><b>P</b> : Démarre/met en pause la lecture.</li>'
+				+'<li><b>S</b> : Arrête la lecture.</li>'
+				+'<li><b>Échap</b> : Ferme la fenêtre actuelement ouverte.</li>'
+				+'<li><b>Début</b> : Revient au début de la tablature.</li>'
+				+'<li><b>-</b> : Baisse le son.</li>'
+				+'<li><b>+</b> : Augmente le son.</li>'
 				+'</ul>';
 			this.popupContent.html(html);
-			this.showSplashScreen('help');
+			this.showSplashScreen('help', {width:'310px'});
 		}
 	},
 	error: function(err) {
@@ -196,7 +196,7 @@ Application.prototype = {
 			this.hideSplashScreen();
 		} else {
 			this.popupContent.html('<h2>Commentaires</h2>'
-					+'<div id="ajoutComment"><input class="ajout" placeholder="Ajouter un commentaire"><input type="submit" value="Envoyer"></div>'
+					+'<div id="ajoutComment"><input class="ajout float-left" placeholder="Ajouter un commentaire"><input class="custom-button float-right" type="submit" value="Envoyer"></div>'
 					+'<ul id="comments"></ul>');
 			var _this = this;
 			var submit = function(e) {
@@ -230,7 +230,7 @@ Application.prototype = {
 			for(var i = this.comments.length - 1; i >= 0; --i) {
 				var data = this.comments[i];
 				var url = '/commentaire/delete/'+data.id;
-				var elem = $('<li><a href="'+url+'">X<a><div><a href="/user/'+data.auteurId+'/'+data.login+'">'+data.login+'</a></div><div class="message">'+data.texte+'</div></li>');
+				var elem = $('<li><a href="'+url+'">X</a><div><a href="/user/'+data.auteurId+'/'+data.login+'">'+data.login+'</a></div><div class="message">'+data.texte+'</div></li>');
 				$('>a', elem).click(buildClickEvent(url));
 				commentList.append(elem);
 			}

@@ -8,6 +8,23 @@
 
 /* reset */
 
+.custom-button
+{
+	-webkit-transition: background-image .3s;
+	color: white;
+	font-weight: 700;
+	background-image: -webkit-gradient( linear, left bottom, left top, color-stop(0.18, orange), color-stop(0.68, #FCD402));
+	text-shadow: 1px 1px 6px black;
+	padding: 10px 15px!important;
+	border: 1px solid #BEBEBE;
+	margin: 2px 0px;
+}
+
+.custom-button:hover
+{
+	background-image: -webkit-gradient( linear, left bottom, left top, color-stop(0.18, #FCD402), color-stop(0.68, orange));
+}
+
 ul, li
 {
 	margin:0px;
@@ -322,12 +339,18 @@ header
 	top: 0;
 	left: 0;
 	margin: 200px auto;
-	color: #E2E2E2;
 	position: relative;
 	padding: 20px;
+	color: #E2E2E2;
 	background-image: -webkit-gradient(linear, left bottom, left top, color-stop(0, rgba(91,92,89,0.9)), color-stop(0.3, rgba(41,41,41,0.9)));
 	border: 2px solid orange;
 	border-radius: 10px;
+}
+
+#splashMessage a
+{
+	color: orange;
+	font-weight: 600;
 }
 
 #splashMessage h2
@@ -335,10 +358,21 @@ header
 	margin: 10px 0px;
 }
 
+#splashMessage li
+{
+	-webkit-transition: background-color .3s;
+}
+
 #splashMessage li:hover
 {
 	cursor: default;
 	background-color: rgba(255, 255, 255, 0.3);
+}
+
+#comments
+{
+	padding-top: 5px;
+	clear: both;
 }
 
 #comments li,
@@ -360,8 +394,9 @@ header
 
 #ajoutComment input.ajout
 {
-	width: 82%;
+	width: 76%;
 	line-height: 2em;
+	margin-top: 9px;
 }
 
 #comments li
