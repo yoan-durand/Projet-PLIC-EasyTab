@@ -74,9 +74,9 @@
 .left-content
 {
 	float: left;
-	width: 70%;
+	width: 70%;/*
 	max-height: 540px;
-	overflow-y: hidden;
+	overflow-y: hidden;*/
 }
 
 .right-content

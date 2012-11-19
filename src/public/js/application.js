@@ -141,7 +141,7 @@ Application.prototype = {
 				+'<li><b>+</b> : Augmente le son.<li>'
 				+'</ul>';
 			this.popupContent.html(html);
-			this.showSplashScreen('help', { top: '-86px' });
+			this.showSplashScreen('help');
 		}
 	},
 	error: function(err) {
