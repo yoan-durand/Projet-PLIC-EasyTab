@@ -30,17 +30,12 @@ root
 
 body
 {
-    background-image: url("../image/bgwe.jpg");
-    background-repeat: repeat-y;
-    background-size: 100% 100%;
-    background-origin: content-box;
-    margin: 0px;
     text-align: center;
 }
 
 .page
 {
-    padding: 0 20px;
+    padding: 30px 20px 140px;
     width: 1150px;
     margin-left: auto;
     margin-right: auto;
