@@ -62,7 +62,7 @@
 {
 	width: 1040px;
 	height: 580px;
-	margin-top: 50px;
+	margin-top: 40px;
 }
 
 .left-content,
@@ -75,6 +75,8 @@
 {
 	float: left;
 	width: 70%;
+	max-height: 540px;
+	overflow-y: hidden;
 }
 
 .right-content

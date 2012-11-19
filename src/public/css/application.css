@@ -162,13 +162,13 @@ header
 .piste
 {
 	height:75px;
-        cursor: pointer;
+    cursor: pointer;
 	font-family: bebas;
 	text-align: center;
-	color: orange;
+	color: #E2E2E2;//orange;
 	font-size: 0.9em;
-        border-bottom: 1px solid black;
-        border-top: 1px solid #333232;
+    border-bottom: 1px solid black;
+    border-top: 1px solid #333232;
 }
 
 .piste_selected
@@ -299,62 +299,103 @@ header
 }
 
 /* popup */
-#splashbg {
+#splashbg
+{
 	opacity: 0.7;
+	border-radius: 10px;
 }
-#splashScreen {
-	height: 100%;
-	position: fixed;
-	width: 100%;
-	top: 0;
-	left: 0;
+
+#splashScreen
+{
+	height: 531px;
+	position: absolute;
+	width: 1150px;
+	top: 74px;
+	left: 225px;
 	z-index: 3;
 }
-#splashMessage {
+
+#splashMessage
+{
+	width: 310px;
+	top: 10px;
+	left: 100px;
 	margin: 200px auto;
-	width: 300px;
+	color: #E2E2E2;
 	position: relative;
 	padding: 20px;
-	background-image: -webkit-linear-gradient(rgba(242, 242, 242, 0.9), rgba(222, 222, 222, 0.9));
-	border: black 1px solid;
-	border-radius: 2px;
+	background-image: -webkit-gradient(linear, left bottom, left top, color-stop(0, rgba(91,92,89,0.9)), color-stop(0.3, rgba(41,41,41,0.9)));
+	border: 2px solid orange;
+	border-radius: 10px;
 }
-#splashMessage li:hover {
+
+#splashMessage h2
+{
+	margin: 10px 0px;
+}
+
+#splashMessage li:hover
+{
+	cursor: default;
 	background-color: rgba(255, 255, 255, 0.3);
 }
+
 #comments li,
-#raccourcis li {
+#raccourcis li
+{
+	padding: 1px 5px 1px;
 	text-align: left;
 }
-#ajoutComment {
+
+#raccourcis b
+{
+	color: orange;
+}
+
+#ajoutComment
+{
 	text-align: left;
 }
-#ajoutComment input.ajout {
+
+#ajoutComment input.ajout
+{
 	width: 82%;
 	line-height: 2em;
 }
-#comments li {
+
+#comments li
+{
 	margin: 0.5em 0;
 }
-#comments li > a {
+
+#comments li > a
+{
 	float: right;
 	display: none;
 }
-#comments li:hover > a {
+
+#comments li:hover > a
+{
 	display: inline;
 }
+
 /* panneau d'ic�ne en bas � gauche */
-#botleft-pannel {
+#botleft-pannel
+{
 	margin: 10px 12px;
 }
-#comments-icon {
+
+#comments-icon
+{
 	float: left;
 	width: 26px;
 	height: 25px;
 	background-image: url('/image/icone-commentaire.png');
 	background-size: 100%;
 }
-#comments-icon > span {
+
+#comments-icon > span
+{
 	color: whiteSmoke;
 	position: relative;
 	bottom: -16px;
@@ -362,6 +403,7 @@ header
 	width: 100%;
 	display: inline-block;
 }
+
 /* */
 #volume
 {

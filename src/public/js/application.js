@@ -85,9 +85,9 @@ Application.prototype = {
 		}
 	},
 	showSpinner: function() {
-		this.popupContent.html('<img src="image/ajax-loader.gif" alt="loading" style="width:32px; height:32px"><br>'+
+		this.popupContent.html('<img src="image/ajax-loader.gif" alt="loading" style="width:43px; height:11px"><br>'+
 		'<span>Chargement de l\'application en cours...</span>');
-		this.showSplashScreen('spinner', {width: '300px'});
+		this.showSplashScreen('spinner');
 		$('#popupClose', this.popupContent).remove();
 	},
 	isPopupOpen: function(nom) {
@@ -141,7 +141,7 @@ Application.prototype = {
 				+'<li><b>+</b> : Augmente le son.<li>'
 				+'</ul>';
 			this.popupContent.html(html);
-			this.showSplashScreen('help', {width: '310px'});
+			this.showSplashScreen('help', { top: '-86px' });
 		}
 	},
 	error: function(err) {
