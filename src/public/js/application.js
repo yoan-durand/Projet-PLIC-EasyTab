@@ -76,10 +76,20 @@ Application.prototype = {
 			close.click($.proxy(this.hideSplashScreen, this));
 			this.popupContent.prepend(close);
 		}
+		this.popupContent.removeAttr('style');
 		if (css !== undefined) {
 			this.popupContent.css(css);
 		}
 		this.popup.fadeIn('fast');
+		var height = $(window).height() - $('#splashMessage').height() - 44;
+		if (height < 0) {
+			this.popupContent.css('margin', '0 auto');
+			this.popupContent.css('height', ($('#splashMessage').height()+height)+'px')
+		} else if (height < 200) {
+			this.popupContent.css('margin-top', height+'px');
+		} else {
+			this.popupContent.css('margin-top', '200px');
+		}
 		if (nom != undefined) {
 			this.popupName = nom;
 		}
@@ -225,6 +235,7 @@ Application.prototype = {
 					$.post(url, function() {
 						_this.getComments();
 					});
+					_this.showSplashScreen('comments', {width: '600px'});
 				}
 			};
 			for(var i = this.comments.length - 1; i >= 0; --i) {

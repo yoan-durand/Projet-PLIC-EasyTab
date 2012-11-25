@@ -344,6 +344,7 @@ header
 	background-image: -webkit-gradient(linear, left bottom, left top, color-stop(0, rgba(91,92,89,0.9)), color-stop(0.3, rgba(41,41,41,0.9)));
 	border: 2px solid orange;
 	border-radius: 10px;
+	overflow: auto;
 }
 
 #splashMessage a
