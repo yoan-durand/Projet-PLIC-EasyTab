@@ -6,6 +6,8 @@ function Application(){
 
 	this.bindKeys();
 	this.initComments(true);
+	this.initNote(0, 5);
+	this.initFav();
 }
 Application.get = function() {
 	if (this.instance == null) {
@@ -173,7 +175,7 @@ Application.prototype = {
 			this.getComments();
 			$('#comments-icon').click($.proxy(this.showComments, this));
 		}
-		this.webSocket = ws = new WebSocket("ws://localhost:8081")//FIXME window.ws
+		this.webSocket = ws = new WebSocket("ws://localhost:8081");
 		ws.onclose=function(err){
 			console.log('commentaires: connexion fermée.', err);
 			_this.initComments();
@@ -260,6 +262,62 @@ Application.prototype = {
 	},
 	updateCommentNumber: function() {
 		$('#comments-icon > span').text(this.comments.length);
+	},
+	initNote: function(from, to) {
+		var updateNote = function() {
+			$.get('/note/get/'+config.tablatureId, function(data, textStatus, jqXHR) {
+				if (data.error) console.error('erreur');
+				if (data.note !== undefined) {
+					var note = parseFloat(data.note);
+					note = Math.round(note*10)/10;
+					$('#note-icon>.note').text(note+'/'+to);
+				}
+			}, 'json');
+		};
+		var application = this;
+		var elem;
+		elem = $('<span class="note" title="Cliquer pour voter">'+(from+to)/2+'/'+to+'</span>');
+		$('#note-icon').append(elem);
+		updateNote();
+		for (var i = from; i <= to; ++i) {
+			elem = $('<span class="vote" title="Voter '+i+'">'+i+'</span>');
+			$('#note-icon').append(elem);
+		}
+		$('#note-icon>span.note').click(function() {
+			$(this).parent().addClass('active');
+		});
+		$('#note-icon>span.vote').click(function() {
+			var note = $(this).text();
+			$.post('/note/set/'+config.tablatureId+'/'+config.userId+'/'+note, function(data, textStatus, jqXHR) {
+				if (data.error) {
+					application.error('<h2>Erreur</h2>'+data.error.message);
+				}
+				if (data.success) {
+					updateNote();
+					$('#note-icon').removeClass('active');
+				}
+			}, 'json');
+		});
+	},
+	initFav: function() {
+		$.get('/fav/get/'+config.tablatureId+'/'+config.userId, function(data, textStatus, jqXHR) {
+			if (data.error) console.error('erreur');
+			if (data.favori) {
+				$('#fav-icon').addClass('active');
+			}
+		}, 'json');
+		var postOnClick = function(data, textStatus, jqXHR) {
+			if (data.success) {
+				$('#fav-icon').toggleClass('active');
+			}
+		}
+		$('#fav-icon').click(function() {
+			if ($(this).hasClass('active')) {
+				$.post('/fav/del/'+config.tablatureId+'/'+config.userId, postOnClick, 'json');
+			} else {
+				$.post('/fav/add/'+config.tablatureId+'/'+config.userId, postOnClick, 'json');
+			}
+		});
 	}
 };
 function now() {

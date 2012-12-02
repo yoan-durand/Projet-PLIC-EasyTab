@@ -157,6 +157,51 @@ exports.comptePost = function(req, res, next){
 	}
 }
 
+exports.favGet = function(req, res, next){
+	var bdd = mysql_connect();
+	bdd.query(
+		'SELECT userId from `favoris` WHERE `userId` = ? AND `tablatureId` = ? LIMIT 1',
+		[req.params.userId, req.params.tablatureId],
+		function(err, results, fields) {
+			if (err) {
+				res.send(JSON.stringify({error:true}));
+				return;
+			}
+			res.send(JSON.stringify({
+				'favori': results.length !== 0
+			}));
+		}
+	);
+}
+exports.favAdd = function(req, res, next){
+	var bdd = mysql_connect();
+	bdd.query(
+		'INSERT INTO `favoris` (`userId`, `tablatureId`) VALUES (?, ?)',
+		[req.params.userId, req.params.tablatureId],
+		function(err, results, fields) {
+			if (err) {
+				res.send(JSON.stringify({error:true}));
+				return;
+			}
+			res.send(JSON.stringify({success:true}));
+		}
+	);
+};
+exports.favDel = function(req, res, next){
+	var bdd = mysql_connect();
+	bdd.query(
+		'DELETE FROM`favoris` WHERE `userId` = ? AND `tablatureId` = ?',
+		[req.params.userId, req.params.tablatureId],
+		function(err, results, fields) {
+			if (err) {
+				res.send(JSON.stringify({error:true}));
+				return;
+			}
+			res.send(JSON.stringify({success:true}));
+		}
+	);
+};
+
 exports.login = function(req, res, next){
 	req.session.regenerate(function(e){
 		req.session.connected = false;
@@ -255,6 +300,39 @@ exports.midi = function(req, res, next) {
 		res.send(response.body);
 	});
 }
+
+exports.noteGet = function(req, res, next){
+	var bdd = mysql_connect();
+	bdd.query(
+		'SELECT AVG(note) as note from `note` WHERE `tablatureId` = ? LIMIT 1',
+		[req.params.tablatureId],
+		function(err, results, fields) {
+			if (err) {
+				res.send(JSON.stringify({error:true}));
+				return;
+			}
+			var retour = {};
+			if (results.length) {
+				retour.note = results[0].note;
+			}
+			res.send(JSON.stringify(retour));
+		}
+	);
+}
+exports.noteSet = function(req, res, next){
+	var bdd = mysql_connect();
+	bdd.query(
+		'REPLACE INTO `note` (`userId`, `tablatureId`, `note`) VALUES (?, ?, ?)',
+		[req.params.userId, req.params.tablatureId, req.params.note],
+		function(err, results, fields) {
+			if (err) {
+				res.send(JSON.stringify({error:err}));
+				return;
+			}
+			res.send(JSON.stringify({success:true}));
+		}
+	);
+};
 
 exports.upload = function(req, res, next) {
 	if (forceLogin(req, res))

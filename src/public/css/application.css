@@ -419,11 +419,19 @@ header
 #botleft-pannel
 {
 	margin: 10px 12px;
+	width: 216px;
+	display: inline-block;
 }
-
+#botleft-pannel > div.float-left
+{
+	margin-right: 15px;
+}
+#botleft-pannel > div.float-right
+{
+	margin-left: 15px;
+}
 #comments-icon
 {
-	float: left;
 	width: 26px;
 	height: 25px;
 	background-image: url('/image/icone-commentaire.png');
@@ -438,6 +446,46 @@ header
 	text-align: right;
 	width: 100%;
 	display: inline-block;
+}
+#comments-icon:hover,
+#fav-icon:hover,
+#note-icon > span:hover {
+	cursor: pointer;
+}
+#note-icon {
+	float: left;
+}
+#note-icon > span {
+	display: none;
+	color: whiteSmoke;
+}
+#note-icon > span:first-child {
+	position: relative;
+	text-align: right;
+	width: 100%;
+	display: inline-block;
+	margin: 7px 0;
+	font-size: 1.2em;
+}
+#note-icon.active > span {
+	display: inline-block;
+	padding: 7px 3px;
+}
+#note-icon.active > span:hover {
+	background-color: black;
+}
+#note-icon.active > span:first-child {
+	display: none
+}
+#fav-icon {
+	width: 32px;
+	height: 31px;
+	background-image: url('/image/icone-fav.png');
+	background-size: 100%;
+}
+#fav-icon:hover,
+#fav-icon.active {
+	background-position: 0 30px;
 }
 
 /* */
