@@ -267,7 +267,7 @@ Application.prototype = {
 		var updateNote = function() {
 			$.get('/note/get/'+config.tablatureId, function(data, textStatus, jqXHR) {
 				if (data.error) console.error('erreur');
-				if (data.note !== undefined) {
+				if (data.note) {
 					var note = parseFloat(data.note);
 					note = Math.round(note*10)/10;
 					$('#note-icon>.note').text(note+'/'+to);

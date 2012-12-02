@@ -157,6 +157,20 @@ exports.comptePost = function(req, res, next){
 	}
 }
 
+/*exports.favGetList = function(req, res, next){
+	var bdd = mysql_connect();
+	bdd.query(
+		'SELECT `tablatureId`, `nom`, `titre`, `artiste` FROM `favoris` join tablature on tablature.`id` = favoris.`tablatureId` where `favoris`.`userId` = ?',
+		[req.params.userId],
+		function(err, results, fields) {
+			if (err) {
+				res.send(JSON.stringify({error:true}));
+				return;
+			}
+			res.send(JSON.stringify(results));
+		}
+	);
+}*/
 exports.favGet = function(req, res, next){
 	var bdd = mysql_connect();
 	bdd.query(
@@ -376,11 +390,19 @@ exports.uploadPost = function(req, res, next) {
 exports.tablatures = function(req, res, next) {
 	if (forceLogin(req, res))
 		return;
-	tablatureSearch(req, res, next, undefined, false, function(results) {
-		res.render('tablatures', {
-			pistes: results,
-			connected: req.session.connected
-		});
+	tablatureSearch(req, res, next, undefined, false, function(tabResults) {
+		var bdd = mysql_connect();
+		bdd.query(
+			'SELECT `tablatureId`, `nom`, `titre`, `artiste` FROM `favoris` join tablature on tablature.`id` = favoris.`tablatureId` where `favoris`.`userId` = ?',
+			[req.session.user.id],
+			function(err, favResults, fields) {
+				res.render('tablatures', {
+					pistes: tabResults,
+					favoris: favResults,
+					connected: req.session.connected
+				});
+			}
+		);
 	}, undefined, req.session.user.id);
 }
 exports.getTablatures = function(req, res, next) {

@@ -60,6 +60,7 @@ app.get('/compte/creer', routes.creerCompte);
 app.post('/compte/creer', routes.creerComptePost);
 app.get('/compte', routes.compte);
 app.post('/compte', routes.comptePost);
+app.get('/fav/getList/:userId', routes.favGetList);
 app.get('/fav/get/:tablatureId/:userId', routes.favGet);
 app.post('/fav/add/:tablatureId/:userId', routes.favAdd);
 app.post('/fav/del/:tablatureId/:userId', routes.favDel);
