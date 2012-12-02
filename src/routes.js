@@ -10,9 +10,24 @@ exports.index = function(req, res, next){
 	if (forceLogin(req, res))
 		return;
 	var params = getRenderParams(req, true);
-	tablatureSearch(req, res, next, undefined, true, function(results){
-		params.pistes = results;
-		res.render('index', params);
+	tablatureSearch(req, res, next, undefined, true, function(tabResults){
+		params.pistes = tabResults;
+		var bdd = mysql_connect();
+		bdd.query(
+			'SELECT tablatureId, AVG(note) as note, `nom`, `titre`, `artiste` from `note` join tablature on tablatureId=id group by `tablatureId` order by note desc limit 5',
+			[],
+			function(noteErr, noteResults, noteFields) {
+				params.top5 = noteResults;
+				bdd.query(
+					'SELECT `nom`, `titre`, `artiste` FROM `tablature` ORDER BY `tablature`.`id` DESC limit 5',
+					[],
+					function(lastErr, lastResults, lastFields) {
+						params.last = lastResults;
+						res.render('index', params);
+					}
+				);
+			}
+		);
 	});
 };
 

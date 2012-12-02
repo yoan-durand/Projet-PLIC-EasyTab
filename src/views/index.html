@@ -128,19 +128,15 @@
 			<div class="right-content">
 				<h2>Top 5</h2>
 				<ul>
-					<a href="#"><li>Metallica - Wherever I May Roam</li></a>
-					<a href="#"><li>Amon Amarth - With Oden on our side</li></a>
-					<a href="#"><li>Children of Bodom - Everytime I die</li></a>
-					<a href="#"><li>Made of Hate - Bullet in your head</li></a>
-					<a href="#"><li>Wintersun - Beautiful Death</li></a>
+					{% for xml in top5 -%}
+					<a href="application;{{ xml.nom }}.xml"><li>{{xml.artiste}} - {{ xml.titre}}</li></a>
+					{%- endfor %}
 				</ul>
 				<h2>Derniers Ajouts</h2>
 				<ul>
-					<a href="#"><li>Nekrogolikon - Invasion</li></a>
-					<a href="#"><li>ACDC - Thunderstruck</li></a>
-					<a href="#"><li>Finntroll - Trollhammaren</li></a>
-					<a href="#"><li>Lamb of God - Redneck</li></a>
-					<a href="#"><li>Epica - Kingdom of Heaven</li></a>
+					{% for xml in last -%}
+					<a href="application;{{ xml.nom }}.xml"><li>{{xml.artiste}} - {{ xml.titre}}</li></a>
+					{%- endfor %}
 				</ul>
 			</div>
 		</div>
