@@ -21,6 +21,63 @@
 		"C8" => 96, "C#8" => 97, "D8" => 98, "D#8" => 99, "E8" => 100, "F8" => 101, "F#8" => 102, "G8" => 103, "G#8" => 104, "A8" => 105, "A#8" => 106, "B8" => 107,
 		"C9" => 108, "C#9" => 109, "D9" => 110, "D#9" => 111, "E9" => 112, "F9" => 113, "F#9" => 114, "G9" => 115, "G#9" => 116, "A9" => 117, "A#9" => 118, "B9" => 119
 	);
+	$debug .= "Start \n";
+	
+
+
+function convertStringFret ($line, $fret) //line = l'objet type "Line" de la corde, //fret = numéro de la fret
+{
+	$nextNote = array (
+	 "C" => "C#",
+	 "C#" => "D",
+	 "D" => "D#",
+	 "D#" => "E",
+	 "E" => "F",
+	 "F" => "F#",
+	 "F#" => "G",
+	 "G" => "G#",
+	 "G#" => "A",
+	 "A" => "A#",
+	 "A#" => "B",
+	 "B" => "C",
+	);
+	global $debug;
+	
+	$octave = $line["_octave"] + (int)($fret / 12) ; //Division entiere. On recupere l'octave de base de la corde et on lui ajoute 1 octave toute les 12 fert.
+	$num_note = $fret % 12; // modulo 12 car les notes se repetent toutes les 12 fretes
+	$note = $line["_tuning_step"]; //On recupere le tunning de base
+	$debug .= "octave : " . $octave . " | num_note : " . $num_note . " | note départ : " . $note ;
+	for($z = 0; $z < $num_note; $z++) // on se deplace note par note jusqu'a la bonne frete
+	{
+		$note = $nextNote[$note]; //On recupere la note suivante.
+	}
+	$debug .= " | end : " . $note.$octave .  "\n";
+	return ($note.$octave);
+}
+
+function convertv2 ($line, $fret)
+{
+	global $debug;
+	global $note_ref;
+	$init_note = $line["_tuning_step"].$line["_octave"]; // On récupère la note à vide de la corde demandé ie 1ère corde => "E3"
+	$found = false;
+	$i = 0;
+	$debug .= "init note : " . $init_note . " | num fret : " . $fret . "\n" ;
+	foreach ($note_ref as $key => $value)
+	{
+		if ($key == $init_note)
+		{
+			$found = true;
+		}
+		if ($found == true)
+		{
+			if ($i == $fret)
+				return $value;
+			$i++;
+		}
+	}
+	return ("nf");
+}
 
     header("application/json; charset=utf-8");
 
@@ -64,7 +121,7 @@
 	                $txt .= '0 PrCh ch='.$partition["_instruments_list"][$i]["_midi_channel"].' p='.$partition["_instruments_list"][$i]["_gm_instrument"]."\n";
 	                $txt .= '0 Par ch='.$partition["_instruments_list"][$i]["_midi_channel"].' c=10 v='.$partition["_instruments_list"][$i]["_pan"]."\n";
 	                $measures = $partition["_instruments_list"][$i]["_track_part"]["_measure_list"];
-	
+					$Lines = $partition["_instruments_list"][$i]["_track_part"]["_tuning"];
 			for ($j = 0; $j < count($measures); $j++)
 			{
 				$chords = $measures[$j]["_chord_list"];
@@ -73,48 +130,83 @@
 					$notes = $chords[$k]["_note_list"];
 					for ($h = 0; $h < count($notes); $h++)
 					{
-	                                    if ($notes[$h]["_fret_technical"] != null)
-	                                    {
-	                                        if ($notes[$h]["_step_pitch"]!= null)
-	                                        {
-	                                            $n=$note_ref[$notes[$h]["_step_pitch"].$notes[$h]["_octave_pitch"]];
-	                                        }
-	                                        else
-	                                        {
-	                                            $n=$notes[$h]["_fret_technical"];
-	                                        }
-	                                        $velocite = $partition["_instruments_list"][$i]["_volume"];
-	                                        if ($notes[$h]["_other_technical"] == "palm mute")
-	                                        {
-	                                             $velocite = $partition["_instruments_list"][$i]["_volume"] - 30;
-	                                        }
-	                                        $txt .= $notes[$h]["_begin"]." On ch=".$partition["_instruments_list"][$i]["_midi_channel"]." n=".$n." v=".$velocite."\n";
-	                                    }
+                        if ($notes[$h]["_fret_technical"] != null)
+                        {
+                            if ($notes[$h]["_step_pitch"]!= null)
+                            {
+                                $n=$note_ref[$notes[$h]["_step_pitch"].$notes[$h]["_octave_pitch"]];
+                            }
+                            else
+                            {
+                            	$string = $notes[$h]["_string_technical"];
+								/*for ($z = 0; $z < count($Lines); $z++)
+								{
+									if ($Lines[$z]["_line"] == $string)
+									{
+										$line = $Lines[$z];
+										break;
+									}
+								}*/
+								$line = $Lines[$string - 1];
+								if ($line["_octave"] == 0) //Drums
+								{
+									$n=$notes[$h]["_fret_technical"];
+								}
+								else
+								{
+									$n=convertv2($line, $notes[$h]["_fret_technical"]);
+								}
+                            }
+                            $velocite = $partition["_instruments_list"][$i]["_volume"];
+                            if ($notes[$h]["_other_technical"] == "palm mute")
+                            {
+                                 $velocite = $partition["_instruments_list"][$i]["_volume"] - 30;
+                            }
+                            $txt .= $notes[$h]["_begin"]." On ch=".$partition["_instruments_list"][$i]["_midi_channel"]." n=".$n." v=".$velocite."\n";
+                        }
 	
-	                                }
+                    }
 					for ($h = 0; $h < count($notes); $h++)
 					{
-	                                    if ($notes[$h]["_fret_technical"] != null)
-	                                    {
-	                                        if ($notes[$h]["_step_pitch"]!= null)
-	                                        {
-	                                            $n=$note_ref[$notes[$h]["_step_pitch"].$notes[$h]["_octave_pitch"]];
-	                                        }
-	                                        else
-	                                        {
-	                                            $n=$notes[$h]["_fret_technical"];
-	                                        }
-	                                        $miditime = ($notes[$h]["_begin"]+($notes[$h]["_duration"]));
-	                                        $velocite = $partition["_instruments_list"][$i]["_volume"];
-	                                        if ($notes[$h]["_other_technical"] == "palm mute")
-	                                        {
-	                                             $miditime = ($notes[$h]["_begin"]+($notes[$h]["_duration"] * 0.75));
-	                                             $velocite = $partition["_instruments_list"][$i]["_volume"] - 30;
-	                                        }
-	                                        //$txt .= ($notes[$h]["_begin"]+($notes[$h]["_duration"] * 0.75))." Off ch=".$partition["_instruments_list"][$i]["_midi_channel"]." n=".$n." v=80\n";
-	                                        $txt .= $miditime." Off ch=".$partition["_instruments_list"][$i]["_midi_channel"]." n=".$n." v=".$velocite."\n";
-	                                    }
-	                                }
+                        if ($notes[$h]["_fret_technical"] != null)
+                        {
+                            if ($notes[$h]["_step_pitch"]!= null)
+                            {
+                                $n=$note_ref[$notes[$h]["_step_pitch"].$notes[$h]["_octave_pitch"]];
+                            }
+                            else
+                            {
+                            	$string = $notes[$h]["_string_technical"];
+								/*for ($z = 0; $z < count($Lines); $z++)
+								{
+									if ($Lines[$z]["_line"] == $string)
+									{
+										$line = $Lines[$z];
+										break;
+									}
+								}*/
+								$line = $Lines[$string - 1];
+								if ($line["_octave"] == 0) //Drums
+								{
+									$n=$notes[$h]["_fret_technical"];
+								}
+								else
+								{
+									//$n=$note_ref[convertStringFret($line, $notes[$h]["_fret_technical"])];
+									$n=convertv2($line, $notes[$h]["_fret_technical"]);
+								}
+                            }
+                            $miditime = ($notes[$h]["_begin"]+($notes[$h]["_duration"]));
+                            $velocite = $partition["_instruments_list"][$i]["_volume"];
+                            if ($notes[$h]["_other_technical"] == "palm mute")
+                            {
+                                 $miditime = ($notes[$h]["_begin"]+($notes[$h]["_duration"] * 0.75));
+                                 $velocite = $partition["_instruments_list"][$i]["_volume"] - 30;
+                            }
+                            //$txt .= ($notes[$h]["_begin"]+($notes[$h]["_duration"] * 0.75))." Off ch=".$partition["_instruments_list"][$i]["_midi_channel"]." n=".$n." v=80\n";
+                            $txt .= $miditime." Off ch=".$partition["_instruments_list"][$i]["_midi_channel"]." n=".$n." v=".$velocite."\n";
+                    	}
+                    }
 				}
 				if ($j == count($measures) - 1)
 				{
@@ -135,6 +227,9 @@
 	$monfichier = fopen('../public/js/log.txt', 'w+');
 	fputs($monfichier, $txt);
 	fclose($monfichier);
+	$mondebug = fopen('../public/js/debug.txt', 'w+');
+	fputs($mondebug, $debug);
+	fclose($mondebug);
 	$midi = new Midi();
 	$midi->importTxt($txt);
 	$midi->saveMidFile('../public/'.$jsonResult['filename'], 0666);
