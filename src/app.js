@@ -51,8 +51,6 @@ app.configure('production', function(){
 // Routes
 
 app.get('/', routes.index);
-app.get('/crash', routes.crash);
-app.post('/crash', routes.crashPost);
 app.get('/application;?:tablature?', routes.application);
 app.post('/commentaire/:tablatureId', routes.commentaire);
 app.post('/commentaire/delete/:commentId', routes.supprCommentaire);

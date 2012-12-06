@@ -1,11 +1,4 @@
 
-exports.crash = function(req, res, next){//TODO à supprimer pour la mise en production
-	res.send('<form method="post"><input type="submit"></form>');
-}
-exports.crashPost = function(req, res, next){//TODO à supprimer pour la mise en production
-	process.exit(Math.floor(Math.random()*10));
-}
-
 exports.index = function(req, res, next){
 	if (forceLogin(req, res))
 		return;
@@ -14,13 +7,13 @@ exports.index = function(req, res, next){
 		params.pistes = tabResults;
 		var bdd = mysql_connect();
 		bdd.query(
-			'SELECT tablatureId, AVG(note) as note, `nom`, `titre`, `artiste` from `note` join tablature on tablatureId=id group by `tablatureId` order by note desc limit 5',
-			[],
+			'SELECT tablatureId, AVG(note) as note, `nom`, `titre`, `artiste` from `note` join tablature on tablatureId=id where ((`public` = 0 AND tablature.`userId` = ?) OR (`public` = 1)) group by `tablatureId` order by note desc limit 5',
+			[req.session.user.id],
 			function(noteErr, noteResults, noteFields) {
 				params.top5 = noteResults;
 				bdd.query(
-					'SELECT `nom`, `titre`, `artiste` FROM `tablature` ORDER BY `tablature`.`id` DESC limit 5',
-					[],
+					'SELECT `nom`, `titre`, `artiste` FROM `tablature` where ((`public` = 0 AND tablature.`userId` = ?) OR (`public` = 1)) ORDER BY `tablature`.`id` DESC limit 5',
+					[req.session.user.id],
 					function(lastErr, lastResults, lastFields) {
 						params.last = lastResults;
 						res.render('index', params);
@@ -172,20 +165,6 @@ exports.comptePost = function(req, res, next){
 	}
 }
 
-/*exports.favGetList = function(req, res, next){
-	var bdd = mysql_connect();
-	bdd.query(
-		'SELECT `tablatureId`, `nom`, `titre`, `artiste` FROM `favoris` join tablature on tablature.`id` = favoris.`tablatureId` where `favoris`.`userId` = ?',
-		[req.params.userId],
-		function(err, results, fields) {
-			if (err) {
-				res.send(JSON.stringify({error:true}));
-				return;
-			}
-			res.send(JSON.stringify(results));
-		}
-	);
-}*/
 exports.favGet = function(req, res, next){
 	var bdd = mysql_connect();
 	bdd.query(
