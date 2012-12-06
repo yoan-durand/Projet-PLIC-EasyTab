@@ -2,8 +2,23 @@
 exports.index = function(req, res, next){
 	if (forceLogin(req, res))
 		return;
+	var limit = 11;
+	var page = 1;
 	var params = getRenderParams(req, true);
 	tablatureSearch(req, res, next, undefined, true, function(tabResults){
+		var maxPage = Math.ceil(tabResults.length / limit);
+		if (req.query.page) {
+			page = parseInt(req.query.page);
+			if (page < 1) page = 1;
+			if (page > maxPage) page = maxPage;
+		} else {
+			page = 1;
+		}
+		tabResults = tabResults.splice((page - 1) * limit, limit);
+		params.pages = [1];
+		for (var i = 2; i <= maxPage; ++i) {
+			params.pages.push(i);
+		}
 		params.pistes = tabResults;
 		var bdd = mysql_connect();
 		bdd.query(
@@ -21,6 +36,8 @@ exports.index = function(req, res, next){
 				);
 			}
 		);
+	}, undefined, undefined, {
+		// limit: limit
 	});
 };
 
@@ -612,7 +629,7 @@ function mysql_connect() {
 	return client;
 }
 
-function tablatureSearch(req, res, next, filter, publicOnly, callback, option, user) {
+function tablatureSearch(req, res, next, filter, publicOnly, callback, option, user, param) {
 	var sql = 'SELECT tablature.id, nom, titre, artiste, public, userId, user.login FROM `tablature` JOIN `user` ON tablature.userId = user.id WHERE ';
 	var match = [];
 	sql += '((`public` = 0 AND `userId` = ?) OR (`public` = 1))';
@@ -631,6 +648,11 @@ function tablatureSearch(req, res, next, filter, publicOnly, callback, option, u
 			sql += ' ORDER BY nom';
 		} else if (option === 'date') {
 			sql += ' ORDER BY id';
+		}
+	}
+	if (param !== undefined) {
+		if (param.limit) {
+			sql += ' LIMIT '+param.limit;
 		}
 	}
 	var client = mysql_connect();

@@ -124,6 +124,12 @@
 						{%- endfor %}
 					</tbody>
 				</table>
+				<div id="pageBarre">
+					<span class="">page</span>
+					{% for page in pages -%}
+					<a href="?page={{page}}">{{page}}</a>
+					{%- endfor %}
+				</div>
 			</div>
 			<div class="right-content">
 				<h2>Top 5</h2>

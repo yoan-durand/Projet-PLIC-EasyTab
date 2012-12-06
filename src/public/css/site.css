@@ -199,6 +199,23 @@
 	background-color: rgba(36, 36, 36, 0.28);
 }
 
+/* pagination du tableau */
+#pageBarre
+{
+	border-bottom-left-radius: 15px;  
+	border-bottom-right-radius: 15px;
+	background-color: #242424;
+	display: inline-block;
+	color: white;
+	padding: 5px 25px;
+	float: right;
+}
+#pageBarre > a
+{
+	color: white;
+	padding: 0 3px;
+}
+
 /************************************************ Boutons **************************************************/
 
 .custom-button
