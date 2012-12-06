@@ -98,7 +98,39 @@
 		};
 		$('#trackList tbody > tr.private').contextMenu('menu1', options);
 		$('#trackList tbody > tr:not(.private)').contextMenu('menu2', options);
+	
+		// menu contextuel de tri
+				var staticSens = {
+			date: true,
+			alpha: true,
+		};
+		var menuOption = {
+			bindings: {
+				'date': function(e) {
+					if (staticSens.date) {
+						search('date', {asc:true});
+					} else {
+						search('date', {desc:true});
+					}
+					staticSens.date = !staticSens.date;
+					
+				},
+				'alpha': function(e) {
+					if (staticSens.alpha) {
+						search('alpha', {asc:true});
+					} else {
+						search('alpha', {desc:true});
+					}
+					staticSens.alpha = !staticSens.alpha;
+				}
+			},
+			menuStyle: {
+				width: '233px'
+			}
+		};
+		$('#trackList thead tr').contextMenu('menuOption', menuOption);
 		
+		// 
 		var MOUSE_OVER = false;
 		$('body').bind('mousewheel', function(e)
 		{
@@ -220,6 +252,12 @@
 			<!--			<img src="cross.png" />-->
 			<a>Supprimer</a>
 		</li>
+	</ul>
+</div>
+<div class="contextMenu" id="menuOption">
+	<ul>
+		<li id="date"><a>Trier par date d'ajout</a></li>
+		<li id="alpha"><a>Trier par nom de fichier</a></li>
 	</ul>
 </div>
 {% endblock %}

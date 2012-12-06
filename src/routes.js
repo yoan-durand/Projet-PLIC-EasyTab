@@ -540,9 +540,22 @@ exports.search2 = function(req, res, next) {
 		user = undefined;
 	}
 
-	tablatureSearch(req, res, next, recherche, false, function(results) {
+	tablatureSearch(req, res, next, recherche, false, function(tabResults) {
 		var params = getRenderParams(req, true);
-		params.pistes = results;
+		var page = 1;
+		var maxPage = Math.ceil(tabResults.length / limit);
+		if (req.query.page) {
+			page = parseInt(req.query.page);
+			if (page < 1) page = 1;
+			if (page > maxPage) page = maxPage;
+		}
+		params.page = page;
+		tabResults = tabResults.splice((page - 1) * limit, limit);
+		params.pages = [1];
+		for (var i = 2; i <= maxPage; ++i) {
+			params.pages.push(i);
+		}
+		params.pistes = tabResults;
 		params.userId = user;
 		res.render('search', params);
 	}, option, user);

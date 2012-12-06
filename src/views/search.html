@@ -9,12 +9,21 @@
 <script src="/js/jquery-ui-1.8.18.custom.min.js"></script>
 <script src="/js/jquery.contextmenu.r2.packed.js"></script>
 <script type="text/javascript">
-	function search(recherche, option) {
+	var config = {
+		page: {{page}}
+	};
+	function search(option, param) {
+		var recherche = $('#searchForm > input').val();
 		var url = '/search/u:{{userId}}/';
 		if (option === undefined) {
 			url += recherche;
 		} else {
 			url += 'o:'+option+'/'+recherche;
+		}
+		url += '?page='+config.page;
+		if (param) {
+			if (param.asc) url += '&asc=1';
+			if (param.desc) url += '&desc=1';
 		}
 		$.post(url, function(data, textStatus) {
 			$('#trackList tbody').empty();
@@ -35,47 +44,61 @@
 		$('#searchForm > input').keyup(function(e){
 			if (e.which == 27) {
 				$(this).val('');
-				search('');
+				search();
 			} else {
-				search($(this).val());
+				search();
 			}
 		});
+		// bouton rechercher
+		$('#searchForm > .search_button').click(function(e){
+			search();
+		});
+		// recherche sur les colonnes
+		var colHeadTd = $('#trackList > thead td');
+		$(colHeadTd[0]).toggle(
+			function(){search('titre', {asc:true});},
+			function(){search('titre', {desc:true});}
+		);
+		$(colHeadTd[1]).toggle(
+			function(){search('artiste', {asc:true});},
+			function(){search('artiste', {desc:true});}
+		);
 		// interception de l'appui sur la touche entrée pour rechercher sans changer de page
 		$('#searchForm').submit(function(e){
 			e.preventDefault();
-			var recherche = $('input', this).val();
-			search(recherche);
+			search();
 		});
-		// activer le menu contextuel
-		var menu1 = {
-			bindings: {
-				'ouvrir': function(t) {
-					location.href = $('a', t).attr('href');
-				}
-			},
-			menuStyle: {
-				width: '133px'
-			}
+		// menu contextuel de tri
+				var staticSens = {
+			date: true,
+			alpha: true,
 		};
-		$('#trackList tbody tr').contextMenu('menu1', menu1);
 		var menuOption = {
 			bindings: {
 				'date': function(e) {
-					search('', 'date');
+					if (staticSens.date) {
+						search('date', {asc:true});
+					} else {
+						search('date', {desc:true});
+					}
+					staticSens.date = !staticSens.date;
+					
 				},
 				'alpha': function(e) {
-					search('', 'alpha');
+					if (staticSens.alpha) {
+						search('alpha', {asc:true});
+					} else {
+						search('alpha', {desc:true});
+					}
+					staticSens.alpha = !staticSens.alpha;
 				}
 			},
 			menuStyle: {
 				width: '233px'
 			}
 		};
-		$('#container h2 .options').contextMenu('menuOption', menuOption);
-		$('#container h2 .options').click(function(){
-			$('#dialog').html('Il faut faire un clic droit.').dialog();
-			setTimeout(function(){$('#dialog').dialog('close');}, 1000);
-		});
+		$('#trackList thead tr').contextMenu('menuOption', menuOption);
+		
 	});
 </script>
 {% endblock %}
@@ -124,6 +147,12 @@
 					{%- endfor %}
 				</tbody>
 			</table>
+			<div id="pageBarre">
+				<span class="">page</span>
+				{% for page in pages -%}
+				<a href="?page={{page}}">{{page}}</a>
+				{%- endfor %}
+			</div>
 		</div>
 	</section>
 </div>
@@ -137,7 +166,7 @@
 <div class="contextMenu" id="menuOption">
 	<ul>
 		<li id="date"><a>Trier par date d'ajout</a></li>
-		<li id="alpha"><a>Trier par ordre alphabétique</a></li>
+		<li id="alpha"><a>Trier par nom de fichier</a></li>
 	</ul>
 </div>
 <div id="dialog"></div>
