@@ -1,8 +1,9 @@
+// nombre de tablatures par page
+var limit = 11;
 
 exports.index = function(req, res, next){
 	if (forceLogin(req, res))
 		return;
-	var limit = 11;
 	var page = 1;
 	var params = getRenderParams(req, true);
 	tablatureSearch(req, res, next, undefined, true, function(tabResults){
@@ -14,6 +15,7 @@ exports.index = function(req, res, next){
 		} else {
 			page = 1;
 		}
+		params.page = page;
 		tabResults = tabResults.splice((page - 1) * limit, limit);
 		params.pages = [1];
 		for (var i = 2; i <= maxPage; ++i) {
@@ -36,8 +38,6 @@ exports.index = function(req, res, next){
 				);
 			}
 		);
-	}, undefined, undefined, {
-		// limit: limit
 	});
 };
 
@@ -498,13 +498,21 @@ exports.search = function(req, res, next) {
 		return;
 	var recherche = req.params.search;
 	var option = req.params.option;
-	var user = parseInt(req.params.user);
+	var user = req.params.user;
+	if (user === '!') {
+		user = req.session.user.id;
+	}
+	user = parseInt(user);
 	if (!user) {
 		user = undefined;
 	}
+	var param = {};
+	if (req.query.asc) param.asc = true;
+	if (req.query.desc) param.desc = true;
+	if (req.query.page) param.page = req.query.page;
 	tablatureSearch(req, res, next, recherche, false, function(results) {
 		res.send(JSON.stringify(results));
-	}, option, user);
+	}, option, user, param);
 }
 exports.search2 = function(req, res, next) {
 	if (forceLogin(req, res))
@@ -630,6 +638,7 @@ function mysql_connect() {
 }
 
 function tablatureSearch(req, res, next, filter, publicOnly, callback, option, user, param) {
+	if (!param) param = {};
 	var sql = 'SELECT tablature.id, nom, titre, artiste, public, userId, user.login FROM `tablature` JOIN `user` ON tablature.userId = user.id WHERE ';
 	var match = [];
 	sql += '((`public` = 0 AND `userId` = ?) OR (`public` = 1))';
@@ -644,16 +653,25 @@ function tablatureSearch(req, res, next, filter, publicOnly, callback, option, u
 		match.push(filter, filter, filter);
 	}
 	if (option !== undefined) {
+		var asc = '';
+		if (param.desc) asc = ' desc';
+		if (param.asc) asc = ' asc';
 		if (option === 'alpha') {
-			sql += ' ORDER BY nom';
+			sql += ' ORDER BY nom' + asc;
 		} else if (option === 'date') {
-			sql += ' ORDER BY id';
+			sql += ' ORDER BY id' + asc;
+		} else if (option === 'titre') {
+			sql += ' ORDER BY titre' + asc;
+		} else if (option === 'artiste') {
+			sql += ' ORDER BY artiste' + asc;
+		} else if (option === 'userId') {
+			sql += ' ORDER BY userId' + asc;
 		}
 	}
-	if (param !== undefined) {
-		if (param.limit) {
-			sql += ' LIMIT '+param.limit;
-		}
+	if (param.page) {
+		sql += ' LIMIT '+((param.page - 1) * limit)+', '+limit;
+	} else if (param.limit) {
+		sql += ' LIMIT '+param.limit;
 	}
 	var client = mysql_connect();
 	client.query(

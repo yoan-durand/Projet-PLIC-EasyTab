@@ -9,13 +9,23 @@
 <script src="/js/jquery-ui-1.8.18.custom.min.js"></script>
 <script src="/js/jquery.contextmenu.r2.packed.js"></script>
 <script type="text/javascript">
-	function search(recherche, option) {
+	var config = {
+		page: {{page}}
+	};
+	function search(option, param) {
+		var recherche = $('#searchForm > input').val();
 		var url = '/search/';
 		if (option === undefined) {
 			url += recherche;
 		} else {
 			url += 'o;'+option+'/'+recherche;
 		}
+		url += '?page='+config.page;
+		if (param) {
+			if (param.asc) url += '&asc=1';
+			if (param.desc) url += '&desc=1';
+		}
+
 		$.post(url, function(data, textStatus) {
 			$('#trackList tbody').empty();
 			for (var i = 0; i < data.length; ++i) {
@@ -29,24 +39,41 @@
 	}
 	$(function(){
 		// au double clic on ouvre la partition
-		$('#trackList tr').dblclick(function(e){
+		$('#trackList > tbody > tr').dblclick(function(e){
 			location.href = $('a', this).attr('href');
 		});
 		// recherche automatique dès qu'on lache une touche
 		$('#searchForm > input').keyup(function(e){
 			if (e.which == 27) {
 				$(this).val('');
-				search('');
+				search();
 			} else {
-				search($(this).val());
+				search();
 			}
 		});
 		// interception de l'appui sur la touche entrée pour rechercher sans changer de page
 		$('#searchForm').submit(function(e){
 			e.preventDefault();
-			var recherche = $('input', this).val();
-			search(recherche);
+			search();
 		});
+		// bouton rechercher
+		$('#searchForm > .search_button').click(function(e){
+			search();
+		});
+		// recherche sur les colonnes
+		var colHeadTd = $('#trackList > thead td');
+		$(colHeadTd[0]).toggle(
+			function(){search('titre', {asc:true});},
+			function(){search('titre', {desc:true});}
+		);
+		$(colHeadTd[1]).toggle(
+			function(){search('artiste', {asc:true});},
+			function(){search('artiste', {desc:true});}
+		);
+		$(colHeadTd[2]).toggle(
+			function(){search('userId', {asc:true});},
+			function(){search('userId', {desc:true});}
+		);
 		// activer le menu contextuel
 		var menu1 = {
 			bindings: {
@@ -59,13 +86,28 @@
 			}
 		};
 		$('#trackList tbody tr').contextMenu('menu1', menu1);
+		var staticSens = {
+			date: true,
+			alpha: true,
+		};
 		var menuOption = {
 			bindings: {
 				'date': function(e) {
-					search('', 'date');
+					if (staticSens.date) {
+						search('date', {asc:true});
+					} else {
+						search('date', {desc:true});
+					}
+					staticSens.date = !staticSens.date;
+					
 				},
 				'alpha': function(e) {
-					search('', 'alpha');
+					if (staticSens.alpha) {
+						search('alpha', {asc:true});
+					} else {
+						search('alpha', {desc:true});
+					}
+					staticSens.alpha = !staticSens.alpha;
 				}
 			},
 			menuStyle: {
@@ -98,7 +140,7 @@
 		</div>
 		{% endif %}
 		<div class="top-container">
-			<h2 class="center">Partitions</h2><!--<div class="options"></div>-->
+			<h2 class="center">Partitions</h2>
 		</div>
 		<div class="content-container center">
 			<div class="left-content">
@@ -158,7 +200,7 @@
 <div class="contextMenu" id="menuOption">
 	<ul>
 		<li id="date"><a>Trier par date d'ajout</a></li>
-		<li id="alpha"><a>Trier par ordre alphabétique</a></li>
+		<li id="alpha"><a>Trier par nom de fichier</a></li>
 	</ul>
 </div>
 <div id="dialog"></div>

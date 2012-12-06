@@ -11,7 +11,7 @@
 <script src="js/jquery.contextmenu.r2.packed.js"></script>
 <script type="text/javascript">
 	function search(recherche) {
-		$.post('/search/'+recherche, function(data, textStatus) {
+		$.post('/search/u:!/'+recherche, function(data, textStatus) {
 			$('#trackList tbody').empty();
 			for (var i = 0; i < data.length; ++i) {
 				var html = '<tr id="tab_'+data[i].id+'"><td><span class="ui-icon ui-icon-'+(data[i].public?'un':'')+'locked" title="'+(data[i].public?'public':'privé')
