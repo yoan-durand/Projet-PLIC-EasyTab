@@ -142,7 +142,7 @@
 			</div>
 			<div class="right-content">
 				<h2>Favoris</h2>
-				<ul>
+				<ul style="height: 220px">
 					{% for xml in favoris -%}
 					<a href="application;{{ xml.nom }}.xml"><li>{{xml.artiste}} - {{ xml.titre}}</li></a>
 					{%- endfor %}
