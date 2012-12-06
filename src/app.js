@@ -74,6 +74,7 @@ app.get('/tablatures/get/:type', routes.getTablatures);
 app.get('/tablatures/:id/visibility/:visibility', routes.tablaturesVisibility);
 app.get('/tablatures/:id/suppression', routes.tablaturesSuppression);
 app.get('/search/u\::user/o\::option/:search?', routes.search2);
+app.post('/search/u\::user/o;:option/:search?', routes.search);
 app.post('/search/u\::user/o\::option/:search?', routes.search);
 app.post('/search/u\::user/:search?', routes.search);
 app.post('/search/o;:option/:search?', routes.search);

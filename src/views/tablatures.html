@@ -10,8 +10,24 @@
 <script src="js/jquery-ui-1.8.18.custom.min.js"></script>
 <script src="js/jquery.contextmenu.r2.packed.js"></script>
 <script type="text/javascript">
-	function search(recherche) {
-		$.post('/search/u:!/'+recherche, function(data, textStatus) {
+	var config = {
+		page: {{page}}
+	};
+	function search(option, param) {
+		var recherche = $('#searchForm > input').val();
+		var url = '/search/u:!/';
+		if (option === undefined) {
+			url += recherche;
+		} else {
+			url += 'o;'+option+'/'+recherche;
+		}
+		url += '?page='+config.page;
+		if (param) {
+			if (param.asc) url += '&asc=1';
+			if (param.desc) url += '&desc=1';
+		}
+		// u:! signifie l'utilisateur actuel
+		$.post(url, function(data, textStatus) {
 			$('#trackList tbody').empty();
 			for (var i = 0; i < data.length; ++i) {
 				var html = '<tr id="tab_'+data[i].id+'"><td><span class="ui-icon ui-icon-'+(data[i].public?'un':'')+'locked" title="'+(data[i].public?'public':'privé')
@@ -32,17 +48,34 @@
 		$('#searchForm > input').keyup(function(e){
 			if (e.which == 27) {
 				$(this).val('');
-				search('');
+				search();
 			} else {
-				search($(this).val());
+				search();
 			}
 		});
 		// interception de l'appui sur la touche entrée pour rechercher sans changer de page
 		$('#searchForm').submit(function(e){
 			e.preventDefault();
-			var recherche = $('input', this).val();
-			search(recherche);
+			search();
 		});
+		// bouton rechercher
+		$('#searchForm > .search_button').click(function(e){
+			search();
+		});
+		// recherche sur les colonnes
+		var colHeadTd = $('#trackList > thead td');
+		$(colHeadTd[0]).toggle(
+			function(){search('public', {asc:true});},
+			function(){search('public', {desc:true});}
+		);
+		$(colHeadTd[1]).toggle(
+			function(){search('titre', {asc:true});},
+			function(){search('titre', {desc:true});}
+		);
+		$(colHeadTd[2]).toggle(
+			function(){search('artiste', {asc:true});},
+			function(){search('artiste', {desc:true});}
+		);
 		// activer le menu contextuel
 		var options = {
 			bindings: {
@@ -139,6 +172,12 @@
 						{%- endfor %}
 					</tbody>
 				</table>
+				<div id="pageBarre">
+					<span class="">page</span>
+					{% for page in pages -%}
+					<a href="?page={{page}}">{{page}}</a>
+					{%- endfor %}
+				</div>
 			</div>
 			<div class="right-content">
 				<h2>Favoris</h2>

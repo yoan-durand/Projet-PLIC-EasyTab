@@ -4,16 +4,14 @@ var limit = 11;
 exports.index = function(req, res, next){
 	if (forceLogin(req, res))
 		return;
-	var page = 1;
 	var params = getRenderParams(req, true);
 	tablatureSearch(req, res, next, undefined, true, function(tabResults){
+		var page = 1;
 		var maxPage = Math.ceil(tabResults.length / limit);
 		if (req.query.page) {
 			page = parseInt(req.query.page);
 			if (page < 1) page = 1;
 			if (page > maxPage) page = maxPage;
-		} else {
-			page = 1;
 		}
 		params.page = page;
 		tabResults = tabResults.splice((page - 1) * limit, limit);
@@ -38,6 +36,8 @@ exports.index = function(req, res, next){
 				);
 			}
 		);
+	}, 'date', req.session.user.id, {
+		desc: true
 	});
 };
 
@@ -402,6 +402,18 @@ exports.tablatures = function(req, res, next) {
 	if (forceLogin(req, res))
 		return;
 	tablatureSearch(req, res, next, undefined, false, function(tabResults) {
+		var page = 1;
+		var maxPage = Math.ceil(tabResults.length / limit);
+		if (req.query.page) {
+			page = parseInt(req.query.page);
+			if (page < 1) page = 1;
+			if (page > maxPage) page = maxPage;
+		}
+		tabResults = tabResults.splice((page - 1) * limit, limit);
+		var pages = [1];
+		for (var i = 2; i <= maxPage; ++i) {
+			pages.push(i);
+		}
 		var bdd = mysql_connect();
 		bdd.query(
 			'SELECT `tablatureId`, `nom`, `titre`, `artiste` FROM `favoris` join tablature on tablature.`id` = favoris.`tablatureId` where `favoris`.`userId` = ?',
@@ -410,11 +422,15 @@ exports.tablatures = function(req, res, next) {
 				res.render('tablatures', {
 					pistes: tabResults,
 					favoris: favResults,
-					connected: req.session.connected
+					connected: req.session.connected,
+					page: page,
+					pages: pages
 				});
 			}
 		);
-	}, undefined, req.session.user.id);
+	}, 'date', req.session.user.id, {
+		desc: true
+	});
 }
 exports.getTablatures = function(req, res, next) {
 	if (forceLogin(req, res))
@@ -666,6 +682,8 @@ function tablatureSearch(req, res, next, filter, publicOnly, callback, option, u
 			sql += ' ORDER BY artiste' + asc;
 		} else if (option === 'userId') {
 			sql += ' ORDER BY userId' + asc;
+		} else if (option === 'public') {
+			sql += ' ORDER BY public' + asc;
 		}
 	}
 	if (param.page) {
