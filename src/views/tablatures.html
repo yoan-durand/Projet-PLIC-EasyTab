@@ -76,7 +76,23 @@
 			function(){search('artiste', {asc:true});},
 			function(){search('artiste', {desc:true});}
 		);
+		// récupérer les favoris
+		$('#trackList>tbody>tr').each(function(i, elem){
+			var id = $(elem).attr('id').slice(4);
+			$.get('/fav/get/'+id+'/!', function(data, textStatus, jqXHR) {
+				if (data.error) console.error('erreur');
+				if (data.favori) {
+					$(elem).addClass('fav');
+				}
+			}, 'json');
+		});
 		// activer le menu contextuel
+		var postOnClick = function(data, textStatus, jqXHR) {
+			if (data.success) {
+				var id = data.tablatureId;
+				$('#tab_'+id).toggleClass('fav');
+			}
+		}
 		var options = {
 			bindings: {
 				'ouvrir': function(t) {
@@ -90,6 +106,14 @@
 				'supprimer': function(t) {
 					var id = $(t).attr('id').slice(4);
 					location.href = '/tablatures/'+id+'/suppression';
+				},
+				'favoris': function(t) {
+					var id = $(t).attr('id').slice(4);
+					if ($(t).hasClass('fav')) {
+						$.post('/fav/del/'+id+'/!', postOnClick, 'json');
+					} else {
+						$.post('/fav/add/'+id+'/!', postOnClick, 'json');
+					}
 				}
 			},
 			menuStyle: {
@@ -98,9 +122,18 @@
 		};
 		$('#trackList tbody > tr.private').contextMenu('menu1', options);
 		$('#trackList tbody > tr:not(.private)').contextMenu('menu2', options);
+		$('#trackList tbody tr').mousedown(function(){
+			if ($(this).hasClass('fav')) {
+				$('#menu1 #favoris>a').html('Retirer des favoris');
+				$('#menu2 #favoris>a').html('Retirer des favoris');
+			} else {
+				$('#menu1 #favoris>a').html('Ajouter aux favoris');
+				$('#menu2 #favoris>a').html('Ajouter aux favoris');
+			}
+		});
 	
 		// menu contextuel de tri
-				var staticSens = {
+		var staticSens = {
 			date: true,
 			alpha: true,
 		};
@@ -232,6 +265,9 @@
 			<!--			<img src="disk.png" />-->
 			<a>Rendre public</a>
 		</li>
+		<li id="favoris">
+			<a>Ajouter aux favoris</a>
+		</li>
 		<li id="supprimer">
 			<!--			<img src="cross.png" />-->
 			<a>Supprimer</a>
@@ -247,6 +283,9 @@
 		<li id="visibility">
 			<!--			<img src="disk.png" />-->
 			<a>Rendre privé</a>
+		</li>
+		<li id="favoris">
+			<a>Ajouter aux favoris</a>
 		</li>
 		<li id="supprimer">
 			<!--			<img src="cross.png" />-->
