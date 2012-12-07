@@ -74,11 +74,35 @@
 			function(){search('userId', {asc:true});},
 			function(){search('userId', {desc:true});}
 		);
+		// récupérer les favoris
+		$('#trackList>tbody>tr').each(function(i, elem){
+			var id = $(elem).attr('id').slice(4);
+			$.get('/fav/get/'+id+'/!', function(data, textStatus, jqXHR) {
+				if (data.error) console.error('erreur');
+				if (data.favori) {
+					$(elem).addClass('fav');
+				}
+			}, 'json');
+		});
 		// activer le menu contextuel
+		var postOnClick = function(data, textStatus, jqXHR) {
+			if (data.success) {
+				var id = data.tablatureId;
+				$('#tab_'+id).toggleClass('fav');
+			}
+		}
 		var menu1 = {
 			bindings: {
 				'ouvrir': function(t) {
 					location.href = $('a', t).attr('href');
+				},
+				'favoris': function(t) {
+					var id = $(t).attr('id').slice(4);
+					if ($(t).hasClass('fav')) {
+						$.post('/fav/del/'+id+'/!', postOnClick, 'json');
+					} else {
+						$.post('/fav/add/'+id+'/!', postOnClick, 'json');
+					}
 				}
 			},
 			menuStyle: {
@@ -86,6 +110,13 @@
 			}
 		};
 		$('#trackList tbody tr').contextMenu('menu1', menu1);
+		$('#trackList tbody tr').mousedown(function(){
+			if ($(this).hasClass('fav')) {
+				$('#menu1 #favoris>a').html('Retirer des favoris');
+			} else {
+				$('#menu1 #favoris>a').html('Ajouter aux favoris');
+			}
+		});
 		var staticSens = {
 			date: true,
 			alpha: true,
@@ -194,6 +225,9 @@
 	<ul>
 		<li id="ouvrir">
 			<a>Ouvrir</a>
+		</li>
+		<li id="favoris">
+			<a>Ajouter aux favoris</a>
 		</li>
 	</ul>
 </div>

@@ -179,6 +179,7 @@
 #trackList thead td
 {
 	padding: 10px 0px;
+	cursor: pointer;
 }
 
 #trackList tbody td > a

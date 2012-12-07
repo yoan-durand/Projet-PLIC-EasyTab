@@ -183,10 +183,12 @@ exports.comptePost = function(req, res, next){
 }
 
 exports.favGet = function(req, res, next){
+	var userId = req.params.userId;
+	if (userId === '!') userId = req.session.user.id;
 	var bdd = mysql_connect();
 	bdd.query(
 		'SELECT userId from `favoris` WHERE `userId` = ? AND `tablatureId` = ? LIMIT 1',
-		[req.params.userId, req.params.tablatureId],
+		[userId, req.params.tablatureId],
 		function(err, results, fields) {
 			if (err) {
 				res.send(JSON.stringify({error:true}));
@@ -199,30 +201,34 @@ exports.favGet = function(req, res, next){
 	);
 }
 exports.favAdd = function(req, res, next){
+	var userId = req.params.userId;
+	if (userId === '!') userId = req.session.user.id;
 	var bdd = mysql_connect();
 	bdd.query(
 		'INSERT INTO `favoris` (`userId`, `tablatureId`) VALUES (?, ?)',
-		[req.params.userId, req.params.tablatureId],
+		[userId, req.params.tablatureId],
 		function(err, results, fields) {
 			if (err) {
 				res.send(JSON.stringify({error:true}));
 				return;
 			}
-			res.send(JSON.stringify({success:true}));
+			res.send(JSON.stringify({success:true, tablatureId: req.params.tablatureId}));
 		}
 	);
 };
 exports.favDel = function(req, res, next){
+	var userId = req.params.userId;
+	if (userId === '!') userId = req.session.user.id;
 	var bdd = mysql_connect();
 	bdd.query(
 		'DELETE FROM`favoris` WHERE `userId` = ? AND `tablatureId` = ?',
-		[req.params.userId, req.params.tablatureId],
+		[userId, req.params.tablatureId],
 		function(err, results, fields) {
 			if (err) {
 				res.send(JSON.stringify({error:true}));
 				return;
 			}
-			res.send(JSON.stringify({success:true}));
+			res.send(JSON.stringify({success:true, tablatureId: req.params.tablatureId}));
 		}
 	);
 };
