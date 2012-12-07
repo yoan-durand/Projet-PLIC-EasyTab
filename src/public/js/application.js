@@ -269,7 +269,7 @@ Application.prototype = {
 				if (data.error) console.error('erreur');
 				if (data.note) {
 					var note = parseFloat(data.note);
-					note = Math.round(note/(to-from+1)*100);
+					note = Math.round(note/(to-from)*100);
 					$('#note-icon-bis').css('width', note+'%');
 				}
 			}, 'json');
