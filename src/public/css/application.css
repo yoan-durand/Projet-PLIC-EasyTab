@@ -454,18 +454,35 @@ header
 }
 #note-icon {
 	float: left;
+	background-image: url(/image/heart.png);
+	background-size: 22px;
+	width: 103px;
+	height: 33px;
+	background-position-y: 2px;
+	position: relative;
 }
-#note-icon > span {
+#note-icon-bis {
+	background-image: url(/image/heart.png);
+	background-size: 22px;
+	height: 100%;
+	background-position-y: 32px;
+	top: 0;
+	position: absolute;
+	z-index: 0;
+}
+#note-icon >#votes {
+	z-index: 1;
+	position: relative;
+}
+#note-icon .vote {
+	width: 5px;
+	height: 33px;
+	display: inline-block;
+	cursor: pointer;
+}
+/*#note-icon > span {
 	display: none;
 	color: whiteSmoke;
-}
-#note-icon > span:first-child {
-	position: relative;
-	text-align: right;
-	width: 100%;
-	display: inline-block;
-	margin: 7px 0;
-	font-size: 1.2em;
 }
 #note-icon.active > span {
 	display: inline-block;
@@ -476,14 +493,14 @@ header
 }
 #note-icon.active > span:first-child {
 	display: none
-}
+}*/
 #fav-icon {
 	width: 32px;
 	height: 31px;
 	background-image: url('/image/icone-fav.png');
 	background-size: 100%;
+	margin: 10px;
 }
-#fav-icon:hover,
 #fav-icon.active {
 	background-position: 0 30px;
 }

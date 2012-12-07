@@ -6,7 +6,7 @@ function Application(){
 
 	this.bindKeys();
 	this.initComments(true);
-	this.initNote(0, 5);
+	this.initNote(0, 19);
 	this.initFav();
 }
 Application.get = function() {
@@ -269,35 +269,34 @@ Application.prototype = {
 				if (data.error) console.error('erreur');
 				if (data.note) {
 					var note = parseFloat(data.note);
-					note = Math.round(note*10)/10;
-					$('#note-icon>.note').text(note+'/'+to);
+					note = Math.round(note/(to-from+1)*100);
+					$('#note-icon-bis').css('width', note+'%');
 				}
 			}, 'json');
 		};
 		var application = this;
 		var elem;
-		elem = $('<span class="note" title="Cliquer pour voter">'+(from+to)/2+'/'+to+'</span>');
-		$('#note-icon').append(elem);
+		// elem = $('<span class="note" title="Cliquer pour voter">'+(from+to)/2+'/'+to+'</span>');
+		// $('#note-icon').append(elem);
 		updateNote();
-		for (var i = from; i <= to; ++i) {
-			elem = $('<span class="vote" title="Voter '+i+'">'+i+'</span>');
-			$('#note-icon').append(elem);
+		var voteBuild = function(note) {
+			return function() {vote(note);};
 		}
-		$('#note-icon>span.note').click(function() {
-			$(this).parent().addClass('active');
-		});
-		$('#note-icon>span.vote').click(function() {
-			var note = $(this).text();
+		var vote = function(note) {
 			$.post('/note/set/'+config.tablatureId+'/'+config.userId+'/'+note, function(data, textStatus, jqXHR) {
 				if (data.error) {
 					application.error('<h2>Erreur</h2>'+data.error.message);
 				}
 				if (data.success) {
 					updateNote();
-					$('#note-icon').removeClass('active');
 				}
 			}, 'json');
-		});
+		};
+		for (var i = from; i <= to; ++i) {
+			elem = $('<div class="vote" title="Voter!"></div>');
+			elem.click(voteBuild(i));
+			$('#note-icon>#votes').append(elem);
+		}
 	},
 	initFav: function() {
 		$.get('/fav/get/'+config.tablatureId+'/'+config.userId, function(data, textStatus, jqXHR) {
