@@ -36,7 +36,7 @@ exports.index = function(req, res, next){
 				);
 			}
 		);
-	}, 'date', req.session.user.id, {
+	}, 'date', undefined, {
 		desc: true
 	});
 };
