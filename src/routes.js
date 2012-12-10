@@ -30,6 +30,7 @@ exports.index = function(req, res, next){
 					'SELECT `nom`, `titre`, `artiste` FROM `tablature` where ((`public` = 0 AND tablature.`userId` = ?) OR (`public` = 1)) ORDER BY `tablature`.`id` DESC limit 5',
 					[req.session.user.id],
 					function(lastErr, lastResults, lastFields) {
+						bdd.end(); // close sql connection
 						params.last = lastResults;
 						res.render('index', params);
 					}
@@ -190,6 +191,7 @@ exports.favGet = function(req, res, next){
 		'SELECT userId from `favoris` WHERE `userId` = ? AND `tablatureId` = ? LIMIT 1',
 		[userId, req.params.tablatureId],
 		function(err, results, fields) {
+			bdd.end(); // close sql connection
 			if (err) {
 				res.send(JSON.stringify({error:true}));
 				return;
@@ -208,6 +210,7 @@ exports.favAdd = function(req, res, next){
 		'INSERT INTO `favoris` (`userId`, `tablatureId`) VALUES (?, ?)',
 		[userId, req.params.tablatureId],
 		function(err, results, fields) {
+			bdd.end(); // close sql connection
 			if (err) {
 				res.send(JSON.stringify({error:true}));
 				return;
@@ -224,6 +227,7 @@ exports.favDel = function(req, res, next){
 		'DELETE FROM`favoris` WHERE `userId` = ? AND `tablatureId` = ?',
 		[userId, req.params.tablatureId],
 		function(err, results, fields) {
+			bdd.end(); // close sql connection
 			if (err) {
 				res.send(JSON.stringify({error:true}));
 				return;
@@ -338,6 +342,7 @@ exports.noteGet = function(req, res, next){
 		'SELECT AVG(note) as note from `note` WHERE `tablatureId` = ? LIMIT 1',
 		[req.params.tablatureId],
 		function(err, results, fields) {
+			bdd.end(); // close sql connection
 			if (err) {
 				res.send(JSON.stringify({error:true}));
 				return;
@@ -356,6 +361,7 @@ exports.noteSet = function(req, res, next){
 		'REPLACE INTO `note` (`userId`, `tablatureId`, `note`) VALUES (?, ?, ?)',
 		[req.params.userId, req.params.tablatureId, req.params.note],
 		function(err, results, fields) {
+			bdd.end(); // close sql connection
 			if (err) {
 				res.send(JSON.stringify({error:err}));
 				return;
@@ -425,6 +431,7 @@ exports.tablatures = function(req, res, next) {
 			'SELECT `tablatureId`, `nom`, `titre`, `artiste` FROM `favoris` join tablature on tablature.`id` = favoris.`tablatureId` where `favoris`.`userId` = ?',
 			[req.session.user.id],
 			function(err, favResults, fields) {
+				bdd.end(); // close sql connection
 				res.render('tablatures', {
 					pistes: tabResults,
 					favoris: favResults,
