@@ -456,7 +456,7 @@ header
 	float: left;
 	background-image: url(/image/heart.png);
 	background-size: 22px;
-	width: 103px;
+	width: 108px;
 	height: 33px;
 	background-position-y: 2px;
 	position: relative;
@@ -465,7 +465,7 @@ header
 	background-image: url(/image/heart.png);
 	background-size: 22px;
 	height: 100%;
-	background-position-y: 32px;
+	background-position-y: 34px;
 	top: 0;
 	position: absolute;
 	z-index: 0;
@@ -475,7 +475,7 @@ header
 	position: relative;
 }
 #note-icon .vote {
-	width: 5px;
+	width: 5%;
 	height: 33px;
 	display: inline-block;
 	cursor: pointer;
